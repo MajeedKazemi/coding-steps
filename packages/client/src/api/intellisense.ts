@@ -15,7 +15,7 @@ import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from "@codin
 import * as monaco from "monaco-editor";
 import { CloseAction, ErrorAction, MessageTransports, MonacoLanguageClient, MonacoServices } from "monaco-languageclient";
 
-import { createUrl } from "./shared";
+import { createUrl } from "../utils/shared";
 
 monaco.languages.setMonarchTokensProvider("python", {
     defaultToken: "",

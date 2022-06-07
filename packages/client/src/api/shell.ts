@@ -1,6 +1,7 @@
-import { createUrl } from "./shared";
+import { createUrl } from "../utils/shared";
 
 const url = createUrl("localhost", 3001, "/shell");
+
 export const shellSocket = new WebSocket(url);
 
 export function executeCode(code?: string) {

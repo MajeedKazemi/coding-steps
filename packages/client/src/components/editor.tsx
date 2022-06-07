@@ -1,9 +1,9 @@
 import * as monaco from "monaco-editor";
 import { useEffect, useRef, useState } from "react";
 
-import styles from "./Editor.module.css";
-import { initializeLanguageClient } from "./intellisense";
-import { executeCode, sendValue, shellSocket } from "./shell";
+import { initializeLanguageClient } from "../api/intellisense";
+import { executeCode, sendValue, shellSocket } from "../api/shell";
+import styles from "../css/editor.module.css";
 
 export const Editor = () => {
     const [editor, setEditor] =
