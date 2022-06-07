@@ -3,7 +3,7 @@ import "./userWorker";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { Editor } from "./components/Editor";
+import { Editor } from "./editor/Editor";
 
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("[index.html] missing root element");

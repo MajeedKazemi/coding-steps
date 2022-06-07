@@ -1,7 +1,8 @@
 import cors from "cors";
 import express from "express";
 
-import { initLanguageService } from "./editor/language";
+import { initLanguageService } from "./editor/intellisense";
+import { initPythonShell } from "./editor/shell";
 
 const app = express();
 app.use(cors());
@@ -17,3 +18,4 @@ const server = app.listen(port, () => {
 });
 
 initLanguageService(server);
+initPythonShell(server);

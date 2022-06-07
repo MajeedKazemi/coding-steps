@@ -14,7 +14,8 @@ import "monaco-editor/esm/vs/editor/standalone/browser/toggleHighContrast/toggle
 import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from "@codingame/monaco-jsonrpc";
 import * as monaco from "monaco-editor";
 import { CloseAction, ErrorAction, MessageTransports, MonacoLanguageClient, MonacoServices } from "monaco-languageclient";
-import normalizeUrl from "normalize-url";
+
+import { createUrl } from "./shared";
 
 monaco.languages.setMonarchTokensProvider("python", {
     defaultToken: "",
@@ -296,9 +297,4 @@ function createLanguageClient(
             },
         },
     });
-}
-
-function createUrl(hostname: string, port: number, path: string): string {
-    const protocol = location.protocol === "https:" ? "wss" : "ws";
-    return normalizeUrl(`${protocol}://${hostname}:${port}${path}`);
 }

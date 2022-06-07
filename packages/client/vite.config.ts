@@ -14,12 +14,5 @@ export default defineConfig({
             },
         ],
     },
-    build: {
-        rollupOptions: {
-            input: {
-                client: path.resolve(__dirname, "./index.html"),
-            },
-        },
-    },
     plugins: [react()],
 });
