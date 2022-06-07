@@ -11,11 +11,11 @@
         "module": "ESNext",
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "isolatedModules": true,
         "skipLibCheck": true,
         "noEmit": true,
         "types": ["vite/client"],
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "sourceMap": true
     },
     "include": ["./src"]
 }

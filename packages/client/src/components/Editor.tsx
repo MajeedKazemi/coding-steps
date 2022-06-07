@@ -1,6 +1,8 @@
-import { useRef, useState, useEffect } from "react";
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import * as monaco from "monaco-editor";
+import { useEffect, useRef, useState } from "react";
+
 import styles from "./Editor.module.css";
+import { initializeLanguageClient } from "./language";
 
 export const Editor = () => {
     const [editor, setEditor] =
@@ -9,10 +11,15 @@ export const Editor = () => {
 
     useEffect(() => {
         if (monacoEl && !editor) {
+            initializeLanguageClient();
+
             setEditor(
                 monaco.editor.create(monacoEl.current!, {
                     value: `print("hello world")`,
                     language: "python",
+                    automaticLayout: true,
+                    fontSize: 18,
+                    lineHeight: 30,
                 })
             );
         }

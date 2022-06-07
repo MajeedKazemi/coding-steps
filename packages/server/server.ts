@@ -1,15 +1,19 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
+
+import { initLanguageService } from "./editor/language";
 
 const app = express();
 app.use(cors());
 
 const port = 3001;
 
-app.get("/data", (req, res) => {
-    res.json({ foo: "baaarrddff" });
+app.get("/ping", (req, res) => {
+    res.json({ result: "pong" });
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+const server = app.listen(port, () => {
+    console.log(`Express server listening at http://localhost:${port}`);
 });
+
+initLanguageService(server);
