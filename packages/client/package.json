@@ -43,5 +43,6 @@
         "monaco-languageclient": "^1.0.1",
         "normalize-url": "^7.0.3",
         "react-router-dom": "^6.3.0"
-    }
+    },
+    "proxy": "http://localhost:3001"
 }

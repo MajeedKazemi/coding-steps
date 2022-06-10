@@ -10,7 +10,9 @@ export const Home = () => {
                 with and without copilot
             </p>
 
-            <Link to="/coding">Coding</Link>
+            <Link to="/coding">start coding</Link>
+            <br />
+            <Link to="/signup">sign up</Link>
         </div>
     );
 };
