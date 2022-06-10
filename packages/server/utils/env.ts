@@ -12,7 +12,6 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 const JWT_SECRET = process.env.SESSION_EXPIRY;
 const WHITELISTED_DOMAINS = process.env.WHITELISTED_DOMAINS;
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
-const EXPRESS_SESSION_SECRET = process.env.EXPRESS_SESSION_SECRET;
 
 if (REFRESH_TOKEN_EXPIRY === undefined) {
     throw Error("REFRESH_TOKEN_EXPIRY not set in .env");
@@ -46,10 +45,6 @@ if (COOKIE_SECRET === undefined) {
     throw Error("COOKIE_SECRET not set in .env");
 }
 
-if (EXPRESS_SESSION_SECRET === undefined) {
-    throw Error("EXPRESS_SESSION_SECRET not set in .env");
-}
-
 export default {
     REFRESH_TOKEN_EXPIRY,
     REFRESH_TOKEN_SECRET,
@@ -59,6 +54,5 @@ export default {
     WHITELISTED_DOMAINS,
     PORT,
     COOKIE_SECRET,
-    EXPRESS_SESSION_SECRET,
     dev,
 };

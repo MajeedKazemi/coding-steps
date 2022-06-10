@@ -1,3 +1,4 @@
+import { CookieOptions } from "express";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
@@ -55,4 +56,14 @@ export const getRefreshToken = (user: any) => {
         expiresIn: eval(env.REFRESH_TOKEN_EXPIRY),
     });
     return refreshToken;
+};
+
+export const COOKIE_OPTIONS: CookieOptions = {
+    httpOnly: true,
+    // Since localhost is not having https protocol,
+    // secure cookies do not work correctly (in postman)
+    secure: !env.dev,
+    signed: true,
+    maxAge: eval(env.REFRESH_TOKEN_EXPIRY) * 1000,
+    sameSite: "none",
 };

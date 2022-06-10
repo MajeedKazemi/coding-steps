@@ -1,6 +1,7 @@
 import "./utils/strategy";
 
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import Session from "express-session";
@@ -38,12 +39,13 @@ mongoose
         app.use(cors(corsOptions));
         app.use(
             Session({
-                secret: env.EXPRESS_SESSION_SECRET,
+                secret: env.COOKIE_SECRET,
                 resave: false,
                 saveUninitialized: false,
             })
         );
 
+        app.use(cookieParser(env.COOKIE_SECRET));
         app.use(passport.initialize());
         app.use(passport.session());
         app.use(bodyParser.json());
