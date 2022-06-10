@@ -1,16 +1,16 @@
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
+// import passport from "passport";
+// import { Strategy as LocalStrategy } from "passport-local";
 
-import { User } from "../models/user";
+// import { User } from "../models/user";
 
-passport.use(new LocalStrategy(User.authenticate()));
+// passport.use(new LocalStrategy(User.authenticate()));
 
-passport.serializeUser((user: any, done: any) => {
-    done(null, user.id);
-});
+// passport.serializeUser((user: any, done: any) => {
+//     done(null, user._id);
+// });
 
-passport.deserializeUser(function (id, done) {
-    User.findById(id, (err: any, user: any) => {
-        done(err, user);
-    });
-});
+// passport.deserializeUser((id, done) => {
+//     User.findById(id, (err: any, user: any) => {
+//         done(err, user);
+//     });
+// });

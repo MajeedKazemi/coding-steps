@@ -1,178 +1,127 @@
 import express from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import passport from "passport";
 
 import { User } from "../models/user";
-import { COOKIE_OPTIONS, getRefreshToken, getToken, verifyUser } from "../utils/authenticate";
-import env from "../utils/env";
+import { getToken, verifyUser } from "../utils/strategy";
 
 export const loginRouter = express.Router();
 
 loginRouter.post("/signup", (req, res, next) => {
-    if (!req.body.firstName) {
-        res.statusCode = 500;
-
-        res.send({
-            name: "FirstNameError",
-            message: "The first name is required",
-        });
-    } else {
-        User.register(
-            new User({ username: req.body.username }),
-            req.body.password,
-            (err, user) => {
-                if (err) {
-                    res.statusCode = 500;
-                    res.send(err);
-                } else {
-                    user.firstName = req.body.firstName;
-                    user.lastName = req.body.lastName || "";
-                    const token = getToken({ _id: user._id });
-                    const refreshToken = getRefreshToken({ _id: user._id });
-                    user.refreshToken.push({ refreshToken });
-
-                    user.save((err: any, user: any) => {
-                        if (err) {
-                            res.statusCode = 500;
-                            res.send(err);
-                        } else {
-                            res.cookie(
-                                "refreshToken",
-                                refreshToken,
-                                COOKIE_OPTIONS
-                            );
-                            res.send({ success: true, token });
-                        }
+    User.register(
+        new User({ username: req.body.username }),
+        req.body.password,
+        (err, user) => {
+            if (err) {
+                res.statusCode = 500;
+                res.setHeader("Content-Type", "application/json");
+                res.json({ success: false, message: err });
+            } else {
+                passport.authenticate("local")(req, res, () => {
+                    res.statusCode = 200;
+                    res.setHeader("Content-Type", "application/json");
+                    res.json({
+                        success: true,
+                        message: "registration successful",
                     });
-                }
+                });
             }
-        );
-    }
+        }
+    );
 });
 
 loginRouter.post(
     "/login",
-    passport.authenticate("local", { session: false }),
-    (req: any, res, next) => {
-        const token = getToken({ _id: req.user._id });
-        const refreshToken = getRefreshToken({ _id: req.user._id });
+    passport.authenticate("local"),
+    (req: any, res: any) => {
+        var token = getToken({ _id: req.user._id });
 
-        User.findById(req.user._id).then(
-            (user: any) => {
-                user.refreshToken.push({ refreshToken });
-
-                user.save((err: any, user: any) => {
-                    if (err) {
-                        res.statusCode = 500;
-                        res.send(err);
-                    } else {
-                        res.cookie(
-                            "refreshToken",
-                            refreshToken,
-                            COOKIE_OPTIONS
-                        );
-                        res.send({ success: true, token });
-                    }
-                });
-            },
-            (err) => next(err)
-        );
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json({
+            success: true,
+            token: token,
+            status: "You are successfully logged in!",
+        });
     }
 );
 
-loginRouter.post("/refreshToken", (req, res, next) => {
-    const { signedCookies = {} } = req;
-    const { refreshToken } = signedCookies;
+loginRouter.get("/logout", verifyUser, (req: any, res, next) => {
+    if (req.session) {
+        req.session.destroy();
+        res.clearCookie("session-id");
 
-    if (refreshToken) {
-        try {
-            const payload = jwt.verify(
-                refreshToken,
-                env.REFRESH_TOKEN_SECRET
-            ) as jwt.JwtPayload;
-            const userId = payload._id;
-
-            User.findOne({ _id: userId }).then(
-                (user: any) => {
-                    if (user) {
-                        // Find the refresh token against the user record in database
-                        const tokenIndex = user.refreshToken.findIndex(
-                            (item: any) => item.refreshToken === refreshToken
-                        );
-
-                        if (tokenIndex === -1) {
-                            res.statusCode = 401;
-                            res.send("Unauthorized");
-                        } else {
-                            const token = getToken({ _id: userId });
-                            // If the refresh token exists, then create new one and replace it.
-                            const newRefreshToken = getRefreshToken({
-                                _id: userId,
-                            });
-                            user.refreshToken[tokenIndex] = {
-                                refreshToken: newRefreshToken,
-                            };
-                            user.save((err: any, user: any) => {
-                                if (err) {
-                                    res.statusCode = 500;
-                                    res.send(err);
-                                } else {
-                                    res.cookie(
-                                        "refreshToken",
-                                        newRefreshToken,
-                                        COOKIE_OPTIONS
-                                    );
-                                    res.send({ success: true, token });
-                                }
-                            });
-                        }
-                    } else {
-                        res.statusCode = 401;
-                        res.send("Unauthorized");
-                    }
-                },
-                (err) => next(err)
-            );
-        } catch (err) {
-            res.statusCode = 401;
-            res.send("Unauthorized");
-        }
+        res.send({ success: true });
     } else {
-        res.statusCode = 401;
-        res.send("Unauthorized");
+        res.statusCode = 403;
+        res.setHeader("Content-Type", "application/json");
+        res.json({ success: false, message: "You are not logged in!" });
     }
 });
 
-loginRouter.get("/verify", verifyUser, (req, res, next) => {
-    res.send(req.user);
+loginRouter.get("/me", verifyUser, (req, res, next) => {
+    res.json({ user: req.user });
 });
 
-loginRouter.get("/logout", verifyUser, (req: any, res: any, next) => {
-    const { signedCookies = {} } = req;
-    const { refreshToken } = signedCookies;
+// import express from "express";
+// import passport from "passport";
 
-    User.findById(req.user._id).then(
-        (user: any) => {
-            const tokenIndex = user.refreshToken.findIndex(
-                (item: any) => item.refreshToken === refreshToken
-            );
+// import { User } from "../models/user";
+// import { getToken, verifyUser } from "../utils/strategy";
 
-            if (tokenIndex !== -1) {
-                user.refreshToken
-                    .id(user.refreshToken[tokenIndex]._id)
-                    .remove();
-            }
+// export const loginRouter = express.Router();
 
-            user.save((err: any, user: any) => {
-                if (err) {
-                    res.statusCode = 500;
-                    res.send(err);
-                } else {
-                    res.clearCookie("refreshToken", COOKIE_OPTIONS);
-                    res.send({ success: true });
-                }
-            });
-        },
-        (err) => next(err)
-    );
-});
+// loginRouter.post("/signup", (req, res, next) => {
+//     User.register(
+//         new User({ username: req.body.username }),
+//         req.body.password,
+//         (err, user) => {
+//             if (err) {
+//                 res.statusCode = 500;
+//                 res.setHeader("Content-Type", "application/json");
+//                 res.json({ success: false, message: err });
+//             } else {
+//                 passport.authenticate("local")(req, res, () => {
+//                     res.statusCode = 200;
+//                     res.setHeader("Content-Type", "application/json");
+//                     res.json({
+//                         success: true,
+//                         message: "registration successful",
+//                     });
+//                 });
+//             }
+//         }
+//     );
+// });
+
+// loginRouter.post(
+//     "/login",
+//     passport.authenticate("local"),
+//     (req: any, res: any) => {
+//         var token = getToken({ _id: req.user._id });
+
+//         res.statusCode = 200;
+//         res.setHeader("Content-Type", "application/json");
+//         res.json({
+//             success: true,
+//             token: token,
+//             status: "You are successfully logged in!",
+//         });
+//     }
+// );
+
+// loginRouter.get("/logout", verifyUser, (req: any, res, next) => {
+//     if (req.session) {
+//         req.session.destroy();
+//         res.clearCookie("session-id");
+
+//         res.send({ success: true });
+//     } else {
+//         res.statusCode = 403;
+//         res.setHeader("Content-Type", "application/json");
+//         res.json({ success: false, message: "You are not logged in!" });
+//     }
+// });
+
+// loginRouter.get("/me", verifyUser, (req, res, next) => {
+//     res.json({ user: req.user });
+// });
