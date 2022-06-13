@@ -2,10 +2,10 @@ import { Button } from "@blueprintjs/core";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { UserContext } from "..";
 import { Loader } from "../components/loader";
 import { Login } from "../components/login";
 import { Register } from "../components/register";
+import { UserContext } from "../context";
 
 export const Home = () => {
     const { token, setToken } = useContext(UserContext);
@@ -67,7 +67,7 @@ export const Home = () => {
                 <Loader />
             ) : token ? (
                 <div>
-                    <div>welcome</div>
+                    <div>welcomeefee</div>
 
                     <Button
                         text="Logout"

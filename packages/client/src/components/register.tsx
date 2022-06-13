@@ -1,7 +1,7 @@
 import { Button, Callout, FormGroup, InputGroup } from "@blueprintjs/core";
 import React, { useContext, useState } from "react";
 
-import { UserContext } from "..";
+import { UserContext } from "../context";
 
 export const Register = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,7 +63,7 @@ export const Register = () => {
             {error && <Callout intent="danger">{error}</Callout>}
 
             <form onSubmit={formSubmitHandler} className="auth-form">
-                <FormGroup label="First Name" labelFor="firstName">
+                <FormGroup label="First Nameee" labelFor="firstName">
                     <InputGroup
                         id="firstName"
                         placeholder="First Name"
