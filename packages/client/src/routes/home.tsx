@@ -1,8 +1,6 @@
-import { Button } from "@blueprintjs/core";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Loader } from "../components/loader";
 import { Login } from "../components/login";
 import { Register } from "../components/register";
 import { UserContext } from "../context";
@@ -94,7 +92,7 @@ export const Home = () => {
             </p>
 
             {loading ? (
-                <Loader />
+                <h1>Loading</h1>
             ) : token ? (
                 <div>
                     <div>Welcome {user.firstName}</div>
@@ -102,18 +100,7 @@ export const Home = () => {
                     <Link to="/coding">start coding</Link>
                     <br />
 
-                    <Button
-                        text="get user"
-                        onClick={getUser}
-                        intent="primary"
-                    ></Button>
-
-                    <Button
-                        text="Logout"
-                        onClick={logoutHandler}
-                        minimal
-                        intent="primary"
-                    />
+                    <button onClick={logoutHandler}>Logout</button>
                 </div>
             ) : (
                 <div>

@@ -1,4 +1,3 @@
-import { Button, Callout, FormGroup, InputGroup } from "@blueprintjs/core";
 import React, { useContext, useState } from "react";
 
 import { UserContext } from "../context";
@@ -51,34 +50,28 @@ export const Login = () => {
 
     return (
         <div>
-            {error && <Callout intent="danger">{error}</Callout>}
-
             <form onSubmit={formSubmitHandler} className="auth-form">
-                <FormGroup label="Username" labelFor="username">
-                    <InputGroup
+                <div>
+                    <input
                         id="username"
                         placeholder="username"
                         type="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                </FormGroup>
-                <FormGroup label="Password" labelFor="password">
-                    <InputGroup
+                </div>
+                <div>
+                    <input
                         id="password"
                         placeholder="Password"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                </FormGroup>
-                <Button
-                    intent="primary"
-                    disabled={isSubmitting}
-                    text={`${isSubmitting ? "Signing In" : "Sign In"}`}
-                    fill
-                    type="submit"
-                />
+                </div>
+                <button disabled={isSubmitting} type="submit">{`${
+                    isSubmitting ? "Signing In" : "Sign In"
+                }`}</button>
             </form>
         </div>
     );

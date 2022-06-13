@@ -1,4 +1,3 @@
-import { Button, Callout, FormGroup, InputGroup } from "@blueprintjs/core";
 import React, { useContext, useState } from "react";
 
 import { UserContext } from "../context";
@@ -60,50 +59,44 @@ export const Register = () => {
 
     return (
         <div>
-            {error && <Callout intent="danger">{error}</Callout>}
-
             <form onSubmit={formSubmitHandler} className="auth-form">
-                <FormGroup label="First Nameee" labelFor="firstName">
-                    <InputGroup
+                <div>
+                    <input
                         id="firstName"
                         placeholder="First Name"
                         onChange={(e) => setFirstName(e.target.value)}
                         value={firstName}
                     />
-                </FormGroup>
-                <FormGroup label="Last Name" labelFor="firstName">
-                    <InputGroup
+                </div>
+                <div>
+                    <input
                         id="lastName"
                         placeholder="Last Name"
                         onChange={(e) => setLastName(e.target.value)}
                         value={lastName}
                     />
-                </FormGroup>
-                <FormGroup label="Username" labelFor="username">
-                    <InputGroup
+                </div>
+                <div>
+                    <input
                         id="username"
                         type="username"
                         placeholder="username"
                         onChange={(e) => setUsername(e.target.value)}
                         value={username}
                     />
-                </FormGroup>
-                <FormGroup label="Password" labelFor="password">
-                    <InputGroup
+                </div>
+                <div>
+                    <input
                         id="password"
                         placeholder="Password"
                         type="password"
                         onChange={(e) => setPassword(e.target.value)}
                         value={password}
                     />
-                </FormGroup>
-                <Button
-                    intent="primary"
-                    disabled={isSubmitting}
-                    text={`${isSubmitting ? "Registering" : "Register"}`}
-                    fill
-                    type="submit"
-                />
+                </div>
+                <button disabled={isSubmitting} type="submit">{`${
+                    isSubmitting ? "Registering" : "Register"
+                }`}</button>
             </form>
         </div>
     );
