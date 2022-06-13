@@ -10,11 +10,9 @@ import passport from "passport";
 
 import { loginRouter } from "./routes/login-router";
 import { pingRouter } from "./routes/ping";
-import { initLanguageService } from "./sockets/editor/intellisense";
-import { initPythonShell } from "./sockets/editor/shell";
+import { initLanguageService } from "./sockets/intellisense";
+import { initPythonShell } from "./sockets/python-shell";
 import env from "./utils/env";
-
-const port = env.PORT;
 
 const corsOptions = {
     origin: (origin: any, callback: any) => {
@@ -53,8 +51,10 @@ mongoose
         app.use("/auth/", loginRouter);
         app.use(pingRouter);
 
-        const server = app.listen(port, () => {
-            console.log(`Express server listening at http://localhost:${port}`);
+        const server = app.listen(env.PORT, () => {
+            console.log(
+                `Express server listening at http://localhost:${env.PORT}`
+            );
         });
 
         initLanguageService(server);

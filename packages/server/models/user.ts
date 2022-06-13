@@ -11,6 +11,11 @@ const Session = new Schema({
 });
 
 const UserSchema = new Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     firstName: {
         type: String,
         default: "",
@@ -18,14 +23,6 @@ const UserSchema = new Schema({
     lastName: {
         type: String,
         default: "",
-    },
-    authStrategy: {
-        type: String,
-        default: "local",
-    },
-    points: {
-        type: Number,
-        default: 50,
     },
     refreshToken: {
         type: [Session],

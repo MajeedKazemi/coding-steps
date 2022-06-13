@@ -65,5 +65,4 @@ export const COOKIE_OPTIONS: CookieOptions = {
     secure: !env.dev,
     signed: true,
     maxAge: eval(env.REFRESH_TOKEN_EXPIRY) * 1000,
-    sameSite: "none",
 };
