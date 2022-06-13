@@ -10,7 +10,7 @@ export const Register = () => {
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [userContext, setUserContext] = useContext(UserContext) as any;
+    const { token, setToken } = useContext(UserContext);
 
     const formSubmitHandler = (e: any) => {
         e.preventDefault();
@@ -39,7 +39,6 @@ export const Register = () => {
                     } else if (response.status === 401) {
                         setError("Invalid username and password combination.");
                     } else if (response.status === 500) {
-                        console.log(response);
                         const data = await response.json();
                         if (data.message)
                             setError(data.message || genericErrorMessage);
@@ -49,19 +48,13 @@ export const Register = () => {
                 } else {
                     const data = await response.json();
 
-                    setUserContext((oldValues: any) => {
-                        console.log("auth/refreshToken - OK", oldValues);
-                        console.log("auth/refreshToken - OK", data);
-
-                        return { ...oldValues, token: data.token };
-                    });
+                    setToken(data.token);
                 }
             })
             .catch((error) => {
-                console.log("auth/refreshToken - NOKEY", error);
-
                 setIsSubmitting(false);
                 setError(genericErrorMessage);
+                setToken(null);
             });
     };
 

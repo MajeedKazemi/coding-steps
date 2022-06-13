@@ -10,7 +10,7 @@ export const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const [userContext, setUserContext] = useContext(UserContext) as any;
+    const { token, setToken } = useContext(UserContext);
 
     const formSubmitHandler = (e: any) => {
         e.preventDefault();
@@ -39,14 +39,13 @@ export const Login = () => {
                 } else {
                     const data = await response.json();
 
-                    setUserContext((oldValues: any) => {
-                        return { ...oldValues, token: data.token };
-                    });
+                    setToken(data.token);
                 }
             })
             .catch((error) => {
                 setIsSubmitting(false);
                 setError(genericErrorMessage);
+                setToken(null);
             });
     };
 

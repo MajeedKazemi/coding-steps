@@ -1,29 +1,31 @@
 import { Button } from "@blueprintjs/core";
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { UserContext } from "..";
+import { Loader } from "../components/loader";
 import { Login } from "../components/login";
 import { Register } from "../components/register";
 
 export const Home = () => {
-    const [userContext, setUserContext] = useContext(UserContext) as any;
+    const { token, setToken } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
 
     const logoutHandler = () => {
         fetch("http://localhost:3001/auth/logout", {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${userContext.token}`,
+                Authorization: `Bearer ${token}`,
             },
         }).then(async (response) => {
-            setUserContext((oldValues: any) => {
-                return { ...oldValues, details: undefined, token: null };
-            });
+            setToken(null);
         });
     };
 
     const verifyUser = useCallback(() => {
+        setLoading(true);
+
         fetch("http://localhost:3001/auth/refreshToken", {
             method: "POST",
             credentials: "include",
@@ -32,32 +34,23 @@ export const Home = () => {
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("refresh ok: ", data.token);
-
-                    setUserContext((oldValues: any) => {
-                        return { ...oldValues, token: data.token };
-                    });
+                    setToken(data.token);
                 } else {
-                    console.log("inja?");
-                    setUserContext((oldValues: any) => {
-                        console.log("auth/refreshToken - NOKEY", oldValues);
-
-                        return { ...oldValues, token: null };
-                    });
+                    setToken(null);
                 }
                 // call refreshToken every 5 minutes to renew the authentication token.
-                // setTimeout(verifyUser, 5 * 60 * 1000);
+                setTimeout(verifyUser, 5 * 60 * 1000);
+                setLoading(false);
             })
             .catch((error) => {
                 console.log("/auth/refreshToken", error);
+                setLoading(false);
             });
-    }, [setUserContext]);
+    }, [setToken]);
 
     useEffect(() => {
         verifyUser();
     }, [verifyUser]);
-
-    console.log("userContext.token:", userContext.token);
 
     return (
         <div>
@@ -70,7 +63,9 @@ export const Home = () => {
             <Link to="/coding">start coding</Link>
             <br />
 
-            {userContext.token ? (
+            {loading ? (
+                <Loader />
+            ) : token ? (
                 <div>
                     <div>welcome</div>
 
