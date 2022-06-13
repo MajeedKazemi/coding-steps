@@ -4,12 +4,7 @@ import passport from "passport";
 
 import { User } from "../models/user";
 import env from "../utils/env";
-import {
-    COOKIE_OPTIONS,
-    getRefreshToken,
-    getToken,
-    verifyUser,
-} from "../utils/strategy";
+import { COOKIE_OPTIONS, getRefreshToken, getToken, verifyUser } from "../utils/strategy";
 
 export const loginRouter = express.Router();
 
@@ -178,5 +173,5 @@ loginRouter.get("/logout", verifyUser, (req: any, res: any, next) => {
 });
 
 loginRouter.get("/me", verifyUser, (req: any, res, next) => {
-    res.send(req.user);
+    res.send({ user: req.user });
 });

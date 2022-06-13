@@ -6,10 +6,42 @@ import { Loader } from "../components/loader";
 import { Login } from "../components/login";
 import { Register } from "../components/register";
 import { UserContext } from "../context";
+import { User } from "../types";
 
 export const Home = () => {
     const { token, setToken } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState<User>({
+        username: "",
+        firstName: "",
+        lastName: "",
+    });
+
+    const verifyUser = useCallback(() => {
+        setLoading(true);
+        fetch("http://localhost:3001/auth/refreshToken", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+        })
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json();
+                    setToken(data.token);
+                    setLoading(false);
+                } else {
+                    setToken(null);
+                    setLoading(false);
+                }
+            })
+            .catch((error) => {
+                setLoading(false);
+            });
+    }, [setToken]);
+
+    useEffect(() => {
+        verifyUser();
+    }, [verifyUser]);
 
     const logoutHandler = () => {
         fetch("http://localhost:3001/auth/logout", {
@@ -23,34 +55,35 @@ export const Home = () => {
         });
     };
 
-    const verifyUser = useCallback(() => {
-        setLoading(true);
-
-        fetch("http://localhost:3001/auth/refreshToken", {
-            method: "POST",
+    const getUser = () => {
+        fetch("http://localhost:3001/auth/me", {
+            method: "GET",
             credentials: "include",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         })
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json();
-                    setToken(data.token);
+                    setUser(data.user);
                 } else {
-                    setToken(null);
+                    setUser({
+                        username: "",
+                        firstName: "",
+                        lastName: "",
+                    });
                 }
-                // call refreshToken every 5 minutes to renew the authentication token.
-                setTimeout(verifyUser, 5 * 60 * 1000);
-                setLoading(false);
             })
             .catch((error) => {
-                console.log("/auth/refreshToken", error);
-                setLoading(false);
+                console.log("/auth/me", error);
             });
-    }, [setToken]);
+    };
 
-    useEffect(() => {
-        verifyUser();
-    }, [verifyUser]);
+    if (!loading && token) {
+        getUser();
+    }
 
     return (
         <div>
@@ -60,14 +93,20 @@ export const Home = () => {
                 with and without copilot
             </p>
 
-            <Link to="/coding">start coding</Link>
-            <br />
-
             {loading ? (
                 <Loader />
             ) : token ? (
                 <div>
-                    <div>welcomeefee</div>
+                    <div>Welcome {user.firstName}</div>
+                    <p>start coding:</p>
+                    <Link to="/coding">start coding</Link>
+                    <br />
+
+                    <Button
+                        text="get user"
+                        onClick={getUser}
+                        intent="primary"
+                    ></Button>
 
                     <Button
                         text="Logout"
