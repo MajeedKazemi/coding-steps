@@ -1,13 +1,27 @@
+import { Button } from "@blueprintjs/core";
 import React, { useCallback, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { UserContext } from "..";
-import { Loader } from "../components/loader";
 import { Login } from "../components/login";
 import { Register } from "../components/register";
 
 export const Home = () => {
     const [userContext, setUserContext] = useContext(UserContext) as any;
+
+    const logoutHandler = () => {
+        fetch("http://localhost:3001/auth/logout", {
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${userContext.token}`,
+            },
+        }).then(async (response) => {
+            setUserContext((oldValues: any) => {
+                return { ...oldValues, details: undefined, token: null };
+            });
+        });
+    };
 
     const verifyUser = useCallback(() => {
         fetch("http://localhost:3001/auth/refreshToken", {
@@ -56,7 +70,18 @@ export const Home = () => {
             <Link to="/coding">start coding</Link>
             <br />
 
-            {userContext.token === undefined ? (
+            {userContext.token ? (
+                <div>
+                    <div>welcome</div>
+
+                    <Button
+                        text="Logout"
+                        onClick={logoutHandler}
+                        minimal
+                        intent="primary"
+                    />
+                </div>
+            ) : (
                 <div>
                     <h1>Login:</h1>
                     <Login />
@@ -65,10 +90,6 @@ export const Home = () => {
                     <h1>Sign up:</h1>
                     <Register />
                 </div>
-            ) : userContext.token ? (
-                <div>welcome</div>
-            ) : (
-                <Loader />
             )}
         </div>
     );
