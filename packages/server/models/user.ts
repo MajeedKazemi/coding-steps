@@ -10,6 +10,13 @@ const Session = new Schema({
     },
 });
 
+export interface IUser extends mongoose.Document {
+    username: string;
+    firstName: string;
+    lastName: string;
+    refreshToken: Array<{ refreshToken: string }>;
+}
+
 const UserSchema = new Schema({
     username: {
         type: String,
@@ -23,6 +30,26 @@ const UserSchema = new Schema({
     lastName: {
         type: String,
         default: "",
+    },
+    age: {
+        type: Number,
+        default: 0,
+    },
+    grade: {
+        type: Number,
+        default: 0,
+    },
+    gender: {
+        type: String,
+        enum: ["male", "female", "other"],
+    },
+    ethnicity: {
+        type: String,
+        default: "",
+    },
+    codingExperience: {
+        type: [String],
+        default: [],
     },
     refreshToken: {
         type: [Session],
@@ -40,4 +67,4 @@ UserSchema.set("toJSON", {
 
 UserSchema.plugin(passportLocalMongoose);
 
-export const User = mongoose.model("User", UserSchema);
+export const User = mongoose.model<IUser>("User", UserSchema);
