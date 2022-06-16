@@ -10,7 +10,7 @@ import passport from "passport";
 
 import { loginRouter } from "./routes/login-router";
 import { pingRouter } from "./routes/ping";
-import { taskRouter } from "./routes/tasks-router";
+import { tasksRouter } from "./routes/tasks-router";
 import { initLanguageService } from "./sockets/intellisense";
 import { initPythonShell } from "./sockets/python-shell";
 import env from "./utils/env";
@@ -50,7 +50,7 @@ mongoose
         app.use(bodyParser.json());
 
         app.use("/auth/", loginRouter);
-        app.use("/api/", taskRouter);
+        app.use("/api/tasks/", tasksRouter);
         app.use(pingRouter);
 
         const server = app.listen(env.PORT, () => {

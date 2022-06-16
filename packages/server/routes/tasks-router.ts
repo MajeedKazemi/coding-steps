@@ -2,44 +2,164 @@ import express from "express";
 
 import { UserTask } from "../models/user-task";
 import { verifyUser } from "../utils/strategy";
+import { AuthoringTask, getNextTask, getTaskFromTaskId, ModifyingTask } from "../utils/tasks";
 
-export const taskRouter = express.Router();
+export const tasksRouter = express.Router();
 
-taskRouter.get("/all-user-tasks", verifyUser, (req, res, next) => {
+tasksRouter.get("/started", verifyUser, (req, res, next) => {
     const userId = (req.user as any)._id;
 
     if (userId !== undefined) {
-        UserTask.find({ userId }).then((userTasks) => {
-            res.send({ tasks: userTasks });
-        });
+        UserTask.find({ userId, startedAt: { $exists: true } })
+            .sort({ finishedAt: 1 })
+            .then((userTasks) => {
+                res.send({ tasks: userTasks });
+            });
     }
 });
 
-taskRouter.post("/add-user-task", verifyUser, (req, res, next) => {
+tasksRouter.get("/next", verifyUser, (req, res, next) => {
     const userId = (req.user as any)._id;
-    const taskId = req.body.taskId;
+
+    // TODO: search through all of the tasks that the user has completed and find the next one
+
+    if (userId !== undefined) {
+        UserTask.find({ userId, finishedAt: { $exists: true } })
+            .sort({ finishedAt: 1 })
+            .then((userTasks) => {
+                res.send({ task: getNextTask(userTasks) });
+            });
+    }
+});
+
+tasksRouter.post("/start", verifyUser, (req, res, next) => {
+    const userId = (req.user as any)._id;
+    const { taskId, startedAt } = req.body;
 
     if (userId !== undefined && taskId !== undefined) {
-        const userTask = new UserTask({
-            userId,
-            taskId,
-            userTaskId: `${userId}_${taskId}`,
-            startedAt: req.body.startedAt,
-            data: req.body.data ? req.body.data : {},
-        });
+        UserTask.findOne({ userId, taskId }).then((userTask) => {
+            if (userTask) {
+                if (userTask.data.attempts) {
+                    userTask.data.attempts++;
+                } else {
+                    userTask.data.attempts = 2;
+                }
 
-        userTask.save((err, userTask) => {
-            if (err) {
-                res.statusCode = 500;
-                res.send(err);
+                userTask.save((err, userTask) => {
+                    if (err) {
+                        res.statusCode = 500;
+                        res.send(err);
+                    } else {
+                        res.send({ success: true, completed: true });
+                    }
+                });
             } else {
-                res.send({ success: true });
+                const userTask = new UserTask({
+                    userId,
+                    taskId,
+                    userTaskId: `${userId}_${taskId}`,
+                    startedAt: startedAt,
+                });
+
+                userTask.save((err, userTask) => {
+                    if (err) {
+                        res.statusCode = 500;
+                        res.send(err);
+                    } else {
+                        res.send({ success: true });
+                    }
+                });
             }
+        });
+    } else {
+        res.statusCode = 500;
+        res.send({ message: "missing userId or taskId" });
+    }
+});
+
+tasksRouter.post("/submit", verifyUser, (req, res, next) => {
+    const userId = (req.user as any)._id;
+    const { taskId, finishedAt, data, code } = req.body;
+
+    if (
+        userId !== undefined &&
+        taskId !== undefined &&
+        finishedAt !== undefined &&
+        data !== undefined &&
+        code !== undefined
+    ) {
+        const task = getTaskFromTaskId(taskId);
+
+        if (
+            (task && task instanceof AuthoringTask) ||
+            task instanceof ModifyingTask
+        ) {
+            const checkResult = task.checkCode(code);
+            if (checkResult.passed) {
+                UserTask.findOne({ userId, taskId }).then((userTask) => {
+                    if (userTask) {
+                        userTask.finishedAt = finishedAt;
+                        userTask.data = data;
+
+                        userTask.save((err, userTask) => {
+                            if (err) {
+                                res.statusCode = 500;
+                                res.send(err);
+                            } else {
+                                res.send({ success: true, completed: true });
+                            }
+                        });
+                    } else {
+                        res.statusCode = 500;
+                        res.send({ message: "Usertask not found" });
+                    }
+                });
+            } else {
+                UserTask.findOne({ userId, taskId }).then((userTask) => {
+                    if (userTask) {
+                        if (userTask.data.incorrectSubmissions) {
+                            userTask.data.incorrectSubmissions.append({
+                                code,
+                                message: checkResult.message,
+                            });
+                        } else {
+                            userTask.data.incorrectSubmissions = [
+                                {
+                                    code,
+                                    message: checkResult.message,
+                                },
+                            ];
+                        }
+
+                        userTask.save((err, userTask) => {
+                            if (err) {
+                                res.statusCode = 500;
+                                res.send(err);
+                            } else {
+                                res.send({ success: true, completed: false });
+                            }
+                        });
+                    } else {
+                        res.statusCode = 500;
+                        res.send({
+                            message: "UserTask not found",
+                        });
+                    }
+                });
+            }
+        } else {
+            res.statusCode = 500;
+            res.send({ message: "task not found" });
+        }
+    } else {
+        res.statusCode = 500;
+        res.send({
+            message: "missing userId or taskId or finishedAt or code or data",
         });
     }
 });
 
-taskRouter.post("/update-user-task", verifyUser, (req, res, next) => {
+tasksRouter.post("/update", verifyUser, (req, res, next) => {
     const userId = (req.user as any)._id;
     const taskId = req.body.taskId;
 
@@ -59,8 +179,11 @@ taskRouter.post("/update-user-task", verifyUser, (req, res, next) => {
                 });
             } else {
                 res.statusCode = 500;
-                res.send({});
+                res.send({ message: "UserTask not found" });
             }
         });
+    } else {
+        res.statusCode = 500;
+        res.send({ message: "missing userId or taskId" });
     }
 });
