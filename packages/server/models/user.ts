@@ -39,6 +39,11 @@ const UserSchema = new Schema({
         type: Number,
         default: 0,
     },
+    editorType: {
+        type: String,
+        enum: ["copilot", "intellisense"],
+        default: "intellisense",
+    },
     gender: {
         type: String,
         enum: ["male", "female", "other"],

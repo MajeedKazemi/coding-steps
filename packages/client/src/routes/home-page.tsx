@@ -2,11 +2,12 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Login } from "../components/login";
+import { Logout } from "../components/logout";
 import { Register } from "../components/register";
 import { UserContext } from "../context";
 import { User } from "../types";
 
-export const Home = () => {
+export const HomePage = () => {
     const { token, setToken } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState<User>({
@@ -36,10 +37,6 @@ export const Home = () => {
                 setLoading(false);
             });
     }, [setToken]);
-
-    useEffect(() => {
-        verifyUser();
-    }, [verifyUser]);
 
     const logoutHandler = () => {
         fetch("http://localhost:3001/auth/logout", {
@@ -79,6 +76,10 @@ export const Home = () => {
             });
     };
 
+    useEffect(() => {
+        verifyUser();
+    }, []);
+
     if (!loading && token) {
         getUser();
     }
@@ -97,10 +98,10 @@ export const Home = () => {
                 <div>
                     <div>Welcome {user.firstName}</div>
                     <p>start coding:</p>
-                    <Link to="/coding">start coding</Link>
+                    <Link to="/tasks">start coding</Link>
                     <br />
 
-                    <button onClick={logoutHandler}>Logout</button>
+                    <Logout />
                 </div>
             ) : (
                 <div>

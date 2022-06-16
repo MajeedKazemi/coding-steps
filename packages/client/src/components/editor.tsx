@@ -4,8 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { initializeLanguageClient } from "../api/intellisense";
 import { executeCode, sendValue, shellSocket } from "../api/shell";
 import styles from "../css/editor.module.css";
+import { EditorType } from "../utils/constants";
 
-export const Editor = () => {
+interface EditorProps {
+    id: string;
+    starterCode: string;
+    editorType: EditorType;
+    updateCode?: (code: string) => void;
+}
+
+export const Editor = (props: EditorProps) => {
     const [editor, setEditor] =
         useState<monaco.editor.IStandaloneCodeEditor | null>(null);
     const monacoEl = useRef(null);
@@ -19,15 +27,24 @@ export const Editor = () => {
         if (monacoEl && !editor) {
             initializeLanguageClient();
 
-            setEditor(
-                monaco.editor.create(monacoEl.current!, {
-                    value: `print("hello world")`,
-                    language: "python",
-                    automaticLayout: true,
-                    fontSize: 18,
-                    lineHeight: 30,
-                })
-            );
+            const editor = monaco.editor.create(monacoEl.current!, {
+                value: props.starterCode,
+                language: "python",
+                automaticLayout: true,
+                fontSize: 18,
+                lineHeight: 30,
+            });
+            setEditor(editor);
+
+            if (props.updateCode) {
+                props.updateCode(editor.getValue());
+            }
+
+            editor.onDidChangeModelContent(() => {
+                if (props.updateCode) {
+                    props.updateCode(editor.getValue());
+                }
+            });
         }
 
         return () => editor?.dispose();
@@ -65,6 +82,8 @@ export const Editor = () => {
 
     return (
         <div>
+            {props.editorType === EditorType.Copilot && <div>add copilot</div>}
+
             <button
                 onClick={() => {
                     setOutput([]);

@@ -5,8 +5,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import { UserContext } from "./context";
-import { Coding } from "./routes/coding";
-import { Home } from "./routes/home";
+import { HomePage } from "./routes/home-page";
+import { TasksPage } from "./routes/tasks-page";
 
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("[index.html] missing root element");
@@ -58,12 +58,12 @@ function App() {
         <UserContext.Provider value={value}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<HomePage />} />
                     <Route
-                        path="/coding"
+                        path="/tasks"
                         element={
                             <RequireAuth>
-                                <Coding />
+                                <TasksPage />
                             </RequireAuth>
                         }
                     />
