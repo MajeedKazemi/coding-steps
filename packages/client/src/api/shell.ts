@@ -2,6 +2,8 @@ import { createUrl } from "../utils/shared";
 
 const url = createUrl("localhost", 3001, "/shell");
 
+export let isConnected = false;
+
 export const shellSocket = new WebSocket(url);
 
 export function executeCode(code?: string) {
@@ -16,3 +18,11 @@ export function sendValue(value: string) {
         })
     );
 }
+
+shellSocket.onopen = () => {
+    isConnected = true;
+};
+
+shellSocket.onclose = () => {
+    isConnected = false;
+};

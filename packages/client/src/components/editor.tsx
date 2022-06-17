@@ -2,7 +2,7 @@ import * as monaco from "monaco-editor";
 import { useEffect, useRef, useState } from "react";
 
 import { initializeLanguageClient } from "../api/intellisense";
-import { executeCode, sendValue, shellSocket } from "../api/shell";
+import { executeCode, isConnected, sendValue, shellSocket } from "../api/shell";
 import styles from "../css/editor.module.css";
 import { EditorType } from "../utils/constants";
 
@@ -19,7 +19,7 @@ export const Editor = (props: EditorProps) => {
     const monacoEl = useRef(null);
     const [output, setOutput] = useState<string[]>([]);
     const [input, setInput] = useState<string>("");
-    const [connected, setConnected] = useState(false);
+    const [connected, setConnected] = useState(isConnected);
     const [displaySend, setDisplaySend] = useState(false);
     const [running, setRunning] = useState(false);
 
@@ -75,6 +75,10 @@ export const Editor = (props: EditorProps) => {
     useEffect(() => {
         shellSocket.onopen = () => {
             setConnected(true);
+        };
+
+        shellSocket.onclose = () => {
+            setConnected(false);
         };
     });
 
