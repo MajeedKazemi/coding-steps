@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 
 import { CodingTask } from "../components/coding-task";
-import { UserContext } from "../context";
+import { Layout } from "../components/layout";
+import { Loader } from "../components/loader";
+import { AuthContext } from "../context";
 import { EditorType, TaskType } from "../utils/constants";
 
 export const TasksPage = () => {
-    const context = useContext(UserContext);
+    const context = useContext(AuthContext);
     const [loading, setLoading] = React.useState(false);
     const [task, setTask] = React.useState<any>(null);
 
@@ -51,17 +52,5 @@ export const TasksPage = () => {
         );
     }
 
-    return (
-        <div>
-            {task ? (
-                <div>{taskComponent}</div>
-            ) : (
-                <div>
-                    <p>Loading...</p>
-                </div>
-            )}
-
-            <Link to="/">Home</Link>
-        </div>
-    );
+    return <Layout>{task ? taskComponent : <Loader />}</Layout>;
 };
