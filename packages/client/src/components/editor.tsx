@@ -1,9 +1,8 @@
 import * as monaco from "monaco-editor";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { initializeLanguageClient } from "../api/intellisense";
 import { executeCode, isConnected, sendValue, shellSocket } from "../api/shell";
-import styles from "../css/editor.module.css";
 import { EditorType } from "../utils/constants";
 
 interface EditorProps {
@@ -18,10 +17,10 @@ export const Editor = (props: EditorProps) => {
         useState<monaco.editor.IStandaloneCodeEditor | null>(null);
     const monacoEl = useRef(null);
     const [output, setOutput] = useState<string[]>([]);
-    const [input, setInput] = useState<string>("");
+    const [terminalInput, setTerminalInput] = useState<string>("");
     const [connected, setConnected] = useState(isConnected);
-    const [displaySend, setDisplaySend] = useState(false);
     const [running, setRunning] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (monacoEl && !editor) {
@@ -33,7 +32,18 @@ export const Editor = (props: EditorProps) => {
                 automaticLayout: true,
                 fontSize: 18,
                 lineHeight: 30,
+                minimap: { enabled: false },
             });
+
+            editor.addCommand(
+                monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+                function () {
+                    setOutput([]);
+                    setRunning(true);
+                    executeCode(editor?.getValue());
+                }
+            );
+
             setEditor(editor);
 
             if (props.updateCode) {
@@ -82,59 +92,56 @@ export const Editor = (props: EditorProps) => {
         };
     });
 
-    const inputRef = useRef<HTMLInputElement>(null);
-
     return (
         <div>
-            {props.editorType === EditorType.Copilot && <div>add copilot</div>}
-
+            <div className="editor" ref={monacoEl}></div>
             <button
+                className="run-button"
                 onClick={() => {
                     setOutput([]);
                     setRunning(true);
                     executeCode(editor?.getValue());
                 }}
             >
-                run
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    color="currentColor"
+                    stroke="none"
+                    strokeWidth="0"
+                    fill="currentColor"
+                    className="play-icon"
+                >
+                    <path d="M20.2253 11.5642C20.5651 11.7554 20.5651 12.2446 20.2253 12.4358L5.74513 20.5809C5.41183 20.7683 5 20.5275 5 20.1451L5 3.85492C5 3.47251 5.41183 3.23165 5.74513 3.41914L20.2253 11.5642Z"></path>
+                </svg>
+                Run
             </button>
-            <span>{connected ? "connected" : "connecting"}</span>
-
-            <div className={styles.editor} ref={monacoEl}></div>
-
-            <div>
+            <div className="output">
+                {/* {props.editorType === EditorType.Copilot && (
+                        <div>add copilot</div>
+                    )} */}
+                {/* <span>{connected ? "connected" : "connecting"}</span> */}
                 {output.map((line, index) => (
-                    <p key={"key-" + index}>{line}</p>
+                    <p key={"line-" + index}>{line}</p>
                 ))}
-
                 {running && (
-                    <div>
-                        <input
-                            ref={inputRef}
-                            onChange={(event) => {
-                                setInput(event.target.value);
-
-                                if (event.target.value === "") {
-                                    setDisplaySend(false);
-                                } else {
-                                    setDisplaySend(true);
-                                }
-                            }}
-                        />
-                        {displaySend && (
-                            <button
-                                onClick={() => {
-                                    if (inputRef.current) {
-                                        inputRef.current.value = "";
-                                        setDisplaySend(false);
-                                    }
-
-                                    sendValue(input);
-                                }}
-                            >
-                                send
-                            </button>
-                        )}
-                    </div>
+                    <input
+                        autoFocus
+                        key={"input-" + output.length.toString()}
+                        className="terminal-input"
+                        ref={inputRef}
+                        onKeyUp={(e) => {
+                            if (e.key === "Enter") {
+                                sendValue(terminalInput);
+                                setOutput([...output, terminalInput]);
+                                setTerminalInput("");
+                            }
+                        }}
+                        onChange={(event) => {
+                            setTerminalInput(event.target.value);
+                        }}
+                    />
                 )}
             </div>
         </div>

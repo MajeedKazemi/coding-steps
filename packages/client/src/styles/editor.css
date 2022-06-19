@@ -1,0 +1,72 @@
+.editor {
+    width: 50vw;
+    height: 50vh;
+    border: solid 1px #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.output {
+    background-color: #023231;
+    color: #fff;
+    font-family: monospace;
+    padding: 6px;
+    padding-left: 12px;
+    overflow-y: scroll;
+    height: calc(50vh - 160px);
+    border-radius: 6px;
+    position: relative;
+    margin-top: 24px;
+}
+
+.output p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.terminal-input {
+    display: inline;
+    background-color: #023231;
+    color: #fff;
+    border: none;
+    font-family: monospace;
+    font-size: 16px;
+    margin-left: -2px;
+}
+
+.terminal-input:focus {
+    outline: none;
+    font-size: 16px;
+}
+
+.run-button {
+    background: #0baa0b;
+    position: absolute;
+    z-index: 999;
+    border: none;
+    height: 40px;
+    border-radius: 12px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Poppins";
+    -webkit-transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
+    -webkit-transition-timing-function: ease-in-out;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
+    padding: 0 20px;
+    top: calc(50vh + 46px);
+    left: calc(50vw + 283px);
+}
+
+.run-button:hover {
+    background: #0cc40c;
+}
+
+.play-icon {
+    margin-right: 10px;
+}

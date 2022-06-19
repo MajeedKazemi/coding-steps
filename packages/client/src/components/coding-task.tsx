@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 
-import { UserContext } from "../context";
+import { AuthContext } from "../context";
 import { EditorType, TaskType } from "../utils/constants";
 import { convertTime } from "../utils/shared";
+import { Button } from "./button";
 import { Editor } from "./editor";
 
 interface CodingTaskProps {
@@ -19,11 +20,12 @@ interface CodingTaskProps {
 }
 
 export const CodingTask = (props: CodingTaskProps) => {
-    const context = useContext(UserContext);
+    const context = useContext(AuthContext);
     const [feedback, setFeedback] = useState("");
     const [started, setStarted] = useState(false);
     const [completed, setCompleted] = useState(false);
     const [userCode, setUserCode] = useState("");
+    const [canSubmit, setCanSubmit] = useState(false);
 
     const handleStart = () => {
         fetch("http://localhost:3001/api/tasks/start", {
@@ -81,45 +83,83 @@ export const CodingTask = (props: CodingTaskProps) => {
         // if not -> show what was expected
     };
 
+    useEffect(() => {
+        if (userCode.length > 10) {
+            setCanSubmit(true);
+        } else {
+            setCanSubmit(false);
+        }
+    }, [userCode]);
+
     if (!started) {
         return (
-            <div>
-                <p>
-                    You have {convertTime(props.timeLimit)} minutes to finish
-                    this task.
-                </p>
-                <button onClick={handleStart}>Start task</button>
+            <div className="container">
+                <div className="card p-md">
+                    <p>
+                        You have{" "}
+                        <span className="remaining-time">
+                            {convertTime(props.timeLimit)} minutes
+                        </span>{" "}
+                        to finish this task.
+                    </p>
+                    <button className="btn btn-primary" onClick={handleStart}>
+                        Start task
+                    </button>
+                </div>
             </div>
         );
     }
 
     return (
-        <div>
-            <h2>{props.title}</h2>
-            <p dangerouslySetInnerHTML={{ __html: props.description }}></p>
+        <div className="task-container">
+            <section className="task-info">
+                <div>
+                    <span className="task-title">
+                        Task: <h2>{props.title}</h2>
+                    </span>
+                    <span className="task-subtitle">
+                        <p
+                            dangerouslySetInnerHTML={{
+                                __html: props.description,
+                            }}
+                        ></p>
+                    </span>
+                </div>
 
-            <Editor
-                editorType={props.editorType}
-                id={props.id}
-                starterCode={
-                    props.taskType === TaskType.Authoring
-                        ? ""
-                        : props.starterCode !== undefined
-                        ? props.starterCode
-                        : ""
-                }
-                updateCode={setUserCode}
-            />
+                <div>
+                    <Button
+                        onClick={handleSubmitCode}
+                        type="block"
+                        disabled={!canSubmit}
+                    >
+                        submit code
+                    </Button>
+                </div>
+            </section>
 
-            {feedback && <h3>{feedback}</h3>}
+            <section className="task-workspace">
+                <Editor
+                    editorType={props.editorType}
+                    id={props.id}
+                    starterCode={
+                        props.taskType === TaskType.Authoring
+                            ? ""
+                            : props.starterCode !== undefined
+                            ? props.starterCode
+                            : ""
+                    }
+                    updateCode={setUserCode}
+                />
 
-            <button onClick={handleSubmitCode}>submit code</button>
+                {feedback && <h3>{feedback}</h3>}
+            </section>
 
-            <div>
-                user's code:
-                <br />
-                <span>{userCode}</span>
-            </div>
+            <section className="task-assists">
+                <p>documentation</p>
+                {props.editorType === EditorType.Copilot ? (
+                    <p>copilot buttons</p>
+                ) : null}
+            </section>
         </div>
     );
 };
