@@ -1,118 +1,100 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { Button } from "../components/button";
+import { Layout } from "../components/layout";
 import { Login } from "../components/login";
-import { Logout } from "../components/logout";
 import { Register } from "../components/register";
-import { UserContext } from "../context";
-import { User } from "../types";
+import { AuthContext, UserContext } from "../context";
 
 export const HomePage = () => {
-    const { token, setToken } = useContext(UserContext);
-    const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState<User>({
-        username: "",
-        firstName: "",
-        lastName: "",
-    });
-
-    const verifyUser = useCallback(() => {
-        setLoading(true);
-        fetch("http://localhost:3001/auth/refreshToken", {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-        })
-            .then(async (response) => {
-                if (response.ok) {
-                    const data = await response.json();
-                    setToken(data.token);
-                    setLoading(false);
-                } else {
-                    setToken(null);
-                    setLoading(false);
-                }
-            })
-            .catch((error) => {
-                setLoading(false);
-            });
-    }, [setToken]);
-
-    const logoutHandler = () => {
-        fetch("http://localhost:3001/auth/logout", {
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        }).then(async (response) => {
-            setToken(null);
-        });
-    };
-
-    const getUser = () => {
-        fetch("http://localhost:3001/auth/me", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then(async (response) => {
-                if (response.ok) {
-                    const data = await response.json();
-                    setUser(data.user);
-                } else {
-                    setUser({
-                        username: "",
-                        firstName: "",
-                        lastName: "",
-                    });
-                }
-            })
-            .catch((error) => {
-                console.log("/auth/me", error);
-            });
-    };
-
-    useEffect(() => {
-        verifyUser();
-    }, []);
-
-    if (!loading && token) {
-        getUser();
-    }
+    const { token } = useContext(AuthContext);
+    const { user } = useContext(UserContext);
+    const [showRegister, setShowRegister] = useState(false);
 
     return (
-        <div>
-            <h1>chi23-study</h1>
-            <p>
-                through these tasks we will compare students learning to code
-                with and without copilot
-            </p>
+        <Layout>
+            <div className="container">
+                <main className="card">
+                    {token ? (
+                        <div className="m-md">
+                            <h1>Welcome to Coding Steps!</h1>
+                            <p>
+                                Hello {user?.firstName}, welcome to Coding Steps
+                                where you will be learning Python by solving
+                                programming tasks.
+                            </p>
+                            <p>
+                                To start learning and working on the programming
+                                tasks click start:
+                            </p>
+                            <Link to="/tasks" className="text-no-decoration">
+                                <Button type="block" class="text-sm">
+                                    Start Coding
+                                </Button>
+                            </Link>
+                            <br />
+                        </div>
+                    ) : (
+                        // can show their name
+                        // a component showing how many tasks they have completed
 
-            {loading ? (
-                <h1>Loading</h1>
-            ) : token ? (
-                <div>
-                    <div>Welcome {user.firstName}</div>
-                    <p>start coding:</p>
-                    <Link to="/tasks">start coding</Link>
-                    <br />
+                        <div className="card-row">
+                            <div className="left">
+                                {showRegister ? (
+                                    <div className="vertical-space-between">
+                                        <Register />
+                                        <div>
+                                            Already have an account?{" "}
+                                            <Button
+                                                type="link"
+                                                onClick={() => {
+                                                    setShowRegister(false);
+                                                }}
+                                            >
+                                                Login
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="vertical-space-between">
+                                        <Login />
+                                        <div>
+                                            Need an account?
+                                            <Button
+                                                type="link"
+                                                onClick={() => {
+                                                    setShowRegister(true);
+                                                }}
+                                            >
+                                                Register
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <section className="right">
+                                <h2 className="card-title">Coding Steps</h2>
+                                <p className="mb-md">
+                                    Learn Python and introductory programming
+                                    concepts by solving programming tasks step
+                                    by step
+                                </p>
 
-                    <Logout />
-                </div>
-            ) : (
-                <div>
-                    <h1>Login:</h1>
-                    <Login />
-
-                    <br />
-                    <h1>Sign up:</h1>
-                    <Register />
-                </div>
-            )}
-        </div>
+                                <p className="text-sm">
+                                    This tool is part of a research study
+                                    conducted by the University of Toronto. If
+                                    you have any questions or concerns, please{" "}
+                                    <a href="mailto:majeed@dgp.toronto.edu">
+                                        email
+                                    </a>{" "}
+                                    us.
+                                </p>
+                            </section>
+                        </div>
+                    )}
+                </main>
+            </div>
+        </Layout>
     );
 };
