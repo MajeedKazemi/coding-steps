@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 
-import { UserContext } from "../context";
+import { AuthContext } from "../context";
+import { Button } from "./button";
+import { Input } from "./input";
 
 export const Register = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -9,7 +11,7 @@ export const Register = () => {
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { token, setToken } = useContext(UserContext);
+    const { token, setToken } = useContext(AuthContext);
 
     const formSubmitHandler = (e: any) => {
         e.preventDefault();
@@ -58,46 +60,33 @@ export const Register = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={formSubmitHandler} className="auth-form">
-                <div>
-                    <input
-                        id="firstName"
-                        placeholder="First Name"
-                        onChange={(e) => setFirstName(e.target.value)}
-                        value={firstName}
-                    />
-                </div>
-                <div>
-                    <input
-                        id="lastName"
-                        placeholder="Last Name"
-                        onChange={(e) => setLastName(e.target.value)}
-                        value={lastName}
-                    />
-                </div>
-                <div>
-                    <input
-                        id="username"
-                        type="username"
-                        placeholder="username"
-                        onChange={(e) => setUsername(e.target.value)}
-                        value={username}
-                    />
-                </div>
-                <div>
-                    <input
-                        id="password"
-                        placeholder="Password"
-                        type="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                    />
-                </div>
-                <button disabled={isSubmitting} type="submit">{`${
-                    isSubmitting ? "Registering" : "Register"
-                }`}</button>
-            </form>
-        </div>
+        <form onSubmit={formSubmitHandler} className="mb-md">
+            <span className="section-title">Register</span>
+            <Input
+                type="username"
+                placeholder="Username"
+                onChange={(e) => setUsername(e.target.value)}
+                value={username}
+            />
+            <Input
+                placeholder="Password"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+            />
+            <Input
+                type="text"
+                placeholder="First Name"
+                onChange={(e) => setFirstName(e.target.value)}
+                value={firstName}
+            />
+            <Input
+                placeholder="Last Name"
+                onChange={(e) => setLastName(e.target.value)}
+                value={lastName}
+            />
+
+            <Button>{`${isSubmitting ? "Registering" : "Register"}`}</Button>
+        </form>
     );
 };

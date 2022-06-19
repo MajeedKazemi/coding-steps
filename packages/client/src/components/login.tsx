@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 
-import { UserContext } from "../context";
+import { AuthContext } from "../context";
+import { Button } from "./button";
+import { Input } from "./input";
 
 export const Login = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -9,7 +11,7 @@ export const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const { token, setToken } = useContext(UserContext);
+    const { setToken } = useContext(AuthContext);
 
     const formSubmitHandler = (e: any) => {
         e.preventDefault();
@@ -49,30 +51,23 @@ export const Login = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={formSubmitHandler} className="auth-form">
-                <div>
-                    <input
-                        id="username"
-                        placeholder="username"
-                        type="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <input
-                        id="password"
-                        placeholder="Password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button disabled={isSubmitting} type="submit">{`${
-                    isSubmitting ? "Signing In" : "Sign In"
-                }`}</button>
-            </form>
-        </div>
+        <form onSubmit={formSubmitHandler} className="mb-md">
+            <span className="section-title">Login</span>
+            <Input
+                placeholder="Username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+            />
+            <Input
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button icon="login">
+                {`${isSubmitting ? "Signing In" : "Sign In"}`}
+            </Button>
+        </form>
     );
 };
