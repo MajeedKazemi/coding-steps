@@ -1,10 +1,11 @@
+import "./index.css";
 import "./userWorker";
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
-import { UserContext } from "./context";
+import { AuthContext } from "./context";
 import { HomePage } from "./routes/home-page";
 import { TasksPage } from "./routes/tasks-page";
 
@@ -14,7 +15,7 @@ const root = ReactDOM.createRoot(rootEl);
 
 function RequireAuth({ children }: { children: JSX.Element }) {
     const [loading, setLoading] = useState(true);
-    let { token, setToken } = useContext(UserContext);
+    let { token, setToken } = useContext(AuthContext);
     let location = useLocation();
 
     const verifyUser = useCallback(() => {
@@ -51,11 +52,10 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 
 function App() {
     const [token, setToken] = useState(null);
-
-    const value = useMemo(() => ({ token, setToken }), [token]);
+    const value = useMemo(() => ({ token, setToken }), [token]) as any;
 
     return (
-        <UserContext.Provider value={value}>
+        <AuthContext.Provider value={value}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
@@ -69,7 +69,7 @@ function App() {
                     />
                 </Routes>
             </BrowserRouter>
-        </UserContext.Provider>
+        </AuthContext.Provider>
     );
 }
 
