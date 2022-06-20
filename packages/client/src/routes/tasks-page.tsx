@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import { CodingTask } from "../components/coding-task";
 import { Layout } from "../components/layout";
 import { Loader } from "../components/loader";
+import { MultipleChoiceTask } from "../components/multiple-choice-task";
+import { ShortAnswerTask } from "../components/short-answer-task";
 import { AuthContext } from "../context";
 import { EditorType, TaskType } from "../utils/constants";
 
@@ -28,29 +30,60 @@ export const TasksPage = () => {
         });
     };
 
+    const getTaskComponent = () => {
+        switch (task.type) {
+            case TaskType.Authoring:
+            case TaskType.Modifying:
+                return (
+                    <CodingTask
+                        key={task.id}
+                        id={task.id}
+                        title={task.title}
+                        description={task.description}
+                        timeLimit={task.timeLimit}
+                        starterCode={
+                            task.type === TaskType.Authoring
+                                ? ""
+                                : task.starterCode
+                        }
+                        onCompletion={setNextTask}
+                        editorType={EditorType.Copilot}
+                        taskType={task.type}
+                    ></CodingTask>
+                );
+
+            case TaskType.MultipleChoice:
+                return (
+                    <MultipleChoiceTask
+                        key={task.id}
+                        id={task.id}
+                        title={task.title}
+                        description={task.description}
+                        choices={task.choices}
+                        onCompletion={setNextTask}
+                        editorType={EditorType.Copilot}
+                        taskType={task.type}
+                    ></MultipleChoiceTask>
+                );
+
+            case TaskType.ShortAnswer:
+                return (
+                    <ShortAnswerTask
+                        key={task.id}
+                        id={task.id}
+                        title={task.title}
+                        description={task.description}
+                        onCompletion={setNextTask}
+                        editorType={EditorType.Copilot}
+                        taskType={task.type}
+                    ></ShortAnswerTask>
+                );
+        }
+    };
+
     React.useEffect(() => {
         setNextTask();
     }, []);
 
-    let taskComponent;
-
-    if (task) {
-        taskComponent = (
-            <CodingTask
-                key={task.id}
-                description={task.description}
-                editorType={EditorType.Copilot}
-                id={task.id}
-                taskType={task.type}
-                timeLimit={task.timeLimit}
-                title={task.title}
-                starterCode={
-                    task.type === TaskType.Authoring ? "" : task.starterCode
-                }
-                onCompletion={setNextTask}
-            ></CodingTask>
-        );
-    }
-
-    return <Layout>{task ? taskComponent : <Loader />}</Layout>;
+    return <Layout>{task ? getTaskComponent() : <Loader />}</Layout>;
 };

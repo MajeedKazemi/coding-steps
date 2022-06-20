@@ -6,5 +6,6 @@ export enum EditorType {
 export enum TaskType {
     Authoring = "authoring",
     Modifying = "modifying",
+    ShortAnswer = "shortAnswer",
     MultipleChoice = "multipleChoice",
 }
