@@ -8,8 +8,9 @@ import Session from "express-session";
 import mongoose from "mongoose";
 import passport from "passport";
 
+import { codexRouter } from "./routes/codex-router";
 import { loginRouter } from "./routes/login-router";
-import { pingRouter } from "./routes/ping";
+import { pingRouter } from "./routes/ping-router";
 import { tasksRouter } from "./routes/tasks-router";
 import { initLanguageService } from "./sockets/intellisense";
 import { initPythonShell } from "./sockets/python-shell";
@@ -51,6 +52,7 @@ mongoose
 
         app.use("/auth/", loginRouter);
         app.use("/api/tasks/", tasksRouter);
+        app.use("/api/codex/", codexRouter);
         app.use(pingRouter);
 
         const server = app.listen(env.PORT, () => {

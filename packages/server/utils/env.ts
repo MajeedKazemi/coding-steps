@@ -12,6 +12,7 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 const JWT_SECRET = process.env.SESSION_EXPIRY;
 const WHITELISTED_DOMAINS = process.env.WHITELISTED_DOMAINS;
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 if (REFRESH_TOKEN_EXPIRY === undefined) {
     throw Error("REFRESH_TOKEN_EXPIRY not set in .env");
@@ -45,6 +46,10 @@ if (COOKIE_SECRET === undefined) {
     throw Error("COOKIE_SECRET not set in .env");
 }
 
+if (OPENAI_API_KEY === undefined) {
+    throw Error("OPENAI_API_KEY not set in .env");
+}
+
 export default {
     REFRESH_TOKEN_EXPIRY,
     REFRESH_TOKEN_SECRET,
@@ -54,5 +59,6 @@ export default {
     WHITELISTED_DOMAINS,
     PORT,
     COOKIE_SECRET,
+    OPENAI_API_KEY,
     dev,
 };
