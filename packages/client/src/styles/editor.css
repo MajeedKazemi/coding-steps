@@ -1,5 +1,5 @@
 .editor {
-    width: 50vw;
+    width: 47vw;
     height: 50vh;
     border: solid 1px #ccc;
     border-radius: 6px;
@@ -17,6 +17,7 @@
     border-radius: 6px;
     position: relative;
     margin-top: 24px;
+    width: 47vw;
 }
 
 .output p {
@@ -42,7 +43,7 @@
 .run-button {
     background: #0baa0b;
     position: absolute;
-    z-index: 999;
+    z-index: 99;
     border: none;
     height: 40px;
     border-radius: 12px;
@@ -60,7 +61,7 @@
     cursor: pointer;
     padding: 0 20px;
     top: calc(50vh + 46px);
-    left: calc(50vw + 283px);
+    left: calc(62vw - 18px);
 }
 
 .run-button:hover {
@@ -69,4 +70,29 @@
 
 .play-icon {
     margin-right: 10px;
+}
+
+.task-workspace {
+    margin-left: 24px;
+}
+
+.task-assists {
+    margin-left: 24px;
+    width: 15vw;
+}
+
+@keyframes fade-highlight {
+    0% {
+        background-color: #d5afff;
+    }
+    100% {
+        background-color: #fff;
+    }
+}
+
+.highlighted-code {
+    background-color: #dbbbff;
+    animation-name: fade-highlight;
+    animation-duration: 5s;
+    animation-iteration-count: 1;
 }

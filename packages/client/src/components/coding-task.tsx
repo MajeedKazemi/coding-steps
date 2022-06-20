@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useMemo, useState } from "react";
 
 import { AuthContext } from "../context";
 import { EditorType, TaskType } from "../utils/constants";
@@ -111,7 +111,7 @@ export const CodingTask = (props: CodingTaskProps) => {
     }
 
     return (
-        <div className="task-container">
+        <div className="coding-task-container">
             <section className="task-info">
                 <div>
                     <span className="task-title">
@@ -137,29 +137,18 @@ export const CodingTask = (props: CodingTaskProps) => {
                 </div>
             </section>
 
-            <section className="task-workspace">
-                <Editor
-                    editorType={props.editorType}
-                    id={props.id}
-                    starterCode={
-                        props.taskType === TaskType.Authoring
-                            ? ""
-                            : props.starterCode !== undefined
-                            ? props.starterCode
-                            : ""
-                    }
-                    updateCode={setUserCode}
-                />
-
-                {feedback && <h3>{feedback}</h3>}
-            </section>
-
-            <section className="task-assists">
-                <p>documentation</p>
-                {props.editorType === EditorType.Copilot ? (
-                    <p>copilot buttons</p>
-                ) : null}
-            </section>
+            <Editor
+                editorType={props.editorType}
+                id={props.id}
+                starterCode={
+                    props.taskType === TaskType.Authoring
+                        ? ""
+                        : props.starterCode !== undefined
+                        ? props.starterCode
+                        : ""
+                }
+                updateCode={setUserCode}
+            />
         </div>
     );
 };

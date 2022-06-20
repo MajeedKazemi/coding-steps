@@ -10,6 +10,8 @@
 @import "styles/input.css";
 @import "styles/utility.css";
 @import "styles/task.css";
+@import "styles/codex.css";
+@import "styles/documentation.css";
 
 body {
     font-family: "Poppins", sans-serif;
