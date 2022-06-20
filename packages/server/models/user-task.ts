@@ -28,7 +28,7 @@ const UserTaskSchema = new Schema({
     },
     startedAt: {
         type: Date,
-        required: true,
+        required: false,
     },
     finishedAt: {
         type: Date,

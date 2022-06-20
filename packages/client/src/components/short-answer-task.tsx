@@ -32,6 +32,7 @@ export const ShortAnswerTask = (props: IShortAnswerTask) => {
             },
             body: JSON.stringify({
                 taskId: props.id,
+                finishedAt: Date.now(),
                 data: { events: [], answer: userAnswer },
             }),
         }).then(async (response) => {

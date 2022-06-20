@@ -1,15 +1,15 @@
 import express from "express";
 
 import { UserTask } from "../models/user-task";
-import { verifyUser } from "../utils/strategy";
 import {
     AuthoringTask,
     getNextTask,
     getTaskFromTaskId,
     ModifyingTask,
     MultipleChoiceTask,
-    TaskType,
+    ShortAnswerTask,
 } from "../tasks/tasks";
+import { verifyUser } from "../utils/strategy";
 
 export const tasksRouter = express.Router();
 
@@ -91,13 +91,22 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
     if (
         userId !== undefined &&
         taskId !== undefined &&
-        finishedAt !== undefined &&
-        data !== undefined &&
-        code !== undefined
+        finishedAt !== undefined
     ) {
         const task = getTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
+            data !== undefined && code !== undefined;
+
+            if (
+                code === undefined ||
+                finishedAt === undefined ||
+                data === undefined
+            ) {
+                res.statusCode = 500;
+                res.send({ message: "missing code, data, or finishedAt" });
+            }
+
             const checkResult = task.checkCode(code);
 
             if (checkResult.passed) {
@@ -158,20 +167,46 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
                     }
                 });
             }
-        } else if (task instanceof MultipleChoiceTask) {
-            const userTask = new UserTask({
-                userId,
-                taskId,
-                data,
-                userTaskId: `${userId}_${taskId}`,
-            });
+        } else if (
+            task instanceof MultipleChoiceTask ||
+            task instanceof ShortAnswerTask
+        ) {
+            UserTask.findOne({ userId, taskId }).then((userTask) => {
+                if (userTask) {
+                    // TODO: should check if previous state is completed -> if yes, just return completed = true
 
-            userTask.save((err, userTask) => {
-                if (err) {
-                    res.statusCode = 500;
-                    res.send(err);
+                    userTask.finishedAt = finishedAt;
+                    userTask.data = data;
+
+                    userTask.save((err, userTask) => {
+                        if (err) {
+                            res.statusCode = 500;
+                            res.send(err);
+                        } else {
+                            res.send({
+                                success: true,
+                                completed: true,
+                            });
+                        }
+                    });
+                    res.send({ success: true, completed: true });
                 } else {
-                    res.send({ success: true });
+                    const userTask = new UserTask({
+                        userId,
+                        taskId,
+                        finishedAt: finishedAt,
+                        data,
+                        userTaskId: `${userId}_${taskId}`,
+                    });
+
+                    userTask.save((err, userTask) => {
+                        if (err) {
+                            res.statusCode = 500;
+                            res.send(err);
+                        } else {
+                            res.send({ success: true, completed: true });
+                        }
+                    });
                 }
             });
         } else {

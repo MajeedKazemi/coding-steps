@@ -1,5 +1,6 @@
-import { Fragment, useContext, useEffect, useMemo, useState } from "react";
 import * as monaco from "monaco-editor";
+import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+
 import { AuthContext } from "../context";
 import { EditorType, TaskType } from "../utils/constants";
 import { Button } from "./button";
@@ -32,6 +33,7 @@ export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
             },
             body: JSON.stringify({
                 taskId: props.id,
+                finishedAt: Date.now(),
                 data: { events: [], choice: userChoice },
             }),
         }).then(async (response) => {
