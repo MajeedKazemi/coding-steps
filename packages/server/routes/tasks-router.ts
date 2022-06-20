@@ -2,7 +2,14 @@ import express from "express";
 
 import { UserTask } from "../models/user-task";
 import { verifyUser } from "../utils/strategy";
-import { AuthoringTask, getNextTask, getTaskFromTaskId, ModifyingTask } from "../utils/tasks";
+import {
+    AuthoringTask,
+    getNextTask,
+    getTaskFromTaskId,
+    ModifyingTask,
+    MultipleChoiceTask,
+    TaskType,
+} from "../tasks/tasks";
 
 export const tasksRouter = express.Router();
 
@@ -90,11 +97,9 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
     ) {
         const task = getTaskFromTaskId(taskId);
 
-        if (
-            (task && task instanceof AuthoringTask) ||
-            task instanceof ModifyingTask
-        ) {
+        if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
             const checkResult = task.checkCode(code);
+
             if (checkResult.passed) {
                 UserTask.findOne({ userId, taskId }).then((userTask) => {
                     if (userTask) {
@@ -106,7 +111,10 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
                                 res.statusCode = 500;
                                 res.send(err);
                             } else {
-                                res.send({ success: true, completed: true });
+                                res.send({
+                                    success: true,
+                                    completed: true,
+                                });
                             }
                         });
                     } else {
@@ -136,7 +144,10 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
                                 res.statusCode = 500;
                                 res.send(err);
                             } else {
-                                res.send({ success: true, completed: false });
+                                res.send({
+                                    success: true,
+                                    completed: false,
+                                });
                             }
                         });
                     } else {
@@ -147,6 +158,22 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
                     }
                 });
             }
+        } else if (task instanceof MultipleChoiceTask) {
+            const userTask = new UserTask({
+                userId,
+                taskId,
+                data,
+                userTaskId: `${userId}_${taskId}`,
+            });
+
+            userTask.save((err, userTask) => {
+                if (err) {
+                    res.statusCode = 500;
+                    res.send(err);
+                } else {
+                    res.send({ success: true });
+                }
+            });
         } else {
             res.statusCode = 500;
             res.send({ message: "task not found" });

@@ -1,6 +1,7 @@
 export enum TaskType {
     Authoring = "authoring",
     Modifying = "modifying",
+    ShortAnswer = "shortAnswer",
     MultipleChoice = "multipleChoice",
 }
 
@@ -103,8 +104,23 @@ export class ModifyingTask extends Task {
 }
 
 export class MultipleChoiceTask extends Task {
-    constructor(id: string, title: string, description: string) {
+    choices: string[];
+
+    constructor(
+        id: string,
+        title: string,
+        description: string,
+        choices: string[]
+    ) {
         super(id, title, description, TaskType.MultipleChoice);
+
+        this.choices = choices;
+    }
+}
+
+export class ShortAnswerTask extends Task {
+    constructor(id: string, title: string, description: string) {
+        super(id, title, description, TaskType.ShortAnswer);
     }
 }
 
@@ -139,6 +155,12 @@ export const CodingTasks = [
         60 * 4
 
         // check output equals to the expected output
+    ),
+
+    new ShortAnswerTask(
+        "6",
+        "Explain what this code does?",
+        `Read the following Python code and briefly explain what it does:\n<pre class="code-block" data-lang="python">x = 10\ny = 50\nt = x\nx = y\ny = t\n</pre>`
     ),
 
     // set variable -> print value
@@ -197,6 +219,13 @@ export const CodingTasks = [
             `print("Hello, " + name + "!")`,
         ].join("\n"),
         60 * 4
+    ),
+
+    new MultipleChoiceTask(
+        "5",
+        "Choose the correct answer",
+        `Which option correctly explains the difference between the two following codes? <pre class="code-block" data-lang="python">something = input("enter something:")\nprint(something)</pre> and <pre class="code-block" data-lang="python">print(input("enter something:"))</pre>`,
+        ["option one", "option two", "option three", "option four"]
     ),
 ];
 
