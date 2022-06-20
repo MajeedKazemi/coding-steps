@@ -30,7 +30,11 @@ export const Button = (props: ButtonProps) => {
     }
 
     return (
-        <button className={style} onClick={props.onClick}>
+        <button
+            className={style}
+            onClick={props.onClick}
+            disabled={props.disabled}
+        >
             {props.children}
             {getIconSVG(props.icon, "icon")}
         </button>
