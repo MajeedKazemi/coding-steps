@@ -8,6 +8,7 @@ interface IAuthContext {
     token: string | null;
     setToken: (token: string | null) => void;
 }
+
 interface IUserContext {
     user: User | null;
     setUser: (user: User | null) => void;
