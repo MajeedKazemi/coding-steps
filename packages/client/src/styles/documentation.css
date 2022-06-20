@@ -1,0 +1,43 @@
+.modal-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    z-index: 9998;
+    opacity: 0;
+    background-color: #000;
+    transition: opacity 0.5s;
+}
+
+.modal-background.active {
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    transition: opacity 0.5s;
+}
+
+.modal-content {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 0;
+    height: 0;
+    z-index: 9999;
+    background-color: #fff;
+    border-radius: 24px;
+    box-shadow: 0px 4px 32px rgb(0 60 52 / 16%);
+    padding: 24px;
+    display: none;
+
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.modal-content.active {
+    display: block;
+    width: 80%;
+    height: 75%;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
