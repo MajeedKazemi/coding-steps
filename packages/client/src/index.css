@@ -12,6 +12,7 @@
 @import "styles/task.css";
 @import "styles/codex.css";
 @import "styles/documentation.css";
+@import "styles/accordion.css";
 
 body {
     font-family: "Poppins", sans-serif;

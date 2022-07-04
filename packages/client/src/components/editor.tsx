@@ -99,7 +99,10 @@ export const Editor = (props: EditorProps) => {
             <section className="task-workspace">
                 <div className="editor" ref={monacoEl}></div>
                 <button
-                    className="run-button"
+                    disabled={running}
+                    className={`run-button ${
+                        running ? "run-btn-disabled" : ""
+                    }`}
                     onClick={() => {
                         setOutput([]);
                         setRunning(true);

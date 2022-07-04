@@ -61,7 +61,9 @@ export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
     useEffect(() => {
         Array.from(document.getElementsByClassName("code-block")).forEach(
             (block) => {
-                monaco.editor.colorizeElement(block as HTMLElement, {});
+                monaco.editor.colorizeElement(block as HTMLElement, {
+                    theme: "vs",
+                });
             }
         );
     }, []);

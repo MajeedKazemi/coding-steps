@@ -64,6 +64,11 @@
     left: calc(62vw - 18px);
 }
 
+.run-btn-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
 .run-button:hover {
     background: #0cc40c;
 }

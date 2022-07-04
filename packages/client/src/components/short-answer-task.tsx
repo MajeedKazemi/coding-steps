@@ -60,7 +60,9 @@ export const ShortAnswerTask = (props: IShortAnswerTask) => {
     useEffect(() => {
         Array.from(document.getElementsByClassName("code-block")).forEach(
             (block) => {
-                monaco.editor.colorizeElement(block as HTMLElement, {});
+                monaco.editor.colorizeElement(block as HTMLElement, {
+                    theme: "vs",
+                });
             }
         );
     }, []);
