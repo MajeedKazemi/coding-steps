@@ -1,3 +1,5 @@
+main.py
+
 node_modules/
 dist/
 lib/
@@ -16,5 +18,3 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# 
-main.py
