@@ -10,17 +10,17 @@ interface NavigationBarProps {
 }
 
 export const NavigationBar = (props: NavigationBarProps) => {
-    const { token, setToken } = useContext(AuthContext);
+    const { context, setContext } = useContext(AuthContext);
 
     const logoutHandler = () => {
         fetch("http://localhost:3001/auth/logout", {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${context?.token}`,
             },
         }).then(async (response) => {
-            setToken(null);
+            setContext({ token: null, user: null });
         });
     };
 
@@ -37,7 +37,7 @@ export const NavigationBar = (props: NavigationBarProps) => {
                 </div>
             </Link>
             <div>
-                {!props.loading && token ? (
+                {!props.loading && context?.token ? (
                     <Button icon="logout" onClick={logoutHandler}>
                         Logout
                     </Button>

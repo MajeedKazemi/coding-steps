@@ -11,7 +11,7 @@ export const Register = () => {
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { token, setToken } = useContext(AuthContext);
+    const { setContext } = useContext(AuthContext);
 
     const formSubmitHandler = (e: any) => {
         e.preventDefault();
@@ -49,13 +49,14 @@ export const Register = () => {
                 } else {
                     const data = await response.json();
 
-                    setToken(data.token);
+                    setContext({ token: data.token, user: data.user });
                 }
             })
             .catch((error) => {
                 setIsSubmitting(false);
                 setError(genericErrorMessage);
-                setToken(null);
+
+                setContext({ token: null, user: null });
             });
     };
 

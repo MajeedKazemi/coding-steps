@@ -2,7 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 
-import { User } from "../models/user";
+import { getUserData, User } from "../models/user";
 import env from "../utils/env";
 import { COOKIE_OPTIONS, getRefreshToken, getToken, verifyUser } from "../utils/strategy";
 
@@ -43,7 +43,11 @@ loginRouter.post("/signup", (req, res, next) => {
                                 refreshToken,
                                 COOKIE_OPTIONS
                             );
-                            res.send({ success: true, token });
+                            res.send({
+                                success: true,
+                                token,
+                                user: getUserData(user),
+                            });
                         }
                     });
                 }
@@ -71,7 +75,11 @@ loginRouter.post(
                             refreshToken,
                             COOKIE_OPTIONS
                         );
-                        res.send({ success: true, token });
+                        res.send({
+                            success: true,
+                            token,
+                            user: getUserData(user),
+                        });
                     }
                 });
             },
@@ -121,7 +129,11 @@ loginRouter.post("/refreshToken", (req: any, res: any, next) => {
                                         newRefreshToken,
                                         COOKIE_OPTIONS
                                     );
-                                    res.send({ success: true, token });
+                                    res.send({
+                                        success: true,
+                                        token,
+                                        user: getUserData(user),
+                                    });
                                 }
                             });
                         }

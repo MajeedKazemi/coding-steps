@@ -1,28 +1,27 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "../components/button";
 import { Layout } from "../components/layout";
 import { Login } from "../components/login";
 import { Register } from "../components/register";
-import { AuthContext, UserContext } from "../context";
+import { AuthContext } from "../context";
 
 export const HomePage = () => {
-    const { token } = useContext(AuthContext);
-    const { user } = useContext(UserContext);
+    const { context } = useContext(AuthContext);
     const [showRegister, setShowRegister] = useState(false);
 
     return (
         <Layout>
             <div className="container">
                 <main className="card">
-                    {token ? (
+                    {context?.token ? (
                         <div className="m-md">
                             <h1>Welcome to Coding Steps!</h1>
                             <p>
-                                Hello {user?.firstName}, welcome to Coding Steps
-                                where you will be learning Python by solving
-                                programming tasks.
+                                Hello {context?.user?.firstName}, welcome to
+                                Coding Steps where you will be learning Python
+                                by solving programming tasks.
                             </p>
                             <p>
                                 To start learning and working on the programming

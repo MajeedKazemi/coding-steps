@@ -1,6 +1,6 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-import { AuthContext, UserContext } from "../context";
+import { AuthContext } from "../context";
 import { Loader } from "./loader";
 import { NavigationBar } from "./navigation";
 
@@ -9,12 +9,12 @@ interface LayoutProps {
 }
 
 export const Layout = (props: LayoutProps) => {
-    const { token, setToken } = useContext(AuthContext);
-    const { setUser } = useContext(UserContext);
+    const { setContext } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
 
-    const verifyUser = useCallback(() => {
+    useEffect(() => {
         setLoading(true);
+
         fetch("http://localhost:3001/auth/refreshToken", {
             method: "POST",
             credentials: "include",
@@ -23,47 +23,17 @@ export const Layout = (props: LayoutProps) => {
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json();
-                    setToken(data.token);
+
+                    setContext({ token: data.token, user: data.user });
                     setLoading(false);
-                    getUser();
                 } else {
-                    setToken(null);
+                    setContext({ token: null, user: null });
                     setLoading(false);
                 }
             })
             .catch((error) => {
                 setLoading(false);
             });
-    }, []);
-
-    const getUser = () => {
-        fetch("http://localhost:3001/auth/me", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then(async (response) => {
-                if (response.ok) {
-                    const data = await response.json();
-                    setUser(data.user);
-                } else {
-                    setUser({
-                        username: "",
-                        firstName: "",
-                        lastName: "",
-                    });
-                }
-            })
-            .catch((error) => {
-                console.log("/auth/me", error);
-            });
-    };
-
-    useEffect(() => {
-        verifyUser();
     }, []);
 
     return (

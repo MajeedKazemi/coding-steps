@@ -1,25 +1,13 @@
 import React from "react";
 
-import { User } from "./types";
-
-// TODO: change this to include some user data as well
+import { IContext } from "./types";
 
 interface IAuthContext {
-    token: string | null;
-    setToken: (token: string | null) => void;
-}
-
-interface IUserContext {
-    user: User | null;
-    setUser: (user: User | null) => void;
+    context: IContext | null;
+    setContext: (context: IContext | null) => void;
 }
 
 export const AuthContext = React.createContext<IAuthContext>({
-    token: null,
-    setToken: (token: string | null) => {},
-});
-
-export const UserContext = React.createContext<IUserContext>({
-    user: null,
-    setUser: (user: User | null) => {},
+    context: null,
+    setContext: (context: IContext | null) => {},
 });

@@ -11,14 +11,12 @@ interface ICodexProps {
 
 export const Codex = (props: ICodexProps) => {
     const [description, setDescription] = useState<string>("");
-    const auth = useContext(AuthContext);
+    const { context } = useContext(AuthContext);
     // simply generate code from nothing (completion api)
     // complete next line based on previous code (with optional instructions)
 
     // select part of the code -> and do something based on the instructions to it (edit api)
     // add code to current context -> will use the
-
-    let generatedCodeButton: HTMLDivElement;
 
     const generateCode = () => {
         fetch("http://localhost:3001/api/codex/generate", {
@@ -26,7 +24,7 @@ export const Codex = (props: ICodexProps) => {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${auth.token}`,
+                Authorization: `Bearer ${context?.token}`,
             },
             body: JSON.stringify({ description: description, type: "block" }),
         })
@@ -188,7 +186,7 @@ export const Codex = (props: ICodexProps) => {
                 }
             })
             .catch((error) => {
-                console.log("/auth/me", error);
+                console.log("error: ", error);
             });
     };
 
