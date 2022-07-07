@@ -84,3 +84,28 @@
     font-family: "Poppins", sans-serif;
     border-radius: 8px;
 }
+
+.submit-container {
+}
+
+.submit-urgent-message {
+    font-size: 13px;
+    line-height: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.time-indicator-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.time-indicator {
+    padding: 4px 16px;
+    border-radius: 10px;
+    background-color: #d06faa;
+    margin: 10px auto;
+    color: #fff;
+}

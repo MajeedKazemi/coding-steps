@@ -55,3 +55,13 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.btn-color-warning {
+    background-color: #ffd5d5;
+    color: #ff5700;
+}
+
+.btn-color-warning:hover {
+    background-color: #ff5700;
+    color: #fff;
+}

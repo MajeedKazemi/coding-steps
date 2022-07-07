@@ -7,6 +7,7 @@ interface ButtonProps {
     class?: string;
     type?: "link" | "button" | "block";
     disabled?: boolean;
+    color?: "warning" | "primary";
 }
 
 export const Button = (props: ButtonProps) => {
@@ -27,6 +28,10 @@ export const Button = (props: ButtonProps) => {
 
     if (props.disabled) {
         style += " disabled";
+    }
+
+    if (props.color) {
+        style += ` btn-color-${props.color}`;
     }
 
     return (
