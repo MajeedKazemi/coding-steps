@@ -18,10 +18,11 @@ interface IMultipleChoiceTaskProps {
 }
 
 export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
-    const context = useContext(AuthContext);
+    const { context } = useContext(AuthContext);
     const [completed, setCompleted] = useState(false);
     const [userChoice, setUserChoice] = useState<number>(-1);
     const [canSubmit, setCanSubmit] = useState(false);
+    const [startedAt, setStartedAt] = useState(new Date());
 
     const handleSubmitCode = () => {
         fetch("http://localhost:3001/api/tasks/submit", {
@@ -29,12 +30,14 @@ export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${context.token}`,
+                Authorization: `Bearer ${context?.token}`,
             },
             body: JSON.stringify({
                 taskId: props.id,
-                finishedAt: Date.now(),
-                data: { events: [], choice: userChoice },
+                finishedAt: new Date(),
+                data: { choice: userChoice },
+                submittedAt: new Date(),
+                startedAt: startedAt,
             }),
         }).then(async (response) => {
             const data = await response.json();
@@ -44,10 +47,6 @@ export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
                 props.onCompletion();
             }
         });
-
-        // send code to server and wait for response
-        // check if code is correct, set completed to true -> coding-page should render next task
-        // if not -> show what was expected
     };
 
     useEffect(() => {

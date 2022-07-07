@@ -157,13 +157,7 @@ export const CodingTasks = [
         // check output equals to the expected output
     ),
 
-    new ShortAnswerTask(
-        "6",
-        "Explain what this code does?",
-        `Read the following Python code and briefly explain what it does:\n<pre class="code-block" data-lang="python">x = 10\ny = 50\nt = x\nx = y\ny = t\n</pre>`
-    ),
-
-    // set variable -> print value
+    // set str variable -> print value
     new AuthoringTask(
         "2a",
         "Set variable",
@@ -227,7 +221,16 @@ export const CodingTasks = [
         `Which option correctly explains the difference between the two following codes? <pre class="code-block" data-lang="python">something = input("enter something:")\nprint(something)</pre> and <pre class="code-block" data-lang="python">print(input("enter something:"))</pre>`,
         ["option one", "option two", "option three", "option four"]
     ),
+
+    new ShortAnswerTask(
+        "6",
+        "Explain what this code does?",
+        `Read the following Python code and briefly explain what it does:\n<pre class="code-block" data-lang="python">x = 10\ny = 50\nt = x\nx = y\ny = t\n</pre>`
+    ),
 ];
+
+export const getTaskSequenceFromTaskId = (taskId: string): number =>
+    CodingTasks.findIndex((task) => task.id === taskId);
 
 export const getTaskFromTaskId = (taskId: string): Task | undefined =>
     CodingTasks.find((task) => task.id === taskId);

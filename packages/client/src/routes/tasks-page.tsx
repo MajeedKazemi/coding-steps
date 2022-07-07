@@ -9,7 +9,7 @@ import { AuthContext } from "../context";
 import { EditorType, TaskType } from "../utils/constants";
 
 export const TasksPage = () => {
-    const context = useContext(AuthContext);
+    const { context } = useContext(AuthContext);
     const [loading, setLoading] = React.useState(false);
     const [task, setTask] = React.useState<any>(null);
 
@@ -20,14 +20,18 @@ export const TasksPage = () => {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${context.token}`,
+                Authorization: `Bearer ${context?.token}`,
             },
-        }).then(async (response) => {
-            const data = await response.json();
-            setTask(data.task);
+        })
+            .then(async (response) => {
+                const data = await response.json();
+                setTask(data.task);
 
-            setLoading(false);
-        });
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const getTaskComponent = () => {
@@ -84,6 +88,18 @@ export const TasksPage = () => {
     React.useEffect(() => {
         setNextTask();
     }, []);
+
+    if (!loading && !task)
+        return (
+            <div className="container">
+                <div className="card p-md">
+                    <p>
+                        Congratulations, you have finished all the tasks! Please
+                        ask the teacher for further instructors.
+                    </p>
+                </div>
+            </div>
+        );
 
     return <Layout>{task ? getTaskComponent() : <Loader />}</Layout>;
 };

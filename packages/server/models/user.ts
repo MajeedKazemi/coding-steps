@@ -14,8 +14,30 @@ export interface IUser extends mongoose.Document {
     username: string;
     firstName: string;
     lastName: string;
+    role: string;
+    age: number;
+    grade: number;
+    editorType: "copilot" | "intellisense";
+    gender: "male" | "female" | "other";
+    ethnicity: string;
+    codingExperience: Array<string>;
     refreshToken: Array<{ refreshToken: string }>;
 }
+
+export const getUserData = (user: IUser) => {
+    return {
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+        age: user.age,
+        grade: user.grade,
+        editorType: user.editorType,
+        gender: user.gender,
+        ethnicity: user.ethnicity,
+        codingExperience: user.codingExperience,
+    };
+};
 
 const UserSchema = new Schema({
     username: {
@@ -30,6 +52,11 @@ const UserSchema = new Schema({
     lastName: {
         type: String,
         default: "",
+    },
+    role: {
+        type: String,
+        enum: ["admin", "user"],
+        default: "user",
     },
     age: {
         type: Number,

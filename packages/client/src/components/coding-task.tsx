@@ -20,67 +20,165 @@ interface CodingTaskProps {
 }
 
 export const CodingTask = (props: CodingTaskProps) => {
-    const context = useContext(AuthContext);
-    const [feedback, setFeedback] = useState("");
+    const { context } = useContext(AuthContext);
+
     const [started, setStarted] = useState(false);
     const [completed, setCompleted] = useState(false);
+
+    const [startTime, setStartTime] = useState(Date.now());
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const [checkingTime, setCheckingTime] = useState(0);
+    const [reachedTimeLimit, setReachedTimeLimit] = useState(false);
+
+    const [beingGraded, setBeingGraded] = useState(false);
+
     const [userCode, setUserCode] = useState("");
     const [canSubmit, setCanSubmit] = useState(false);
 
+    const handlFinishTask = () => {
+        fetch("http://localhost:3001/api/tasks/submit/", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${context?.token}`,
+            },
+            body: JSON.stringify({
+                taskId: props.id,
+                submittedAt: new Date(),
+                data: { code: userCode },
+            }),
+        }).then(async (response) => {
+            const data = await response.json();
+
+            setCompleted(true);
+            props.onCompletion();
+        });
+    };
+
     const handleStart = () => {
+        const now = Date.now();
+
         fetch("http://localhost:3001/api/tasks/start", {
             method: "POST",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${context.token}`,
-            },
-            body: JSON.stringify({ taskId: props.id, startedAt: Date.now() }),
-        }).then(async (response) => {
-            const data = await response.json();
-
-            if (data.success) {
-                setStarted(true);
-            }
-        });
-
-        // TODO: store a usertask with startedAt = now() and empty data
-        // start timer -> to show that they should've finished the task by now and
-        // they can click on the button to get extra time
-
-        // if reloaded, and there is still time left, continue with the amount of time left
-
-        // if reloaded, and there is no time left, simply show if they want to continue (with extra time), or submit the current code
-    };
-
-    const handleSubmitCode = () => {
-        fetch("http://localhost:3001/api/tasks/submit", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context.token}`,
+                Authorization: `Bearer ${context?.token}`,
             },
             body: JSON.stringify({
                 taskId: props.id,
-                finishedAt: Date.now(),
-                data: { events: [] },
-                code: userCode,
+                // will be used if its the first time the user starts the task
+                startedAt: new Date(),
             }),
         }).then(async (response) => {
             const data = await response.json();
 
-            if (data.completed) {
-                setCompleted(true);
-                props.onCompletion();
-            } else {
-                setFeedback(data.message);
+            console.log(`checkingTime: ${data.checkingTime}`);
+
+            if (data.success) {
+                setStarted(true);
+
+                if (data.canContinue) {
+                    setStartTime(Date.parse(data.startedAt));
+                    setCheckingTime(data.checkingTime);
+                    setElapsedTime(
+                        now - Date.parse(data.startedAt) - data.checkingTime
+                    );
+                } else {
+                    setStartTime(now);
+                    setElapsedTime(now - startTime);
+                }
+
+                if (data.beingGraded) {
+                    // the user has already submitted the task and should wait for the result
+                    setBeingGraded(true);
+                }
             }
         });
+    };
 
-        // send code to server and wait for response
-        // check if code is correct, set completed to true -> coding-page should render next task
-        // if not -> show what was expected
+    useEffect(() => {
+        const id = setInterval(() => {
+            if (!beingGraded) {
+                setElapsedTime(Date.now() - startTime - checkingTime);
+
+                // is there enough time to continue?
+                if (elapsedTime / 1000 > props.timeLimit) {
+                    setReachedTimeLimit(true);
+                }
+            }
+        }, 1000);
+
+        return () => {
+            clearInterval(id);
+        };
+    }, [startTime, beingGraded]);
+
+    useEffect(() => {
+        if (beingGraded) {
+            const id = setInterval(() => {
+                // check task status
+                // if completed, either pass or fail
+                fetch(
+                    "http://localhost:3001/api/tasks/grading-status/" +
+                        props.id,
+                    {
+                        method: "GET",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${context?.token}`,
+                        },
+                    }
+                ).then(async (response) => {
+                    const data = await response.json();
+
+                    if (!data.beingGraded) {
+                        setCheckingTime(data.checkingTime);
+                        setBeingGraded(false);
+                        clearInterval(id);
+
+                        if (data.passed) {
+                            setCompleted(true);
+                            props.onCompletion(); // go to the next task
+                        }
+                    } else {
+                        console.log(
+                            "still waiting for the code to be graded by the instructors ..."
+                        );
+                    }
+                });
+            }, 1000);
+
+            return () => {
+                clearInterval(id);
+            };
+        }
+    }, [beingGraded]);
+
+    const handleGradeCode = () => {
+        fetch("http://localhost:3001/api/tasks/eval-code", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${context?.token}`,
+            },
+            body: JSON.stringify({
+                taskId: props.id,
+                submittedAt: new Date(),
+                data: { code: userCode },
+            }),
+        }).then(async (response) => {
+            const data = await response.json();
+
+            if (data.success) {
+                setBeingGraded(true);
+
+                console.log(`checkingTime: ${data.checkingTime}`);
+            }
+        });
     };
 
     useEffect(() => {
@@ -90,6 +188,19 @@ export const CodingTask = (props: CodingTaskProps) => {
             setCanSubmit(false);
         }
     }, [userCode]);
+
+    // if (beingGraded) {
+    //     return (
+    //         <div className="container">
+    //             <div className="card p-md">
+    //                 <p>
+    //                     Your submission is being graded. We will get back to you
+    //                     soon. Your timer is paused.
+    //                 </p>
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
     if (!started) {
         return (
@@ -127,13 +238,42 @@ export const CodingTask = (props: CodingTaskProps) => {
                 </div>
 
                 <div>
-                    <Button
-                        onClick={handleSubmitCode}
-                        type="block"
-                        disabled={!canSubmit}
-                    >
-                        submit code
-                    </Button>
+                    {reachedTimeLimit ? (
+                        <div>
+                            <Button
+                                onClick={handlFinishTask}
+                                type="block"
+                                color="warning"
+                            >
+                                Skip Task
+                            </Button>
+                        </div>
+                    ) : null}
+
+                    <div className="submit-container">
+                        {reachedTimeLimit ? (
+                            <Fragment>
+                                <p className="submit-urgent-message">
+                                    Hurry up!!
+                                </p>
+                                <p className="submit-urgent-message">
+                                    You should've submitted the code by now!
+                                </p>
+                                <div className="time-indicator-container">
+                                    <span className="time-indicator">
+                                        {convertTime(elapsedTime / 1000)}
+                                    </span>
+                                </div>
+                            </Fragment>
+                        ) : null}
+                        <Button
+                            onClick={handleGradeCode}
+                            type="block"
+                            disabled={!canSubmit}
+                        >
+                            Submit to Grade
+                        </Button>
+                    </div>
                 </div>
             </section>
 
@@ -152,3 +292,25 @@ export const CodingTask = (props: CodingTaskProps) => {
         </div>
     );
 };
+
+// when the user starts the code -> the timer starts (based on the start time -- as they could've started previously and still have time)
+// they either submit the code in the given time -> and it gets checked -> and its ok -> and then go to the next activity
+// or they submit the code after the time limit -> and it gets checked -> and its not ok -> and they continue working on the activitiy
+
+// when the timer reaches 0
+// it should continue going down. but should show a message saying that they have reached the time limit and that they should submit the code now
+
+// in case that the next task is a modify task -> if the result was ok -> they should continue working on their own code for the next task
+// however, if not, they could modify the given solution instead
+
+// if the next task is not modify -> then just wait to see if it is correct or not -> though no need to wait if the time limit is reached
+
+// submit to be checked -> when the task is AuthoringCode or there is some time in ModifyingCode, other tasks submit will be handled by those respective tasks.tsx pages
+// otherwise -> submit but go to the next task without waiting for it to be checked
+
+// we either have a starttime
+// startTime + checkingTime
+// -> start timer from either one of these two times
+
+// we submit tasks -> pause timer
+// -> they take a few seconds to get checked -> we can get the new checkingTime -> simply updates the checkingTime
