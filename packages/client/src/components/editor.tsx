@@ -2,7 +2,7 @@ import * as monaco from "monaco-editor";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 import { initializeLanguageClient } from "../api/intellisense";
-import { executeCode, isConnected, sendValue, shellSocket } from "../api/shell";
+import { executeCode, isConnected, onShellClose, onShellMessage, onShellOpen, sendShell } from "../api/shell";
 import { EditorType } from "../utils/constants";
 import { Codex } from "./codex";
 import { Documentation } from "./documentation";
@@ -63,9 +63,7 @@ export const Editor = (props: EditorProps) => {
     }, [monacoEl.current]);
 
     useEffect(() => {
-        shellSocket.onmessage = (message: any) => {
-            const data = JSON.parse(message.data);
-
+        onShellMessage((data) => {
             if (data.type === "stdout") {
                 if (data.out.split("\n").length > 0) {
                     setOutput([...output, ...data.out.split("\n")]);
@@ -81,17 +79,17 @@ export const Editor = (props: EditorProps) => {
             if (data.type === "close") {
                 setRunning(false);
             }
-        };
+        });
     });
 
     useEffect(() => {
-        shellSocket.onopen = () => {
+        onShellOpen(() => {
             setConnected(true);
-        };
+        });
 
-        shellSocket.onclose = () => {
+        onShellClose(() => {
             setConnected(false);
-        };
+        });
     });
 
     return (
@@ -139,7 +137,7 @@ export const Editor = (props: EditorProps) => {
                             ref={inputRef}
                             onKeyUp={(e) => {
                                 if (e.key === "Enter") {
-                                    sendValue(terminalInput);
+                                    sendShell(terminalInput);
                                     setOutput([...output, terminalInput]);
                                     setTerminalInput("");
                                 }
