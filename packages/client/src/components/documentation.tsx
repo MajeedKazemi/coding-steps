@@ -29,8 +29,6 @@ export const Documentation = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedContent, setSelectedContent] = useState("syntax");
 
-    console.log(selectedContent);
-
     return (
         <div>
             <p>
