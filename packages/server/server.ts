@@ -1,6 +1,7 @@
 import "./utils/strategy";
 
 import bodyParser from "body-parser";
+import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
@@ -45,6 +46,7 @@ mongoose
             })
         );
 
+        app.use(compression());
         app.use(cookieParser(env.COOKIE_SECRET));
         app.use(passport.initialize());
         app.use(passport.session());
