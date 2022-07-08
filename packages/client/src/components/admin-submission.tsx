@@ -17,7 +17,7 @@ export const AdminSubmission = (props: IProps) => {
         if (grade === "pass" || grade === "fail") {
             apiAdminSetGrade(
                 context?.token,
-                props.submission.id,
+                props.submission.taskId,
                 props.submission.userId,
                 grade === "pass",
                 props.submission.submittedAt,
