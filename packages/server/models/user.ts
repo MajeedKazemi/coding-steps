@@ -26,6 +26,7 @@ export interface IUser extends mongoose.Document {
 
 export const getUserData = (user: IUser) => {
     return {
+        id: user.id,
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
