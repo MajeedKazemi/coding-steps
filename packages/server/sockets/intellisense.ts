@@ -7,6 +7,7 @@ import * as url from "url";
 import * as ws from "ws";
 
 import { Message } from "vscode-languageserver";
+import env from "../utils/env";
 
 export function initLanguageService(server: http.Server) {
     const wss = new ws.Server({
@@ -58,10 +59,7 @@ export function launch(socket: rpc.IWebSocket) {
     );
 
     // using https://github.com/python-lsp/python-lsp-server
-    const serverConnection = server.createServerProcess(
-        "JSON",
-        "/Users/majeed/opt/anaconda3/bin/pylsp"
-    );
+    const serverConnection = server.createServerProcess("JSON", env.PYLSP_PATH);
 
     server.forward(socketConnection, serverConnection, (message) => {
         if (Message.isRequest(message)) {
