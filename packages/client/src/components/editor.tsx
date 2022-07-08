@@ -1,9 +1,11 @@
 import * as monaco from "monaco-editor";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 
 import { initializeLanguageClient } from "../api/intellisense";
 import { executeCode, isConnected, onShellClose, onShellMessage, onShellOpen, sendShell } from "../api/shell";
+import { AuthContext } from "../context";
 import { EditorType } from "../utils/constants";
+import { log, LogType } from "../utils/logger";
 import { Codex } from "./codex";
 import { Documentation } from "./documentation";
 
@@ -15,6 +17,8 @@ interface EditorProps {
 }
 
 export const Editor = (props: EditorProps) => {
+    const { context } = useContext(AuthContext);
+
     const [editor, setEditor] =
         useState<monaco.editor.IStandaloneCodeEditor | null>(null);
     const monacoEl = useRef(null);
@@ -28,6 +32,15 @@ export const Editor = (props: EditorProps) => {
         if (monacoEl && !editor) {
             initializeLanguageClient();
 
+            if (props.starterCode.length > 0) {
+                log(
+                    props.id,
+                    context?.user?.id,
+                    LogType.InitialCode,
+                    props.starterCode
+                );
+            }
+
             const editor = monaco.editor.create(monacoEl.current!, {
                 value: props.starterCode,
                 language: "python",
@@ -35,6 +48,14 @@ export const Editor = (props: EditorProps) => {
                 fontSize: 18,
                 lineHeight: 30,
                 minimap: { enabled: false },
+            });
+
+            editor.onDidChangeModelContent((e) => {
+                log(props.id, context?.user?.id, LogType.ReplayEvent, e);
+            });
+
+            editor.onDidPaste((e) => {
+                console.log(e);
             });
 
             editor.addCommand(

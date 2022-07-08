@@ -352,6 +352,42 @@ tasksRouter.post("/set-grade", verifyUser, (req, res, next) => {
     }
 });
 
+tasksRouter.post("/log", verifyUser, (req, res, next) => {
+    const userId = (req.user as IUser)._id;
+    const { taskId, log } = req.body;
+
+    if (userId !== undefined && taskId !== undefined) {
+        const task = getTaskFromTaskId(taskId);
+
+        if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
+            UserTask.findOne({ userId, taskId }).then((userTask) => {
+                if (userTask) {
+                    userTask.log = log;
+
+                    userTask.save((err, userTask) => {
+                        if (err) {
+                            res.statusCode = 500;
+                            res.send(err);
+                        } else {
+                            res.send({
+                                success: true,
+                            });
+                        }
+                    });
+                } else {
+                    res.statusCode = 500;
+                    res.send({ message: "UserTask not found" });
+                }
+            });
+        } else {
+            res.statusCode = 500;
+            res.send({
+                message: `No task was found with taskId: ${taskId}`,
+            });
+        }
+    }
+});
+
 const calcCheckingTime = (
     submissions: Array<{
         code: string;

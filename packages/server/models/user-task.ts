@@ -9,6 +9,7 @@ export interface IUserTask extends mongoose.Document {
     userTaskId: string;
     startedAt: Date;
     finishedAt: Date;
+    log: any;
     data: any;
     completed: boolean;
     submissions: Array<{ code: string; submittedAt: Date; checkedAt?: Date }>;
@@ -52,6 +53,10 @@ const UserTaskSchema = new Schema({
     submissions: {
         type: Array,
         default: [],
+    },
+    log: {
+        type: JSON,
+        default: {},
     },
     data: {
         type: JSON,

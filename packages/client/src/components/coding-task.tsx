@@ -2,6 +2,7 @@ import { Fragment, useContext, useEffect, useMemo, useState } from "react";
 
 import { AuthContext } from "../context";
 import { EditorType, TaskType } from "../utils/constants";
+import { getLogObject } from "../utils/logger";
 import { convertTime } from "../utils/shared";
 import { Button } from "./button";
 import { Editor } from "./editor";
@@ -35,6 +36,23 @@ export const CodingTask = (props: CodingTaskProps) => {
     const [userCode, setUserCode] = useState("");
     const [canSubmit, setCanSubmit] = useState(false);
 
+    const sendLog = () => {
+        fetch("http://localhost:3001/api/tasks/log/", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${context?.token}`,
+            },
+            body: JSON.stringify({
+                taskId: props.id,
+                log: getLogObject(props.id, context?.user?.id),
+            }),
+        }).then(async (response) => {
+            const data = await response.json();
+        });
+    };
+
     const handlFinishTask = () => {
         fetch("http://localhost:3001/api/tasks/submit/", {
             method: "POST",
@@ -50,6 +68,8 @@ export const CodingTask = (props: CodingTaskProps) => {
             }),
         }).then(async (response) => {
             const data = await response.json();
+
+            sendLog();
 
             setCompleted(true);
             props.onCompletion();
@@ -140,6 +160,8 @@ export const CodingTask = (props: CodingTaskProps) => {
                         clearInterval(id);
 
                         if (data.passed) {
+                            sendLog();
+
                             setCompleted(true);
                             props.onCompletion(); // go to the next task
                         }
