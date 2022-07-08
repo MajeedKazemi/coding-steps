@@ -5,8 +5,18 @@ export function createUrl(
     port: number,
     path: string
 ): string {
+    let host = hostname;
+
+    if (host.startsWith("http") || host.startsWith("https")) {
+        host = host.substring(host.indexOf("://") + 3);
+    }
+
+    if (host.includes(":")) {
+        host = host.substring(0, host.indexOf(":"));
+    }
+
     const protocol = location.protocol === "https:" ? "wss" : "ws";
-    return normalizeUrl(`${protocol}://${hostname}:${port}${path}`);
+    return normalizeUrl(`${protocol}://${host}:${port}${path}`);
 }
 
 export function convertTime(seconds: number): string {

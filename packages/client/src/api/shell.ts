@@ -1,6 +1,7 @@
+import env from "../utils/env";
 import { createUrl } from "../utils/shared";
 
-const url = createUrl("localhost", 3001, "/shell");
+const url = createUrl(env.API_URL, 3001, "/shell");
 
 export let isConnected = false;
 
