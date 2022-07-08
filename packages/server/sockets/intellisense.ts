@@ -22,7 +22,9 @@ export function initLanguageService(server: http.Server) {
                 ? url.parse(request.url).pathname
                 : undefined;
 
-            if (pathname === "/intellisense") {
+            console.log(`intellisense on upgrade: ${pathname}`);
+
+            if (pathname === "/api/intellisense") {
                 wss.handleUpgrade(request, socket, head, (webSocket) => {
                     const socket: rpc.IWebSocket = {
                         send: (content) =>

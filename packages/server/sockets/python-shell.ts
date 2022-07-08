@@ -68,7 +68,9 @@ export function initPythonShell(server: http.Server) {
                 ? url.parse(request.url).pathname
                 : undefined;
 
-            if (pathname === "/shell") {
+            console.log(`shell on upgrade: ${pathname}`);
+
+            if (pathname === "/api/shell") {
                 wss.handleUpgrade(request, socket, head, (webSocket) => {
                     wss.emit("connection", webSocket);
                 });
