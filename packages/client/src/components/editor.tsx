@@ -2,7 +2,7 @@ import * as monaco from "monaco-editor";
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
 
 import { initializeLanguageClient } from "../api/intellisense";
-import { executeCode, isConnected, onShellClose, onShellMessage, onShellOpen, sendShell } from "../api/shell";
+import { executeCode, isConnected, onShellClose, onShellMessage, onShellOpen, sendShell } from "../api/python-shell";
 import { AuthContext } from "../context";
 import { EditorType } from "../utils/constants";
 import { log, LogType } from "../utils/logger";

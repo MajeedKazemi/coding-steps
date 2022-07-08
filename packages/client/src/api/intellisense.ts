@@ -11,19 +11,9 @@ import "monaco-editor/esm/vs/editor/standalone/browser/quickInput/standaloneQuic
 import "monaco-editor/esm/vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch.js";
 import "monaco-editor/esm/vs/editor/standalone/browser/toggleHighContrast/toggleHighContrast.js";
 
-import {
-    toSocket,
-    WebSocketMessageReader,
-    WebSocketMessageWriter,
-} from "@codingame/monaco-jsonrpc";
+import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from "@codingame/monaco-jsonrpc";
 import * as monaco from "monaco-editor";
-import {
-    CloseAction,
-    ErrorAction,
-    MessageTransports,
-    MonacoLanguageClient,
-    MonacoServices,
-} from "monaco-languageclient";
+import { CloseAction, ErrorAction, MessageTransports, MonacoLanguageClient, MonacoServices } from "monaco-languageclient";
 
 import env from "../utils/env";
 import { createUrl } from "../utils/shared";
@@ -269,21 +259,48 @@ monaco.languages.setMonarchTokensProvider("python", {
 MonacoServices.install(monaco);
 
 export function initializeLanguageClient() {
-    // create the web socket
-    const url = createUrl(env.API_URL, 3001, "/ws/intellisense");
-
-    const webSocket = new WebSocket(url);
+    const webSocket = new WebSocket(
+        createUrl(env.API_URL, 3001, "/ws/intellisense")
+    );
 
     webSocket.onopen = () => {
-        const socket = toSocket(webSocket);
-        const reader = new WebSocketMessageReader(socket);
-        const writer = new WebSocketMessageWriter(socket);
-        const languageClient = createLanguageClient({
-            reader,
-            writer,
+        const setupLanguageClient = () => {
+            const socket = toSocket(webSocket);
+            const reader = new WebSocketMessageReader(socket);
+            const writer = new WebSocketMessageWriter(socket);
+            const languageClient = createLanguageClient({
+                reader,
+                writer,
+            });
+
+            languageClient.start();
+
+            reader.onClose(() => {
+                console.log("language client closed. will retry in 1 second.");
+
+                languageClient.stop();
+
+                setTimeout(() => {
+                    console.log(
+                        "retrying to connect to language client socket..."
+                    );
+
+                    setupLanguageClient();
+                }, 1000);
+            });
+        };
+
+        setupLanguageClient();
+    };
+
+    webSocket.onclose = () => {
+        console.log("intellisense WebSocket closed. will retry in 1 second.");
+
+        setTimeout(() => {
+            console.log("retrying to connect to intellisense socket...");
+
+            initializeLanguageClient();
         });
-        languageClient.start();
-        reader.onClose(() => languageClient.stop());
     };
 }
 

@@ -1,11 +1,30 @@
 import env from "../utils/env";
 import { createUrl } from "../utils/shared";
 
-const url = createUrl(env.API_URL, 3001, "/ws/shell");
-
 export let isConnected = false;
+let shellSocket: WebSocket;
 
-const shellSocket = new WebSocket(url);
+const connectPythonShellSocket = () => {
+    const url = createUrl(env.API_URL, 3001, "/ws/shell");
+
+    shellSocket = new WebSocket(url);
+
+    shellSocket.onopen = () => {
+        isConnected = true;
+    };
+
+    shellSocket.onclose = () => {
+        console.log("python-shell socket closed. will retry in 1 second.");
+
+        isConnected = false;
+
+        setTimeout(() => {
+            console.log("retrying to connect to python-shell socket...");
+
+            connectPythonShellSocket();
+        }, 1000);
+    };
+};
 
 export function executeCode(code?: string) {
     shellSocket.send(JSON.stringify({ type: "run", code }));
@@ -38,10 +57,4 @@ export function onShellClose(callback: () => void) {
     };
 }
 
-shellSocket.onopen = () => {
-    isConnected = true;
-};
-
-shellSocket.onclose = () => {
-    isConnected = false;
-};
+connectPythonShellSocket();
