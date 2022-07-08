@@ -16,7 +16,14 @@ export function createUrl(
     }
 
     const protocol = location.protocol === "https:" ? "wss" : "ws";
-    return normalizeUrl(`${protocol}://${host}:${port}${path}`);
+
+    let url = `${host}${path}`;
+
+    if (import.meta.env.DEV) {
+        url = `${host}:${port}${path}`;
+    }
+
+    return normalizeUrl(`${protocol}://${url}`);
 }
 
 export function convertTime(seconds: number): string {

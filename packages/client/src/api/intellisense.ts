@@ -11,9 +11,19 @@ import "monaco-editor/esm/vs/editor/standalone/browser/quickInput/standaloneQuic
 import "monaco-editor/esm/vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch.js";
 import "monaco-editor/esm/vs/editor/standalone/browser/toggleHighContrast/toggleHighContrast.js";
 
-import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from "@codingame/monaco-jsonrpc";
+import {
+    toSocket,
+    WebSocketMessageReader,
+    WebSocketMessageWriter,
+} from "@codingame/monaco-jsonrpc";
 import * as monaco from "monaco-editor";
-import { CloseAction, ErrorAction, MessageTransports, MonacoLanguageClient, MonacoServices } from "monaco-languageclient";
+import {
+    CloseAction,
+    ErrorAction,
+    MessageTransports,
+    MonacoLanguageClient,
+    MonacoServices,
+} from "monaco-languageclient";
 
 import env from "../utils/env";
 import { createUrl } from "../utils/shared";
@@ -260,7 +270,7 @@ MonacoServices.install(monaco);
 
 export function initializeLanguageClient() {
     // create the web socket
-    const url = createUrl(env.API_URL, 3001, "/api/intellisense");
+    const url = createUrl(env.API_URL, 3001, "/ws/intellisense");
 
     const webSocket = new WebSocket(url);
 

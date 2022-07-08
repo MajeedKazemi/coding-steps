@@ -15,6 +15,8 @@ export function initLanguageService(server: http.Server) {
         perMessageDeflate: false,
     });
 
+    console.log(`initialized language service.`);
+
     server.on(
         "upgrade",
         (request: http.IncomingMessage, socket: net.Socket, head: Buffer) => {
@@ -22,9 +24,7 @@ export function initLanguageService(server: http.Server) {
                 ? url.parse(request.url).pathname
                 : undefined;
 
-            console.log(`intellisense on upgrade: ${pathname}`);
-
-            if (pathname === "/api/intellisense") {
+            if (pathname === "/ws/intellisense") {
                 wss.handleUpgrade(request, socket, head, (webSocket) => {
                     const socket: rpc.IWebSocket = {
                         send: (content) =>
