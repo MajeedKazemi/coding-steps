@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
+import { authLogout } from "../api/api";
 import logo from "../assets/coding-steps-logo.png";
 import { AuthContext } from "../context";
 import { Button } from "./button";
@@ -13,13 +14,7 @@ export const NavigationBar = (props: NavigationBarProps) => {
     const { context, setContext } = useContext(AuthContext);
 
     const logoutHandler = () => {
-        fetch("http://localhost:3001/auth/logout", {
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context?.token}`,
-            },
-        }).then(async (response) => {
+        authLogout(context?.token).then(async (response) => {
             setContext({ token: null, user: null });
         });
     };

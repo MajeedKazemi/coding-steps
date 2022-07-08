@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { apiAdminGetSubmissions } from "../api/api";
 
 import { AdminSubmission } from "../components/admin-submission";
 import { Layout } from "../components/layout";
@@ -10,14 +11,7 @@ export const AdminPage = () => {
     const [submissions, setSubmissions] = useState<Array<ISubmission>>([]);
 
     const fetchTasks = () => {
-        fetch("http://localhost:3001/api/tasks/not-graded", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context?.token}`,
-            },
-        })
+        apiAdminGetSubmissions(context?.token)
             .then(async (response) => {
                 const data = await response.json();
 

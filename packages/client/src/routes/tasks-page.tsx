@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { apiUserNextTask } from "../api/api";
 
 import { CodingTask } from "../components/coding-task";
 import { Layout } from "../components/layout";
@@ -16,13 +17,7 @@ export const TasksPage = () => {
     const setNextTask = () => {
         setLoading(true);
 
-        fetch("http://localhost:3001/api/tasks/next", {
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context?.token}`,
-            },
-        })
+        apiUserNextTask(context?.token)
             .then(async (response) => {
                 const data = await response.json();
                 setTask(data.task);

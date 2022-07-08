@@ -5,6 +5,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from "re
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
+import { authRefresh } from "./api/api";
 import { AuthContext } from "./context";
 import { AdminPage } from "./routes/admin-page";
 import { HomePage } from "./routes/home-page";
@@ -27,11 +28,7 @@ function RequireAuth({
 
     const verifyUser = useCallback(() => {
         setLoading(true);
-        fetch("http://localhost:3001/auth/refreshToken", {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-        })
+        authRefresh()
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json();

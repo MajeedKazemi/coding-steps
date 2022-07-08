@@ -1,6 +1,7 @@
 import * as monaco from "monaco-editor";
 import { Range } from "monaco-editor";
 import { useContext, useState } from "react";
+import { apiGenerateCodex } from "../api/api";
 
 import { AuthContext } from "../context";
 import { Button } from "./button";
@@ -19,15 +20,7 @@ export const Codex = (props: ICodexProps) => {
     // add code to current context -> will use the
 
     const generateCode = () => {
-        fetch("http://localhost:3001/api/codex/generate", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context?.token}`,
-            },
-            body: JSON.stringify({ description: description, type: "block" }),
-        })
+        apiGenerateCodex(context?.token, description)
             .then(async (response) => {
                 if (response.ok && props.editor) {
                     const data = await response.json();

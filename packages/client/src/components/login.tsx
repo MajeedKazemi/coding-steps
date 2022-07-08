@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 
+import { authLogin } from "../api/api";
 import { AuthContext } from "../context";
 import { Button } from "./button";
 import { Input } from "./input";
 
 export const Login = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState("");
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -16,27 +16,15 @@ export const Login = () => {
     const formSubmitHandler = (e: any) => {
         e.preventDefault();
         setIsSubmitting(true);
-        setError("");
 
         const genericErrorMessage =
             "Something went wrong! Please try again later.";
 
-        fetch("http://localhost:3001/auth/login", {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-        })
+        authLogin(username, password)
             .then(async (response) => {
                 setIsSubmitting(false);
                 if (!response.ok) {
-                    if (response.status === 400) {
-                        setError("Please fill all the fields correctly!");
-                    } else if (response.status === 401) {
-                        setError("Invalid email and password combination.");
-                    } else {
-                        setError(genericErrorMessage);
-                    }
+                    console.error("login failed");
                 } else {
                     const data = await response.json();
 
@@ -45,7 +33,6 @@ export const Login = () => {
             })
             .catch((error) => {
                 setIsSubmitting(false);
-                setError(genericErrorMessage);
                 setContext({ token: null, user: null });
             });
     };

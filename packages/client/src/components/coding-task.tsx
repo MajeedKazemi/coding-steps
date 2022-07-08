@@ -1,4 +1,11 @@
 import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import {
+    apiLogEvents,
+    apiUserEvaluateCode,
+    apiUserGradingStatus,
+    apiUserStartTask,
+    apiUserSubmitTask,
+} from "../api/api";
 
 import { AuthContext } from "../context";
 import { EditorType, TaskType } from "../utils/constants";
@@ -37,61 +44,32 @@ export const CodingTask = (props: CodingTaskProps) => {
     const [canSubmit, setCanSubmit] = useState(false);
 
     const sendLog = () => {
-        fetch("http://localhost:3001/api/tasks/log/", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context?.token}`,
-            },
-            body: JSON.stringify({
-                taskId: props.id,
-                log: getLogObject(props.id, context?.user?.id),
-            }),
-        }).then(async (response) => {
+        apiLogEvents(
+            context?.token,
+            props.id,
+            getLogObject(props.id, context?.user?.id)
+        ).then(async (response) => {
             const data = await response.json();
         });
     };
 
     const handlFinishTask = () => {
-        fetch("http://localhost:3001/api/tasks/submit/", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context?.token}`,
-            },
-            body: JSON.stringify({
-                taskId: props.id,
-                submittedAt: new Date(),
-                data: { code: userCode },
-            }),
-        }).then(async (response) => {
-            const data = await response.json();
+        apiUserSubmitTask(context?.token, props.id, { code: userCode }).then(
+            async (response) => {
+                const data = await response.json();
 
-            sendLog();
+                sendLog();
 
-            setCompleted(true);
-            props.onCompletion();
-        });
+                setCompleted(true);
+                props.onCompletion();
+            }
+        );
     };
 
     const handleStart = () => {
         const now = Date.now();
 
-        fetch("http://localhost:3001/api/tasks/start", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context?.token}`,
-            },
-            body: JSON.stringify({
-                taskId: props.id,
-                // will be used if its the first time the user starts the task
-                startedAt: new Date(),
-            }),
-        }).then(async (response) => {
+        apiUserStartTask(context?.token, props.id).then(async (response) => {
             const data = await response.json();
 
             console.log(`checkingTime: ${data.checkingTime}`);
@@ -140,37 +118,28 @@ export const CodingTask = (props: CodingTaskProps) => {
             const id = setInterval(() => {
                 // check task status
                 // if completed, either pass or fail
-                fetch(
-                    "http://localhost:3001/api/tasks/grading-status/" +
-                        props.id,
-                    {
-                        method: "GET",
-                        credentials: "include",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${context?.token}`,
-                        },
-                    }
-                ).then(async (response) => {
-                    const data = await response.json();
+                apiUserGradingStatus(context?.token, props.id).then(
+                    async (response) => {
+                        const data = await response.json();
 
-                    if (!data.beingGraded) {
-                        setCheckingTime(data.checkingTime);
-                        setBeingGraded(false);
-                        clearInterval(id);
+                        if (!data.beingGraded) {
+                            setCheckingTime(data.checkingTime);
+                            setBeingGraded(false);
+                            clearInterval(id);
 
-                        if (data.passed) {
-                            sendLog();
+                            if (data.passed) {
+                                sendLog();
 
-                            setCompleted(true);
-                            props.onCompletion(); // go to the next task
+                                setCompleted(true);
+                                props.onCompletion(); // go to the next task
+                            }
+                        } else {
+                            console.log(
+                                "still waiting for the code to be graded by the instructors ..."
+                            );
                         }
-                    } else {
-                        console.log(
-                            "still waiting for the code to be graded by the instructors ..."
-                        );
                     }
-                });
+                );
             }, 1000);
 
             return () => {
@@ -180,27 +149,17 @@ export const CodingTask = (props: CodingTaskProps) => {
     }, [beingGraded]);
 
     const handleGradeCode = () => {
-        fetch("http://localhost:3001/api/tasks/eval-code", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context?.token}`,
-            },
-            body: JSON.stringify({
-                taskId: props.id,
-                submittedAt: new Date(),
-                data: { code: userCode },
-            }),
-        }).then(async (response) => {
-            const data = await response.json();
+        apiUserEvaluateCode(context?.token, props.id, userCode).then(
+            async (response) => {
+                const data = await response.json();
 
-            if (data.success) {
-                setBeingGraded(true);
+                if (data.success) {
+                    setBeingGraded(true);
 
-                console.log(`checkingTime: ${data.checkingTime}`);
+                    console.log(`checkingTime: ${data.checkingTime}`);
+                }
             }
-        });
+        );
     };
 
     useEffect(() => {

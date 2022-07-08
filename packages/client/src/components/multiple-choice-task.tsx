@@ -1,5 +1,6 @@
 import * as monaco from "monaco-editor";
 import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { apiUserSubmitTask } from "../api/api";
 
 import { AuthContext } from "../context";
 import { EditorType, TaskType } from "../utils/constants";
@@ -25,21 +26,13 @@ export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
     const [startedAt, setStartedAt] = useState(new Date());
 
     const handleSubmitCode = () => {
-        fetch("http://localhost:3001/api/tasks/submit", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${context?.token}`,
-            },
-            body: JSON.stringify({
-                taskId: props.id,
-                finishedAt: new Date(),
-                data: { choice: userChoice },
-                submittedAt: new Date(),
-                startedAt: startedAt,
-            }),
-        }).then(async (response) => {
+        apiUserSubmitTask(
+            context?.token,
+            props.id,
+            { choice: userChoice },
+            new Date(),
+            startedAt
+        ).then(async (response) => {
             const data = await response.json();
 
             if (data.completed) {

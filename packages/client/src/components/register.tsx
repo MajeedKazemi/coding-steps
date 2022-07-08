@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 
+import { authSignup } from "../api/api";
 import { AuthContext } from "../context";
 import { Button } from "./button";
 import { Input } from "./input";
 
 export const Register = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
@@ -16,36 +16,12 @@ export const Register = () => {
     const formSubmitHandler = (e: any) => {
         e.preventDefault();
         setIsSubmitting(true);
-        setError("");
 
-        const genericErrorMessage =
-            "Something went wrong! Please try again later.";
-
-        fetch("http://localhost:3001/auth/signup", {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                firstName,
-                lastName,
-                username,
-                password,
-            }),
-        })
+        authSignup(username, password, firstName, lastName)
             .then(async (response) => {
                 setIsSubmitting(false);
                 if (!response.ok) {
-                    if (response.status === 400) {
-                        setError("Please fill all the fields correctly!");
-                    } else if (response.status === 401) {
-                        setError("Invalid username and password combination.");
-                    } else if (response.status === 500) {
-                        const data = await response.json();
-                        if (data.message)
-                            setError(data.message || genericErrorMessage);
-                    } else {
-                        setError(genericErrorMessage);
-                    }
+                    console.error("Sign up failed.");
                 } else {
                     const data = await response.json();
 
@@ -54,7 +30,6 @@ export const Register = () => {
             })
             .catch((error) => {
                 setIsSubmitting(false);
-                setError(genericErrorMessage);
 
                 setContext({ token: null, user: null });
             });

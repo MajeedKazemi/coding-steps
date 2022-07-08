@@ -20,7 +20,7 @@ export interface ISubmission {
     taskTitle: string;
     taskType: string;
     code: string;
-    submittedAt: number;
+    submittedAt: Date;
 }
 
 export interface IContext {

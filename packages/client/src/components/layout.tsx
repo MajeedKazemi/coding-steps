@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
+import { authRefresh } from "../api/api";
 import { AuthContext } from "../context";
 import { Loader } from "./loader";
 import { NavigationBar } from "./navigation";
@@ -15,11 +16,7 @@ export const Layout = (props: LayoutProps) => {
     useEffect(() => {
         setLoading(true);
 
-        fetch("http://localhost:3001/auth/refreshToken", {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-        })
+        authRefresh()
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json();
