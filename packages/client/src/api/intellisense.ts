@@ -314,8 +314,15 @@ function createLanguageClient(
             documentSelector: ["python"],
             // disable the default error handler
             errorHandler: {
-                error: () => ({ action: ErrorAction.Continue }),
-                closed: () => ({ action: CloseAction.DoNotRestart }),
+                error: (e) => {
+                    console.log("error handler called", e);
+
+                    return { action: ErrorAction.Continue };
+                },
+                closed: () => {
+                    console.log("closed handler called -- will restart");
+                    return { action: CloseAction.Restart };
+                },
             },
         },
         // create a language client connection from the JSON RPC connection on demand
