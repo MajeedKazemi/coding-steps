@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const DataTypesDoc = ({ pageName = "data-types" }) => {
+export const DataTypesDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const DataTypesDoc = ({ pageName = "data-types" }) => {
 
             <Accordion
                 title="Built-in Data Types"
-                section="built-in-types"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="built-in-types"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -81,10 +83,11 @@ export const DataTypesDoc = ({ pageName = "data-types" }) => {
 
             <Accordion
                 title="Getting the Data Type"
-                section="getting-type"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="getting-type"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -100,10 +103,11 @@ export const DataTypesDoc = ({ pageName = "data-types" }) => {
 
             <Accordion
                 title="Setting the Data Type"
-                section="setting-type"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="setting-type"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -250,10 +254,11 @@ export const DataTypesDoc = ({ pageName = "data-types" }) => {
 
             <Accordion
                 title="Changing the Data Type"
-                section="changing-type"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="changing-type"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

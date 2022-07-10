@@ -3,20 +3,21 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const SyntaxDoc = ({ pageName = "syntax" }) => {
+export const SyntaxDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
         <Fragment>
             <h1 className="doc-title">Syntax:</h1>
-
             <Accordion
                 title="Python Quick Start"
-                section="start-hello-world"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="start-hello-world"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -26,10 +27,11 @@ export const SyntaxDoc = ({ pageName = "syntax" }) => {
 
             <Accordion
                 title="Python Indentation"
-                section="indentation-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="indentation-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -79,10 +81,11 @@ export const SyntaxDoc = ({ pageName = "syntax" }) => {
 
             <Accordion
                 title="Python Variables"
-                section="quick-variables"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="quick-variables"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -104,10 +107,11 @@ export const SyntaxDoc = ({ pageName = "syntax" }) => {
 
             <Accordion
                 title="Comments"
-                section="quick-comments"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="quick-comments"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

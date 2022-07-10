@@ -4,8 +4,9 @@ import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
 import { Message } from "../doc-message";
+import { IDocPageProps } from "./types";
 
-export const NumbersDoc = ({ pageName = "numbers" }) => {
+export const NumbersDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -14,10 +15,11 @@ export const NumbersDoc = ({ pageName = "numbers" }) => {
 
             <Accordion
                 title="Python Numbers"
-                section="numbers-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="numbers-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -54,10 +56,11 @@ export const NumbersDoc = ({ pageName = "numbers" }) => {
 
             <Accordion
                 title="Integer (int)"
-                section="integer"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="integer"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -75,10 +78,11 @@ export const NumbersDoc = ({ pageName = "numbers" }) => {
 
             <Accordion
                 title="Float"
-                section="float"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="float"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -103,10 +107,11 @@ export const NumbersDoc = ({ pageName = "numbers" }) => {
 
             <Accordion
                 title="Complex"
-                section="complex"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="complex"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -124,10 +129,11 @@ export const NumbersDoc = ({ pageName = "numbers" }) => {
 
             <Accordion
                 title="Type Conversion"
-                section="type-conversion"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="type-conversion"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -151,10 +157,11 @@ export const NumbersDoc = ({ pageName = "numbers" }) => {
 
             <Accordion
                 title="Random Number"
-                section="random-number"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="random-number"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

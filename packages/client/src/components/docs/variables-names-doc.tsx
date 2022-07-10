@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Message } from "../doc-message";
+import { IDocPageProps } from "./types";
 
-export const VariableNamesDoc = ({ pageName = "variable-names" }) => {
+export const VariableNamesDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const VariableNamesDoc = ({ pageName = "variable-names" }) => {
 
             <Accordion
                 title="Variable Names"
-                section="var-names-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="var-names-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -59,10 +61,11 @@ export const VariableNamesDoc = ({ pageName = "variable-names" }) => {
 
             <Accordion
                 title="Multi Words Variable Names"
-                section="multi-word-var-names"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="multi-word-var-names"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

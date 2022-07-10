@@ -179,7 +179,7 @@ export const Editor = (props: EditorProps) => {
             </section>
 
             <section className="task-assists">
-                <Documentation />
+                <Documentation taskId={props.taskId} />
                 {props.editorType === EditorType.Copilot ? (
                     <Codex editor={editor} taskId={props.taskId} />
                 ) : null}

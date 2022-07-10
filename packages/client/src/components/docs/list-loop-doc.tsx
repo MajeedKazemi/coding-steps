@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const ListLoopThroughDoc = ({ pageName = "list-loop-through" }) => {
+export const ListLoopThroughDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const ListLoopThroughDoc = ({ pageName = "list-loop-through" }) => {
 
             <Accordion
                 title="Loop Through a List"
-                section="loop-through-list"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="loop-through-list"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -37,10 +39,11 @@ export const ListLoopThroughDoc = ({ pageName = "list-loop-through" }) => {
 
             <Accordion
                 title="Loop Through the Index Numbers"
-                section="loop-through-index-numbers"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="loop-through-index-numbers"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -66,10 +69,11 @@ export const ListLoopThroughDoc = ({ pageName = "list-loop-through" }) => {
 
             <Accordion
                 title="Using a While Loop"
-                section="using-while-loop"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="using-while-loop"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

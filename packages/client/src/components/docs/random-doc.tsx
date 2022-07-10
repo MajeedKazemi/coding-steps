@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const RandomDoc = ({ pageName = "random" }) => {
+export const RandomDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const RandomDoc = ({ pageName = "random" }) => {
 
             <Accordion
                 title="Python Random choice() Method"
-                section="choice-method"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="choice-method"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -30,10 +32,11 @@ export const RandomDoc = ({ pageName = "random" }) => {
 
             <Accordion
                 title="Definition and Usage"
-                section="definition-usage"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="definition-usage"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -49,10 +52,11 @@ export const RandomDoc = ({ pageName = "random" }) => {
 
             <Accordion
                 title="Python Random randint() Method"
-                section="randint-method"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="randint-method"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

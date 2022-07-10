@@ -1,6 +1,9 @@
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
+import { AuthContext } from "../context";
+import { DocEventType, log, LogType } from "../utils/logger";
 
 import { Button } from "./button";
+import { DocButton, IDocButton } from "./doc-button";
 import { BooleansDoc } from "./docs/booleans-doc";
 import { CastingDoc } from "./docs/casting-doc";
 import { CommentsDoc } from "./docs/comments-doc";
@@ -25,9 +28,229 @@ import { VariablesDoc } from "./docs/variables-doc";
 import { VariableNamesDoc } from "./docs/variables-names-doc";
 import { WhileLoopsDoc } from "./docs/while-loops-doc";
 
-export const Documentation = () => {
+interface IPropsDocumentation {
+    taskId: string;
+}
+
+export const Documentation = (props: IPropsDocumentation) => {
+    const { context } = useContext(AuthContext);
     const [showModal, setShowModal] = useState(false);
-    const [selectedContent, setSelectedContent] = useState("syntax");
+    const [selectedPageId, setSelectedPageId] = useState("intro");
+    const [selectedSectionId, setSelectedSectionId] = useState("");
+
+    const handleSectionChange = (prev: string, next: string) => {
+        if (prev !== "") {
+            log(props.taskId, context?.user?.id, LogType.DocEvent, {
+                type: DocEventType.CloseSection,
+                section: prev,
+            });
+        }
+
+        if (next !== "") {
+            log(props.taskId, context?.user?.id, LogType.DocEvent, {
+                type: DocEventType.OpenSection,
+                section: next,
+            });
+        }
+
+        setSelectedSectionId(next);
+    };
+
+    const getContentFromId = (pageId: string) => {
+        switch (pageId) {
+            case "intro":
+                return (
+                    <SyntaxDoc
+                        pageId="syntax"
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "syntax":
+                return (
+                    <SyntaxDoc
+                        pageId="syntax"
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "comments":
+                return (
+                    <CommentsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "variables":
+                return (
+                    <VariablesDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "variable-names":
+                return (
+                    <VariableNamesDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "output-variables":
+                return (
+                    <OutputVarDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "global-variables":
+                return (
+                    <GlobalVariablesDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "booleans":
+                return (
+                    <BooleansDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "casting":
+                return (
+                    <CastingDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "data-types":
+                return (
+                    <DataTypesDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "for-loops":
+                return (
+                    <ForLoopDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "if-else":
+                return (
+                    <IfElseDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "list-add-item":
+                return (
+                    <ListAddItemDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "list-loop-through":
+                return (
+                    <ListLoopThroughDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "list-operations":
+                return (
+                    <ListOperationsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "list-remove-item":
+                return (
+                    <ListRemoveItemDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "lists":
+                return (
+                    <ListsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "numbers":
+                return (
+                    <NumbersDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "operators":
+                return (
+                    <OperatorsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "random":
+                return (
+                    <RandomDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "strings-concatenation":
+                return (
+                    <StringsConcatenationDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "strings":
+                return (
+                    <StringsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "user-input":
+                return (
+                    <UserInputDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "while-loops":
+                return (
+                    <WhileLoopsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+        }
+    };
 
     return (
         <div>
@@ -38,6 +261,9 @@ export const Documentation = () => {
             <Button
                 type="block"
                 onClick={() => {
+                    log(props.taskId, context?.user?.id, LogType.DocEvent, {
+                        type: DocEventType.OpenDocModal,
+                    });
                     setShowModal(true);
                 }}
             >
@@ -51,6 +277,34 @@ export const Documentation = () => {
                     }`}
                     onClick={() => {
                         setShowModal(false);
+
+                        log(props.taskId, context?.user?.id, LogType.DocEvent, {
+                            type: DocEventType.CloseDocModal,
+                        });
+
+                        if (selectedPageId !== "intro") {
+                            log(
+                                props.taskId,
+                                context?.user?.id,
+                                LogType.DocEvent,
+                                {
+                                    type: DocEventType.ClosePage,
+                                    page: selectedPageId,
+                                }
+                            );
+                        }
+
+                        if (selectedSectionId !== "") {
+                            log(
+                                props.taskId,
+                                context?.user?.id,
+                                LogType.DocEvent,
+                                {
+                                    type: DocEventType.CloseSection,
+                                    section: selectedSectionId,
+                                }
+                            );
+                        }
                     }}
                 ></div>
                 <section
@@ -61,19 +315,59 @@ export const Documentation = () => {
                     <div className="doc-navigation">
                         {docs.map((doc, index) => (
                             <DocButton
-                                selected={selectedContent === doc.id}
+                                selected={selectedPageId === doc.id}
                                 key={doc.id}
                                 name={doc.name}
                                 id={doc.id}
                                 onClick={() => {
-                                    setSelectedContent(doc.id);
-                                    console.log(doc.id);
+                                    if (selectedPageId !== "intro") {
+                                        log(
+                                            props.taskId,
+                                            context?.user?.id,
+                                            LogType.DocEvent,
+                                            {
+                                                type: DocEventType.ClosePage,
+                                                page: selectedPageId,
+                                            }
+                                        );
+                                    }
+
+                                    log(
+                                        props.taskId,
+                                        context?.user?.id,
+                                        LogType.DocEvent,
+                                        {
+                                            type: DocEventType.OpenPage,
+                                            page: doc.id,
+                                        }
+                                    );
+
+                                    setSelectedPageId(doc.id);
                                 }}
                             />
                         ))}
                     </div>
-                    <div className="doc-content">
-                        {getContent(selectedContent)}
+                    <div
+                        className="doc-content"
+                        onCopy={(e) => {
+                            const clipboardText = window
+                                .getSelection()
+                                ?.toString();
+
+                            if (clipboardText) {
+                                log(
+                                    props.taskId,
+                                    context?.user?.id,
+                                    LogType.DocEvent,
+                                    {
+                                        type: DocEventType.CopyText,
+                                        text: window.getSelection()?.toString(),
+                                    }
+                                );
+                            }
+                        }}
+                    >
+                        {getContentFromId(selectedPageId)}
                     </div>
                 </section>
             </Fragment>
@@ -106,98 +400,3 @@ const docs: Array<IDocButton> = [
     { id: "for-loops", name: "for loops" },
     { id: "user-input", name: "user input" },
 ];
-
-interface IDocButton {
-    name: string;
-    id: string;
-    selected?: boolean;
-    onClick?: () => void;
-}
-
-const DocButton = (props: IDocButton) => {
-    return (
-        <div
-            className={`doc-button ${
-                props.selected ? "doc-button-selected" : ""
-            }`}
-            onClick={() => {
-                if (props.onClick) props.onClick();
-            }}
-        >
-            {props.name}
-        </div>
-    );
-};
-
-const getContent = (docId: string) => {
-    switch (docId) {
-        case "syntax":
-            return <SyntaxDoc />;
-
-        case "comments":
-            return <CommentsDoc />;
-
-        case "variables":
-            return <VariablesDoc />;
-
-        case "variable-names":
-            return <VariableNamesDoc />;
-
-        case "output-variables":
-            return <OutputVarDoc />;
-
-        case "global-variables":
-            return <GlobalVariablesDoc />;
-
-        case "booleans":
-            return <BooleansDoc />;
-
-        case "casting":
-            return <CastingDoc />;
-
-        case "data-types":
-            return <DataTypesDoc />;
-
-        case "for-loops":
-            return <ForLoopDoc />;
-
-        case "if-else":
-            return <IfElseDoc />;
-
-        case "list-add-item":
-            return <ListAddItemDoc />;
-
-        case "list-loop-through":
-            return <ListLoopThroughDoc />;
-
-        case "list-operations":
-            return <ListOperationsDoc />;
-
-        case "list-remove-item":
-            return <ListRemoveItemDoc />;
-
-        case "lists":
-            return <ListsDoc />;
-
-        case "numbers":
-            return <NumbersDoc />;
-
-        case "operators":
-            return <OperatorsDoc />;
-
-        case "random":
-            return <RandomDoc />;
-
-        case "strings-concatenation":
-            return <StringsConcatenationDoc />;
-
-        case "strings":
-            return <StringsDoc />;
-
-        case "user-input":
-            return <UserInputDoc />;
-
-        case "while-loops":
-            return <WhileLoopsDoc />;
-    }
-};

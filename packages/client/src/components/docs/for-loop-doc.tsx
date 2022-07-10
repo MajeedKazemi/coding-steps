@@ -4,8 +4,9 @@ import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
 import { Message } from "../doc-message";
+import { IDocPageProps } from "./types";
 
-export const ForLoopDoc = ({ pageName = "for-loops" }) => {
+export const ForLoopDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -14,10 +15,11 @@ export const ForLoopDoc = ({ pageName = "for-loops" }) => {
 
             <Accordion
                 title="For Loops"
-                section="for-loops"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="for-loops"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -50,10 +52,11 @@ export const ForLoopDoc = ({ pageName = "for-loops" }) => {
 
             <Accordion
                 title="Looping Through a String"
-                section="looping-through-string"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="looping-through-string"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -69,10 +72,11 @@ export const ForLoopDoc = ({ pageName = "for-loops" }) => {
 
             <Accordion
                 title="The break Statement"
-                section="break-statement"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="break-statement"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -96,10 +100,11 @@ export const ForLoopDoc = ({ pageName = "for-loops" }) => {
 
             <Accordion
                 title="The continue Statement"
-                section="continue-statement"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="continue-statement"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -117,10 +122,11 @@ export const ForLoopDoc = ({ pageName = "for-loops" }) => {
 
             <Accordion
                 title="The range() Function"
-                section="range-function"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="range-function"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -158,10 +164,11 @@ export const ForLoopDoc = ({ pageName = "for-loops" }) => {
 
             <Accordion
                 title="Nested Loops"
-                section="nested-loops"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="nested-loops"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

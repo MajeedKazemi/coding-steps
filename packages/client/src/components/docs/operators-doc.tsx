@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const OperatorsDoc = ({ pageName = "operators" }) => {
+export const OperatorsDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const OperatorsDoc = ({ pageName = "operators" }) => {
 
             <Accordion
                 title="Python Operators"
-                section="operators-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="operators-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -43,10 +45,11 @@ export const OperatorsDoc = ({ pageName = "operators" }) => {
 
             <Accordion
                 title="Python Arithmetic Operators"
-                section="arithmetic-operators"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="arithmetic-operators"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -132,10 +135,11 @@ export const OperatorsDoc = ({ pageName = "operators" }) => {
 
             <Accordion
                 title="Python Assignment Operators"
-                section="assignment-operators"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="assignment-operators"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -245,10 +249,11 @@ export const OperatorsDoc = ({ pageName = "operators" }) => {
 
             <Accordion
                 title="Python Comparison Operators"
-                section="comparison-operators"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="comparison-operators"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -322,10 +327,11 @@ export const OperatorsDoc = ({ pageName = "operators" }) => {
 
             <Accordion
                 title="Python Logical Operators"
-                section="logical-operators"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="logical-operators"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -380,10 +386,11 @@ export const OperatorsDoc = ({ pageName = "operators" }) => {
 
             <Accordion
                 title="Python Membership Operators"
-                section="membership-operators"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="membership-operators"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

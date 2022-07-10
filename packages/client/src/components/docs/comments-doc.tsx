@@ -2,8 +2,9 @@ import { Fragment, useState } from "react";
 
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
+import { IDocPageProps } from "./types";
 
-export const CommentsDoc = ({ pageName = "comments" }) => {
+export const CommentsDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -12,10 +13,11 @@ export const CommentsDoc = ({ pageName = "comments" }) => {
 
             <Accordion
                 title="Python Comments"
-                section="python-comments"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="python-comments"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -51,10 +53,11 @@ export const CommentsDoc = ({ pageName = "comments" }) => {
 
             <Accordion
                 title="Multi Line Comments"
-                section="multiline-comments"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="multiline-comments"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

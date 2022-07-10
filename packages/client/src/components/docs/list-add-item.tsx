@@ -4,8 +4,9 @@ import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
 import { Message } from "../doc-message";
+import { IDocPageProps } from "./types";
 
-export const ListAddItemDoc = ({ pageName = "list-add-item" }) => {
+export const ListAddItemDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -14,10 +15,11 @@ export const ListAddItemDoc = ({ pageName = "list-add-item" }) => {
 
             <Accordion
                 title="Append Items"
-                section="append-items"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="append-items"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -35,10 +37,11 @@ export const ListAddItemDoc = ({ pageName = "list-add-item" }) => {
 
             <Accordion
                 title="Insert Items"
-                section="insert-items"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="insert-items"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

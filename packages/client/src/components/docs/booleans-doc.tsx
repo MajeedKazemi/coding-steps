@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const BooleansDoc = ({ pageName = "booleans" }) => {
+export const BooleansDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const BooleansDoc = ({ pageName = "booleans" }) => {
 
             <Accordion
                 title="Python Booleans"
-                section="python-booleans"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="python-booleans"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -39,10 +41,11 @@ export const BooleansDoc = ({ pageName = "booleans" }) => {
 
             <Accordion
                 title="Booleans and if statement conditions"
-                section="booleans-and-if-statements"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="booleans-and-if-statements"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -60,10 +63,11 @@ export const BooleansDoc = ({ pageName = "booleans" }) => {
 
             <Accordion
                 title="Evaluate Values and Variables"
-                section="evaluate-values"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="evaluate-values"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -86,10 +90,11 @@ export const BooleansDoc = ({ pageName = "booleans" }) => {
 
             <Accordion
                 title="Most Values are True"
-                section="most-values-true"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="most-values-true"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -117,10 +122,11 @@ export const BooleansDoc = ({ pageName = "booleans" }) => {
 
             <Accordion
                 title="Some Values are False"
-                section="some-values-false"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="some-values-false"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -154,10 +160,11 @@ export const BooleansDoc = ({ pageName = "booleans" }) => {
 
             <Accordion
                 title="Functions can Return a Boolean"
-                section="functions-return-booleans"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="functions-return-booleans"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

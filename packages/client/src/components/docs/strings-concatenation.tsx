@@ -2,10 +2,9 @@ import { Fragment, useState } from "react";
 
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
+import { IDocPageProps } from "./types";
 
-export const StringsConcatenationDoc = ({
-    pageName = "strings-concatenation",
-}) => {
+export const StringsConcatenationDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -14,10 +13,11 @@ export const StringsConcatenationDoc = ({
 
             <Accordion
                 title="String Concatenation"
-                section="str-concat"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="str-concat"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

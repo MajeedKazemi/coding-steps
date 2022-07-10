@@ -7,6 +7,16 @@ export enum LogType {
     InitialCode,
 }
 
+export enum DocEventType {
+    OpenDocModal,
+    CloseDocModal,
+    OpenPage,
+    ClosePage,
+    OpenSection,
+    CloseSection,
+    CopyText,
+}
+
 export class LogObj {
     lastUpdate: number;
     userId: string;

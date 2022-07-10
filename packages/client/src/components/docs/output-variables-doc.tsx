@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const OutputVarDoc = ({ pageName = "output-variables" }) => {
+export const OutputVarDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const OutputVarDoc = ({ pageName = "output-variables" }) => {
 
             <Accordion
                 title="Output Variables"
-                section="output-variables-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="output-variables-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -35,10 +37,11 @@ export const OutputVarDoc = ({ pageName = "output-variables" }) => {
 
             <Accordion
                 title="Adding Variables Using + Operator"
-                section="adding-vars-using-plus"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="adding-vars-using-plus"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

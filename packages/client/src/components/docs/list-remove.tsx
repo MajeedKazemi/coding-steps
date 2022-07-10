@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const ListRemoveItemDoc = ({ pageName = "list-remove-item" }) => {
+export const ListRemoveItemDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const ListRemoveItemDoc = ({ pageName = "list-remove-item" }) => {
 
             <Accordion
                 title="Remove Specified Item"
-                section="remove-item"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="remove-item"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -33,10 +35,11 @@ export const ListRemoveItemDoc = ({ pageName = "list-remove-item" }) => {
 
             <Accordion
                 title="Remove Specified Index"
-                section="remove-index"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="remove-index"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

@@ -4,8 +4,9 @@ import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
 import { Message } from "../doc-message";
+import { IDocPageProps } from "./types";
 
-export const ListsDoc = ({ pageName = "lists" }) => {
+export const ListsDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -14,10 +15,11 @@ export const ListsDoc = ({ pageName = "lists" }) => {
 
             <Accordion
                 title="Introduction to Lists"
-                section="lists-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="lists-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -40,10 +42,11 @@ export const ListsDoc = ({ pageName = "lists" }) => {
 
             <Accordion
                 title="List Items"
-                section="list-items"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="list-items"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -60,10 +63,11 @@ export const ListsDoc = ({ pageName = "lists" }) => {
 
             <Accordion
                 title="List Properties"
-                section="list-props"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="list-props"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -93,10 +97,11 @@ export const ListsDoc = ({ pageName = "lists" }) => {
 
             <Accordion
                 title="Allow Duplicates"
-                section="allow-duplicates"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="allow-duplicates"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -114,10 +119,11 @@ export const ListsDoc = ({ pageName = "lists" }) => {
 
             <Accordion
                 title="List Length"
-                section="list-length"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="list-length"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -135,10 +141,11 @@ export const ListsDoc = ({ pageName = "lists" }) => {
 
             <Accordion
                 title="List Items - Data Types"
-                section="list-items-types"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="list-items-types"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -161,10 +168,11 @@ export const ListsDoc = ({ pageName = "lists" }) => {
 
             <Accordion
                 title="The type() function"
-                section="type-function"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="type-function"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -176,7 +184,7 @@ export const ListsDoc = ({ pageName = "lists" }) => {
                 <p>
                     <Code>
                         {
-                            "<class 'list'section='specify-var-type' page={pageName} click={(cur: string) => { setCurrent(cur) }} current={current}>"
+                            "<class 'list'section='specify-var-type' page={props.pageName} click={(next: string) => { setCurrent(cur) }} current={current}>"
                         }
                     </Code>
                 </p>
@@ -190,10 +198,11 @@ export const ListsDoc = ({ pageName = "lists" }) => {
 
             <Accordion
                 title="The list() constructor"
-                section="list-constructor"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="list-constructor"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

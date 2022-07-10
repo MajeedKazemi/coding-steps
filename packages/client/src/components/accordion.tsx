@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 interface IAccordionProps {
     title: string;
-    section: string;
-    page: string;
+    sectionId: string;
+    pageId: string;
     current: string;
     click: (cur: string) => void;
     children: React.ReactNode;
@@ -15,7 +15,7 @@ export const Accordion = (props: IAccordionProps) => {
 
     const handleClick = () => {
         if (!isOpen) {
-            props.click(props.section);
+            props.click(props.sectionId);
         } else {
             props.click("");
         }
@@ -24,10 +24,10 @@ export const Accordion = (props: IAccordionProps) => {
     };
 
     useEffect(() => {
-        const newIsOpen = props.current === props.section;
+        const newIsOpen = props.current === props.sectionId;
 
         if (isOpen != newIsOpen) {
-            setIsOpen(props.current === props.section);
+            setIsOpen(props.current === props.sectionId);
         }
     }, [props.current]);
 

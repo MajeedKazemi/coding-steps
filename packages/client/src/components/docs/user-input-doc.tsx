@@ -4,8 +4,9 @@ import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
 import { Message } from "../doc-message";
+import { IDocPageProps } from "./types";
 
-export const UserInputDoc = ({ pageName = "user-input" }) => {
+export const UserInputDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -14,10 +15,11 @@ export const UserInputDoc = ({ pageName = "user-input" }) => {
 
             <Accordion
                 title="User Input"
-                section="user-input-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="user-input-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

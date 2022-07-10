@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const GlobalVariablesDoc = ({ pageName = "global-variables" }) => {
+export const GlobalVariablesDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const GlobalVariablesDoc = ({ pageName = "global-variables" }) => {
 
             <Accordion
                 title="Global Variables"
-                section="global-variables"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="global-variables"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -51,10 +53,11 @@ export const GlobalVariablesDoc = ({ pageName = "global-variables" }) => {
 
             <Accordion
                 title="The global Keyword"
-                section="global-keyword"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="global-keyword"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

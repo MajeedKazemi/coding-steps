@@ -2,8 +2,9 @@ import { Fragment, useState } from "react";
 
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
+import { IDocPageProps } from "./types";
 
-export const VariablesDoc = ({ pageName = "variables" }) => {
+export const VariablesDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -12,10 +13,11 @@ export const VariablesDoc = ({ pageName = "variables" }) => {
 
             <Accordion
                 title="Variables"
-                section="var-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="var-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -44,10 +46,11 @@ export const VariablesDoc = ({ pageName = "variables" }) => {
 
             <Accordion
                 title="Casting"
-                section="var-casting"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="var-casting"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -64,10 +67,11 @@ export const VariablesDoc = ({ pageName = "variables" }) => {
 
             <Accordion
                 title="Get the Type"
-                section="var-get-type"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="var-get-type"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -83,10 +87,11 @@ export const VariablesDoc = ({ pageName = "variables" }) => {
 
             <Accordion
                 title="Single or Double Quotes?"
-                section="str-quotes"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="str-quotes"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -101,10 +106,11 @@ export const VariablesDoc = ({ pageName = "variables" }) => {
 
             <Accordion
                 title="Case-Sensitive"
-                section="var-case-sensitivity"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="var-case-sensitivity"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

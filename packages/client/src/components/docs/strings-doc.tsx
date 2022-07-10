@@ -4,8 +4,9 @@ import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
 import { Message } from "../doc-message";
+import { IDocPageProps } from "./types";
 
-export const StringsDoc = ({ pageName = "strings" }) => {
+export const StringsDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -14,10 +15,11 @@ export const StringsDoc = ({ pageName = "strings" }) => {
 
             <Accordion
                 title="Strings"
-                section="strings-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="strings-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -38,10 +40,11 @@ export const StringsDoc = ({ pageName = "strings" }) => {
 
             <Accordion
                 title="Assign String to a Variable"
-                section="str-to-var"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="str-to-var"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -54,10 +57,11 @@ export const StringsDoc = ({ pageName = "strings" }) => {
 
             <Accordion
                 title="Multiline Strings"
-                section="multiline-str"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="multiline-str"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -86,10 +90,11 @@ export const StringsDoc = ({ pageName = "strings" }) => {
 
             <Accordion
                 title="Strings are Arrays"
-                section="str-are-arrays"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="str-are-arrays"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -113,10 +118,11 @@ export const StringsDoc = ({ pageName = "strings" }) => {
 
             <Accordion
                 title="Looping Through a String"
-                section="loop-through-str"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="loop-through-str"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -136,10 +142,11 @@ export const StringsDoc = ({ pageName = "strings" }) => {
 
             <Accordion
                 title="String Length"
-                section="str-length"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="str-length"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -152,10 +159,11 @@ export const StringsDoc = ({ pageName = "strings" }) => {
 
             <Accordion
                 title="Check String"
-                section="check-str"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="check-str"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -181,10 +189,11 @@ export const StringsDoc = ({ pageName = "strings" }) => {
 
             <Accordion
                 title="Check if NOT"
-                section="check-not-str"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="check-not-str"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

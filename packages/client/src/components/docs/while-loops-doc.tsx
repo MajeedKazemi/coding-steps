@@ -4,8 +4,9 @@ import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
 import { Message } from "../doc-message";
+import { IDocPageProps } from "./types";
 
-export const WhileLoopsDoc = ({ pageName = "while-loops" }) => {
+export const WhileLoopsDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -14,10 +15,11 @@ export const WhileLoopsDoc = ({ pageName = "while-loops" }) => {
 
             <Accordion
                 title="Python Loops"
-                section="loops-intro"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="loops-intro"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -33,10 +35,11 @@ export const WhileLoopsDoc = ({ pageName = "while-loops" }) => {
             </Accordion>
             <Accordion
                 title="The while Loop"
-                section="while-loop"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="while-loop"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -62,10 +65,11 @@ export const WhileLoopsDoc = ({ pageName = "while-loops" }) => {
             </Accordion>
             <Accordion
                 title="The break Statement"
-                section="break-statement"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="break-statement"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -82,10 +86,11 @@ export const WhileLoopsDoc = ({ pageName = "while-loops" }) => {
             </Accordion>
             <Accordion
                 title="The continue Statement"
-                section="continue-statement"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="continue-statement"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

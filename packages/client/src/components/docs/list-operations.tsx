@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Message } from "../doc-message";
+import { IDocPageProps } from "./types";
 
-export const ListOperationsDoc = ({ pageName = "list-operations" }) => {
+export const ListOperationsDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const ListOperationsDoc = ({ pageName = "list-operations" }) => {
 
             <Accordion
                 title="Access List Items"
-                section="access-list-items"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="access-list-items"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -38,10 +40,11 @@ export const ListOperationsDoc = ({ pageName = "list-operations" }) => {
 
             <Accordion
                 title="Change List Item Value"
-                section="change-list-items-val"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="change-list-items-val"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -59,10 +62,11 @@ export const ListOperationsDoc = ({ pageName = "list-operations" }) => {
 
             <Accordion
                 title="Change a Range of Item Values"
-                section="change-range-val"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="change-range-val"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

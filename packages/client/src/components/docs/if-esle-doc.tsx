@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const IfElseDoc = ({ pageName = "if-else" }) => {
+export const IfElseDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const IfElseDoc = ({ pageName = "if-else" }) => {
 
             <Accordion
                 title="Python Conditions and If statements"
-                section="if-conditions"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="if-conditions"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -68,10 +70,11 @@ export const IfElseDoc = ({ pageName = "if-else" }) => {
 
             <Accordion
                 title="Indentations"
-                section="indentations"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="indentations"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -91,10 +94,11 @@ export const IfElseDoc = ({ pageName = "if-else" }) => {
 
             <Accordion
                 title="Elif (else if)"
-                section="elif"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="elif"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -118,10 +122,11 @@ export const IfElseDoc = ({ pageName = "if-else" }) => {
 
             <Accordion
                 title="Else"
-                section="else"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="else"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -154,10 +159,11 @@ export const IfElseDoc = ({ pageName = "if-else" }) => {
 
             <Accordion
                 title="And"
-                section="and"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="and"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -175,10 +181,11 @@ export const IfElseDoc = ({ pageName = "if-else" }) => {
 
             <Accordion
                 title="Or"
-                section="or"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="or"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -196,10 +203,11 @@ export const IfElseDoc = ({ pageName = "if-else" }) => {
 
             <Accordion
                 title="Nested If"
-                section="nested-if"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="nested-if"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
@@ -217,10 +225,11 @@ export const IfElseDoc = ({ pageName = "if-else" }) => {
 
             <Accordion
                 title="The pass Statement"
-                section="pass"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="pass"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >

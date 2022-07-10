@@ -3,8 +3,9 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { IDocPageProps } from "./types";
 
-export const CastingDoc = ({ pageName = "casting" }) => {
+export const CastingDoc = (props: IDocPageProps) => {
     const [current, setCurrent] = useState("");
 
     return (
@@ -13,10 +14,11 @@ export const CastingDoc = ({ pageName = "casting" }) => {
 
             <Accordion
                 title="Specify a Variable Type"
-                section="specify-var-type"
-                page={pageName}
-                click={(cur: string) => {
-                    setCurrent(cur);
+                sectionId="specify-var-type"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
                 }}
                 current={current}
             >
