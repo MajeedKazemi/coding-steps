@@ -30,6 +30,10 @@ export function executeCode(code?: string) {
     shellSocket.send(JSON.stringify({ type: "run", code }));
 }
 
+export function stopShell() {
+    shellSocket.send(JSON.stringify({ type: "stop" }));
+}
+
 export function sendShell(value: string) {
     shellSocket.send(
         JSON.stringify({

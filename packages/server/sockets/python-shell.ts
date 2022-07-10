@@ -57,6 +57,8 @@ export function initPythonShell(server: http.Server) {
                 });
             } else if (data.type === "stdin" && pyshell) {
                 pyshell.send(data.value);
+            } else if (data.type === "stop" && pyshell) {
+                pyshell.kill();
             }
         });
     });

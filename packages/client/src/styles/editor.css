@@ -40,8 +40,7 @@
     font-size: 16px;
 }
 
-.run-button {
-    background: #0baa0b;
+.code-exec-button {
     position: absolute;
     z-index: 99;
     border: none;
@@ -64,9 +63,15 @@
     left: calc(62vw - 18px);
 }
 
-.run-btn-disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+.stop-button {
+    background: #a54949;
+}
+.stop-button:hover {
+    background: #9c1010;
+}
+
+.run-button {
+    background: #0baa0b;
 }
 
 .run-button:hover {
