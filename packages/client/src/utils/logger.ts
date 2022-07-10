@@ -1,20 +1,28 @@
 export enum LogType {
-    ReplayEvent,
-    DocEvent,
-    PromptEvent,
-    RunEvent,
-    SubmitEvent,
-    InitialCode,
+    ReplayEvent = "replay",
+    DocEvent = "doc",
+    PromptEvent = "prompt",
+    RunEvent = "run",
+    SubmitEvent = "submit",
+    InitialCode = "init",
+}
+
+export enum RunEventType {
+    Start = "start",
+    Error = "err",
+    Output = "out",
+    Input = "in",
+    Stop = "stop",
 }
 
 export enum DocEventType {
-    OpenDocModal,
-    CloseDocModal,
-    OpenPage,
-    ClosePage,
-    OpenSection,
-    CloseSection,
-    CopyText,
+    OpenDocModal = "om",
+    CloseDocModal = "cm",
+    OpenPage = "op",
+    ClosePage = "cm",
+    OpenSection = "os",
+    CloseSection = "cs",
+    CopyText = "cpy",
 }
 
 export class LogObj {

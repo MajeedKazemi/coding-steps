@@ -13,7 +13,7 @@ import {
 } from "../api/python-shell";
 import { AuthContext } from "../context";
 import { EditorType } from "../utils/constants";
-import { log, LogType } from "../utils/logger";
+import { log, LogType, RunEventType } from "../utils/logger";
 import { Codex } from "./codex";
 import { Documentation } from "./documentation";
 
@@ -26,6 +26,7 @@ interface EditorProps {
 
 export const Editor = (props: EditorProps) => {
     const { context } = useContext(AuthContext);
+    const [runId, setRunId] = useState(0);
 
     const [editor, setEditor] =
         useState<monaco.editor.IStandaloneCodeEditor | null>(null);
@@ -99,14 +100,32 @@ export const Editor = (props: EditorProps) => {
                 } else {
                     setOutput([...output, data.out]);
                 }
+
+                log(props.taskId, context?.user?.id, LogType.RunEvent, {
+                    type: RunEventType.Output,
+                    output: data.out,
+                    runId: runId,
+                });
             }
 
             if (data.type === "stderr") {
                 setOutput([...output, data.err]);
+
+                log(props.taskId, context?.user?.id, LogType.RunEvent, {
+                    type: RunEventType.Error,
+                    error: data.err,
+                    runId: runId,
+                });
             }
 
             if (data.type === "close") {
                 setRunning(false);
+                setRunId(runId + 1);
+
+                log(props.taskId, context?.user?.id, LogType.RunEvent, {
+                    type: RunEventType.Stop,
+                    runId: runId,
+                });
             }
         });
     });
@@ -131,6 +150,17 @@ export const Editor = (props: EditorProps) => {
                     }`}
                     onClick={() => {
                         if (!running) {
+                            log(
+                                props.taskId,
+                                context?.user?.id,
+                                LogType.RunEvent,
+                                {
+                                    type: RunEventType.Start,
+                                    code: editor?.getValue(),
+                                    runId: runId,
+                                }
+                            );
+
                             setOutput([]);
                             setRunning(true);
                             executeCode(editor?.getValue());
@@ -182,6 +212,16 @@ export const Editor = (props: EditorProps) => {
                                     sendShell(terminalInput);
                                     setOutput([...output, terminalInput]);
                                     setTerminalInput("");
+                                    log(
+                                        props.taskId,
+                                        context?.user?.id,
+                                        LogType.RunEvent,
+                                        {
+                                            type: RunEventType.Input,
+                                            runId: runId,
+                                            input: terminalInput,
+                                        }
+                                    );
                                 }
                             }}
                             onChange={(event) => {

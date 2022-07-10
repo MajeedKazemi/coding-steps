@@ -49,6 +49,8 @@ export function initPythonShell(server: http.Server) {
                         error = err.message;
                     }
 
+                    error = error.replace(/File ".*", /, "");
+
                     ws.send(JSON.stringify({ type: "stderr", err: error }));
                 });
 
