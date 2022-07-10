@@ -103,6 +103,6 @@
 .highlighted-code {
     background-color: #dbbbff;
     animation-name: fade-highlight;
-    animation-duration: 2.5s;
+    animation-duration: 2s;
     animation-iteration-count: 1;
 }

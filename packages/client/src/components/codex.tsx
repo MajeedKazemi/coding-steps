@@ -15,6 +15,7 @@ interface ICodexProps {
 export const Codex = (props: ICodexProps) => {
     const [description, setDescription] = useState<string>("");
     const { context } = useContext(AuthContext);
+    const [waiting, setWaiting] = useState(false);
     // simply generate code from nothing (completion api)
     // complete next line based on previous code (with optional instructions)
 
@@ -22,9 +23,13 @@ export const Codex = (props: ICodexProps) => {
     // add code to current context -> will use the
 
     const generateCode = () => {
+        setWaiting(true);
+        props.editor?.updateOptions({ readOnly: true });
+
         apiGenerateCodex(context?.token, description)
             .then(async (response) => {
                 if (response.ok && props.editor) {
+                    props.editor?.updateOptions({ readOnly: false });
                     const data = await response.json();
 
                     let text = data.code;
@@ -157,7 +162,7 @@ export const Codex = (props: ICodexProps) => {
 
                     setTimeout(() => {
                         props.editor?.deltaDecorations(decoration, []);
-                    }, 2500);
+                    }, 1000);
 
                     // props.editor.addContentWidget({
                     //     getId: function () {
@@ -189,6 +194,9 @@ export const Codex = (props: ICodexProps) => {
                     //     },
                     // });
 
+                    props.editor?.focus();
+
+                    setWaiting(false);
                     setDescription("");
                 }
             })
@@ -218,12 +226,13 @@ export const Codex = (props: ICodexProps) => {
                 }}
             ></textarea>
             <Button
+                disabled={waiting}
                 type="block"
                 onClick={() => {
                     generateCode();
                 }}
             >
-                Generate Code
+                {waiting ? "Generating" : "Generate Code"}
             </Button>
         </div>
     );
