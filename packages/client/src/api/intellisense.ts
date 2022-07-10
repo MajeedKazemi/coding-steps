@@ -310,6 +310,21 @@ function createLanguageClient(
     return new MonacoLanguageClient({
         name: "Python Language Client",
         clientOptions: {
+            middleware: {
+                workspace: {
+                    configuration: (params, token, configuration) => {
+                        return [
+                            {
+                                pylsp: {
+                                    plugins: {
+                                        pycodestyle: { enabled: false },
+                                    },
+                                },
+                            },
+                        ];
+                    },
+                },
+            },
             // use a language id as a document selector
             documentSelector: ["python"],
             // disable the default error handler
