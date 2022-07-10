@@ -2,7 +2,14 @@ import * as monaco from "monaco-editor";
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
 
 import { initializeLanguageClient } from "../api/intellisense";
-import { executeCode, isConnected, onShellClose, onShellMessage, onShellOpen, sendShell } from "../api/python-shell";
+import {
+    executeCode,
+    isConnected,
+    onShellClose,
+    onShellMessage,
+    onShellOpen,
+    sendShell,
+} from "../api/python-shell";
 import { AuthContext } from "../context";
 import { EditorType } from "../utils/constants";
 import { log, LogType } from "../utils/logger";
@@ -10,7 +17,7 @@ import { Codex } from "./codex";
 import { Documentation } from "./documentation";
 
 interface EditorProps {
-    id: string;
+    taskId: string;
     starterCode: string;
     editorType: EditorType;
     updateCode?: (code: string) => void;
@@ -34,7 +41,7 @@ export const Editor = (props: EditorProps) => {
 
             if (props.starterCode.length > 0) {
                 log(
-                    props.id,
+                    props.taskId,
                     context?.user?.id,
                     LogType.InitialCode,
                     props.starterCode
@@ -51,7 +58,7 @@ export const Editor = (props: EditorProps) => {
             });
 
             editor.onDidChangeModelContent((e) => {
-                log(props.id, context?.user?.id, LogType.ReplayEvent, e);
+                log(props.taskId, context?.user?.id, LogType.ReplayEvent, e);
             });
 
             editor.onDidPaste((e) => {
@@ -174,7 +181,7 @@ export const Editor = (props: EditorProps) => {
             <section className="task-assists">
                 <Documentation />
                 {props.editorType === EditorType.Copilot ? (
-                    <Codex editor={editor} />
+                    <Codex editor={editor} taskId={props.taskId} />
                 ) : null}
             </section>
         </Fragment>

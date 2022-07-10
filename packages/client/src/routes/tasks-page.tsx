@@ -36,7 +36,7 @@ export const TasksPage = () => {
                 return (
                     <CodingTask
                         key={task.id}
-                        id={task.id}
+                        taskId={task.id}
                         title={task.title}
                         description={task.description}
                         timeLimit={task.timeLimit}

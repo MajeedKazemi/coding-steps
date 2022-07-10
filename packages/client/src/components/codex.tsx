@@ -4,9 +4,11 @@ import { useContext, useState } from "react";
 import { apiGenerateCodex } from "../api/api";
 
 import { AuthContext } from "../context";
+import { log, LogType } from "../utils/logger";
 import { Button } from "./button";
 
 interface ICodexProps {
+    taskId: string;
     editor?: monaco.editor.IStandaloneCodeEditor | null;
 }
 
@@ -24,6 +26,20 @@ export const Codex = (props: ICodexProps) => {
             .then(async (response) => {
                 if (response.ok && props.editor) {
                     const data = await response.json();
+
+                    let text = data.code;
+
+                    if (text.length > 0) {
+                        log(
+                            props.taskId,
+                            context?.user?.id,
+                            LogType.PromptEvent,
+                            {
+                                code: text,
+                                description: description,
+                            }
+                        );
+                    }
 
                     let insertLine = 0;
                     let insertColumn = 1;
@@ -49,8 +65,6 @@ export const Codex = (props: ICodexProps) => {
                         curLineNumber < curCodeLines.length
                             ? curCodeLines[curLineNumber]
                             : null;
-
-                    let text = data.code;
 
                     if (curColumn === 1) {
                         // at the beginning of a line
@@ -143,7 +157,7 @@ export const Codex = (props: ICodexProps) => {
 
                     setTimeout(() => {
                         props.editor?.deltaDecorations(decoration, []);
-                    }, 5000);
+                    }, 2500);
 
                     // props.editor.addContentWidget({
                     //     getId: function () {

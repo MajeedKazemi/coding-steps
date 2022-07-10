@@ -15,7 +15,7 @@ import { Button } from "./button";
 import { Editor } from "./editor";
 
 interface CodingTaskProps {
-    id: string;
+    taskId: string;
     title: string;
     description: string;
     timeLimit: number;
@@ -46,54 +46,56 @@ export const CodingTask = (props: CodingTaskProps) => {
     const sendLog = () => {
         apiLogEvents(
             context?.token,
-            props.id,
-            getLogObject(props.id, context?.user?.id)
+            props.taskId,
+            getLogObject(props.taskId, context?.user?.id)
         ).then(async (response) => {
             const data = await response.json();
         });
     };
 
     const handlFinishTask = () => {
-        apiUserSubmitTask(context?.token, props.id, { code: userCode }).then(
-            async (response) => {
-                const data = await response.json();
+        apiUserSubmitTask(context?.token, props.taskId, {
+            code: userCode,
+        }).then(async (response) => {
+            const data = await response.json();
 
-                sendLog();
+            sendLog();
 
-                setCompleted(true);
-                props.onCompletion();
-            }
-        );
+            setCompleted(true);
+            props.onCompletion();
+        });
     };
 
     const handleStart = () => {
         const now = Date.now();
 
-        apiUserStartTask(context?.token, props.id).then(async (response) => {
-            const data = await response.json();
+        apiUserStartTask(context?.token, props.taskId).then(
+            async (response) => {
+                const data = await response.json();
 
-            console.log(`checkingTime: ${data.checkingTime}`);
+                console.log(`checkingTime: ${data.checkingTime}`);
 
-            if (data.success) {
-                setStarted(true);
+                if (data.success) {
+                    setStarted(true);
 
-                if (data.canContinue) {
-                    setStartTime(Date.parse(data.startedAt));
-                    setCheckingTime(data.checkingTime);
-                    setElapsedTime(
-                        now - Date.parse(data.startedAt) - data.checkingTime
-                    );
-                } else {
-                    setStartTime(now);
-                    setElapsedTime(now - startTime);
-                }
+                    if (data.canContinue) {
+                        setStartTime(Date.parse(data.startedAt));
+                        setCheckingTime(data.checkingTime);
+                        setElapsedTime(
+                            now - Date.parse(data.startedAt) - data.checkingTime
+                        );
+                    } else {
+                        setStartTime(now);
+                        setElapsedTime(now - startTime);
+                    }
 
-                if (data.beingGraded) {
-                    // the user has already submitted the task and should wait for the result
-                    setBeingGraded(true);
+                    if (data.beingGraded) {
+                        // the user has already submitted the task and should wait for the result
+                        setBeingGraded(true);
+                    }
                 }
             }
-        });
+        );
     };
 
     useEffect(() => {
@@ -118,7 +120,7 @@ export const CodingTask = (props: CodingTaskProps) => {
             const id = setInterval(() => {
                 // check task status
                 // if completed, either pass or fail
-                apiUserGradingStatus(context?.token, props.id).then(
+                apiUserGradingStatus(context?.token, props.taskId).then(
                     async (response) => {
                         const data = await response.json();
 
@@ -149,7 +151,7 @@ export const CodingTask = (props: CodingTaskProps) => {
     }, [beingGraded]);
 
     const handleGradeCode = () => {
-        apiUserEvaluateCode(context?.token, props.id, userCode).then(
+        apiUserEvaluateCode(context?.token, props.taskId, userCode).then(
             async (response) => {
                 const data = await response.json();
 
@@ -260,7 +262,7 @@ export const CodingTask = (props: CodingTaskProps) => {
 
             <Editor
                 editorType={props.editorType}
-                id={props.id}
+                taskId={props.taskId}
                 starterCode={
                     props.taskType === TaskType.Authoring
                         ? ""
