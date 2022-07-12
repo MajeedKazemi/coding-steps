@@ -161,7 +161,7 @@ export const CodingTasks = [
     new AuthoringTask(
         "1a",
         "I am a robot!",
-        "Write a program that will display the following message: <b>I am a robot!</b>",
+        "Write a program that will display the following message: <b>I'm Wall-E!</b>",
         60 * 3
 
         // check output equals to the expected output

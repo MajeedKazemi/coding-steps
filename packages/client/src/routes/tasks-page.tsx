@@ -7,7 +7,7 @@ import { Loader } from "../components/loader";
 import { MultipleChoiceTask } from "../components/multiple-choice-task";
 import { ShortAnswerTask } from "../components/short-answer-task";
 import { AuthContext } from "../context";
-import { EditorType, TaskType } from "../utils/constants";
+import { TaskType } from "../utils/constants";
 
 export const TasksPage = () => {
     const { context } = useContext(AuthContext);
@@ -46,7 +46,7 @@ export const TasksPage = () => {
                                 : task.starterCode
                         }
                         onCompletion={setNextTask}
-                        editorType={EditorType.Copilot}
+                        showCodex={task.type === TaskType.Authoring}
                         taskType={task.type}
                     ></CodingTask>
                 );
@@ -60,7 +60,6 @@ export const TasksPage = () => {
                         description={task.description}
                         choices={task.choices}
                         onCompletion={setNextTask}
-                        editorType={EditorType.Copilot}
                         taskType={task.type}
                     ></MultipleChoiceTask>
                 );
@@ -73,7 +72,6 @@ export const TasksPage = () => {
                         title={task.title}
                         description={task.description}
                         onCompletion={setNextTask}
-                        editorType={EditorType.Copilot}
                         taskType={task.type}
                     ></ShortAnswerTask>
                 );

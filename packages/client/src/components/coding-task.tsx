@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import {
     apiLogEvents,
     apiUserEvaluateCode,
@@ -8,7 +8,7 @@ import {
 } from "../api/api";
 
 import { AuthContext } from "../context";
-import { EditorType, TaskType } from "../utils/constants";
+import { TaskType } from "../utils/constants";
 import { getLogObject } from "../utils/logger";
 import { convertTime } from "../utils/shared";
 import { Button } from "./button";
@@ -22,7 +22,7 @@ interface CodingTaskProps {
     starterCode?: string;
 
     taskType: TaskType;
-    editorType: EditorType;
+    showCodex: boolean;
 
     onCompletion: () => void;
 }
@@ -172,18 +172,18 @@ export const CodingTask = (props: CodingTaskProps) => {
         }
     }, [userCode]);
 
-    // if (beingGraded) {
-    //     return (
-    //         <div className="container">
-    //             <div className="card p-md">
-    //                 <p>
-    //                     Your submission is being graded. We will get back to you
-    //                     soon. Your timer is paused.
-    //                 </p>
-    //             </div>
-    //         </div>
-    //     );
-    // }
+    if (beingGraded) {
+        return (
+            <div className="container">
+                <div className="card p-md">
+                    <p>
+                        Your submission is being graded. We will get back to you
+                        soon. Your timer is paused.
+                    </p>
+                </div>
+            </div>
+        );
+    }
 
     if (!started) {
         return (
@@ -261,7 +261,7 @@ export const CodingTask = (props: CodingTaskProps) => {
             </section>
 
             <Editor
-                editorType={props.editorType}
+                showCodex={props.showCodex}
                 taskId={props.taskId}
                 starterCode={
                     props.taskType === TaskType.Authoring

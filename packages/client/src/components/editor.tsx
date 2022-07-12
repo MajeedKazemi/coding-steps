@@ -12,7 +12,6 @@ import {
     stopShell,
 } from "../api/python-shell";
 import { AuthContext } from "../context";
-import { EditorType } from "../utils/constants";
 import { log, LogType, RunEventType } from "../utils/logger";
 import { Codex } from "./codex";
 import { Documentation } from "./documentation";
@@ -20,7 +19,7 @@ import { Documentation } from "./documentation";
 interface EditorProps {
     taskId: string;
     starterCode: string;
-    editorType: EditorType;
+    showCodex: boolean;
     updateCode?: (code: string) => void;
 }
 
@@ -234,7 +233,7 @@ export const Editor = (props: EditorProps) => {
 
             <section className="task-assists">
                 <Documentation taskId={props.taskId} />
-                {props.editorType === EditorType.Copilot ? (
+                {props.showCodex ? (
                     <Codex editor={editor} taskId={props.taskId} />
                 ) : null}
             </section>

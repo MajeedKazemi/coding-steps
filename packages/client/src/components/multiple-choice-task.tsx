@@ -1,9 +1,9 @@
 import * as monaco from "monaco-editor";
-import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { apiUserSubmitTask } from "../api/api";
 
 import { AuthContext } from "../context";
-import { EditorType, TaskType } from "../utils/constants";
+import { TaskType } from "../utils/constants";
 import { Button } from "./button";
 
 interface IMultipleChoiceTaskProps {
@@ -13,7 +13,6 @@ interface IMultipleChoiceTaskProps {
     choices?: string[];
 
     taskType: TaskType;
-    editorType: EditorType;
 
     onCompletion: () => void;
 }
