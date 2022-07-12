@@ -25,10 +25,10 @@ export const authLogout = (token: string | null | undefined) =>
     });
 
 export const authSignup = (
-    firstName: string,
-    lastName: string,
     username: string,
-    password: string
+    password: string,
+    firstName: string,
+    lastName: string
 ) =>
     fetch(env.API_URL + "/api/auth/signup", {
         method: "POST",

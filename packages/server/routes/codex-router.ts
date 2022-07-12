@@ -9,12 +9,12 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
     const { description, type } = req.body;
 
     if (description !== undefined && type !== undefined) {
-        const prompt = `# python3\n# ${description}\n`;
+        const prompt = `# python3\n# ${description.trim()}\n`;
 
         const result = await openai.createCompletion({
             model: "code-davinci-002",
             prompt: prompt,
-            temperature: 0.05,
+            temperature: 0.15,
             max_tokens: 300,
             stop: ["#"],
             frequency_penalty: 0.2,
