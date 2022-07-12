@@ -252,9 +252,9 @@ export const CodingTask = (props: CodingTaskProps) => {
                         <Button
                             onClick={handleGradeCode}
                             type="block"
-                            disabled={!canSubmit}
+                            disabled={!canSubmit || beingGraded}
                         >
-                            Submit to Grade
+                            {beingGraded ? "Being Graded" : "Submit to Grade"}
                         </Button>
                     </div>
                 </div>
