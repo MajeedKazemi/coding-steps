@@ -113,7 +113,7 @@ export const CodingTask = (props: CodingTaskProps) => {
         return () => {
             clearInterval(id);
         };
-    }, [startTime, beingGraded]);
+    }, [startTime, beingGraded, elapsedTime]);
 
     useEffect(() => {
         if (beingGraded) {
