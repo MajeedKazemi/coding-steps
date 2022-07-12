@@ -6,12 +6,18 @@ export enum TaskType {
 }
 
 export interface IUserTask {
+    sequence: number;
     userId: string;
     taskId: string;
     userTaskId: string;
     startedAt: Date;
     finishedAt: Date;
+    log: any;
     data: any;
+    completed: boolean;
+    submissions: Array<{ code: string; submittedAt: Date; checkedAt?: Date }>;
+    beingGraded: boolean;
+    passed: boolean;
 }
 
 export abstract class Task {
@@ -125,6 +131,7 @@ export class ShortAnswerTask extends Task {
 }
 
 export const getNextTask = (completedTasks: IUserTask[]): Task => {
+    // if the last task was an authoring task and they did it correctly, the starting code for it should be the final code that they submitted.
     if (completedTasks === undefined || completedTasks.length === 0)
         return CodingTasks[0];
 
@@ -134,25 +141,37 @@ export const getNextTask = (completedTasks: IUserTask[]): Task => {
         (task) => task.id === lastCompletedTaskId
     );
 
-    return CodingTasks[lastCompletedTaskIndex + 1];
+    const nextTask = CodingTasks[lastCompletedTaskIndex + 1];
+
+    const prevTask = completedTasks[completedTasks.length - 1];
+
+    if (
+        nextTask instanceof ModifyingTask &&
+        getTaskFromTaskId(prevTask.taskId)?.type === TaskType.Authoring
+    ) {
+        nextTask.starterCode =
+            prevTask.submissions[prevTask.submissions.length - 1].code;
+    }
+
+    return nextTask;
 };
 
 export const CodingTasks = [
     // using print
     new AuthoringTask(
         "1a",
-        "Display message",
-        "Write a program that will display the following message: <b>Hello World!</b>",
-        60 * 4
+        "I am a robot!",
+        "Write a program that will display the following message: <b>I am a robot!</b>",
+        60 * 3
 
         // check output equals to the expected output
     ),
     new ModifyingTask(
         "1b",
-        "Change message",
-        "Modify the given program so that it would display the following message instead: <b>My first program!<b/>",
-        `print("Hello World!")`,
-        60 * 4
+        "Beep Boop",
+        "Modify the given program so that it would display another message after the first one: <b>Beep Boop</b>",
+        `print("I am a robot!")`,
+        60 * 2
 
         // check output equals to the expected output
     ),
@@ -160,8 +179,8 @@ export const CodingTasks = [
     // set str variable -> print value
     new AuthoringTask(
         "2a",
-        "Set variable",
-        "Write a program that will first create a variable called <b>name</b> and set its value to <b>John</b>. Then, display the value of the variable.",
+        "Variable Wall-E",
+        "Write a program that will first create a variable called <b>name</b> and set its value to <b>Wall-E</b>. Then, display the value of the variable.",
         60 * 4
 
         // check output equals to the expected output
@@ -170,8 +189,8 @@ export const CodingTasks = [
     new ModifyingTask(
         "2b",
         "Change variable",
-        "Modify the given program's variable name from <b>name</b> to <b>first_name</b>.",
-        [`name = "John"`, `print(name)`].join("\n"),
+        "Modify the given program's variable name from <b>name</b> to <b>robot_name</b>.",
+        [`name = "Wall-E"`, `print(name)`].join("\n"),
         60 * 4
 
         // check output equals to the expected output
@@ -181,8 +200,8 @@ export const CodingTasks = [
     // join text
     new AuthoringTask(
         "3a",
-        "My name is...",
-        "Write a program that would create a variable called <b>name</b> and set its value to your name. Then, display the message <b>My name is <i>name</i></b>.",
+        "I am Wall-E",
+        "Write a program that would create a variable called <b>name</b> and set its value to <b>Wall-E</b>. Then, display the message <b>My name is <i>name</i></b>.",
         60 * 4
 
         // check if program has a variable
@@ -191,9 +210,9 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "3b",
-        "My name is...",
+        "Hi Wall-E",
         "Modify the given program so that it would display the following message: <b>Hi, <i>name</i>! Nice to meet you!</b>.",
-        [`name = "John"`, `print("My name is " + name)`].join("\n"),
+        [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
         60 * 4
     ),
 
@@ -201,7 +220,7 @@ export const CodingTasks = [
     new AuthoringTask(
         "4a",
         "What's your name?",
-        "Write a program that would ask the user their name and then display the message <b>Hello, <i>name</i>!</b>.",
+        "Write a program that would ask the user their name and then store their name into a variable. Finally, display the message <b>Hello, <i>name</i>!</b>.",
         60 * 4
     ),
     new ModifyingTask(
@@ -215,18 +234,109 @@ export const CodingTasks = [
         60 * 4
     ),
 
-    new MultipleChoiceTask(
-        "5",
-        "Choose the correct answer",
-        `Which option correctly explains the difference between the two following codes? <pre class="code-block" data-lang="python">something = input("enter something:")\nprint(something)</pre> and <pre class="code-block" data-lang="python">print(input("enter something:"))</pre>`,
-        ["option one", "option two", "option three", "option four"]
+    // join str + static var -> update variable -> display var
+    new AuthoringTask(
+        "5a",
+        "Robot food",
+        "Write a program that would create a variable called food1 and set its value to <b>nuts</b>, and another variable called food2 set to <b>bolts</b>. then create a third variable called robot_food and set it to the value of <b><i>food1</i> and <i>food2</i></b>. Finally, display the message <b>I like <i>robot_food</i>.</b>.",
+        60 * 4
+    ),
+    new ModifyingTask(
+        "5b",
+        "More robot food",
+        "Modify the following program so that it would include a third food (called food3) set to <b>screws</b>. Then modify robot_food to be the value of <b><i>food1</i>, <i>food2</i> and <i>food3</i></b>. Finally display the message <b>I like <i>robot_food</i>.</b>.",
+        [
+            `food1 = "nuts"`,
+            `food1 = "bolts"`,
+            `robot_food = food1 + " and " + food2`,
+            `print("I like " + robot_food + ".")`,
+        ].join("\n"),
+        60 * 4
     ),
 
-    new ShortAnswerTask(
-        "6",
-        "Explain what this code does?",
-        `Read the following Python code and briefly explain what it does:\n<pre class="code-block" data-lang="python">x = 10\ny = 50\nt = x\nx = y\ny = t\n</pre>`
+    // numbers -> add -> print
+    new AuthoringTask(
+        "6a",
+        "Numbers",
+        "Write a program that would set a variable called <b>num1</b> to <b>10</b>, and another variable called <b>num2</b> to <b>20</b>. Then, add the values of <b>num1</b> and <b>num2</b> and store the result in a variable called <b>num3</b>. Finally, display the value of num3.",
+        60 * 4
     ),
+    new ModifyingTask(
+        "6b",
+        "More numbers",
+        "Modify the following program so that it would store the multiplication of <b>num1</b> and <b>num2</b> into a new variable called <b>num4</b> and then display the value of num3 and num4 separately.",
+        [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
+            "\n"
+        ),
+        60 * 4
+    ),
+
+    // numbers -> add -> print
+    new AuthoringTask(
+        "7a",
+        "Numbers",
+        "Write a program that would set a variable called <b>num1</b> to <b>10</b>, and another variable called <b>num2</b> to <b>20</b>. Then, add the values of <b>num1</b> and <b>num2</b> and store the result in a variable called <b>num3</b>. Finally, display the value of num3.",
+        60 * 4
+    ),
+    new ModifyingTask(
+        "7b",
+        "More numbers",
+        "Modify the following program so that it would store the multiplication of <b>num1</b> and <b>num2</b> into a new variable called <b>num4</b> and then display the value of num3 and num4 separately.",
+        [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
+            "\n"
+        ),
+        60 * 4
+    ),
+
+    // random number -> print
+    new AuthoringTask(
+        "8a",
+        "Random number",
+        "Write a program that would generate a random number between 1 and 10 and set it to a variable called num. Then, display the value of num.",
+        60 * 4
+    ),
+    new ModifyingTask(
+        "8b",
+        "More random numbers",
+        "Modify the following program so that it would generate a second random number between 50 and 100 and set it to another variable named <i>num2</i>. Then, display the value of each random number separately.",
+        [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
+            "\n"
+        ),
+        60 * 4
+    ),
+
+    // random number -> print
+    new AuthoringTask(
+        "9a",
+        "Numbers and text",
+        "Write a program that would generate a random number between 1 and 6 and set it to a variable named <i>roll</i>. Then, create another variable called <b>message</b> and set it to the value of <b>You rolled: <i>roll</i></b>. Finally, display the value of <b>message</b>.",
+        60 * 4
+    ),
+    new ModifyingTask(
+        "9b",
+        "Modify numbers and text",
+        "Modify the following program so that it would generate a second random number between 50 and 100 and set it to another variable named <i>num2</i>. Then, display the value of each random number separately.",
+        [
+            `import random`,
+            `roll = random.randint(1, 6)`,
+            `message = "You rolled: " + str(roll)`,
+            `print(message)`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    // new MultipleChoiceTask(
+    //     "5",
+    //     "Choose the correct answer",
+    //     `Which option correctly explains the difference between the two following codes? <pre class="code-block" data-lang="python">something = input("enter something:")\nprint(something)</pre> and <pre class="code-block" data-lang="python">print(input("enter something:"))</pre>`,
+    //     ["option one", "option two", "option three", "option four"]
+    // ),
+
+    // new ShortAnswerTask(
+    //     "6",
+    //     "Explain what this code does?",
+    //     `Read the following Python code and briefly explain what it does:\n<pre class="code-block" data-lang="python">x = 10\ny = 50\nt = x\nx = y\ny = t\n</pre>`
+    // ),
 ];
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
