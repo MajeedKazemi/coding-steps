@@ -147,7 +147,8 @@ export const getNextTask = (completedTasks: IUserTask[]): Task => {
 
     if (
         nextTask instanceof ModifyingTask &&
-        getTaskFromTaskId(prevTask.taskId)?.type === TaskType.Authoring
+        getTaskFromTaskId(prevTask.taskId)?.type === TaskType.Authoring &&
+        prevTask.passed
     ) {
         nextTask.starterCode =
             prevTask.submissions[prevTask.submissions.length - 1].code;
