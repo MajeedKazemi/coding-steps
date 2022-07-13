@@ -1,4 +1,5 @@
 export enum LogType {
+    PasteEvent = "paste",
     ReplayEvent = "replay",
     DocEvent = "doc",
     PromptEvent = "prompt",
@@ -132,11 +133,6 @@ export const log = (
             return;
     }
 
-    // TEST:
-    if (l.replayEvents.length > 150) {
-        console.log(JSON.stringify(l));
-    }
-
     l.lastUpdate = Date.now();
 };
 
@@ -156,7 +152,6 @@ export const getLogObject = (
         return memoryLog;
     } else {
         const storageLog = localStorage.getItem(`log-${key}`);
-        console.log(`reloading from storage: ${key}`);
 
         if (storageLog) {
             const logObj = JSON.parse(storageLog);
@@ -164,7 +159,6 @@ export const getLogObject = (
 
             return logObj;
         } else {
-            console.log(`initializing the first time: ${key}`);
             const logObj = new LogObj(uid, taskId);
 
             logMapMemory.set(key, logObj);
@@ -185,17 +179,10 @@ setInterval(() => {
         let lastUpdateStr = localStorage.getItem(`log-lastUpdate-${key}`);
         let lastUpdate = lastUpdateStr ? parseInt(lastUpdateStr) : 0;
 
-        console.log(`${key} -> lastUpdate: ${lastUpdate}`);
-
         if (
             Date.now() - logObj.lastUpdate < 300000 &&
             logObj.lastUpdate - lastUpdate > 5000
         ) {
-            console.log(
-                `${key} -> saving -> f: ${Date.now() - logObj.lastUpdate} s: ${
-                    logObj.lastUpdate - lastUpdate
-                }`
-            );
             // it has been updated in the last 5 minutes
             // and it has been updated in the last 5 seconds
             // -> needs to get saved
@@ -207,12 +194,6 @@ setInterval(() => {
         } else if (Date.now() - logObj.lastUpdate > 300000) {
             // it has been updated in the last 5 minutes
             // -> needs to get deleted
-
-            console.log(
-                `${key} -> deleting -> f: ${
-                    Date.now() - logObj.lastUpdate
-                } s: ${logObj.lastUpdate - lastUpdate}`
-            );
 
             toBeDeleted.add(key);
         }

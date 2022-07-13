@@ -164,10 +164,6 @@ export const CodingTask = (props: CodingTaskProps) => {
                                     setCompleted(true);
                                     props.onCompletion(); // go to the next task
                                 }
-                            } else {
-                                console.log(
-                                    "still waiting for the code to be graded by the instructors ..."
-                                );
                             }
                         })
                         .catch((error: any) => {
@@ -194,8 +190,6 @@ export const CodingTask = (props: CodingTaskProps) => {
 
                     if (data.success) {
                         setBeingGraded(true);
-
-                        console.log(`checkingTime: ${data.checkingTime}`);
                     }
                 })
                 .catch((error: any) => {

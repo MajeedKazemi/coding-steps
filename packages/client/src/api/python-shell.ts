@@ -14,13 +14,9 @@ const connectPythonShellSocket = () => {
     };
 
     shellSocket.onclose = () => {
-        console.log("python-shell socket closed. will retry in 1 second.");
-
         isConnected = false;
 
         setTimeout(() => {
-            console.log("retrying to connect to python-shell socket...");
-
             connectPythonShellSocket();
         }, 1000);
     };

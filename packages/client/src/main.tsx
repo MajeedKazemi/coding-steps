@@ -1,9 +1,21 @@
 import "./index.css";
 import "./userWorker";
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+    BrowserRouter,
+    Navigate,
+    Route,
+    Routes,
+    useLocation,
+} from "react-router-dom";
 
 import { authRefresh } from "./api/api";
 import { AuthContext } from "./context";

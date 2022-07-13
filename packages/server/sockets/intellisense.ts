@@ -15,8 +15,6 @@ export function initLanguageService(server: http.Server) {
         perMessageDeflate: false,
     });
 
-    console.log(`initialized language service.`);
-
     server.on(
         "upgrade",
         (request: http.IncomingMessage, socket: net.Socket, head: Buffer) => {

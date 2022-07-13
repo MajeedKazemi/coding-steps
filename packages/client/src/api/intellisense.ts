@@ -11,9 +11,19 @@ import "monaco-editor/esm/vs/editor/standalone/browser/quickInput/standaloneQuic
 import "monaco-editor/esm/vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch.js";
 import "monaco-editor/esm/vs/editor/standalone/browser/toggleHighContrast/toggleHighContrast.js";
 
-import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from "@codingame/monaco-jsonrpc";
+import {
+    toSocket,
+    WebSocketMessageReader,
+    WebSocketMessageWriter,
+} from "@codingame/monaco-jsonrpc";
 import * as monaco from "monaco-editor";
-import { CloseAction, ErrorAction, MessageTransports, MonacoLanguageClient, MonacoServices } from "monaco-languageclient";
+import {
+    CloseAction,
+    ErrorAction,
+    MessageTransports,
+    MonacoLanguageClient,
+    MonacoServices,
+} from "monaco-languageclient";
 
 import env from "../utils/env";
 import { createUrl } from "../utils/shared";
@@ -276,15 +286,9 @@ export function initializeLanguageClient() {
             languageClient.start();
 
             reader.onClose(() => {
-                console.log("language client closed. will retry in 1 second.");
-
                 languageClient.stop();
 
                 setTimeout(() => {
-                    console.log(
-                        "retrying to connect to language client socket..."
-                    );
-
                     setupLanguageClient();
                 }, 1000);
             });
@@ -294,11 +298,7 @@ export function initializeLanguageClient() {
     };
 
     webSocket.onclose = () => {
-        console.log("intellisense WebSocket closed. will retry in 1 second.");
-
         setTimeout(() => {
-            console.log("retrying to connect to intellisense socket...");
-
             initializeLanguageClient();
         });
     };
@@ -330,12 +330,9 @@ function createLanguageClient(
             // disable the default error handler
             errorHandler: {
                 error: (e) => {
-                    console.log("error handler called", e);
-
                     return { action: ErrorAction.Continue };
                 },
                 closed: () => {
-                    console.log("closed handler called -- will restart");
                     return { action: CloseAction.Restart };
                 },
             },
