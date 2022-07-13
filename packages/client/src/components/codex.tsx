@@ -29,7 +29,6 @@ export const Codex = (props: ICodexProps) => {
 
                         generateCode();
                     } else if (response.ok && props.editor) {
-                        props.editor?.updateOptions({ readOnly: false });
                         const data = await response.json();
 
                         let text = data.code;
@@ -207,15 +206,18 @@ export const Codex = (props: ICodexProps) => {
 
                         props.editor?.focus();
                         setWaiting(false);
+                        props.editor?.updateOptions({ readOnly: false });
                         setDescription("");
                     }
                 })
                 .catch((error) => {
                     logError(error.toString());
+                    props.editor?.updateOptions({ readOnly: false });
                     setWaiting(false);
                 });
         } catch (error: any) {
             logError(error.toString());
+            props.editor?.updateOptions({ readOnly: false });
             setWaiting(false);
         }
     };
