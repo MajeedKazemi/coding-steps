@@ -56,7 +56,7 @@ export const verifyUser = passport.authenticate("jwt", { session: false });
 
 export const getRefreshToken = (user: any) => {
     const refreshToken = jwt.sign(user, env.REFRESH_TOKEN_SECRET, {
-        expiresIn: eval(env.REFRESH_TOKEN_EXPIRY),
+        expiresIn: parseInt(env.REFRESH_TOKEN_EXPIRY) * 1000,
     });
     return refreshToken;
 };
@@ -67,5 +67,5 @@ export const COOKIE_OPTIONS: CookieOptions = {
     // secure cookies do not work correctly (in postman)
     secure: !env.dev,
     signed: true,
-    maxAge: eval(env.REFRESH_TOKEN_EXPIRY) * 1000,
+    maxAge: parseInt(env.REFRESH_TOKEN_EXPIRY) * 1000,
 };
