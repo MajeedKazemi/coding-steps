@@ -5,6 +5,7 @@ import {
     apiUserGradingStatus,
     apiUserStartTask,
     apiUserSubmitTask,
+    logError,
 } from "../api/api";
 
 import { AuthContext } from "../context";
@@ -44,58 +45,76 @@ export const CodingTask = (props: CodingTaskProps) => {
     const [canSubmit, setCanSubmit] = useState(false);
 
     const sendLog = () => {
-        apiLogEvents(
-            context?.token,
-            props.taskId,
-            getLogObject(props.taskId, context?.user?.id)
-        ).then(async (response) => {
-            const data = await response.json();
-        });
+        try {
+            apiLogEvents(
+                context?.token,
+                props.taskId,
+                getLogObject(props.taskId, context?.user?.id)
+            )
+                .then(async (response) => {})
+                .catch((error) => {
+                    logError(error.toString());
+                });
+        } catch (error: any) {
+            logError(error.toString());
+        }
     };
 
     const handlFinishTask = () => {
-        apiUserSubmitTask(context?.token, props.taskId, {
-            code: userCode,
-        }).then(async (response) => {
-            const data = await response.json();
+        try {
+            apiUserSubmitTask(context?.token, props.taskId, {
+                code: userCode,
+            })
+                .then(async (response) => {
+                    sendLog();
 
-            sendLog();
-
-            setCompleted(true);
-            props.onCompletion();
-        });
+                    setCompleted(true);
+                    props.onCompletion();
+                })
+                .catch((error: any) => {
+                    logError(error.toString());
+                });
+        } catch (error: any) {
+            logError(error.toString());
+        }
     };
 
     const handleStart = () => {
         const now = Date.now();
 
-        apiUserStartTask(context?.token, props.taskId).then(
-            async (response) => {
-                const data = await response.json();
+        try {
+            apiUserStartTask(context?.token, props.taskId)
+                .then(async (response) => {
+                    const data = await response.json();
 
-                console.log(`checkingTime: ${data.checkingTime}`);
+                    if (data.success) {
+                        setStarted(true);
 
-                if (data.success) {
-                    setStarted(true);
+                        if (data.canContinue) {
+                            setStartTime(Date.parse(data.startedAt));
+                            setCheckingTime(data.checkingTime);
+                            setElapsedTime(
+                                now -
+                                    Date.parse(data.startedAt) -
+                                    data.checkingTime
+                            );
+                        } else {
+                            setStartTime(now);
+                            setElapsedTime(now - startTime);
+                        }
 
-                    if (data.canContinue) {
-                        setStartTime(Date.parse(data.startedAt));
-                        setCheckingTime(data.checkingTime);
-                        setElapsedTime(
-                            now - Date.parse(data.startedAt) - data.checkingTime
-                        );
-                    } else {
-                        setStartTime(now);
-                        setElapsedTime(now - startTime);
+                        if (data.beingGraded) {
+                            // the user has already submitted the task and should wait for the result
+                            setBeingGraded(true);
+                        }
                     }
-
-                    if (data.beingGraded) {
-                        // the user has already submitted the task and should wait for the result
-                        setBeingGraded(true);
-                    }
-                }
-            }
-        );
+                })
+                .catch((error: any) => {
+                    logError(error.toString());
+                });
+        } catch (error: any) {
+            logError(error.toString());
+        }
     };
 
     useEffect(() => {
@@ -120,28 +139,34 @@ export const CodingTask = (props: CodingTaskProps) => {
             const id = setInterval(() => {
                 // check task status
                 // if completed, either pass or fail
-                apiUserGradingStatus(context?.token, props.taskId).then(
-                    async (response) => {
-                        const data = await response.json();
+                try {
+                    apiUserGradingStatus(context?.token, props.taskId)
+                        .then(async (response) => {
+                            const data = await response.json();
 
-                        if (!data.beingGraded) {
-                            setCheckingTime(data.checkingTime);
-                            setBeingGraded(false);
-                            clearInterval(id);
+                            if (!data.beingGraded) {
+                                setCheckingTime(data.checkingTime);
+                                setBeingGraded(false);
+                                clearInterval(id);
 
-                            if (data.passed) {
-                                sendLog();
+                                if (data.passed) {
+                                    sendLog();
 
-                                setCompleted(true);
-                                props.onCompletion(); // go to the next task
+                                    setCompleted(true);
+                                    props.onCompletion(); // go to the next task
+                                }
+                            } else {
+                                console.log(
+                                    "still waiting for the code to be graded by the instructors ..."
+                                );
                             }
-                        } else {
-                            console.log(
-                                "still waiting for the code to be graded by the instructors ..."
-                            );
-                        }
-                    }
-                );
+                        })
+                        .catch((error: any) => {
+                            logError(error.toString());
+                        });
+                } catch (error: any) {
+                    logError(error.toString());
+                }
             }, 1000);
 
             return () => {
@@ -151,17 +176,23 @@ export const CodingTask = (props: CodingTaskProps) => {
     }, [beingGraded]);
 
     const handleGradeCode = () => {
-        apiUserEvaluateCode(context?.token, props.taskId, userCode).then(
-            async (response) => {
-                const data = await response.json();
+        try {
+            apiUserEvaluateCode(context?.token, props.taskId, userCode)
+                .then(async (response) => {
+                    const data = await response.json();
 
-                if (data.success) {
-                    setBeingGraded(true);
+                    if (data.success) {
+                        setBeingGraded(true);
 
-                    console.log(`checkingTime: ${data.checkingTime}`);
-                }
-            }
-        );
+                        console.log(`checkingTime: ${data.checkingTime}`);
+                    }
+                })
+                .catch((error: any) => {
+                    logError(error.toString());
+                });
+        } catch (error: any) {
+            logError(error.toString());
+        }
     };
 
     useEffect(() => {

@@ -79,4 +79,7 @@ const UserTaskSchema = new Schema({
     },
 });
 
-export const UserTask = mongoose.model<IUserTask>("UserTask", UserTaskSchema);
+export const UserTaskModel = mongoose.model<IUserTask>(
+    "UserTask",
+    UserTaskSchema
+);

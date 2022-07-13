@@ -1,7 +1,7 @@
 import express from "express";
 
 import { IUser } from "../models/user";
-import { UserTask } from "../models/user-task";
+import { UserTaskModel } from "../models/user-task";
 import {
     AuthoringTask,
     getNextTask,
@@ -21,7 +21,7 @@ tasksRouter.get("/next", verifyUser, (req, res, next) => {
 
     if (userId !== undefined) {
         // searches through all of the tasks that the user has completed and find the next one (using their sequence number)
-        UserTask.find({
+        UserTaskModel.find({
             userId,
             completed: true,
         })
@@ -41,7 +41,7 @@ tasksRouter.post("/start", verifyUser, (req, res, next) => {
         const task = getTaskFromTaskId(taskId);
 
         if (task !== undefined) {
-            UserTask.findOne({ userId, taskId }).then((userTask) => {
+            UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
                 if (userTask) {
                     userTask.save((err, userTask) => {
                         // have started before:
@@ -62,7 +62,7 @@ tasksRouter.post("/start", verifyUser, (req, res, next) => {
                         }
                     });
                 } else {
-                    const userTask = new UserTask({
+                    const userTask = new UserTaskModel({
                         sequence: getTaskSequenceFromTaskId(taskId),
                         userId,
                         taskId,
@@ -108,7 +108,7 @@ tasksRouter.post("/eval-code", verifyUser, (req, res, next) => {
             const checkResult = task.checkCode(data.code);
 
             if (checkResult.passed) {
-                UserTask.findOne({ userId, taskId }).then((userTask) => {
+                UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
                     if (userTask) {
                         userTask.beingGraded = true;
 
@@ -152,7 +152,7 @@ tasksRouter.get("/grading-status/:taskId", verifyUser, (req, res, next) => {
         const task = getTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
-            UserTask.findOne({ userId, taskId }).then((userTask) => {
+            UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
                 if (userTask) {
                     res.send({
                         success: true,
@@ -179,7 +179,7 @@ tasksRouter.get("/grading-status/:taskId", verifyUser, (req, res, next) => {
 // get all tasks that should be graded by the admin
 tasksRouter.get("/not-graded", verifyUser, (req, res, next) => {
     if ((req.user as IUser).role === "admin") {
-        UserTask.find({ beingGraded: true })
+        UserTaskModel.find({ beingGraded: true })
             .sort({ startedAt: 1 })
             .then((userTasks) => {
                 res.send({
@@ -226,7 +226,7 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
         const task = getTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
-            UserTask.findOne({ userId, taskId }).then((userTask) => {
+            UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
                 if (userTask) {
                     userTask.finishedAt = submittedAt;
                     userTask.completed = true;
@@ -259,7 +259,7 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
         ) {
             const { startedAt } = req.body;
 
-            const userTask = new UserTask({
+            const userTask = new UserTaskModel({
                 sequence: getTaskSequenceFromTaskId(taskId),
                 userTaskId: `${userId}_${taskId}`,
                 userId,
@@ -305,7 +305,7 @@ tasksRouter.post("/set-grade", verifyUser, (req, res, next) => {
                 task instanceof AuthoringTask ||
                 task instanceof ModifyingTask
             ) {
-                UserTask.findOne({ userId, taskId }).then((userTask) => {
+                UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
                     if (userTask) {
                         userTask.passed = passed;
                         userTask.beingGraded = false;
@@ -360,7 +360,7 @@ tasksRouter.post("/log", verifyUser, (req, res, next) => {
         const task = getTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
-            UserTask.findOne({ userId, taskId }).then((userTask) => {
+            UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
                 if (userTask) {
                     userTask.log = log;
 

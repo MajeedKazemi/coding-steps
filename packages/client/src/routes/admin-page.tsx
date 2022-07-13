@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { apiAdminGetSubmissions } from "../api/api";
+import { apiAdminGetSubmissions, logError } from "../api/api";
 
 import { AdminSubmission } from "../components/admin-submission";
 import { Layout } from "../components/layout";
@@ -11,15 +11,19 @@ export const AdminPage = () => {
     const [submissions, setSubmissions] = useState<Array<ISubmission>>([]);
 
     const fetchTasks = () => {
-        apiAdminGetSubmissions(context?.token)
-            .then(async (response) => {
-                const data = await response.json();
+        try {
+            apiAdminGetSubmissions(context?.token)
+                .then(async (response) => {
+                    const data = await response.json();
 
-                setSubmissions(data.submissions);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+                    setSubmissions(data.submissions);
+                })
+                .catch((error: any) => {
+                    logError(error.toString());
+                });
+        } catch (error: any) {
+            logError(error.toString());
+        }
     };
 
     useEffect(() => {

@@ -100,4 +100,4 @@ UserSchema.set("toJSON", {
 
 UserSchema.plugin(passportLocalMongoose);
 
-export const User = mongoose.model<IUser>("User", UserSchema);
+export const UserModel = mongoose.model<IUser>("User", UserSchema);

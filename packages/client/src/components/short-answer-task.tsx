@@ -1,6 +1,6 @@
 import * as monaco from "monaco-editor";
 import { useContext, useEffect, useState } from "react";
-import { apiUserSubmitTask } from "../api/api";
+import { apiUserSubmitTask, logError } from "../api/api";
 
 import { AuthContext } from "../context";
 import { TaskType } from "../utils/constants";
@@ -24,20 +24,28 @@ export const ShortAnswerTask = (props: IShortAnswerTask) => {
     const [startedAt, setStartedAt] = useState(new Date());
 
     const handleSubmitCode = () => {
-        apiUserSubmitTask(
-            context?.token,
-            props.id,
-            { answer: userAnswer },
-            new Date(),
-            startedAt
-        ).then(async (response) => {
-            const data = await response.json();
+        try {
+            apiUserSubmitTask(
+                context?.token,
+                props.id,
+                { answer: userAnswer },
+                new Date(),
+                startedAt
+            )
+                .then(async (response) => {
+                    const data = await response.json();
 
-            if (data.completed) {
-                setCompleted(true);
-                props.onCompletion();
-            }
-        });
+                    if (data.completed) {
+                        setCompleted(true);
+                        props.onCompletion();
+                    }
+                })
+                .catch((error: any) => {
+                    logError(error.toString());
+                });
+        } catch (error: any) {
+            logError(error.toString());
+        }
     };
 
     useEffect(() => {

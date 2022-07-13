@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import { apiAdminSetGrade } from "../api/api";
+import { apiAdminSetGrade, logError } from "../api/api";
 import { AuthContext } from "../context";
 import { ISubmission } from "../types";
 import { Example } from "./doc-example";
@@ -15,24 +15,28 @@ export const AdminSubmission = (props: IProps) => {
 
     const handleSubmitGrade = () => {
         if (grade === "pass" || grade === "fail") {
-            apiAdminSetGrade(
-                context?.token,
-                props.submission.taskId,
-                props.submission.userId,
-                grade === "pass",
-                props.submission.submittedAt,
-                props.submission.index
-            )
-                .then(async (response) => {
-                    const data = await response.json();
+            try {
+                apiAdminSetGrade(
+                    context?.token,
+                    props.submission.taskId,
+                    props.submission.userId,
+                    grade === "pass",
+                    props.submission.submittedAt,
+                    props.submission.index
+                )
+                    .then(async (response) => {
+                        const data = await response.json();
 
-                    if (data.success) {
-                        setGrade("");
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                        if (data.success) {
+                            setGrade("");
+                        }
+                    })
+                    .catch((error: any) => {
+                        logError(error.toString());
+                    });
+            } catch (error: any) {
+                logError(error.toString());
+            }
         }
 
         setGrade("");

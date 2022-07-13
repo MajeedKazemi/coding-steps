@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor";
 import { Range } from "monaco-editor";
 import { useContext, useState } from "react";
-import { apiGenerateCodex } from "../api/api";
+import { apiGenerateCodex, logError } from "../api/api";
 
 import { AuthContext } from "../context";
 import { log, LogType } from "../utils/logger";
@@ -26,185 +26,193 @@ export const Codex = (props: ICodexProps) => {
         setWaiting(true);
         props.editor?.updateOptions({ readOnly: true });
 
-        apiGenerateCodex(context?.token, description)
-            .then(async (response) => {
-                if (response.ok && props.editor) {
-                    props.editor?.updateOptions({ readOnly: false });
-                    const data = await response.json();
+        try {
+            apiGenerateCodex(context?.token, description)
+                .then(async (response) => {
+                    if (response.ok && props.editor) {
+                        props.editor?.updateOptions({ readOnly: false });
+                        const data = await response.json();
 
-                    let text = data.code;
+                        let text = data.code;
 
-                    if (text.length > 0) {
-                        log(
-                            props.taskId,
-                            context?.user?.id,
-                            LogType.PromptEvent,
-                            {
-                                code: text,
-                                description: description,
-                            }
-                        );
-
-                        let insertLine = 0;
-                        let insertColumn = 1;
-
-                        let curLineNumber = 0;
-                        let curColumn = 0;
-
-                        let highlightStartLine = 0;
-                        let highlightStartColumn = 0;
-                        let highlightEndLine = 0;
-                        let highlightEndColumn = 0;
-
-                        const curPos = props.editor.getPosition();
-                        const curCodeLines = props.editor
-                            .getValue()
-                            .split("\n");
-
-                        if (curPos) {
-                            curLineNumber = curPos.lineNumber;
-                            curColumn = curPos.column;
-                        }
-
-                        let curLineText = curCodeLines[curLineNumber - 1];
-                        let nextLineText =
-                            curLineNumber < curCodeLines.length
-                                ? curCodeLines[curLineNumber]
-                                : null;
-
-                        if (curColumn === 1) {
-                            // at the beginning of a line
-                            if (curLineText !== "") {
-                                text += "\n";
-
-                                highlightStartLine = curLineNumber;
-                                highlightStartColumn = curColumn;
-
-                                const textLines = text.split("\n");
-
-                                highlightEndLine =
-                                    curLineNumber + textLines.length - 1;
-                                highlightEndColumn = 1;
-                            } else {
-                                highlightStartLine = curLineNumber;
-                                highlightStartColumn = curColumn;
-
-                                highlightEndLine =
-                                    curLineNumber + text.split("\n").length;
-                                highlightEndColumn = 1;
-                            }
-                        } else if (curColumn !== 1) {
-                            // in the middle of a line
-                            if (nextLineText !== "") {
-                                text = "\n" + text;
-                                insertLine = curLineNumber;
-                                insertColumn = curLineText.length + 1;
-
-                                const textLines = text.split("\n");
-
-                                highlightStartLine = curLineNumber + 1;
-                                highlightStartColumn = 1;
-
-                                highlightEndLine =
-                                    curLineNumber + text.split("\n").length - 1;
-                                highlightEndColumn =
-                                    textLines[textLines.length - 1].length + 1;
-                            } else {
-                                insertLine = curLineNumber + 1;
-                                insertColumn = 1;
-
-                                highlightStartLine = curLineNumber;
-                                highlightStartColumn = curColumn;
-
-                                highlightEndLine =
-                                    curLineNumber + text.split("\n").length;
-                                highlightEndColumn = 1;
-                            }
-                        }
-
-                        props.editor.executeEdits("module", [
-                            {
-                                range: new Range(
-                                    insertLine,
-                                    insertColumn,
-                                    insertLine,
-                                    insertColumn
-                                ),
-                                text: text,
-                                forceMoveMarkers: true,
-                            },
-                        ]);
-
-                        const decoration = props.editor.deltaDecorations(
-                            [],
-                            [
+                        if (text.length > 0) {
+                            log(
+                                props.taskId,
+                                context?.user?.id,
+                                LogType.PromptEvent,
                                 {
-                                    range: new monaco.Range(
-                                        highlightStartLine,
-                                        highlightStartColumn,
-                                        highlightEndLine,
-                                        highlightEndColumn
+                                    code: text,
+                                    description: description,
+                                }
+                            );
+
+                            let insertLine = 0;
+                            let insertColumn = 1;
+
+                            let curLineNumber = 0;
+                            let curColumn = 0;
+
+                            let highlightStartLine = 0;
+                            let highlightStartColumn = 0;
+                            let highlightEndLine = 0;
+                            let highlightEndColumn = 0;
+
+                            const curPos = props.editor.getPosition();
+                            const curCodeLines = props.editor
+                                .getValue()
+                                .split("\n");
+
+                            if (curPos) {
+                                curLineNumber = curPos.lineNumber;
+                                curColumn = curPos.column;
+                            }
+
+                            let curLineText = curCodeLines[curLineNumber - 1];
+                            let nextLineText =
+                                curLineNumber < curCodeLines.length
+                                    ? curCodeLines[curLineNumber]
+                                    : null;
+
+                            if (curColumn === 1) {
+                                // at the beginning of a line
+                                if (curLineText !== "") {
+                                    text += "\n";
+
+                                    highlightStartLine = curLineNumber;
+                                    highlightStartColumn = curColumn;
+
+                                    const textLines = text.split("\n");
+
+                                    highlightEndLine =
+                                        curLineNumber + textLines.length - 1;
+                                    highlightEndColumn = 1;
+                                } else {
+                                    highlightStartLine = curLineNumber;
+                                    highlightStartColumn = curColumn;
+
+                                    highlightEndLine =
+                                        curLineNumber + text.split("\n").length;
+                                    highlightEndColumn = 1;
+                                }
+                            } else if (curColumn !== 1) {
+                                // in the middle of a line
+                                if (nextLineText !== "") {
+                                    text = "\n" + text;
+                                    insertLine = curLineNumber;
+                                    insertColumn = curLineText.length + 1;
+
+                                    const textLines = text.split("\n");
+
+                                    highlightStartLine = curLineNumber + 1;
+                                    highlightStartColumn = 1;
+
+                                    highlightEndLine =
+                                        curLineNumber +
+                                        text.split("\n").length -
+                                        1;
+                                    highlightEndColumn =
+                                        textLines[textLines.length - 1].length +
+                                        1;
+                                } else {
+                                    insertLine = curLineNumber + 1;
+                                    insertColumn = 1;
+
+                                    highlightStartLine = curLineNumber;
+                                    highlightStartColumn = curColumn;
+
+                                    highlightEndLine =
+                                        curLineNumber + text.split("\n").length;
+                                    highlightEndColumn = 1;
+                                }
+                            }
+
+                            props.editor.executeEdits("module", [
+                                {
+                                    range: new Range(
+                                        insertLine,
+                                        insertColumn,
+                                        insertLine,
+                                        insertColumn
                                     ),
-                                    options: {
-                                        className: "highlighted-code",
-                                        isWholeLine: true,
-                                        stickiness:
-                                            monaco.editor.TrackedRangeStickiness
-                                                .NeverGrowsWhenTypingAtEdges,
-                                        hoverMessage: [
-                                            {
-                                                value: `This code was generated from this description: *${description}*.`,
-                                            },
-                                        ],
-                                    },
+                                    text: text,
+                                    forceMoveMarkers: true,
                                 },
-                            ]
-                        );
+                            ]);
 
-                        setTimeout(() => {
-                            props.editor?.deltaDecorations(decoration, []);
-                        }, 1000);
+                            const decoration = props.editor.deltaDecorations(
+                                [],
+                                [
+                                    {
+                                        range: new monaco.Range(
+                                            highlightStartLine,
+                                            highlightStartColumn,
+                                            highlightEndLine,
+                                            highlightEndColumn
+                                        ),
+                                        options: {
+                                            className: "highlighted-code",
+                                            isWholeLine: true,
+                                            stickiness:
+                                                monaco.editor
+                                                    .TrackedRangeStickiness
+                                                    .NeverGrowsWhenTypingAtEdges,
+                                            hoverMessage: [
+                                                {
+                                                    value: `This code was generated from this description: *${description}*.`,
+                                                },
+                                            ],
+                                        },
+                                    },
+                                ]
+                            );
 
-                        // props.editor.addContentWidget({
-                        //     getId: function () {
-                        //         return "my.content.widget";
-                        //     },
-                        //     getDomNode: function () {
-                        //         if (!generatedCodeButton) {
-                        //             generatedCodeButton =
-                        //                 document.createElement("div");
-                        //             generatedCodeButton.innerHTML =
-                        //                 "<button>Accept Code</button><button>Reject Code</button>";
-                        //         }
+                            setTimeout(() => {
+                                props.editor?.deltaDecorations(decoration, []);
+                            }, 1000);
 
-                        //         return generatedCodeButton;
-                        //     },
-                        //     getPosition: function () {
-                        //         return {
-                        //             position: {
-                        //                 lineNumber: highlightEndLine,
-                        //                 column: highlightEndColumn + 20,
-                        //             },
-                        //             preference: [
-                        //                 monaco.editor
-                        //                     .ContentWidgetPositionPreference.ABOVE,
-                        //                 monaco.editor
-                        //                     .ContentWidgetPositionPreference.BELOW,
-                        //             ],
-                        //         };
-                        //     },
-                        // });
+                            // props.editor.addContentWidget({
+                            //     getId: function () {
+                            //         return "my.content.widget";
+                            //     },
+                            //     getDomNode: function () {
+                            //         if (!generatedCodeButton) {
+                            //             generatedCodeButton =
+                            //                 document.createElement("div");
+                            //             generatedCodeButton.innerHTML =
+                            //                 "<button>Accept Code</button><button>Reject Code</button>";
+                            //         }
+
+                            //         return generatedCodeButton;
+                            //     },
+                            //     getPosition: function () {
+                            //         return {
+                            //             position: {
+                            //                 lineNumber: highlightEndLine,
+                            //                 column: highlightEndColumn + 20,
+                            //             },
+                            //             preference: [
+                            //                 monaco.editor
+                            //                     .ContentWidgetPositionPreference.ABOVE,
+                            //                 monaco.editor
+                            //                     .ContentWidgetPositionPreference.BELOW,
+                            //             ],
+                            //         };
+                            //     },
+                            // });
+                        }
+
+                        props.editor?.focus();
+
+                        setWaiting(false);
+                        setDescription("");
                     }
-
-                    props.editor?.focus();
-
-                    setWaiting(false);
-                    setDescription("");
-                }
-            })
-            .catch((error) => {
-                console.log("error: ", error);
-            });
+                })
+                .catch((error) => {
+                    logError(error.toString());
+                });
+        } catch (error: any) {
+            logError(error.toString());
+        }
     };
 
     return (

@@ -4,11 +4,11 @@ import passport from "passport";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
 
-import { User } from "../models/user";
+import { UserModel } from "../models/user";
 import env from "./env";
 
 // Local strategy with passport mongoose plugin User.authenticate() function
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy(UserModel.authenticate()));
 
 // Required for our support for sessions in passport.
 passport.serializeUser((user: any, done: any) => {
@@ -16,7 +16,7 @@ passport.serializeUser((user: any, done: any) => {
 });
 
 passport.deserializeUser((id, done) => {
-    User.findById(id, (err: any, user: any) => {
+    UserModel.findById(id, (err: any, user: any) => {
         done(err, user);
     });
 });
@@ -33,17 +33,20 @@ export const jwtPassport = passport.use(
         },
         (jwt_payload, done) => {
             // Search the user with jwt.payload ID field
-            User.findOne({ _id: jwt_payload._id }, (err: any, user: any) => {
-                if (err) {
-                    return done(err, false);
-                } else if (user) {
-                    // User exist
-                    return done(null, user);
-                } else {
-                    // User doesn't exist
-                    return done(null, false);
+            UserModel.findOne(
+                { _id: jwt_payload._id },
+                (err: any, user: any) => {
+                    if (err) {
+                        return done(err, false);
+                    } else if (user) {
+                        // User exist
+                        return done(null, user);
+                    } else {
+                        // User doesn't exist
+                        return done(null, false);
+                    }
                 }
-            });
+            );
         }
     )
 );

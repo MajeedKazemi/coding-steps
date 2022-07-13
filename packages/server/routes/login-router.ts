@@ -2,9 +2,14 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 
-import { getUserData, User } from "../models/user";
+import { getUserData, UserModel } from "../models/user";
 import env from "../utils/env";
-import { COOKIE_OPTIONS, getRefreshToken, getToken, verifyUser } from "../utils/strategy";
+import {
+    COOKIE_OPTIONS,
+    getRefreshToken,
+    getToken,
+    verifyUser,
+} from "../utils/strategy";
 
 export const loginRouter = express.Router();
 
@@ -17,8 +22,8 @@ loginRouter.post("/signup", (req, res, next) => {
             message: "The first name is required",
         });
     } else {
-        User.register(
-            new User({ username: req.body.username }),
+        UserModel.register(
+            new UserModel({ username: req.body.username }),
             req.body.password,
             (err, user) => {
                 if (err) {
@@ -62,7 +67,7 @@ loginRouter.post(
     (req: any, res: any, next) => {
         const token = getToken({ _id: req.user._id });
         const refreshToken = getRefreshToken({ _id: req.user._id });
-        User.findById(req.user._id).then(
+        UserModel.findById(req.user._id).then(
             (user: any) => {
                 user.refreshToken.push({ refreshToken });
                 user.save((err: any, user: any) => {
@@ -99,7 +104,7 @@ loginRouter.post("/refreshToken", (req: any, res: any, next) => {
                 env.REFRESH_TOKEN_SECRET
             ) as jwt.JwtPayload;
             const userId = payload._id;
-            User.findOne({ _id: userId }).then(
+            UserModel.findOne({ _id: userId }).then(
                 (user: any) => {
                     if (user) {
                         // Find the refresh token against the user record in database
@@ -158,7 +163,7 @@ loginRouter.get("/logout", verifyUser, (req: any, res: any, next) => {
     const { signedCookies = {} } = req;
     const { refreshToken } = signedCookies;
 
-    User.findById(req.user._id).then(
+    UserModel.findById(req.user._id).then(
         (user: any) => {
             const tokenIndex = user.refreshToken.findIndex(
                 (item: any) => item.refreshToken === refreshToken

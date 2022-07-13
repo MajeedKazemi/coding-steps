@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { apiUserNextTask } from "../api/api";
+import { apiUserNextTask, logError } from "../api/api";
 
 import { CodingTask } from "../components/coding-task";
 import { Layout } from "../components/layout";
@@ -17,16 +17,20 @@ export const TasksPage = () => {
     const setNextTask = () => {
         setLoading(true);
 
-        apiUserNextTask(context?.token)
-            .then(async (response) => {
-                const data = await response.json();
-                setTask(data.task);
+        try {
+            apiUserNextTask(context?.token)
+                .then(async (response) => {
+                    const data = await response.json();
+                    setTask(data.task);
 
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+                    setLoading(false);
+                })
+                .catch((error: any) => {
+                    logError(error.toString());
+                });
+        } catch (error: any) {
+            logError(error.toString());
+        }
     };
 
     const getTaskComponent = () => {

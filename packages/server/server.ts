@@ -15,6 +15,7 @@ import { tasksRouter } from "./routes/tasks-router";
 import { initLanguageService } from "./sockets/intellisense";
 import { initPythonShell } from "./sockets/python-shell";
 import env from "./utils/env";
+import { diagRouter } from "./routes/diag-router";
 
 const corsOptions = {
     origin: (origin: any, callback: any) => {
@@ -54,6 +55,7 @@ mongoose
         app.use("/api/auth/", loginRouter);
         app.use("/api/tasks/", tasksRouter);
         app.use("/api/codex/", codexRouter);
+        app.use("/diagnostics/", diagRouter);
 
         const server = app.listen(env.PORT, () => {
             console.log(

@@ -190,3 +190,16 @@ export const apiLogEvents = (
             log,
         }),
     });
+
+export const logError = (message: string) => {
+    fetch(env.API_URL + "/diagnostics/error", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            message,
+            date: new Date(),
+        }),
+    });
+};
