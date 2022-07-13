@@ -1,5 +1,13 @@
 import * as monaco from "monaco-editor";
-import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import {
+    forwardRef,
+    Fragment,
+    useContext,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState,
+} from "react";
 
 import { initializeLanguageClient } from "../api/intellisense";
 import {
@@ -23,7 +31,7 @@ interface EditorProps {
     updateCode?: (code: string) => void;
 }
 
-export const Editor = (props: EditorProps) => {
+export const Editor = forwardRef((props: EditorProps, ref) => {
     const { context } = useContext(AuthContext);
     const [runId, setRunId] = useState(0);
 
@@ -35,6 +43,14 @@ export const Editor = (props: EditorProps) => {
     const [connected, setConnected] = useState(isConnected);
     const [running, setRunning] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    useImperativeHandle(ref, () => ({
+        setCode(code: string) {
+            if (editor) {
+                editor.setValue(code);
+            }
+        },
+    }));
 
     useEffect(() => {
         if (monacoEl && !editor) {
@@ -239,4 +255,4 @@ export const Editor = (props: EditorProps) => {
             </section>
         </Fragment>
     );
-};
+});

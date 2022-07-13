@@ -43,6 +43,7 @@ export const TasksPage = () => {
                         taskId={task.id}
                         title={task.title}
                         output={task.output}
+                        solution={task.solution}
                         description={task.description}
                         timeLimit={task.timeLimit}
                         starterCode={

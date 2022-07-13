@@ -3,16 +3,16 @@
 }
 
 .task-title {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 900;
-    margin: 0 0 16px 0;
+    margin: 0 0 8px 0;
     display: block;
 }
 
 .task-title h2 {
     margin: 0;
     display: inline;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     padding: 4px 12px;
     border-radius: 10px;
@@ -26,9 +26,27 @@
     margin: 0 0 16px 0;
 }
 
+.task-subtitle i {
+    background-color: #c8d1ff;
+    color: #000;
+    padding: 0px 4px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 18px;
+}
+
+.task-subtitle b {
+    background-color: #ffe0e0;
+    padding: 2px 8px;
+    border-radius: 4px;
+
+    font-weight: 700;
+}
+
 .task-subtitle p {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
+    margin: 0;
 }
 
 .coding-task-container {
@@ -52,13 +70,13 @@
 
 .task-sample-output-header {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     display: block;
     margin-bottom: 12px;
 }
 
 .task-info {
-    width: 15vw;
+    width: 20vw;
     background-color: #fff;
     border-radius: 24px;
     box-shadow: 0px 4px 32px rgb(0 60 52 / 16%);
@@ -109,10 +127,14 @@
 }
 
 .submit-urgent-message {
-    font-size: 13px;
+    font-size: 15px;
     line-height: 16px;
+    font-weight: 500;
     margin: 0;
-    padding: 0;
+    padding: 12px;
+    background-color: #ff8e8e;
+    border-radius: 6px;
+    margin-top: 12px;
 }
 
 .time-indicator-container {
@@ -125,7 +147,7 @@
 .time-indicator {
     padding: 4px 16px;
     border-radius: 10px;
-    background-color: #d06faa;
+    background-color: #d53131;
     margin: 10px auto;
     color: #fff;
 }

@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import {
     apiLogEvents,
     apiUserEvaluateCode,
@@ -20,6 +20,7 @@ interface CodingTaskProps {
     title: string;
     description: string;
     output: Array<Array<string>>;
+    solution: string;
     timeLimit: number;
     starterCode?: string;
 
@@ -31,9 +32,11 @@ interface CodingTaskProps {
 
 export const CodingTask = (props: CodingTaskProps) => {
     const { context } = useContext(AuthContext);
+    const editorRef = useRef<any>(null);
 
     const [started, setStarted] = useState(false);
     const [completed, setCompleted] = useState(false);
+    const [skipped, setSkipped] = useState(false);
 
     const [startTime, setStartTime] = useState(Date.now());
     const [elapsedTime, setElapsedTime] = useState(0);
@@ -61,7 +64,7 @@ export const CodingTask = (props: CodingTaskProps) => {
         }
     };
 
-    const handlFinishTask = () => {
+    const handleSkipTask = () => {
         try {
             apiUserSubmitTask(context?.token, props.taskId, {
                 code: userCode,
@@ -69,8 +72,8 @@ export const CodingTask = (props: CodingTaskProps) => {
                 .then(async (response) => {
                     sendLog();
 
-                    setCompleted(true);
-                    props.onCompletion();
+                    editorRef.current?.setCode(props.solution);
+                    setSkipped(true);
                 })
                 .catch((error: any) => {
                     logError(error.toString());
@@ -78,6 +81,11 @@ export const CodingTask = (props: CodingTaskProps) => {
         } catch (error: any) {
             logError(error.toString());
         }
+    };
+
+    const handleGoNextTask = () => {
+        setCompleted(true);
+        props.onCompletion();
     };
 
     const handleStart = () => {
@@ -240,9 +248,7 @@ export const CodingTask = (props: CodingTaskProps) => {
         <div className="coding-task-container">
             <section className="task-info">
                 <div>
-                    <span className="task-title">
-                        Task: <h2>{props.title}</h2>
-                    </span>
+                    <span className="task-title">Task Description:</span>
                     <span className="task-subtitle">
                         <p
                             dangerouslySetInnerHTML={{
@@ -276,10 +282,10 @@ export const CodingTask = (props: CodingTaskProps) => {
                 </div>
 
                 <div>
-                    {reachedTimeLimit ? (
+                    {reachedTimeLimit && !skipped ? (
                         <div>
                             <Button
-                                onClick={handlFinishTask}
+                                onClick={handleSkipTask}
                                 type="block"
                                 color="warning"
                             >
@@ -287,35 +293,49 @@ export const CodingTask = (props: CodingTaskProps) => {
                             </Button>
                         </div>
                     ) : null}
-
-                    <div className="submit-container">
-                        {reachedTimeLimit ? (
-                            <Fragment>
-                                <p className="submit-urgent-message">
-                                    Hurry up!!
-                                </p>
-                                <p className="submit-urgent-message">
-                                    You should've submitted the code by now!
-                                </p>
-                                <div className="time-indicator-container">
-                                    <span className="time-indicator">
-                                        {convertTime(elapsedTime / 1000)}
-                                    </span>
-                                </div>
-                            </Fragment>
-                        ) : null}
+                    {skipped ? (
                         <Button
-                            onClick={handleGradeCode}
+                            onClick={handleGoNextTask}
                             type="block"
-                            disabled={!canSubmit}
+                            color="warning"
                         >
-                            {beingGraded ? "Being Graded" : "Submit to Grade"}
+                            Start Next Task
                         </Button>
-                    </div>
+                    ) : null}
+
+                    {!skipped ? (
+                        <div className="submit-container">
+                            {reachedTimeLimit ? (
+                                <Fragment>
+                                    <p className="submit-urgent-message">
+                                        Hurry Up!!
+                                        <br />
+                                        You should submit the code now.
+                                    </p>
+                                    <div className="time-indicator-container">
+                                        <span className="time-indicator">
+                                            {convertTime(elapsedTime / 1000)}
+                                        </span>
+                                    </div>
+                                </Fragment>
+                            ) : null}
+
+                            <Button
+                                onClick={handleGradeCode}
+                                type="block"
+                                disabled={!canSubmit}
+                            >
+                                {beingGraded
+                                    ? "Being Graded"
+                                    : "Submit to Grade"}
+                            </Button>
+                        </div>
+                    ) : null}
                 </div>
             </section>
 
             <Editor
+                ref={editorRef}
                 showCodex={props.showCodex}
                 taskId={props.taskId}
                 starterCode={
