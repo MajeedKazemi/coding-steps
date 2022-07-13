@@ -37,6 +37,26 @@
     height: calc(100% - 48px);
 }
 
+.task-sample-output {
+    background-color: #bbd4d4;
+    padding: 8px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.task-sample-output p {
+    margin: 0;
+}
+
+.task-sample-output-header {
+    font-size: 18px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 12px;
+}
+
 .task-info {
     width: 15vw;
     background-color: #fff;

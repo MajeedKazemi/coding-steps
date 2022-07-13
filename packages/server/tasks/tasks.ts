@@ -52,14 +52,14 @@ class CodeCheckResult {
 
 export class AuthoringTask extends Task {
     timeLimit: number;
-    output: Array<string>;
+    output: Array<Array<string>>;
     solution: string;
 
     constructor(
         id: string,
         title: string,
         description: string,
-        output: Array<string>,
+        output: Array<Array<string>>,
         solution: string,
         timeLimit: number
     ) {
@@ -87,7 +87,7 @@ export class AuthoringTask extends Task {
 export class ModifyingTask extends Task {
     starterCode: string;
     timeLimit: number;
-    output: Array<string>;
+    output: Array<Array<string>>;
     solution: string;
 
     constructor(
@@ -95,7 +95,7 @@ export class ModifyingTask extends Task {
         title: string,
         description: string,
         starterCode: string,
-        output: Array<string>,
+        output: Array<Array<string>>,
         solution: string,
         timeLimit: number
     ) {
@@ -175,7 +175,7 @@ export const CodingTasks = [
         "1a",
         "I am a robot!",
         "Write a program that will display the following message: <b>I'm Wall-E!</b>",
-        ["output: <b>I'm Wall-E!</b>"],
+        [["output: <b>I'm Wall-E!</b>"]],
         [`print("I'm Wall-E!")`].join("\n"),
         60 * 3
 
@@ -186,7 +186,7 @@ export const CodingTasks = [
         "Beep Boop",
         "Modify the given program so that it would display another message after the first one: <b>Beep Boop</b>",
         `print("I am a robot!")`,
-        ["output: <b>Beep Boop</b>"],
+        [["output: <b>Beep Boop</b>"]],
         [`print("I'm Wall-E!")`, `print("Beep Boop")`].join("\n"),
         60 * 2
 
@@ -198,7 +198,7 @@ export const CodingTasks = [
         "2a",
         "Variable Wall-E",
         "Write a program that will first create a variable called <i>name</i> and set its value to <b>Wall-E</b>. Then, display the value of the variable.",
-        ["output: <b>Wall-E</b>"],
+        [["output: <b>Wall-E</b>"]],
         [`name = "Wall-E"`, `print(name)`].join("\n"),
         60 * 4
 
@@ -210,7 +210,7 @@ export const CodingTasks = [
         "Change variable",
         "Modify the given program's variable name from <i>name</i> to <i>robot_name</i>.",
         [`name = "Wall-E"`, `print(name)`].join("\n"),
-        ["output: <b>Wall-E</b>"],
+        [["output: <b>Wall-E</b>"]],
         [`robot_name = "Wall-E"`, `print(robot_name)`].join("\n"),
         60 * 4
 
@@ -223,7 +223,7 @@ export const CodingTasks = [
         "3a",
         "I am Wall-E",
         "Write a program that would create a variable called <i>name</i> and set its value to <b>Wall-E</b>. Then, display the message <b>My name is <i>name</i></b>.",
-        [`output: <b>My name is Wall-E</b>`],
+        [[`output: <b>My name is Wall-E</b>`]],
         [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
         60 * 4
 
@@ -236,7 +236,7 @@ export const CodingTasks = [
         "Hi Wall-E",
         "Modify the given program so that it would display the following message: <b>Hi, <i>name</i>! Nice to meet you!</b>.",
         [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
-        ["output: <b>Hi, Wall-E! Nice to meet you!</b>"],
+        [["output: <b>Hi, Wall-E! Nice to meet you!</b>"]],
         [`name = "Wall-E"`, `print("Hi, " + name + "! Nice to meet you!)`].join(
             "\n"
         ),
@@ -249,9 +249,16 @@ export const CodingTasks = [
         "What's your name?",
         "Write a program that would ask the user their name and then store their name into a variable called <i>name</i>. Finally, display the message <b>Hello, <i>name</i>!</b>.",
         [
-            "output: <b>What's your name?</b>",
-            "input: <b>Donald</b>",
-            "output: <b>Hello, Donald!</b>",
+            [
+                "output: <b>What's your name?</b>",
+                "input: <b>Donald</b>",
+                "output: <b>Hello, Donald!</b>",
+            ],
+            [
+                "output: <b>What's your name?</b>",
+                "input: <b>James</b>",
+                "output: <b>Hello, James!</b>",
+            ],
         ],
         [
             `name = input("What is your name? ")`,
@@ -268,11 +275,20 @@ export const CodingTasks = [
             `print("Hello, " + name + "!")`,
         ].join("\n"),
         [
-            "output: <b>What's your name?</b>",
-            "input: <b>Donald</b>",
-            "output: <b>What's your family name?</b>",
-            "input: <b>Trump</b>",
-            "output: <b>Hello, Donald Trump!</b>",
+            [
+                "output: <b>What's your name?</b>",
+                "input: <b>Donald</b>",
+                "output: <b>What's your family name?</b>",
+                "input: <b>Trump</b>",
+                "output: <b>Hello, Donald Trump!</b>",
+            ],
+            [
+                "output: <b>What's your name?</b>",
+                "input: <b>James</b>",
+                "output: <b>What's your family name?</b>",
+                "input: <b>Madison</b>",
+                "output: <b>Hello, James Madison!</b>",
+            ],
         ],
         [
             `name = input("What is your name? ")`,
@@ -287,7 +303,7 @@ export const CodingTasks = [
         "5a",
         "Robot food",
         "Write a program that would create a variable called <i>food1</i> and set its value to <b>nuts</b>, and another variable called <i>food2</i> set to <b>bolts</b>. Then create a third variable called <i>robot_food</i> and set it to the value of <b><i>food1</i> and <i>food2</i></b>. Finally, display the message <b>I like <i>robot_food</i>.</b>.",
-        [`output: <b>I like nuts and bolts</b>`],
+        [[`output: <b>I like nuts and bolts</b>`]],
         [
             `food1 = "nuts"`,
             `food2 = "bolts"`,
@@ -306,7 +322,7 @@ export const CodingTasks = [
             `robot_food = food1 + " and " + food2`,
             `print("I like " + robot_food + ".")`,
         ].join("\n"),
-        [`output: <b>I like nuts, bolts and screws</b>`],
+        [[`output: <b>I like nuts, bolts and screws</b>`]],
         [
             `food1 = "nuts"`,
             `food2 = "bolts"`,
@@ -322,7 +338,7 @@ export const CodingTasks = [
         "6a",
         "Numbers",
         "Write a program that would set a variable called <i>num1</i> to <b>10</b>, and another variable called <i>num2</i> to <b>20</b>. Then, add the values of <i>num1</i> and <i>num2</i> and store the result in a variable called <i>num3</i>. Finally, display the value of <i>num3</i>.",
-        ["output: <b>30</b>"],
+        [["output: <b>30</b>"]],
         [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
             "\n"
         ),
@@ -335,7 +351,7 @@ export const CodingTasks = [
         [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
             "\n"
         ),
-        ["output: <b>200</b>"],
+        [["output: <b>200</b>"]],
         [
             `num1 = 10`,
             `num2 = 20`,
@@ -352,7 +368,7 @@ export const CodingTasks = [
         "7a",
         "Random number",
         "Write a program that would generate a random number between 1 and 10 and set it to a variable called <i>num</i>. Then, display the value of <i>num</i>.",
-        ["output: <b>{1-10}</b>"],
+        [["output: <b>3</b>"], ["output: <b>5</b>"], ["output: <b>7</b>"]],
         [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
             "\n"
         ),
@@ -365,7 +381,11 @@ export const CodingTasks = [
         [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
             "\n"
         ),
-        ["output: <b>{1-10}</b>", "output: <b>{50-100}</b>"],
+        [
+            ["output: <b>91</b>", "output: <b>63</b>"],
+            ["output: <b>75</b>", "output: <b>99</b>"],
+            ["output: <b>81</b>", "output: <b>53</b>"],
+        ],
         [
             `import random`,
             `num = random.randint(1, 10)`,
@@ -380,7 +400,11 @@ export const CodingTasks = [
         "8a",
         "Numbers and text",
         "Write a program that would generate a random number between 1 and 6 and set it to a variable named <i>roll</i>. Then, create another variable called <i>message</i> and set it to the value of <b>You rolled: <i>roll</i></b>. Finally, display the value of <i>message</i>.",
-        ["output: <b>You rolled: {1-6}</b>"],
+        [
+            ["output: <b>You rolled: 4</b>"],
+            ["output: <b>You rolled: 2</b>"],
+            ["output: <b>You rolled: 6</b>"],
+        ],
         [
             `import random`,
             `roll = random.randint(1, 6)`,
@@ -399,7 +423,11 @@ export const CodingTasks = [
             `message = "You rolled: " + str(roll)`,
             `print(message)`,
         ].join("\n"),
-        ["output: <b>You rolled: {1-6} and {1-6}</b>"],
+        [
+            ["output: <b>You rolled: 4 and 1</b>"],
+            ["output: <b>You rolled: 2 and 5</b>"],
+            ["output: <b>You rolled: 6 and 3</b>"],
+        ],
         [
             `num1 = int(input("Enter a number: "))`,
             `num2 = int(input("Enter another number: "))`,
@@ -414,18 +442,27 @@ export const CodingTasks = [
         "Calculator",
         "Write a program that would ask the user for two numbers and then display the sum of them.",
         [
-            "output: <b>Enter a number: </b>",
-            "input: <b>20</b>",
-            "output: <b>Enter another number: </b>",
-            "input: <b>10</b>",
-            "output: <b>30</b>",
+            [
+                "output: <b>Enter a number: </b>",
+                "input: <b>20</b>",
+                "output: <b>Enter another number: </b>",
+                "input: <b>10</b>",
+                "output: <b>30</b>",
+            ],
+            [
+                "output: <b>Enter a number: </b>",
+                "input: <b>73</b>",
+                "output: <b>Enter another number: </b>",
+                "input: <b>48</b>",
+                "output: <b>121</b>",
+            ],
         ],
         [
             `num1 = int(input("Enter a number: "))`,
             `num2 = int(input("Enter another number: "))`,
             `print(num1 + num2)`,
         ].join("\n"),
-        60 * 4
+        60 * 6
     ),
     new ModifyingTask(
         "9b",
@@ -437,14 +474,16 @@ export const CodingTasks = [
             `print(num1 + num2)`,
         ].join("\n"),
         [
-            "output: <b>Enter a number: </b>",
-            "input: <b>20</b>",
-            "output: <b>Enter another number: </b>",
-            "input: <b>10</b>",
-            "output: <b>30</b>",
-            "output: <b>10</b>",
-            "output: <b>200</b>",
-            "output: <b>2</b>",
+            [
+                "output: <b>Enter a number: </b>",
+                "input: <b>20</b>",
+                "output: <b>Enter another number: </b>",
+                "input: <b>10</b>",
+                "output: <b>30</b>",
+                "output: <b>10</b>",
+                "output: <b>200</b>",
+                "output: <b>2</b>",
+            ],
         ],
         [
             `num1 = int(input("Enter a number: "))`,
@@ -454,11 +493,210 @@ export const CodingTasks = [
             `print(num1 * num2)`,
             `print(num1 / num2)`,
         ].join("\n"),
+        60 * 3
+    ),
+
+    new AuthoringTask(
+        "10a",
+        "Check random",
+        "Write a program that would first generate a random number between 1 and 6 and assign it to a variable called <i>roll</i>. Then display the message <b>rolled six</b> only if the number is equal to six.",
+        [["output: <b>rolled six</b>"]],
+        [
+            `import random`,
+            `roll = random.randint(1, 6)`,
+            `if roll == 6:`,
+            `    print("rolled six")`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "10b",
+        "Check two randoms",
+        "Modify the following program so that it would generate a second random number between 1 and 6 and set it to another variable named <i>roll2</i>. Then, display the message <b>rolled the same</b> only if both rolls were equal to each other.",
+        [
+            `import random`,
+            `roll = random.randint(1, 6)`,
+            `if roll == 6:`,
+            `    print("rolled six")`,
+        ].join("\n"),
+        [["output: <b>rolled the same</b>"]],
+        [
+            `import random`,
+            `roll = random.randint(1, 6)`,
+            `roll2 = random.randint(1, 6)`,
+            `if roll == roll2:`,
+            `    print("rolled the same")`,
+        ].join("\n"),
         60 * 4
     ),
 
-    // str() and int()
-    // get input -> convert to int -> print message
+    new AuthoringTask(
+        "11a",
+        "Both Rolled Six",
+        "Write a program that would first generate two random numbers between 1 and 6 and then display the message <b>both rolled six</b> only if both are equal to six.",
+        [["output: <b>both rolled six</b>"]],
+        [
+            `import random`,
+            `roll = random.randint(1, 6)`,
+            `roll2 = random.randint(1, 6)`,
+            `if roll == 6 and roll2 == 6:`,
+            `    print("both rolled six")`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "11b",
+        "All three rolled six",
+        "Modify the following program so that it would generate a third random number between 1 and 6 and check if all three are equal to six, if yes then display the message all three dice rolled six.",
+        [
+            `import random`,
+            `roll = random.randint(1, 6)`,
+            `roll2 = random.randint(1, 6)`,
+            `if roll == 6 and roll2 == 6:`,
+            `    print("both rolled six")`,
+        ].join("\n"),
+        [["output: <b>All three dice rolled six</b>"]],
+        [
+            `import random`,
+            `roll = random.randint(1, 6)`,
+            `roll2 = random.randint(1, 6)`,
+            `roll3 = random.randint(1, 6)`,
+            `if roll == 6 and roll2 == 6 and roll3 == 6:`,
+            `    print("all three dice rolled six")`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new AuthoringTask(
+        "12a",
+        "Check Input",
+        "Write a program that would ask the user to enter a number between 10 and 100. Then check if the number is greater than 75. If it is, display the message <b>Greater than 75</b>; otherwise, display the message <b>Less than 75</b>. Only one of these messages should be displayed.",
+        [
+            [
+                "output: <b>enter a number between 10 and 100:</b>",
+                "input: <b>43</b>",
+                "output: <b>Less than 75</b>",
+            ],
+            [
+                "output: <b>enter a number between 10 and 100:</b>",
+                "input: <b>88</b>",
+                "output: <b>Greater than 75</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number between 10 and 100: "))`,
+            `if num > 75:`,
+            `    print("Greater than 75")`,
+            `else:`,
+            `    print("Less than 75")`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "12b",
+        "Modify Check Input",
+        "Modify the following program so that it check if the input number is between 75 and 90. If it is, display the message <b>Between 75 and 90</b>; otherwise, display the message <b>Not between 75 and 90</b>. Only one of these messages should be displayed.",
+        [
+            `num = int(input("enter a number between 10 and 100: "))`,
+            `if num > 75:`,
+            `    print("Greater than 75")`,
+            `else:`,
+            `    print("Less than 75")`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number between 10 and 100:</b>",
+                "input: <b>80</b>",
+                "output: <b>Between 75 and 90</b>",
+            ],
+            [
+                "output: <b>enter a number between 10 and 100:</b>",
+                "input: <b>60</b>",
+                "output: <b>Not between 75 and 90</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number between 10 and 100: "))`,
+            `if num > 75 and num < 90:`,
+            `    print("Between 75 and 90")`,
+            `else:`,
+            `    print("Not between 75 and 90")`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new AuthoringTask(
+        "13a",
+        "Check Input 2",
+        "Write a program that would ask the user to enter a number between 0 and 100 and set it to a variable called score. Create a variable called grade and set it to an empty message. Now check if the number is less than 50, then it should set the grade variable to the letter <b>C</b>, if between 50 and 75 set grade to <b>B</b>, and if greater than 75 set grade to <b>A</b>. Then display the message <b>Grade:</b> followed by the grade variable.",
+        [
+            [
+                "output: <b>enter a number between 0 and 100:</b>",
+                "input: <b>80</b>",
+                "output: <b>Grade: A</b>",
+            ],
+            [
+                "output: <b>enter a number between 0 and 100:</b>",
+                "input: <b>60</b>",
+                "output: <b>Grade: B</b>",
+            ],
+        ],
+        [
+            `score = int(input("enter a number between 0 and 100: "))`,
+            `grade = ""`,
+            `if score < 50:`,
+            `    grade = "C"`,
+            `elif score < 75:`,
+            `    grade = "B"`,
+            `else:`,
+            `    grade = "A`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "13b",
+        "Modify Check Input 2",
+        "Modify the following program so that if the score is less than 20 it would set grade to <b>F</b>, if between 20 and 40 set grade to <b>E</b>, if between 40 and 60 set grade to <b>D</b>, if between 60 and 80 set grade to <b>C</b>, if between 80 and 90 set grade to <b>B</b>, and finally if between 90 and 100 set grade to <b>A</b>.",
+        [
+            `score = int(input("enter a number between 0 and 100: "))`,
+            `grade = ""`,
+            `if score < 50:`,
+            `    grade = "C"`,
+            `elif score < 75:`,
+            `    grade = "B"`,
+            `else:`,
+            `    grade = "A`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number between 0 and 100:</b>",
+                "input: <b>85</b>",
+                "output: <b>Grade: B</b>",
+            ],
+            [
+                "output: <b>enter a number between 0 and 100:</b>",
+                "input: <b>65</b>",
+                "output: <b>Grade: C</b>",
+            ],
+        ],
+        [
+            `score = int(input("enter a number between 0 and 100: "))`,
+            `grade = ""`,
+            `if score < 20:`,
+            `    grade = "F"`,
+            `elif score < 40:`,
+            `    grade = "E"`,
+            `elif score < 60:`,
+            `    grade = "D"`,
+            `elif score < 80:`,
+            `    grade = "C"`,
+            `elif score < 90:`,
+            `    grade = "B"`,
+            `else:`,
+            `    grade = "A`,
+        ].join("\n"),
+        60 * 4
+    ),
 ];
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
