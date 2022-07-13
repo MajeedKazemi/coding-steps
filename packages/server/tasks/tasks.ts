@@ -697,6 +697,149 @@ export const CodingTasks = [
         ].join("\n"),
         60 * 4
     ),
+
+    new AuthoringTask(
+        "14a",
+        "Check Number and Word",
+        "Write a program that would ask the user to enter one of the words one, two, or three. Then ask the user to enter one of the numbers 1, 2, or 3. Then check if the word and the numbers match so for example if they enter one and 1 it should display <b>correct</b> otherwise it should display <b>incorrect</b>.",
+        [
+            [
+                "output: <b>enter one of the words one, two, or three:</b>",
+                "input: <b>two</b>",
+                "output: <b>enter one of the numbers 1, 2, or 3:</b>",
+                "input: <b>2</b>",
+                "output: <b>correct</b>",
+            ],
+            [
+                "output: <b>enter one of the words one, two, or three:</b>",
+                "input: <b>three</b>",
+                "output: <b>enter one of the numbers 1, 2, or 3:</b>",
+                "input: <b>1</b>",
+                "output: <b>incorrect</b>",
+            ],
+        ],
+        [
+            `word = input("enter one of the words one, two, or three: ")`,
+            `num = int(input("enter one of the numbers 1, 2, or 3: "))`,
+            `if word == "one" and num == 1:`,
+            `    print("correct")`,
+            `else:`,
+            `    print("incorrect")`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "14b",
+        "Modify Check Number and Word",
+        "Modify the following program so that whenever the answer is correct (the word and the number match) then it should display the value of the number multiplied by 10.",
+        [
+            `word = input("enter one of the words one, two, or three: ")`,
+            `num = int(input("enter one of the numbers 1, 2, or 3: "))`,
+            `if word == "one" and num == 1:`,
+            `    print("correct")`,
+            `else:`,
+            `    print("incorrect")`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter one of the words one, two, or three:</b>",
+                "input: <b>two</b>",
+                "output: <b>enter one of the numbers 1, 2, or 3:</b>",
+                "input: <b>2</b>",
+                "output: <b>correct</b>",
+                "output: <b>20</b>",
+            ],
+            [
+                "output: <b>enter one of the words one, two, or three:</b>",
+                "input: <b>three</b>",
+                "output: <b>enter one of the numbers 1, 2, or 3:</b>",
+                "input: <b>1</b>",
+                "output: <b>incorrect</b>",
+            ],
+        ],
+        [
+            `word = input("enter one of the words one, two, or three: ")`,
+            `num = int(input("enter one of the numbers 1, 2, or 3: "))`,
+            `if word == "one" and num == 1:`,
+            `    print("correct")`,
+            `    print(num * 10)`,
+            `else:`,
+            `    print("incorrect")`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new AuthoringTask(
+        "15a",
+        "Full Calculator",
+        "Write a program that would get two numbers from the user and then ask an operator (from one of the following choices: +, -, *, and /). Then it should check which operator the user has entered, and then perform the appropriate operation. For example if the user enters + then it should add the two numbers and display the result.",
+        [
+            [
+                "output: <b>enter the first number:</b>",
+                "input: <b>41</b>",
+                "output: <b>enter the second number:</b>",
+                "input: <b>58</b>",
+                "output: <b>enter an operator</b>",
+                "input: <b>+</b>",
+                "output: <b>99</b>",
+            ],
+        ],
+        [
+            `num1 = int(input("enter the first number: "))`,
+            `num2 = int(input("enter the second number: "))`,
+            `operator = input("enter an operator: ")`,
+            `if operator == "+":`,
+            `    print(num1 + num2)`,
+            `elif operator == "-":`,
+            `    print(num1 - num2)`,
+            `elif operator == "*":`,
+            `    print(num1 * num2)`,
+            `elif operator == "/":`,
+            `    print(num1 / num2)`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "15b",
+        "Modify Full Calculator",
+        "Instead of asking the user to enter two numbers, modify the program so that it would generate two numbers between 1 and 1000, display them one by one, and then ask the user to enter an operator and then perform the appropriate operation.",
+        [
+            `num1 = int(input("enter the first number: "))`,
+            `num2 = int(input("enter the second number: "))`,
+            `operator = input("enter an operator: ")`,
+            `if operator == "+":`,
+            `    print(num1 + num2)`,
+            `elif operator == "-":`,
+            `    print(num1 - num2)`,
+            `elif operator == "*":`,
+            `    print(num1 * num2)`,
+            `elif operator == "/":`,
+            `    print(num1 / num2)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>first number: 21</b>",
+                "output: <b>second number: 5</b>",
+                "output: <b>enter an operator</b>",
+                "input: <b>*</b>",
+                "output: <b>105</b>",
+            ],
+        ],
+        [
+            `num1 = random.randint(1, 1000)`,
+            `num2 = random.randint(1, 1000)`,
+            `operator = input("enter an operator: ")`,
+            `if operator == "+":`,
+            `    print(num1 + num2)`,
+            `elif operator == "-":`,
+            `    print(num1 - num2)`,
+            `elif operator == "*":`,
+            `    print(num1 * num2)`,
+            `elif operator == "/":`,
+            `    print(num1 / num2)`,
+        ].join("\n"),
+        60 * 4
+    ),
 ];
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
