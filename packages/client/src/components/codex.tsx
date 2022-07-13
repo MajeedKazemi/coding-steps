@@ -77,6 +77,8 @@ export const Codex = (props: ICodexProps) => {
                                 // at the beginning of a line
                                 if (curLineText !== "") {
                                     text += "\n";
+                                    insertLine = curLineNumber;
+                                    insertColumn = 1;
 
                                     highlightStartLine = curLineNumber;
                                     highlightStartColumn = curColumn;
@@ -87,6 +89,9 @@ export const Codex = (props: ICodexProps) => {
                                         curLineNumber + textLines.length - 1;
                                     highlightEndColumn = 1;
                                 } else {
+                                    insertLine = curLineNumber;
+                                    insertColumn = 1;
+
                                     highlightStartLine = curLineNumber;
                                     highlightStartColumn = curColumn;
 
