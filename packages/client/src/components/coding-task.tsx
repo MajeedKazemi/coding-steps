@@ -57,10 +57,10 @@ export const CodingTask = (props: CodingTaskProps) => {
             )
                 .then(async (response) => {})
                 .catch((error) => {
-                    logError(error.toString());
+                    logError("sendLog: " + error.toString());
                 });
         } catch (error: any) {
-            logError(error.toString());
+            logError("sendLog: " + error.toString());
         }
     };
 
@@ -76,10 +76,10 @@ export const CodingTask = (props: CodingTaskProps) => {
                     setSkipped(true);
                 })
                 .catch((error: any) => {
-                    logError(error.toString());
+                    logError("handleSkipTask: " + error.toString());
                 });
         } catch (error: any) {
-            logError(error.toString());
+            logError("handleSkipTask: " + error.toString());
         }
     };
 
@@ -119,10 +119,10 @@ export const CodingTask = (props: CodingTaskProps) => {
                     }
                 })
                 .catch((error: any) => {
-                    logError(error.toString());
+                    logError("handleStart: " + error.toString());
                 });
         } catch (error: any) {
-            logError(error.toString());
+            logError("handleStart: " + error.toString());
         }
     };
 
@@ -171,10 +171,12 @@ export const CodingTask = (props: CodingTaskProps) => {
                             }
                         })
                         .catch((error: any) => {
-                            logError(error.toString());
+                            logError(
+                                "apiUserGradingStatus: " + error.toString()
+                            );
                         });
                 } catch (error: any) {
-                    logError(error.toString());
+                    logError("apiUserGradingStatus: " + error.toString());
                 }
             }, 1000);
 
@@ -197,10 +199,10 @@ export const CodingTask = (props: CodingTaskProps) => {
                     }
                 })
                 .catch((error: any) => {
-                    logError(error.toString());
+                    logError("handleGradeCode: " + error.toString());
                 });
         } catch (error: any) {
-            logError(error.toString());
+            logError("handleGradeCode: " + error.toString());
         }
     };
 
