@@ -52,15 +52,21 @@ class CodeCheckResult {
 
 export class AuthoringTask extends Task {
     timeLimit: number;
+    output: Array<string>;
+    solution: string;
 
     constructor(
         id: string,
         title: string,
         description: string,
+        output: Array<string>,
+        solution: string,
         timeLimit: number
     ) {
         super(id, title, description, TaskType.Authoring);
 
+        this.solution = solution;
+        this.output = output;
         this.timeLimit = timeLimit;
     }
 
@@ -81,16 +87,22 @@ export class AuthoringTask extends Task {
 export class ModifyingTask extends Task {
     starterCode: string;
     timeLimit: number;
+    output: Array<string>;
+    solution: string;
 
     constructor(
         id: string,
         title: string,
         description: string,
         starterCode: string,
+        output: Array<string>,
+        solution: string,
         timeLimit: number
     ) {
         super(id, title, description, TaskType.Modifying);
 
+        this.solution = solution;
+        this.output = output;
         this.timeLimit = timeLimit;
         this.starterCode = starterCode;
     }
@@ -163,6 +175,8 @@ export const CodingTasks = [
         "1a",
         "I am a robot!",
         "Write a program that will display the following message: <b>I'm Wall-E!</b>",
+        ["output: <b>I'm Wall-E!</b>"],
+        [`print("I'm Wall-E!")`].join("\n"),
         60 * 3
 
         // check output equals to the expected output
@@ -172,6 +186,8 @@ export const CodingTasks = [
         "Beep Boop",
         "Modify the given program so that it would display another message after the first one: <b>Beep Boop</b>",
         `print("I am a robot!")`,
+        ["output: <b>Beep Boop</b>"],
+        [`print("I'm Wall-E!")`, `print("Beep Boop")`].join("\n"),
         60 * 2
 
         // check output equals to the expected output
@@ -182,6 +198,8 @@ export const CodingTasks = [
         "2a",
         "Variable Wall-E",
         "Write a program that will first create a variable called <i>name</i> and set its value to <b>Wall-E</b>. Then, display the value of the variable.",
+        ["output: <b>Wall-E</b>"],
+        [`name = "Wall-E"`, `print(name)`].join("\n"),
         60 * 4
 
         // check output equals to the expected output
@@ -192,6 +210,8 @@ export const CodingTasks = [
         "Change variable",
         "Modify the given program's variable name from <i>name</i> to <i>robot_name</i>.",
         [`name = "Wall-E"`, `print(name)`].join("\n"),
+        ["output: <b>Wall-E</b>"],
+        [`robot_name = "Wall-E"`, `print(robot_name)`].join("\n"),
         60 * 4
 
         // check output equals to the expected output
@@ -203,6 +223,8 @@ export const CodingTasks = [
         "3a",
         "I am Wall-E",
         "Write a program that would create a variable called <i>name</i> and set its value to <b>Wall-E</b>. Then, display the message <b>My name is <i>name</i></b>.",
+        [`output: <b>My name is Wall-E</b>`],
+        [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
         60 * 4
 
         // check if program has a variable
@@ -214,6 +236,10 @@ export const CodingTasks = [
         "Hi Wall-E",
         "Modify the given program so that it would display the following message: <b>Hi, <i>name</i>! Nice to meet you!</b>.",
         [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
+        ["output: <b>Hi, Wall-E! Nice to meet you!</b>"],
+        [`name = "Wall-E"`, `print("Hi, " + name + "! Nice to meet you!)`].join(
+            "\n"
+        ),
         60 * 4
     ),
 
@@ -222,6 +248,15 @@ export const CodingTasks = [
         "4a",
         "What's your name?",
         "Write a program that would ask the user their name and then store their name into a variable called <i>name</i>. Finally, display the message <b>Hello, <i>name</i>!</b>.",
+        [
+            "output: <b>What's your name?</b>",
+            "input: <b>Donald</b>",
+            "output: <b>Hello, Donald!</b>",
+        ],
+        [
+            `name = input("What is your name? ")`,
+            `print("Hello, " + name + "!")`,
+        ].join("\n"),
         60 * 4
     ),
     new ModifyingTask(
@@ -232,6 +267,18 @@ export const CodingTasks = [
             `name = input("What is your name? ")`,
             `print("Hello, " + name + "!")`,
         ].join("\n"),
+        [
+            "output: <b>What's your name?</b>",
+            "input: <b>Donald</b>",
+            "output: <b>What's your family name?</b>",
+            "input: <b>Trump</b>",
+            "output: <b>Hello, Donald Trump!</b>",
+        ],
+        [
+            `name = input("What is your name? ")`,
+            `family_name = input("What is your family name? ")`,
+            `print("Hello, " + name + " " + family_name + "!")`,
+        ].join("\n"),
         60 * 4
     ),
 
@@ -240,6 +287,13 @@ export const CodingTasks = [
         "5a",
         "Robot food",
         "Write a program that would create a variable called <i>food1</i> and set its value to <b>nuts</b>, and another variable called <i>food2</i> set to <b>bolts</b>. Then create a third variable called <i>robot_food</i> and set it to the value of <b><i>food1</i> and <i>food2</i></b>. Finally, display the message <b>I like <i>robot_food</i>.</b>.",
+        [`output: <b>I like nuts and bolts</b>`],
+        [
+            `food1 = "nuts"`,
+            `food2 = "bolts"`,
+            `robot_food = food1 + " and " + food2`,
+            `print("I like " + robot_food + ".")`,
+        ].join("\n"),
         60 * 4
     ),
     new ModifyingTask(
@@ -248,8 +302,16 @@ export const CodingTasks = [
         "Modify the following program so that it would include a third food (called <i>food3</i>) set to <b>screws</b>. Then modify <i>robot_food</i> to be the value of <b><i>food1</i>, <i>food2</i> and <i>food3</i></b>. Finally display the message <b>I like <i>robot_food</i>.</b>.",
         [
             `food1 = "nuts"`,
-            `food1 = "bolts"`,
+            `food2 = "bolts"`,
             `robot_food = food1 + " and " + food2`,
+            `print("I like " + robot_food + ".")`,
+        ].join("\n"),
+        [`output: <b>I like nuts, bolts and screws</b>`],
+        [
+            `food1 = "nuts"`,
+            `food2 = "bolts"`,
+            `food3 = "screws"`,
+            `robot_food = food1 + ", " + food2 + " and " + food3`,
             `print("I like " + robot_food + ".")`,
         ].join("\n"),
         60 * 4
@@ -260,6 +322,10 @@ export const CodingTasks = [
         "6a",
         "Numbers",
         "Write a program that would set a variable called <i>num1</i> to <b>10</b>, and another variable called <i>num2</i> to <b>20</b>. Then, add the values of <i>num1</i> and <i>num2</i> and store the result in a variable called <i>num3</i>. Finally, display the value of <i>num3</i>.",
+        ["output: <b>30</b>"],
+        [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
+            "\n"
+        ),
         60 * 4
     ),
     new ModifyingTask(
@@ -269,6 +335,15 @@ export const CodingTasks = [
         [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
             "\n"
         ),
+        ["output: <b>200</b>"],
+        [
+            `num1 = 10`,
+            `num2 = 20`,
+            `num3 = num1 + num2`,
+            `num4 = num1 * num2`,
+            `print(num3)`,
+            `print(num4)`,
+        ].join("\n"),
         60 * 4
     ),
 
@@ -277,15 +352,26 @@ export const CodingTasks = [
         "7a",
         "Random number",
         "Write a program that would generate a random number between 1 and 10 and set it to a variable called <i>num</i>. Then, display the value of <i>num</i>.",
+        ["output: <b>{1-10}</b>"],
+        [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
+            "\n"
+        ),
         60 * 4
     ),
     new ModifyingTask(
         "7b",
         "More random numbers",
-        "Modify the following program so that it would generate a second random number between 50 and 100 and set it to another variable named <i>num2</i>. Then, display the value of each random number separately.",
+        "Modify the following program so that it would generate a second random number between 50 and 100 and set it to another variable named <i>num2</i>. Then, display the value of <i>num2</i> below the value of <i>num</i>.",
         [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
             "\n"
         ),
+        ["output: <b>{1-10}</b>", "output: <b>{50-100}</b>"],
+        [
+            `import random`,
+            `num = random.randint(1, 10)`,
+            `num2 = random.randint(50, 100)`,
+            `print(num)`,
+        ].join("\n"),
         60 * 4
     ),
 
@@ -294,6 +380,13 @@ export const CodingTasks = [
         "8a",
         "Numbers and text",
         "Write a program that would generate a random number between 1 and 6 and set it to a variable named <i>roll</i>. Then, create another variable called <i>message</i> and set it to the value of <b>You rolled: <i>roll</i></b>. Finally, display the value of <i>message</i>.",
+        ["output: <b>You rolled: {1-6}</b>"],
+        [
+            `import random`,
+            `roll = random.randint(1, 6)`,
+            `message = "You rolled: " + str(roll)`,
+            `print(message)`,
+        ].join("\n"),
         60 * 4
     ),
     new ModifyingTask(
@@ -306,6 +399,12 @@ export const CodingTasks = [
             `message = "You rolled: " + str(roll)`,
             `print(message)`,
         ].join("\n"),
+        ["output: <b>You rolled: {1-6} and {1-6}</b>"],
+        [
+            `num1 = int(input("Enter a number: "))`,
+            `num2 = int(input("Enter another number: "))`,
+            `print(num1 + num2)`,
+        ].join("\n"),
         60 * 4
     ),
 
@@ -314,6 +413,18 @@ export const CodingTasks = [
         "9a",
         "Calculator",
         "Write a program that would ask the user for two numbers and then display the sum of them.",
+        [
+            "output: <b>Enter a number: </b>",
+            "input: <b>20</b>",
+            "output: <b>Enter another number: </b>",
+            "input: <b>10</b>",
+            "output: <b>30</b>",
+        ],
+        [
+            `num1 = int(input("Enter a number: "))`,
+            `num2 = int(input("Enter another number: "))`,
+            `print(num1 + num2)`,
+        ].join("\n"),
         60 * 4
     ),
     new ModifyingTask(
@@ -324,6 +435,24 @@ export const CodingTasks = [
             `num1 = int(input("Enter a number: "))`,
             `num2 = int(input("Enter another number: "))`,
             `print(num1 + num2)`,
+        ].join("\n"),
+        [
+            "output: <b>Enter a number: </b>",
+            "input: <b>20</b>",
+            "output: <b>Enter another number: </b>",
+            "input: <b>10</b>",
+            "output: <b>30</b>",
+            "output: <b>10</b>",
+            "output: <b>200</b>",
+            "output: <b>2</b>",
+        ],
+        [
+            `num1 = int(input("Enter a number: "))`,
+            `num2 = int(input("Enter another number: "))`,
+            `print(num1 + num2)`,
+            `print(num1 - num2)`,
+            `print(num1 * num2)`,
+            `print(num1 / num2)`,
         ].join("\n"),
         60 * 4
     ),

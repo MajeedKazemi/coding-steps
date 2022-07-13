@@ -19,6 +19,7 @@ interface CodingTaskProps {
     taskId: string;
     title: string;
     description: string;
+    output: Array<string>;
     timeLimit: number;
     starterCode?: string;
 
@@ -248,6 +249,16 @@ export const CodingTask = (props: CodingTaskProps) => {
                                 __html: props.description,
                             }}
                         ></p>
+                    </span>
+                    <span className="task-sample-output">
+                        {props.output.map((line, index) => {
+                            return (
+                                <p
+                                    key={`sample-out-key-${index}`}
+                                    dangerouslySetInnerHTML={{ __html: line }}
+                                ></p>
+                            );
+                        })}
                     </span>
                 </div>
 
