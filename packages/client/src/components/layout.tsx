@@ -24,7 +24,6 @@ export const Layout = (props: LayoutProps) => {
                     setContext({ token: data.token, user: data.user });
                     setLoading(false);
                 } else {
-                    setContext({ token: null, user: null });
                     setLoading(false);
                 }
             })

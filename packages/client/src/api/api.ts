@@ -1,4 +1,20 @@
+import { IContext } from "../types";
 import env from "../utils/env";
+
+export const RefreshToken = (
+    setContext: (context: IContext | null) => void
+) => {
+    return authRefresh().then(async (response) => {
+        if (response.ok) {
+            const data = await response.json();
+
+            setContext({
+                token: data.token,
+                user: data.user,
+            });
+        }
+    });
+};
 
 export const authRefresh = () =>
     fetch(env.API_URL + "/api/auth/refreshToken", {

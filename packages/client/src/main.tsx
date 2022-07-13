@@ -48,7 +48,6 @@ function RequireAuth({
                     setContext({ token: data.token, user: data.user });
                     setLoading(false);
                 } else {
-                    setContext({ token: null, user: null });
                     setLoading(false);
                 }
             })

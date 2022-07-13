@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor";
 import { Range } from "monaco-editor";
 import { useContext, useState } from "react";
-import { apiGenerateCodex, logError } from "../api/api";
+import { apiGenerateCodex, logError, RefreshToken } from "../api/api";
 
 import { AuthContext } from "../context";
 import { log, LogType } from "../utils/logger";
@@ -14,13 +14,8 @@ interface ICodexProps {
 
 export const Codex = (props: ICodexProps) => {
     const [description, setDescription] = useState<string>("");
-    const { context } = useContext(AuthContext);
+    const { context, setContext } = useContext(AuthContext);
     const [waiting, setWaiting] = useState(false);
-    // simply generate code from nothing (completion api)
-    // complete next line based on previous code (with optional instructions)
-
-    // select part of the code -> and do something based on the instructions to it (edit api)
-    // add code to current context -> will use the
 
     const generateCode = () => {
         setWaiting(true);
@@ -29,7 +24,11 @@ export const Codex = (props: ICodexProps) => {
         try {
             apiGenerateCodex(context?.token, description)
                 .then(async (response) => {
-                    if (response.ok && props.editor) {
+                    if (response.status === 401) {
+                        await RefreshToken(setContext);
+
+                        generateCode();
+                    } else if (response.ok && props.editor) {
                         props.editor?.updateOptions({ readOnly: false });
                         const data = await response.json();
 
@@ -207,16 +206,17 @@ export const Codex = (props: ICodexProps) => {
                         }
 
                         props.editor?.focus();
-
                         setWaiting(false);
                         setDescription("");
                     }
                 })
                 .catch((error) => {
                     logError(error.toString());
+                    setWaiting(false);
                 });
         } catch (error: any) {
             logError(error.toString());
+            setWaiting(false);
         }
     };
 

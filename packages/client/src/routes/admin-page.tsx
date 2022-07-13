@@ -1,5 +1,10 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { apiAdminGetSubmissions, logError } from "../api/api";
+import {
+    apiAdminGetSubmissions,
+    authRefresh,
+    logError,
+    RefreshToken,
+} from "../api/api";
 
 import { AdminSubmission } from "../components/admin-submission";
 import { Layout } from "../components/layout";
@@ -7,16 +12,22 @@ import { AuthContext } from "../context";
 import { ISubmission } from "../types";
 
 export const AdminPage = () => {
-    const { context } = useContext(AuthContext);
+    const { context, setContext } = useContext(AuthContext);
     const [submissions, setSubmissions] = useState<Array<ISubmission>>([]);
 
     const fetchTasks = () => {
         try {
             apiAdminGetSubmissions(context?.token)
                 .then(async (response) => {
-                    const data = await response.json();
+                    if (response.status === 401) {
+                        await RefreshToken(setContext);
 
-                    setSubmissions(data.submissions);
+                        fetchTasks();
+                    } else {
+                        const data = await response.json();
+
+                        setSubmissions(data.submissions);
+                    }
                 })
                 .catch((error: any) => {
                     logError(error.toString());

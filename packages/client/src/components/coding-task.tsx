@@ -5,7 +5,9 @@ import {
     apiUserGradingStatus,
     apiUserStartTask,
     apiUserSubmitTask,
+    authRefresh,
     logError,
+    RefreshToken,
 } from "../api/api";
 
 import { AuthContext } from "../context";
@@ -31,7 +33,7 @@ interface CodingTaskProps {
 }
 
 export const CodingTask = (props: CodingTaskProps) => {
-    const { context } = useContext(AuthContext);
+    const { context, setContext } = useContext(AuthContext);
     const editorRef = useRef<any>(null);
 
     const [started, setStarted] = useState(false);
@@ -55,7 +57,13 @@ export const CodingTask = (props: CodingTaskProps) => {
                 props.taskId,
                 getLogObject(props.taskId, context?.user?.id)
             )
-                .then(async (response) => {})
+                .then(async (response) => {
+                    if (response.status === 401) {
+                        await RefreshToken(setContext);
+
+                        sendLog();
+                    }
+                })
                 .catch((error) => {
                     logError("sendLog: " + error.toString());
                 });
@@ -70,10 +78,16 @@ export const CodingTask = (props: CodingTaskProps) => {
                 code: userCode,
             })
                 .then(async (response) => {
-                    sendLog();
+                    if (response.status === 401) {
+                        await RefreshToken(setContext);
 
-                    editorRef.current?.setCode(props.solution);
-                    setSkipped(true);
+                        handleSkipTask();
+                    } else {
+                        sendLog();
+
+                        editorRef.current?.setCode(props.solution);
+                        setSkipped(true);
+                    }
                 })
                 .catch((error: any) => {
                     logError("handleSkipTask: " + error.toString());
@@ -83,9 +97,28 @@ export const CodingTask = (props: CodingTaskProps) => {
         }
     };
 
-    const handleGoNextTask = () => {
-        setCompleted(true);
-        props.onCompletion();
+    const handleGradeCode = () => {
+        try {
+            apiUserEvaluateCode(context?.token, props.taskId, userCode)
+                .then(async (response) => {
+                    if (response.status === 401) {
+                        await RefreshToken(setContext);
+
+                        handleGradeCode();
+                    } else {
+                        const data = await response.json();
+
+                        if (data.success) {
+                            setBeingGraded(true);
+                        }
+                    }
+                })
+                .catch((error: any) => {
+                    logError("handleGradeCode: " + error.toString());
+                });
+        } catch (error: any) {
+            logError("handleGradeCode: " + error.toString());
+        }
     };
 
     const handleStart = () => {
@@ -94,27 +127,33 @@ export const CodingTask = (props: CodingTaskProps) => {
         try {
             apiUserStartTask(context?.token, props.taskId)
                 .then(async (response) => {
-                    const data = await response.json();
+                    if (response.status === 401) {
+                        await RefreshToken(setContext);
 
-                    if (data.success) {
-                        setStarted(true);
+                        handleStart();
+                    } else {
+                        const data = await response.json();
 
-                        if (data.canContinue) {
-                            setStartTime(Date.parse(data.startedAt));
-                            setCheckingTime(data.checkingTime);
-                            setElapsedTime(
-                                now -
-                                    Date.parse(data.startedAt) -
-                                    data.checkingTime
-                            );
-                        } else {
-                            setStartTime(now);
-                            setElapsedTime(now - startTime);
-                        }
+                        if (data.success) {
+                            setStarted(true);
 
-                        if (data.beingGraded) {
-                            // the user has already submitted the task and should wait for the result
-                            setBeingGraded(true);
+                            if (data.canContinue) {
+                                setStartTime(Date.parse(data.startedAt));
+                                setCheckingTime(data.checkingTime);
+                                setElapsedTime(
+                                    now -
+                                        Date.parse(data.startedAt) -
+                                        data.checkingTime
+                                );
+                            } else {
+                                setStartTime(now);
+                                setElapsedTime(now - startTime);
+                            }
+
+                            if (data.beingGraded) {
+                                // the user has already submitted the task and should wait for the result
+                                setBeingGraded(true);
+                            }
                         }
                     }
                 })
@@ -125,6 +164,53 @@ export const CodingTask = (props: CodingTaskProps) => {
             logError("handleStart: " + error.toString());
         }
     };
+
+    const getGradingStatus = (timerId: any) => {
+        try {
+            apiUserGradingStatus(context?.token, props.taskId)
+                .then(async (response) => {
+                    if (response.status === 401) {
+                        await RefreshToken(setContext);
+
+                        getGradingStatus(timerId);
+                    } else {
+                        const data = await response.json();
+
+                        if (!data.beingGraded) {
+                            setCheckingTime(data.checkingTime);
+                            setBeingGraded(false);
+                            clearInterval(timerId);
+
+                            if (data.passed) {
+                                sendLog();
+
+                                setCompleted(true);
+                                props.onCompletion(); // go to the next task
+                            }
+                        }
+                    }
+                })
+                .catch((error: any) => {
+                    logError("apiUserGradingStatus: " + error.toString());
+                });
+        } catch (error: any) {
+            logError("apiUserGradingStatus: " + error.toString());
+        }
+    };
+
+    useEffect(() => {
+        if (beingGraded) {
+            const id = setInterval(() => {
+                // check task status
+                // if completed, either pass or fail
+                getGradingStatus(id);
+            }, 1000);
+
+            return () => {
+                clearInterval(id);
+            };
+        }
+    }, [beingGraded]);
 
     useEffect(() => {
         const id = setInterval(() => {
@@ -143,61 +229,9 @@ export const CodingTask = (props: CodingTaskProps) => {
         };
     }, [startTime, beingGraded, elapsedTime]);
 
-    useEffect(() => {
-        if (beingGraded) {
-            const id = setInterval(() => {
-                // check task status
-                // if completed, either pass or fail
-                try {
-                    apiUserGradingStatus(context?.token, props.taskId)
-                        .then(async (response) => {
-                            const data = await response.json();
-
-                            if (!data.beingGraded) {
-                                setCheckingTime(data.checkingTime);
-                                setBeingGraded(false);
-                                clearInterval(id);
-
-                                if (data.passed) {
-                                    sendLog();
-
-                                    setCompleted(true);
-                                    props.onCompletion(); // go to the next task
-                                }
-                            }
-                        })
-                        .catch((error: any) => {
-                            logError(
-                                "apiUserGradingStatus: " + error.toString()
-                            );
-                        });
-                } catch (error: any) {
-                    logError("apiUserGradingStatus: " + error.toString());
-                }
-            }, 1000);
-
-            return () => {
-                clearInterval(id);
-            };
-        }
-    }, [beingGraded]);
-
-    const handleGradeCode = () => {
-        try {
-            apiUserEvaluateCode(context?.token, props.taskId, userCode)
-                .then(async (response) => {
-                    const data = await response.json();
-
-                    if (data.success) {
-                        setBeingGraded(true);
-                    }
-                })
-                .catch((error: any) => {
-                    logError("handleGradeCode: " + error.toString());
-                });
-        } catch (error: any) {
-            logError("handleGradeCode: " + error.toString());
-        }
+    const handleGoNextTask = () => {
+        setCompleted(true);
+        props.onCompletion();
     };
 
     useEffect(() => {
