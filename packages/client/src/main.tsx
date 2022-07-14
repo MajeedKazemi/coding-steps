@@ -1,21 +1,9 @@
 import "./index.css";
 import "./userWorker";
 
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom/client";
-import {
-    BrowserRouter,
-    Navigate,
-    Route,
-    Routes,
-    useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import { authRefresh, logError } from "./api/api";
 import { AuthContext } from "./context";
@@ -58,7 +46,7 @@ function RequireAuth({
                 setLoading(false);
             });
 
-        setTimeout(verifyUser, 3 * 1000);
+        setTimeout(verifyUser, 60 * 5 * 1000);
     }, [setContext]);
 
     useEffect(() => {
