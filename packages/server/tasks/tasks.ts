@@ -840,6 +840,25 @@ export const CodingTasks = [
         ].join("\n"),
         60 * 4
     ),
+
+    new AuthoringTask(
+        "16a",
+        "Open Ended Task",
+        "Use the code generator to create any program that you want to!",
+        [[]],
+        [].join("\n"),
+        60 * 4
+    ),
+
+    new ModifyingTask(
+        "16b",
+        "Open Ended Task",
+        "Use the documentation to create any program that you want to!",
+        "",
+        [[]],
+        [].join("\n"),
+        60 * 4
+    ),
 ];
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
