@@ -17,20 +17,16 @@ export const TasksPage = () => {
     const setNextTask = () => {
         setLoading(true);
 
-        try {
-            apiUserNextTask(context?.token)
-                .then(async (response) => {
-                    const data = await response.json();
-                    setTask(data.task);
+        apiUserNextTask(context?.token)
+            .then(async (response) => {
+                const data = await response.json();
+                setTask(data.task);
 
-                    setLoading(false);
-                })
-                .catch((error: any) => {
-                    logError(error.toString());
-                });
-        } catch (error: any) {
-            logError(error.toString());
-        }
+                setLoading(false);
+            })
+            .catch((error: any) => {
+                logError(error.toString());
+            });
     };
 
     const getTaskComponent = () => {

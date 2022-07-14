@@ -24,28 +24,24 @@ export const ShortAnswerTask = (props: IShortAnswerTask) => {
     const [startedAt, setStartedAt] = useState(new Date());
 
     const handleSubmitCode = () => {
-        try {
-            apiUserSubmitTask(
-                context?.token,
-                props.id,
-                { answer: userAnswer },
-                new Date(),
-                startedAt
-            )
-                .then(async (response) => {
-                    const data = await response.json();
+        apiUserSubmitTask(
+            context?.token,
+            props.id,
+            { answer: userAnswer },
+            new Date(),
+            startedAt
+        )
+            .then(async (response) => {
+                const data = await response.json();
 
-                    if (data.completed) {
-                        setCompleted(true);
-                        props.onCompletion();
-                    }
-                })
-                .catch((error: any) => {
-                    logError(error.toString());
-                });
-        } catch (error: any) {
-            logError(error.toString());
-        }
+                if (data.completed) {
+                    setCompleted(true);
+                    props.onCompletion();
+                }
+            })
+            .catch((error: any) => {
+                logError(error.toString());
+            });
     };
 
     useEffect(() => {

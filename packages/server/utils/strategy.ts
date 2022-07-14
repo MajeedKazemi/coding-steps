@@ -22,7 +22,9 @@ passport.deserializeUser((id, done) => {
 });
 
 export const getToken = (user: any) => {
-    return jwt.sign(user, env.JWT_SECRET, { expiresIn: env.SESSION_EXPIRY });
+    return jwt.sign(user, env.JWT_SECRET, {
+        expiresIn: parseInt(env.SESSION_EXPIRY),
+    });
 };
 
 export const jwtPassport = passport.use(
@@ -56,7 +58,7 @@ export const verifyUser = passport.authenticate("jwt", { session: false });
 
 export const getRefreshToken = (user: any) => {
     const refreshToken = jwt.sign(user, env.REFRESH_TOKEN_SECRET, {
-        expiresIn: parseInt(env.REFRESH_TOKEN_EXPIRY) * 1000,
+        expiresIn: parseInt(env.REFRESH_TOKEN_EXPIRY),
     });
     return refreshToken;
 };
@@ -67,5 +69,5 @@ export const COOKIE_OPTIONS: CookieOptions = {
     // secure cookies do not work correctly (in postman)
     secure: !env.dev,
     signed: true,
-    maxAge: parseInt(env.REFRESH_TOKEN_EXPIRY) * 1000,
+    maxAge: parseInt(env.REFRESH_TOKEN_EXPIRY),
 };

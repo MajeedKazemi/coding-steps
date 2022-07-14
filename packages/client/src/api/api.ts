@@ -1,20 +1,4 @@
-import { IContext } from "../types";
 import env from "../utils/env";
-
-export const RefreshToken = (
-    setContext: (context: IContext | null) => void
-) => {
-    return authRefresh().then(async (response) => {
-        if (response.ok) {
-            const data = await response.json();
-
-            setContext({
-                token: data.token,
-                user: data.user,
-            });
-        }
-    });
-};
 
 export const authRefresh = () =>
     fetch(env.API_URL + "/api/auth/refreshToken", {
@@ -177,7 +161,8 @@ export const apiUserEvaluateCode = (
 
 export const apiGenerateCodex = (
     token: string | null | undefined,
-    description: string
+    description: string,
+    context: string
 ) =>
     fetch(env.API_URL + "/api/codex/generate", {
         method: "POST",
@@ -186,7 +171,11 @@ export const apiGenerateCodex = (
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ description: description, type: "block" }),
+        body: JSON.stringify({
+            description: description,
+            type: "block",
+            context: context,
+        }),
     });
 
 export const apiLogEvents = (

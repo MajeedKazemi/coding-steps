@@ -1,10 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import {
-    apiAdminGetSubmissions,
-    authRefresh,
-    logError,
-    RefreshToken,
-} from "../api/api";
+import React, { useContext, useEffect, useState } from "react";
+import { apiAdminGetSubmissions, logError } from "../api/api";
 
 import { AdminSubmission } from "../components/admin-submission";
 import { Layout } from "../components/layout";
@@ -15,35 +10,23 @@ export const AdminPage = () => {
     const { context, setContext } = useContext(AuthContext);
     const [submissions, setSubmissions] = useState<Array<ISubmission>>([]);
 
-    const fetchTasks = () => {
-        try {
+    useEffect(() => {
+        const id = setInterval(() => {
             apiAdminGetSubmissions(context?.token)
                 .then(async (response) => {
-                    if (response.status === 401) {
-                        await RefreshToken(setContext);
+                    const data = await response.json();
 
-                        fetchTasks();
-                    } else {
-                        const data = await response.json();
-
-                        setSubmissions(data.submissions);
-                    }
+                    setSubmissions(data.submissions);
                 })
                 .catch((error: any) => {
                     logError(error.toString());
                 });
-        } catch (error: any) {
-            logError(error.toString());
-        }
-    };
-
-    useEffect(() => {
-        fetchTasks();
-
-        setInterval(() => {
-            fetchTasks();
         }, 1000);
-    }, []);
+
+        return () => {
+            clearInterval(id);
+        };
+    }, [context?.token]);
 
     return (
         <Layout>

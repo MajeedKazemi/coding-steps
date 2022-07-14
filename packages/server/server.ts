@@ -41,8 +41,6 @@ mongoose
         app.use(
             Session({
                 secret: env.COOKIE_SECRET,
-                resave: false,
-                saveUninitialized: false,
             })
         );
 

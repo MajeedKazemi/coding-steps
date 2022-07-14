@@ -5,9 +5,7 @@ import {
     apiUserGradingStatus,
     apiUserStartTask,
     apiUserSubmitTask,
-    authRefresh,
     logError,
-    RefreshToken,
 } from "../api/api";
 
 import { AuthContext } from "../context";
@@ -51,151 +49,99 @@ export const CodingTask = (props: CodingTaskProps) => {
     const [canSubmit, setCanSubmit] = useState(false);
 
     const sendLog = () => {
-        try {
-            apiLogEvents(
-                context?.token,
-                props.taskId,
-                getLogObject(props.taskId, context?.user?.id)
-            )
-                .then(async (response) => {
-                    if (response.status === 401) {
-                        await RefreshToken(setContext);
-
-                        sendLog();
-                    }
-                })
-                .catch((error) => {
-                    logError("sendLog: " + error.toString());
-                });
-        } catch (error: any) {
-            logError("sendLog: " + error.toString());
-        }
+        apiLogEvents(
+            context?.token,
+            props.taskId,
+            getLogObject(props.taskId, context?.user?.id)
+        )
+            .then(() => {})
+            .catch((error) => {
+                logError("sendLog: " + error.toString());
+            });
     };
 
     const handleSkipTask = () => {
-        try {
-            apiUserSubmitTask(context?.token, props.taskId, {
-                code: userCode,
+        apiUserSubmitTask(context?.token, props.taskId, {
+            code: userCode,
+        })
+            .then(async (response) => {
+                sendLog();
+
+                editorRef.current?.setCode(props.solution);
+                setSkipped(true);
             })
-                .then(async (response) => {
-                    if (response.status === 401) {
-                        await RefreshToken(setContext);
-
-                        handleSkipTask();
-                    } else {
-                        sendLog();
-
-                        editorRef.current?.setCode(props.solution);
-                        setSkipped(true);
-                    }
-                })
-                .catch((error: any) => {
-                    logError("handleSkipTask: " + error.toString());
-                });
-        } catch (error: any) {
-            logError("handleSkipTask: " + error.toString());
-        }
+            .catch((error: any) => {
+                logError("handleSkipTask: " + error.toString());
+            });
     };
 
     const handleGradeCode = () => {
-        try {
-            apiUserEvaluateCode(context?.token, props.taskId, userCode)
-                .then(async (response) => {
-                    if (response.status === 401) {
-                        await RefreshToken(setContext);
+        apiUserEvaluateCode(context?.token, props.taskId, userCode)
+            .then(async (response) => {
+                const data = await response.json();
 
-                        handleGradeCode();
-                    } else {
-                        const data = await response.json();
-
-                        if (data.success) {
-                            setBeingGraded(true);
-                        }
-                    }
-                })
-                .catch((error: any) => {
-                    logError("handleGradeCode: " + error.toString());
-                });
-        } catch (error: any) {
-            logError("handleGradeCode: " + error.toString());
-        }
+                if (data.success) {
+                    setBeingGraded(true);
+                }
+            })
+            .catch((error: any) => {
+                logError("handleGradeCode: " + error.toString());
+            });
     };
 
     const handleStart = () => {
         const now = Date.now();
 
-        try {
-            apiUserStartTask(context?.token, props.taskId)
-                .then(async (response) => {
-                    if (response.status === 401) {
-                        await RefreshToken(setContext);
+        apiUserStartTask(context?.token, props.taskId)
+            .then(async (response) => {
+                const data = await response.json();
 
-                        handleStart();
+                if (data.success) {
+                    setStarted(true);
+
+                    if (data.canContinue) {
+                        setStartTime(Date.parse(data.startedAt));
+                        setCheckingTime(data.checkingTime);
+                        setElapsedTime(
+                            now - Date.parse(data.startedAt) - data.checkingTime
+                        );
                     } else {
-                        const data = await response.json();
-
-                        if (data.success) {
-                            setStarted(true);
-
-                            if (data.canContinue) {
-                                setStartTime(Date.parse(data.startedAt));
-                                setCheckingTime(data.checkingTime);
-                                setElapsedTime(
-                                    now -
-                                        Date.parse(data.startedAt) -
-                                        data.checkingTime
-                                );
-                            } else {
-                                setStartTime(now);
-                                setElapsedTime(now - startTime);
-                            }
-
-                            if (data.beingGraded) {
-                                // the user has already submitted the task and should wait for the result
-                                setBeingGraded(true);
-                            }
-                        }
+                        setStartTime(now);
+                        setElapsedTime(now - startTime);
                     }
-                })
-                .catch((error: any) => {
-                    logError("handleStart: " + error.toString());
-                });
-        } catch (error: any) {
-            logError("handleStart: " + error.toString());
-        }
+
+                    if (data.beingGraded) {
+                        // the user has already submitted the task and should wait for the result
+                        setBeingGraded(true);
+                    }
+                }
+            })
+            .catch((error: any) => {
+                logError("handleStart: " + error.toString());
+            });
     };
 
     const getGradingStatus = (timerId: any) => {
-        try {
-            apiUserGradingStatus(context?.token, props.taskId)
-                .then(async (response) => {
-                    if (response.status === 401) {
-                        await RefreshToken(setContext);
+        apiUserGradingStatus(context?.token, props.taskId)
+            .then(async (response) => {
+                const data = await response.json();
 
-                        getGradingStatus(timerId);
-                    } else {
-                        const data = await response.json();
+                if (!data.beingGraded) {
+                    setCheckingTime(data.checkingTime);
+                    setBeingGraded(false);
+                    clearInterval(timerId);
 
-                        if (!data.beingGraded) {
-                            setCheckingTime(data.checkingTime);
-                            setBeingGraded(false);
-                            clearInterval(timerId);
+                    if (data.passed) {
+                        sendLog();
 
-                            if (data.passed) {
-                                sendLog();
-
-                                setCompleted(true);
-                                props.onCompletion(); // go to the next task
-                            }
-                        }
+                        setCompleted(true);
+                        props.onCompletion(); // go to the next task
                     }
-                })
-                .catch((error: any) => {
-                    logError("apiUserGradingStatus: " + error.toString());
-                });
-        } catch (error: any) {
-            logError("apiUserGradingStatus: " + error.toString());
-        }
+                }
+            })
+            .catch((error: any) => {
+                logError("apiUserGradingStatus: " + error.toString());
+            });
     };
 
     useEffect(() => {

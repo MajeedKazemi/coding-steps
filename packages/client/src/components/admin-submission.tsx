@@ -15,28 +15,24 @@ export const AdminSubmission = (props: IProps) => {
 
     const handleSubmitGrade = () => {
         if (grade === "pass" || grade === "fail") {
-            try {
-                apiAdminSetGrade(
-                    context?.token,
-                    props.submission.taskId,
-                    props.submission.userId,
-                    grade === "pass",
-                    props.submission.submittedAt,
-                    props.submission.index
-                )
-                    .then(async (response) => {
-                        const data = await response.json();
+            apiAdminSetGrade(
+                context?.token,
+                props.submission.taskId,
+                props.submission.userId,
+                grade === "pass",
+                props.submission.submittedAt,
+                props.submission.index
+            )
+                .then(async (response) => {
+                    const data = await response.json();
 
-                        if (data.success) {
-                            setGrade("");
-                        }
-                    })
-                    .catch((error: any) => {
-                        logError(error.toString());
-                    });
-            } catch (error: any) {
-                logError(error.toString());
-            }
+                    if (data.success) {
+                        setGrade("");
+                    }
+                })
+                .catch((error: any) => {
+                    logError(error.toString());
+                });
         }
 
         setGrade("");

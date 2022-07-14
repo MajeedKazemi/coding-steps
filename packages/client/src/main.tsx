@@ -17,7 +17,7 @@ import {
     useLocation,
 } from "react-router-dom";
 
-import { authRefresh } from "./api/api";
+import { authRefresh, logError } from "./api/api";
 import { AuthContext } from "./context";
 import { AdminPage } from "./routes/admin-page";
 import { HomePage } from "./routes/home-page";
@@ -40,27 +40,32 @@ function RequireAuth({
 
     const verifyUser = useCallback(() => {
         setLoading(true);
+
         authRefresh()
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json();
 
                     setContext({ token: data.token, user: data.user });
-                    setLoading(false);
                 } else {
-                    setLoading(false);
+                    logError(response.toString());
                 }
+
+                setLoading(false);
             })
             .catch((error) => {
+                logError(error.toString());
                 setLoading(false);
             });
+
+        setTimeout(verifyUser, 3 * 1000);
     }, [setContext]);
 
     useEffect(() => {
         verifyUser();
     }, [verifyUser]);
 
-    if (loading) return <h1>Loading</h1>;
+    if (loading && !context?.token) return <h1>Loading</h1>;
     else if (!context?.token) {
         return <Navigate to="/" state={{ from: location }} replace />;
     } else return children;
