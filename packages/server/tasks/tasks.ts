@@ -723,6 +723,10 @@ export const CodingTasks = [
             `num = int(input("enter one of the numbers 1, 2, or 3: "))`,
             `if word == "one" and num == 1:`,
             `    print("correct")`,
+            `if word == "two" and num == 2:`,
+            `    print("correct")`,
+            `if word == "three" and num == 3:`,
+            `    print("correct")`,
             `else:`,
             `    print("incorrect")`,
         ].join("\n"),
@@ -736,6 +740,10 @@ export const CodingTasks = [
             `word = input("enter one of the words one, two, or three: ")`,
             `num = int(input("enter one of the numbers 1, 2, or 3: "))`,
             `if word == "one" and num == 1:`,
+            `    print("correct")`,
+            `if word == "two" and num == 2:`,
+            `    print("correct")`,
+            `if word == "three" and num == 3:`,
             `    print("correct")`,
             `else:`,
             `    print("incorrect")`,
@@ -761,6 +769,12 @@ export const CodingTasks = [
             `word = input("enter one of the words one, two, or three: ")`,
             `num = int(input("enter one of the numbers 1, 2, or 3: "))`,
             `if word == "one" and num == 1:`,
+            `    print("correct")`,
+            `    print(num * 10)`,
+            `if word == "two" and num == 2:`,
+            `    print("correct")`,
+            `    print(num * 10)`,
+            `if word == "three" and num == 3:`,
             `    print("correct")`,
             `    print(num * 10)`,
             `else:`,
@@ -844,7 +858,7 @@ export const CodingTasks = [
     new AuthoringTask(
         "16a",
         "Divisble By Two",
-        "Ask the user to enter a number. Check if it is even or odd. If it is even, then display the number divided by two. If it is odd, just display the number.",
+        "Ask the user to enter a number. Check if it is even or odd. If it is even, then display the number divided by two. If it is odd, just display the number.<br/>Note: a number is even if it's remainder when divided by two is 0, and a number is odd if it's remainder when divided by two is 1.",
         [
             [
                 "output: <b>enter a number:</b>",
@@ -946,7 +960,7 @@ export const CodingTasks = [
     new AuthoringTask(
         "18a",
         "All numbers",
-        "display all the numbers from 1 to 100 one by one.",
+        "display all the numbers from 1 to 100 line by line.",
         [
             [
                 "output: <b>1</b>",
@@ -962,7 +976,7 @@ export const CodingTasks = [
     new ModifyingTask(
         "18b",
         "All numbers from input",
-        "Modify the following program to ask the user for a number, and then display all the numbers from 1 to that number one by one.",
+        "Modify the following program to ask the user for a number, and then display all the numbers from 1 to that number line by line.",
         [`for i in range(1, 101):`, `    print(i)`].join("\n"),
         [
             [
