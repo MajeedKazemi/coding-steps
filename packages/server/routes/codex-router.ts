@@ -40,10 +40,10 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
         });
 
         if (result.data.choices && result.data.choices?.length > 0) {
+            const code = result.data.choices[0].text?.trim();
+
             res.json({
-                code:
-                    `# Prompt: ${description}\n` +
-                    result.data.choices[0].text?.trim(),
+                code: code ? `# Prompt: ${description}\n` + code : "",
                 success: true,
             });
         } else {

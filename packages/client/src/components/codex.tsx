@@ -236,7 +236,8 @@ export const Codex = (props: ICodexProps) => {
                                 //     },
                                 // });
                             } else {
-                                const words = text.split(" ").length;
+                                const words = description.split(" ").length;
+
                                 if (words < 10) {
                                     setFeedback(
                                         "Try to be more descriptive. For example, you can use some of the keywords from the documentation to create more specific instructions."
