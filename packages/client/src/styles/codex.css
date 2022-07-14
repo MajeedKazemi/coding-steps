@@ -1,3 +1,7 @@
+.codex-container {
+    margin-top: 48px;
+}
+
 .codex-description-input {
     width: 100%;
     height: 100px;
@@ -7,4 +11,14 @@
     border-radius: 6px;
     font-size: 14px;
     padding: 6px;
+}
+
+.context-checkbox-container {
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.codex-feedback {
+    margin-top: 8px;
+    font-size: 15px;
 }
