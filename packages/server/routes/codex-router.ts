@@ -41,7 +41,9 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
 
         if (result.data.choices && result.data.choices?.length > 0) {
             res.json({
-                code: result.data.choices[0].text?.trim(),
+                code:
+                    `# Prompt: ${description}\n` +
+                    result.data.choices[0].text?.trim(),
                 success: true,
             });
         } else {

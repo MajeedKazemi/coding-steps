@@ -843,22 +843,214 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "16a",
-        "Open Ended Task",
-        "Use the code generator to create any program that you want to!",
-        [[]],
-        [].join("\n"),
+        "Divisble By Two",
+        "Ask the user to enter a number. Check if it is even or odd. If it is even, then display the number divided by two. If it is odd, just display the number.",
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>41</b>",
+                "output: <b>41</b>",
+            ],
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>28</b>",
+                "output: <b>14</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            `if num % 2 == 0:`,
+            `    print(num / 2)`,
+            `else:`,
+            `    print(num)`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "16b",
+        "Divisble By Other Number",
+        "Instead of checking if the number is divisble by two, check if the number is divisible by each of the prime numbers from 1 to 10 (1, 2, 3, 5, 7). At the end, display all the prime numbers (between 1 and 10) that the number is divisible by.",
+        [
+            `num = int(input("enter a number: "))`,
+            `if num % 2 == 0:`,
+            `    print(num / 2)`,
+            `else:`,
+            `    print(num)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>42</b>",
+                "output: <b>2</b>",
+                "output: <b>3</b>",
+                "output: <b>7</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            `if num % 2 == 0:`,
+            `    print(2)`,
+            `if num % 3 == 0:`,
+            `    print(3)`,
+            `if num % 5 == 0:`,
+            `    print(5)`,
+            `if num % 7 == 0:`,
+            `    print(7)`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new AuthoringTask(
+        "17a",
+        "Repeat and say",
+        "display hello world 10 times using a loop.",
+        [
+            [
+                "output: <b>hello world</b>",
+                "output: <b>hello world</b>",
+                "output: <b>hello world</b>",
+                "...",
+                "output: <b>hello world</b>",
+            ],
+        ],
+        [`for i in range(3):`, `    print("hello world")`].join("\n"),
         60 * 4
     ),
 
     new ModifyingTask(
-        "16b",
-        "Open Ended Task",
-        "Use the documentation to create any program that you want to!",
-        "",
-        [[]],
-        [].join("\n"),
+        "17b",
+        "Repeat and ask",
+        "Modify the code so that it would instead repeat the following program for 5 times: ask the user for their name, display hello, name. At the end, display the message: program finished, only once.",
+        [`for i in range(2):`, `    print("hello world")`].join("\n"),
+        [
+            [
+                "output: <b>enter your name:</b>",
+                "input: <b>joe</b>",
+                "output: <b>hello, joe</b>",
+                "...",
+                "output: <b>enter your name:</b>",
+                "input: <b>dan</b>",
+                "output: <b>hello, dan</b>",
+                "output: <b>program finished</b>",
+            ],
+        ],
+        [
+            `for i in range(2):`,
+            `    name = input("enter your name: ")`,
+            `    print("hello, " + name)`,
+            `print("program finished")`,
+        ].join("\n"),
         60 * 4
     ),
+
+    new AuthoringTask(
+        "18a",
+        "All numbers",
+        "display all the numbers from 1 to 100 one by one.",
+        [
+            [
+                "output: <b>1</b>",
+                "output: <b>2</b>",
+                "...",
+                "output: <b>99</b>",
+                "output: <b>100</b>",
+            ],
+        ],
+        [`for i in range(1, 101):`, `    print(i)`].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "18b",
+        "All numbers from input",
+        "Modify the following program to ask the user for a number, and then display all the numbers from 1 to that number one by one.",
+        [`for i in range(1, 101):`, `    print(i)`].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>25</b>",
+                "output: <b>1</b>",
+                "output: <b>2</b>",
+                "...",
+                "output: <b>24</b>",
+                "output: <b>25</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            `for i in range(1, num + 1):`,
+            `    print(i)`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new AuthoringTask(
+        "19a",
+        "Sum numbers",
+        "Write a program that would ask the user to enter a number, then use a loop to calculate the sum of all numbers from 1 to the given number. Finally, display the sum.",
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>50</b>",
+                "output: <b>1225</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            `sum_numbers = 0`,
+            `for i in range(1, num + 1):`,
+            `    sum_numbers += i`,
+            `print(sum_numbers)`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new ModifyingTask(
+        "19b",
+        "Sum numbers",
+        "Modify the program so that it would only calculate the sum of all even numbers between 1 to the given number. Finally, display the sum.",
+        [
+            `num = int(input("enter a number: "))`,
+            `sum_numbers = 0`,
+            `for i in range(1, num + 1):`,
+            `    sum_numbers += i`,
+            `print(sum_numbers)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>50</b>",
+                "output: <b>600</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            `sum_numbers = 0`,
+            `for i in range(1, num + 1):`,
+            `    if i % 2 == 0:`,
+            `        sum_numbers += i`,
+            `print(sum_numbers)`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    // new AuthoringTask(
+    //     "16a",
+    //     "Open Ended Task",
+    //     "Use the code generator to create any program that you want to!",
+    //     [[]],
+    //     [].join("\n"),
+    //     60 * 4
+    // ),
+
+    // new ModifyingTask(
+    //     "16b",
+    //     "Open Ended Task",
+    //     "Use the documentation to create any program that you want to!",
+    //     "",
+    //     [[]],
+    //     [].join("\n"),
+    //     60 * 4
+    // ),
 ];
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>

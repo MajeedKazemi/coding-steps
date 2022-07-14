@@ -19,7 +19,7 @@ export const Codex = (props: ICodexProps) => {
     const [feedback, setFeedback] = useState<string>("");
     // const [checked, setChecked] = useState(true);
 
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    // const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const generateCode = () => {
         if (description.length === 0) {
@@ -251,31 +251,17 @@ export const Codex = (props: ICodexProps) => {
                             props.editor?.focus();
                             setWaiting(false);
                             props.editor?.updateOptions({ readOnly: false });
-                            setDescription("");
-                            if (textareaRef.current) {
-                                textareaRef.current.value = "";
-                            }
                         }
                     })
                     .catch((error) => {
                         props.editor?.updateOptions({ readOnly: false });
-                        logError(error.toString());
                         setWaiting(false);
-                        setDescription("");
-
-                        if (textareaRef.current) {
-                            textareaRef.current.value = "";
-                        }
+                        logError(error.toString());
                     });
             } catch (error: any) {
                 props.editor?.updateOptions({ readOnly: false });
-                logError(error.toString());
                 setWaiting(false);
-                setDescription("");
-
-                if (textareaRef.current) {
-                    textareaRef.current.value = "";
-                }
+                logError(error.toString());
             }
         }
     };
@@ -284,7 +270,7 @@ export const Codex = (props: ICodexProps) => {
         <div className="codex-container">
             <p>Provide Instructions:</p>
             <textarea
-                ref={textareaRef}
+                // ref={textareaRef}
                 className="codex-description-input"
                 placeholder="Describe the behavior of the code..."
                 onChange={(e) => {
