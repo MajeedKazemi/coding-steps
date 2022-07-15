@@ -315,7 +315,9 @@ export const CodingTask = (props: CodingTaskProps) => {
                 showCodex={props.showCodex}
                 taskId={props.taskId}
                 starterCode={
-                    props.taskType === TaskType.Authoring
+                    userCode
+                        ? userCode
+                        : props.taskType === TaskType.Authoring
                         ? ""
                         : props.starterCode !== undefined
                         ? props.starterCode
