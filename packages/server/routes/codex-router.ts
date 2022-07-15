@@ -10,7 +10,7 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
 
     if (description !== undefined && type !== undefined) {
         const prompt = [
-            `<|endoftext|># I start with a blank Python3 file. Each ### Command corresponds to a short Python code snippet.`,
+            `<|endoftext|># I start with a blank Python3 file. Each Command corresponds to a short Python code snippet.`,
             `# Command: say hello world\nprint("hello world")`,
             ``,
             `# Command: ask the user for their name\nname = input("What is your name? ")`,
@@ -25,7 +25,7 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
             ``,
             `# Context: ${context}`,
             `# Command: ${
-                context ? "use the above code as context and " : ""
+                context ? "use the above code as context and  " : ""
             } ${description.trim()}\n`,
         ].join("\n");
 
@@ -43,7 +43,7 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
             const code = result.data.choices[0].text?.trim();
 
             res.json({
-                code: code ? `# Prompt: ${description}\n` + code : "",
+                code: code ? `# Instructions: ${description}\n` + code : "",
                 success: true,
             });
         } else {

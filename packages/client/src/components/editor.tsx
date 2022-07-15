@@ -72,6 +72,8 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                 fontSize: 18,
                 lineHeight: 30,
                 minimap: { enabled: false },
+                wordWrap: "on",
+                wrappingIndent: "indent",
             });
 
             editor.onDidChangeModelContent((e) => {
