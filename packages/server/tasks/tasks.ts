@@ -959,6 +959,99 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "18a",
+        "Repeat and add",
+        "Set a variable to 0 and then create a loop that would add the number 5 to the variable for 25 times and display the variable as it increases.",
+        [
+            [
+                "output: <b>5</b>",
+                "output: <b>10</b>",
+                "output: <b>15</b>",
+                "...",
+                "output: <b>125</b>",
+            ],
+        ],
+        [
+            `num = 0`,
+            `for i in range(25):`,
+            `    num += 5`,
+            `    print(num)`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "18b",
+        "Repeat and add another",
+        "Modify the program so that it includes another variable that is initially set to 125 and then is decremented by 5 for 25 times. display the value of both variables everytime their value changes in the loop.",
+        [
+            `num = 0`,
+            `for i in range(25):`,
+            `    num += 5`,
+            `    print(num)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>First: 5</b>",
+                "output: <b>Second: 120</b>",
+                "output: <b>First: 10</b>",
+                "output: <b>Second: 115</b>",
+                "...",
+                "output: <b>First: 0</b>",
+                "output: <b>Second: 125</b>",
+            ],
+        ],
+        [
+            `num1 = 125`,
+            `num2 = 0`,
+            `for i in range(25):`,
+            `    num1 -= 5`,
+            `    num2 += 5`,
+            `    print("First: " + str(num1))`,
+            `    print("Second: " + str(num2))`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new AuthoringTask(
+        "19a",
+        "Weeeeee!!",
+        "set a variable called <i>sentence</i> to <b>we</b>. Then create a loop that would repeatedly add the letter <b>e</b> to <i>sentence</i> for 5 times. At the end of the loop, at an exclamation mark (!) to the sentence. Finally, display the value of <i>sentence</i>.",
+        [["output: <b>weeeee</b>"]],
+        [
+            `sentence = "we"`,
+            `for i in range(5):`,
+            `    sentence += "e"`,
+            `sentence += "!"`,
+            `print(sentence)`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "19b",
+        "All numbers from input",
+        "set a variable called <i>sentence</i> to <b>My top three fruits are</b>. Then create a loop that would repeatedly ask the user to enter a fruit and then add it to the <i>sentence</i>. The loop should be repeated for 3 times. At the end, add a dot (.) to the sentence and then display the sentence.",
+        [`for i in range(1, 101):`, `    print(i)`].join("\n"),
+        [
+            [
+                `sentence = "we"`,
+                `for i in range(5):`,
+                `    sentence += "e"`,
+                `sentence += "!"`,
+                `print(sentence)`,
+            ],
+        ],
+        [
+            `sentence = "My top three fruits are"`,
+            `for i in range(3):`,
+            `    fruit = input("enter a fruit: ")`,
+            `    sentence += " " + fruit`,
+            `sentence += "."`,
+            `print(sentence)`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new AuthoringTask(
+        "20a",
         "All numbers",
         "display all the numbers from 1 to 100 line by line.",
         [
@@ -974,7 +1067,7 @@ export const CodingTasks = [
         60 * 4
     ),
     new ModifyingTask(
-        "18b",
+        "20b",
         "All numbers from input",
         "Modify the following program to ask the user for a number, and then display all the numbers from 1 to that number line by line.",
         [`for i in range(1, 101):`, `    print(i)`].join("\n"),
@@ -998,14 +1091,14 @@ export const CodingTasks = [
     ),
 
     new AuthoringTask(
-        "19a",
+        "21a",
         "Sum numbers",
-        "Write a program that would ask the user to enter a number, then use a loop to calculate the sum of all numbers from 1 to the given number. Finally, display the sum.",
+        "Write a program that would ask the user to enter a number, then use a loop to calculate the sum of all numbers from 1 to the given number (including the given number). Finally, display the sum.",
         [
             [
                 "output: <b>enter a number:</b>",
                 "input: <b>50</b>",
-                "output: <b>1225</b>",
+                "output: <b>1275</b>",
             ],
         ],
         [
@@ -1019,9 +1112,9 @@ export const CodingTasks = [
     ),
 
     new ModifyingTask(
-        "19b",
+        "21b",
         "Sum numbers",
-        "Modify the program so that it would only calculate the sum of all even numbers between 1 to the given number. Finally, display the sum.",
+        "Modify the program so that it would only calculate the sum of all even numbers between 1 to the given number (including the given number). Finally, display the sum.",
         [
             `num = int(input("enter a number: "))`,
             `sum_numbers = 0`,
@@ -1047,24 +1140,64 @@ export const CodingTasks = [
         60 * 4
     ),
 
-    // new AuthoringTask(
-    //     "16a",
-    //     "Open Ended Task",
-    //     "Use the code generator to create any program that you want to!",
-    //     [[]],
-    //     [].join("\n"),
-    //     60 * 4
-    // ),
+    new AuthoringTask(
+        "22a",
+        "Repeat Until",
+        "Write a program that would repeatedly ask the user to enter a password (as a number). Repeatedly check if the password is equal to 123. If it is, display the message <b>Password is correct</b>. If it is not, display the message <b>Password is incorrect</b> and should ask for the user to enter another password. The program should stop when the user enters the number 123.",
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>321</b>",
+                "output: <b>Password is incorrect</b>",
+                "output: <b>enter a number:</b>",
+                "input: <b>123</b>",
+                "output: <b>Password is correct</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            `while num != 123:`,
+            `    num = int(input("enter a number: "))`,
+            `print("Password is correct")`,
+        ].join("\n"),
+        60 * 4
+    ),
 
-    // new ModifyingTask(
-    //     "16b",
-    //     "Open Ended Task",
-    //     "Use the documentation to create any program that you want to!",
-    //     "",
-    //     [[]],
-    //     [].join("\n"),
-    //     60 * 4
-    // ),
+    new ModifyingTask(
+        "22b",
+        "Sum numbers",
+        "Modify the program so that it would count the number of incorrect attempts at the end.",
+        [
+            `num = int(input("enter a number: "))`,
+            `while num != 123:`,
+            `    num = int(input("enter a number: "))`,
+            `print("Password is correct")`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>321</b>",
+                "output: <b>Password is incorrect</b>",
+                "output: <b>enter a number:</b>",
+                "input: <b>222</b>",
+                "output: <b>Password is incorrect</b>",
+                "output: <b>enter a number:</b>",
+                "input: <b>123</b>",
+                "output: <b>Password is correct</b>",
+                "output: <b>Incorrect attempts: 2</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            `incorrect_attempts = 0`,
+            `while num != 123:`,
+            `    num = int(input("enter a number: "))`,
+            `    incorrect_attempts += 1`,
+            `print("Password is correct")`,
+            `print("Incorrect attempts: " + str(incorrect_attempts))`,
+        ].join("\n"),
+        60 * 4
+    ),
 ];
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
