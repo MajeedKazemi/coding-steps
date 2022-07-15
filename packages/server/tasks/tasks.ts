@@ -1165,7 +1165,7 @@ export const CodingTasks = [
 
     new ModifyingTask(
         "22b",
-        "Sum numbers",
+        "Repeat Until + Count",
         "Modify the program so that it would count the number of incorrect attempts at the end.",
         [
             `num = int(input("enter a number: "))`,
@@ -1198,6 +1198,77 @@ export const CodingTasks = [
         ].join("\n"),
         60 * 4
     ),
+
+    new AuthoringTask(
+        "23a",
+        "Write a program that would repeatedly do the following until the user enters <b>stop</b>: ask the user for a number, and then add it up to a variable called <b>total</b>. If the user enters <b>stop</b>, display the total.",
+        "Write.",
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>15</b>",
+                "output: <b>enter a number:</b>",
+                "input: <b>7</b>",
+                "output: <b>enter a number:</b>",
+                "input: <b>stop</b>",
+                "output: <b>the total is: 22</b>",
+            ],
+        ],
+        [
+            `total = 0`,
+            `num = int(input("enter a number: "))`,
+            `while num != "stop":`,
+            `    total += num`,
+            `    num = int(input("enter a number: "))`,
+            `print("the total is: " + str(total))`,
+        ].join("\n"),
+        60 * 4
+    ),
+    new ModifyingTask(
+        "23b",
+        "Sum numbers",
+        "Modify the program so that it would calculate the average of all numbers entered by the user. <br/>Note: the average is the sum of all numbers divided by the number of numbers entered.",
+        [
+            `total = 0`,
+            `num = int(input("enter a number: "))`,
+            `while num != "stop":`,
+            `    total += num`,
+            `    num = int(input("enter a number: "))`,
+            `print("the total is: " + str(total))`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>15</b>",
+                "output: <b>enter a number:</b>",
+                "input: <b>7</b>",
+                "output: <b>enter a number:</b>",
+                "input: <b>stop</b>",
+                "output: <b>the average is: 11</b>",
+            ],
+        ],
+        [
+            `total = 0`,
+            `count = 0`,
+            `num = int(input("enter a number: "))`,
+            `while num != "stop":`,
+            `    total += num`,
+            `    count += 1`,
+            `    num = int(input("enter a number: "))`,
+            `print("the average is: " + str(total / count))`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new AuthoringTask(
+        "24a",
+        "Open Ended Task.",
+        "Define a project and work on it using the Code Generator as much as you can!",
+        [[]],
+        [].join("\n"),
+        60 * 4
+    ),
+    // new MultipleChoiceTask("mc1", "Python Variables", "", []),
 ];
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
