@@ -15,9 +15,11 @@ export function initPythonShell(server: http.Server) {
         ws.on("message", (message: string) => {
             const data = JSON.parse(message);
 
+            const code = `${CPU_LIMITER_CODE}\n${data.code}`;
+
             if (data.type === "run") {
                 try {
-                    fs.writeFileSync("main.py", data.code);
+                    fs.writeFileSync("main.py", code);
                 } catch (err) {
                     console.error("fs: ", err);
                 }
@@ -47,6 +49,15 @@ export function initPythonShell(server: http.Server) {
                         error = err.traceback;
                     } else {
                         error = err.message;
+                    }
+
+                    const lineNumber = error.match(/line (\d+)/);
+
+                    if (lineNumber) {
+                        error = error.replace(
+                            lineNumber[1],
+                            (parseInt(lineNumber[1]) - 10).toString()
+                        );
                     }
 
                     error = error.replace(/File ".*", /, "");
@@ -80,3 +91,16 @@ export function initPythonShell(server: http.Server) {
         }
     );
 }
+
+const CPU_LIMITER_CODE = [
+    `import resource`,
+    `import signal`,
+    `def time_expired(n, stack):`,
+    `   raise SystemExit("Program stopped: You probably have an infinite loop in your code that doesn't stop!")`,
+    `def set_cpu_runtime():`,
+    `    soft, hard = resource.getrlimit(resource.RLIMIT_CPU)`,
+    `    resource.setrlimit(resource.RLIMIT_CPU, (3, hard))`,
+    `    soft, hard = resource.getrlimit(resource.RLIMIT_CPU)`,
+    `    signal.signal(signal.SIGXCPU, time_expired)`,
+    `set_cpu_runtime()`,
+].join("\n");
