@@ -14,7 +14,6 @@ export function initPythonShell(server: http.Server) {
     wss.on("connection", (ws: ws) => {
         ws.on("message", (message: string) => {
             const data = JSON.parse(message);
-
             const code = `${CPU_LIMITER_CODE}\n${data.code}`;
 
             if (data.type === "run") {
@@ -23,6 +22,9 @@ export function initPythonShell(server: http.Server) {
                 } catch (err) {
                     console.error("fs: ", err);
                 }
+
+                let startTime = Date.now();
+                let msgCount = 0;
 
                 pyshell = new PythonShell(
                     "main.py",
@@ -65,8 +67,20 @@ export function initPythonShell(server: http.Server) {
                     ws.send(JSON.stringify({ type: "stderr", err: error }));
                 });
 
-                pyshell.on("message", (message) => {
+                pyshell.on("message", async (message) => {
+                    msgCount += message.length;
+
                     ws.send(JSON.stringify({ type: "stdout", out: message }));
+
+                    // limit the number of messages per second
+                    if (msgCount > 10000) {
+                        if (Date.now() - startTime < 1000) {
+                            pyshell.kill();
+                        }
+
+                        msgCount = 0;
+                        startTime = Date.now();
+                    }
                 });
             } else if (data.type === "stdin" && pyshell) {
                 pyshell.send(data.value);
