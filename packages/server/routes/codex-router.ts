@@ -1,5 +1,6 @@
 import express from "express";
 
+import { IUser } from "../models/user";
 import { openai } from "../utils/codex";
 import { verifyUser } from "../utils/strategy";
 
@@ -7,6 +8,7 @@ export const codexRouter = express.Router();
 
 codexRouter.post("/generate", verifyUser, async (req, res, next) => {
     const { description, type, context } = req.body;
+    const userId = (req.user as IUser)._id;
 
     if (description !== undefined && type !== undefined) {
         const prompt = [
@@ -25,7 +27,9 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
             ``,
             `# Context: ${context}`,
             `# Command: ${
-                context ? "use the above code as context and  " : ""
+                context && context.length > 0
+                    ? "use the above code as context and  "
+                    : ""
             } ${description.trim()}\n`,
         ].join("\n");
 
@@ -35,8 +39,7 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
             temperature: 0.2,
             max_tokens: 500,
             stop: ["# Command:"],
-
-            // TODO: increase n to 3 and allow learners to choose from multiple generated codes.
+            user: userId,
         });
 
         if (result.data.choices && result.data.choices?.length > 0) {
