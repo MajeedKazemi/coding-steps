@@ -1,13 +1,5 @@
 import * as monaco from "monaco-editor";
-import {
-    forwardRef,
-    Fragment,
-    useContext,
-    useEffect,
-    useImperativeHandle,
-    useRef,
-    useState,
-} from "react";
+import { forwardRef, Fragment, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
 
 import { initializeLanguageClient } from "../api/intellisense";
 import {
@@ -211,10 +203,6 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                     )}
                 </button>
                 <div className="output">
-                    {/* {props.editorType === EditorType.Copilot && (
-                        <div>add copilot</div>
-                    )} */}
-                    {/* <span>{connected ? "connected" : "connecting"}</span> */}
                     {output.map((line, index) => (
                         <p key={"line-" + index}>{line}</p>
                     ))}

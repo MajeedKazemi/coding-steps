@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { apiUserNextTask, logError } from "../api/api";
 
+import { apiUserNextTask, logError } from "../api/api";
 import { CodingTask } from "../components/coding-task";
 import { Layout } from "../components/layout";
 import { Loader } from "../components/loader";
@@ -48,7 +48,10 @@ export const TasksPage = () => {
                                 : task.starterCode
                         }
                         onCompletion={setNextTask}
-                        showCodex={task.type === TaskType.Authoring}
+                        showCodex={
+                            task.type === TaskType.Authoring &&
+                            context?.user?.editorType === "copilot"
+                        }
                         taskType={task.type}
                     ></CodingTask>
                 );
