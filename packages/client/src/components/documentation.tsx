@@ -17,6 +17,7 @@ import { ModifyingStringsDoc } from "./docs/modifying-strings-doc";
 import { ImportsDoc } from "./docs/imports-doc";
 import { ErrorsDoc } from "./docs/errors-doc";
 import { LogicalOperatorsDoc } from "./docs/logical-operators-doc";
+import { SyntaxDoc } from "./docs/syntax-doc";
 
 interface IPropsDocumentation {
     taskId: string;
@@ -48,6 +49,11 @@ export const Documentation = (props: IPropsDocumentation) => {
 
     const getContentFromId = (pageId: string) => { 
         switch (pageId) {
+            case "syntax":
+                return <SyntaxDoc 
+                    pageId={pageId}
+                    onSectionChange={handleSectionChange}
+                />;
             case "data-types":
                 return(
                     <DataTypesDoc
@@ -267,6 +273,7 @@ export const Documentation = (props: IPropsDocumentation) => {
 };
 
 const docs: Array<IDocButton> = [
+    { id: "syntax", name: "Syntax" }, //done
     { id: "data-types", name: "Data Types" }, //done
     { id: "variables", name: "Variables" }, //done
     { id: "functions", name: "Built-In Functions" }, //done
