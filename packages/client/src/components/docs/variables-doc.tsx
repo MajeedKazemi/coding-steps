@@ -2,6 +2,8 @@ import { Fragment, useState } from "react";
 
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
+import { Code } from "../doc-inline-code";
+import { Message } from "../doc-message";
 import { IDocPageProps } from "./types";
 
 export const VariablesDoc = (props: IDocPageProps) => {
@@ -12,8 +14,8 @@ export const VariablesDoc = (props: IDocPageProps) => {
             <h1 className="doc-title">Variables:</h1>
 
             <Accordion
-                title="Variables"
-                sectionId="var-intro"
+                title="Creating Variables"
+                sectionId="creating-variables"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -22,20 +24,37 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>Variables are containers for storing data values.</p>
-                <h2>Creating Variables</h2>
-                <p>Python has no command for declaring a variable.</p>
                 <p>
                     A variable is created the moment you first assign a value to
                     it.
+                </p>
+                <p>
+                    You can assign a value by using the <Code>=</Code> operator
                 </p>
 
                 <Example
                     code={'x = 5\ny = "John"\nprint(x)\nprint(y)'}
                 ></Example>
 
+                
+                <Message>
+                    <p>Variables names are case-sensitive.</p>
+                    <p>Python will interpret <Code>Name</Code> and <Code>name</Code> as different variables</p>
+                </Message>
+            </Accordion>
+            <Accordion
+                title="Updating Variables"
+                sectionId="updating-variables"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>You can change the value of a variable by using the <Code>=</Code> operator</p>
                 <p>
-                    Variables do not need to be declared with any particular
-                    type, and can even change type after they have been set.
+                    Variables can change types after they have been set.
                 </p>
                 <Example
                     code={
@@ -44,9 +63,10 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 ></Example>
             </Accordion>
 
+            <h2 className="doc-subtitle">Shorcuts for Updating Variables</h2>
             <Accordion
-                title="Casting"
-                sectionId="var-casting"
+                title="+="
+                sectionId="+="
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -54,71 +74,17 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>
-                    If you want to specify the data type of a variable, this can
-                    be done with casting.
-                </p>
+                <p>If you have a variable and you want to update it's value based on it's previous value, normally it would look like this.</p>
                 <Example
                     code={
-                        'x = str(3)\t# x will be "3"\ny = int(3)    # y will be 3\nz = float(3)  # z will be 3.0'
+                        'x = 4\nx = x + 1\nprint(x) # prints 5'
                     }
                 ></Example>
-            </Accordion>
-
-            <Accordion
-                title="Get the Type"
-                sectionId="var-get-type"
-                pageId={props.pageId}
-                click={(next: string) => {
-                    props.onSectionChange(current, next);
-                    setCurrent(next);
-                }}
-                current={current}
-            >
-                <p>
-                    You can get the data type of a variable with the type()
-                    function.
-                </p>
-
+                <p>A faster way of doing this exact same operation would be using the <Code>+=</Code> operator like this.</p>
                 <Example
-                    code={'x = 5\ny = "John"\nprint(type(x))\nprint(type(y))'}
-                ></Example>
-            </Accordion>
-
-            <Accordion
-                title="Single or Double Quotes?"
-                sectionId="str-quotes"
-                pageId={props.pageId}
-                click={(next: string) => {
-                    props.onSectionChange(current, next);
-                    setCurrent(next);
-                }}
-                current={current}
-            >
-                <p>
-                    String variables can be declared either by using single or
-                    double quotes:
-                </p>
-                <Example
-                    code={'x = "John"\n# is the same as\nx = "John"'}
-                ></Example>
-            </Accordion>
-
-            <Accordion
-                title="Case-Sensitive"
-                sectionId="var-case-sensitivity"
-                pageId={props.pageId}
-                click={(next: string) => {
-                    props.onSectionChange(current, next);
-                    setCurrent(next);
-                }}
-                current={current}
-            >
-                <p>Variable names are case-sensitive.</p>
-                <Example
-                    code={'a = 4\nA = "Sally"\n#A will not overwrite a'}
-                    text={"This will create two variables:"}
-                ></Example>
+                code={
+                    'x = 4\nx += 1\nprint(x) # prints 5'
+                }></Example>
             </Accordion>
         </Fragment>
     );

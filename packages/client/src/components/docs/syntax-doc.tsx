@@ -22,6 +22,7 @@ export const SyntaxDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>{"Let's write our first Python program:"}</p>
+                <p>{"The print function outputs the textual value into the console."}</p>
                 <Example code={'print("Hello, World!")'}></Example>
             </Accordion>
 

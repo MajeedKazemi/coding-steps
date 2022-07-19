@@ -3,6 +3,7 @@ import { Fragment, useState } from "react";
 import { Accordion } from "../accordion";
 import { Example } from "../doc-example";
 import { Code } from "../doc-inline-code";
+import { Message } from "../doc-message";
 import { IDocPageProps } from "./types";
 
 export const DataTypesDoc = (props: IDocPageProps) => {
@@ -28,8 +29,7 @@ export const DataTypesDoc = (props: IDocPageProps) => {
                     types can do different things.
                 </p>
                 <p>
-                    Python has the following data types built-in by default, in
-                    these categories:
+                    Python has many different data types. Below are a list of some of the more common data types.
                 </p>
 
                 <table className="table-fixed">
@@ -42,27 +42,13 @@ export const DataTypesDoc = (props: IDocPageProps) => {
                     <tr>
                         <td>Numeric Types:</td>
                         <td>
-                            <Code>int</Code>, <Code>float</Code>,{" "}
-                            <Code>complex</Code>
+                            <Code>int</Code>, <Code>float</Code>
                         </td>
                     </tr>
                     <tr>
                         <td>Sequence Types:</td>
                         <td>
-                            <Code>list</Code>, <Code>tuple</Code>,{" "}
-                            <Code>range</Code>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Mapping Type:</td>
-                        <td>
-                            <Code>dict</Code>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Set Types:</td>
-                        <td>
-                            <Code>set</Code>, <Code>frozenset</Code>
+                            <Code>list</Code>
                         </td>
                     </tr>
                     <tr>
@@ -71,15 +57,159 @@ export const DataTypesDoc = (props: IDocPageProps) => {
                             <Code>bool</Code>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Binary Types:</td>
-                        <td>
-                            <Code>bytes</Code>, <Code>bytearray</Code>,{" "}
-                            <Code>memoryview</Code>
-                        </td>
-                    </tr>
                 </table>
             </Accordion>
+
+            <Accordion
+                title="Strings"
+                sectionId="strings"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>
+                    Strings are Python's equivalent for words.
+                </p>
+                <p>
+                    If you wish to express words (in English or otherwise), you must enclose them in quotation marks <Code>"</Code> to make them Python strings.
+                    
+                </p>
+                <p>Single quotes <Code>'</Code> or double quotes <Code>"</Code> do not matter, as long as you are consistent with it.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <Code>"This is a String"</Code>
+                        </tr>
+                        <tr>
+                            <Code>'This is also a string'</Code>
+                        </tr>
+                        <tr>
+                            <Code>"Use a string to store and convey a message"</Code>
+                        </tr>
+                    </tbody>
+                </table>
+            </Accordion>
+
+            <Accordion
+                title="Integers"
+                sectionId="integers"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>
+                    Integers are whole numbers
+                </p>
+                <p>
+                    They can be positive, negative, or zero.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       <tr>
+                            <Code>3</Code>
+                        </tr>
+                        <tr>
+                            <Code>-4</Code>
+                        </tr>
+                        <tr>
+                            <Code>0</Code>
+                        </tr>
+                    </tbody>
+                </table>
+                <Message>
+                    <p>
+                        Note that integers CANNOT contain decimal places.
+                    </p>
+                </Message>
+                <Message>
+                    <p>
+                        Integers are NOT enclosed in quotation marks.
+                    </p>
+                </Message>
+            </Accordion>
+
+            <Accordion
+                title="Floats"
+                sectionId="floats"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>
+                    Floats are numbers that contain decimal places
+                </p>
+                <p>
+                    Floats can be postive, negative, or zero.
+                </p>
+                <p>
+                    Floats can also resemble integers (like <Code>100.0</Code>), but the <Code>.0</Code> decimal place will always be shown explicitly.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       <tr>
+                            <Code>3.14159</Code>
+                        </tr>
+                        <tr>
+                            <Code>-1.63</Code>
+                        </tr>
+                        <tr>
+                            <Code>0.0</Code>
+                        </tr>
+                        <tr>
+                            <Code>100.0</Code>
+                        </tr>
+                    </tbody>
+                </table>
+                <Message>
+                    <p>
+                        Floats are also NOT enclosed in quotation marks.
+                    </p>
+                </Message>
+            </Accordion>
+
+            <Accordion
+                title="Booleans"
+                sectionId="booleans"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>
+                    Booleans can either be <Code>True</Code> or <Code>False</Code>
+                </p>
+                <p>
+                    Every comparison you make such as <Code>{'10 < 100'}</Code> is a Boolean (<Code>{'10 < 100'}</Code> simplifies into <Code>True</Code>)
+                </p>
+            </Accordion>
+
+            <h2 className="doc-subtitle">Useful Tools For Data Types</h2>
 
             <Accordion
                 title="Getting the Data Type"
@@ -101,7 +231,7 @@ export const DataTypesDoc = (props: IDocPageProps) => {
                 ></Example>
             </Accordion>
 
-            <Accordion
+            {/* <Accordion
                 title="Setting the Data Type"
                 sectionId="setting-type"
                 pageId={props.pageId}
@@ -250,7 +380,7 @@ export const DataTypesDoc = (props: IDocPageProps) => {
                         </tr>
                     </tbody>
                 </table>
-            </Accordion>
+            </Accordion> */}
 
             <Accordion
                 title="Changing the Data Type"
@@ -263,21 +393,41 @@ export const DataTypesDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>
-                    In Python, you can convert an integer (number) to a string
-                    (text) like this:
+                    In Python, you can convert between data types by using the following functions
                 </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Function</th>
+                            <th>What It Does</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><Code>str()</Code></td>
+                            <td>Converts the chosen data type to a string</td>
+                        </tr>
+                        <tr>
+                            <td><Code>int()</Code></td>
+                            <td>Converts the chosen data type to a integer</td>
+                        </tr>
+                        <tr>
+                            <td><Code>float()</Code></td>
+                            <td>Converts the chosen data type to a float</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <Example
-                    code={'x = 5\nprint("number is: " + str(x))'}
-                    text='Converts x to a string and then concatenates it to the "number is: " string. The code will finally display 5'
+                    code={'str(5)'}
+                    text={'Returns the integer 5 as a string'}
                 ></Example>
-
-                <p>
-                    In Python, you can convert a string (text) to a number
-                    (integer) like this:
-                </p>
                 <Example
-                    code={'x = "5"\nprint(int(x) + 5)'}
-                    text="Converts x to a number and then performs the numeric addition operation. The code will finally display 10"
+                    code={'int("10")'}
+                    text={`Converts the string "10" to an integer`}
+                ></Example>
+                <Example
+                    code={'float(10)'}
+                    text={`Converts the integer 10 to a float of 10.0`}
                 ></Example>
             </Accordion>
         </Fragment>

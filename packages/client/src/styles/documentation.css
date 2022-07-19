@@ -49,6 +49,14 @@
     color: #085b5b;
 }
 
+.doc-subtitle{
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    color: #0e9c9c;
+}
+
 .doc-container {
     display: flex;
     flex-direction: row;

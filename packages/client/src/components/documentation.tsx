@@ -16,9 +16,11 @@ import { ListLoopThroughDoc } from "./docs/list-loop-doc";
 import { ListOperationsDoc } from "./docs/list-operations";
 import { ListRemoveItemDoc } from "./docs/list-remove";
 import { ListsDoc } from "./docs/lists-doc";
+import { LoopsDoc } from "./docs/loops-doc";
 import { NumbersDoc } from "./docs/numbers-doc";
 import { OperatorsDoc } from "./docs/operators-doc";
 import { OutputVarDoc } from "./docs/output-variables-doc";
+import { FunctionsDoc } from "./docs/functions-doc";
 import { RandomDoc } from "./docs/random-doc";
 import { StringsConcatenationDoc } from "./docs/strings-concatenation";
 import { StringsDoc } from "./docs/strings-doc";
@@ -27,6 +29,14 @@ import { UserInputDoc } from "./docs/user-input-doc";
 import { VariablesDoc } from "./docs/variables-doc";
 import { VariableNamesDoc } from "./docs/variables-names-doc";
 import { WhileLoopsDoc } from "./docs/while-loops-doc";
+import { DefinitionsDoc } from "./docs/definitions-doc";
+import { ConditionalsDoc } from "./docs/conditionals-doc";
+import { ComparisonsDoc } from "./docs/comparisons-doc";
+import { ArithmeticsDoc } from "./docs/arithmetics.doc";
+import { ModifyingStringsDoc } from "./docs/modifying-strings-doc";
+import { ConvertsDoc } from "./docs/converts-doc";
+import { ImportsDoc } from "./docs/imports-doc";
+import { ErrorsDoc } from "./docs/errors-doc";
 
 interface IPropsDocumentation {
     taskId: string;
@@ -56,199 +66,298 @@ export const Documentation = (props: IPropsDocumentation) => {
         setSelectedSectionId(next);
     };
 
-    const getContentFromId = (pageId: string) => {
+    const getContentFromId = (pageId: string) => { 
         switch (pageId) {
-            case "intro":
-                return (
-                    <SyntaxDoc
-                        pageId="syntax"
-                        onSectionChange={handleSectionChange}
-                    />
-                );
+            // case "intro":
+            //     return (
+            //         <SyntaxDoc
+            //             pageId="syntax"
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
 
-            case "syntax":
-                return (
-                    <SyntaxDoc
-                        pageId="syntax"
-                        onSectionChange={handleSectionChange}
-                    />
-                );
+            // case "syntax":
+            //     return (
+            //         <SyntaxDoc
+            //             pageId="syntax"
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
 
-            case "comments":
-                return (
-                    <CommentsDoc
+            // case "comments":
+            //     return (
+            //         <CommentsDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "variables":
+            //     return (
+            //         <VariablesDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "variable-names":
+            //     return (
+            //         <VariableNamesDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "output-variables":
+            //     return (
+            //         <OutputVarDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "global-variables":
+            //     return (
+            //         <GlobalVariablesDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "booleans":
+            //     return (
+            //         <BooleansDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "casting":
+            //     return (
+            //         <CastingDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "data-types":
+            //     return (
+            //         <DataTypesDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "for-loops":
+            //     return (
+            //         <ForLoopDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "if-else":
+            //     return (
+            //         <IfElseDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "list-add-item":
+            //     return (
+            //         <ListAddItemDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "list-loop-through":
+            //     return (
+            //         <ListLoopThroughDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "list-operations":
+            //     return (
+            //         <ListOperationsDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "list-remove-item":
+            //     return (
+            //         <ListRemoveItemDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "lists":
+            //     return (
+            //         <ListsDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "numbers":
+            //     return (
+            //         <NumbersDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "operators":
+            //     return (
+            //         <OperatorsDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "random":
+            //     return (
+            //         <RandomDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "strings-concatenation":
+            //     return (
+            //         <StringsConcatenationDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "strings":
+            //     return (
+            //         <StringsDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "user-input":
+            //     return (
+            //         <UserInputDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+
+            // case "while-loops":
+            //     return (
+            //         <WhileLoopsDoc
+            //             pageId={pageId}
+            //             onSectionChange={handleSectionChange}
+            //         />
+            //     );
+            case "definitions":
+                return(
+                    <DefinitionsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
-            case "variables":
-                return (
-                    <VariablesDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
-            case "variable-names":
-                return (
-                    <VariableNamesDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
-            case "output-variables":
-                return (
-                    <OutputVarDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
-            case "global-variables":
-                return (
-                    <GlobalVariablesDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
-            case "booleans":
-                return (
-                    <BooleansDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
-            case "casting":
-                return (
-                    <CastingDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
+                )
             case "data-types":
-                return (
+                return(
                     <DataTypesDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
-            case "for-loops":
-                return (
-                    <ForLoopDoc
+                    
+                )
+            case "variables":
+                return(
+                    <VariablesDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
-            case "if-else":
+                )
+            case "functions":
                 return (
-                    <IfElseDoc
+                    <FunctionsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
-            case "list-add-item":
-                return (
-                    <ListAddItemDoc
+                )
+            case "loops":
+                return(
+                    <LoopsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
-            case "list-loop-through":
-                return (
-                    <ListLoopThroughDoc
+                )
+            case "conditionals":
+                return(
+                    <ConditionalsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
-            case "list-operations":
-                return (
-                    <ListOperationsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
-            case "list-remove-item":
-                return (
-                    <ListRemoveItemDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
+                )
             case "lists":
-                return (
+                return(
                     <ListsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
-            case "numbers":
-                return (
-                    <NumbersDoc
+                )
+            case "comparisons":
+                return(
+                    <ComparisonsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
-            case "operators":
-                return (
-                    <OperatorsDoc
+                )
+            case "arithmetics":
+                return(
+                    <ArithmeticsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
+                )
+            case "modifying-strings":
+                return(
+                    <ModifyingStringsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                )
+            case "converts":
+                return(
+                    <ConvertsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                )
+            case "imports":
+                return(
+                    <ImportsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                )
             case "random":
-                return (
+                return(
                     <RandomDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                );
-
-            case "strings-concatenation":
-                return (
-                    <StringsConcatenationDoc
+                )
+            case "errors":
+                return(
+                    <ErrorsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
-                    />
-                );
-
-            case "strings":
-                return (
-                    <StringsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
-            case "user-input":
-                return (
-                    <UserInputDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-
-            case "while-loops":
-                return (
-                    <WhileLoopsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
+                    />      
+                )
         }
     };
 
@@ -376,27 +485,44 @@ export const Documentation = (props: IPropsDocumentation) => {
 };
 
 const docs: Array<IDocButton> = [
-    { id: "syntax", name: "syntax" },
-    { id: "comments", name: "comments" },
-    { id: "variables", name: "variables" },
-    { id: "variable-names", name: "variable names" },
-    { id: "output-variables", name: "output variables" },
-    { id: "global-variables", name: "global variables" },
-    { id: "data-types", name: "data types" },
-    { id: "numbers", name: "numbers" },
-    { id: "random", name: "random" },
-    { id: "casting", name: "casting" },
-    { id: "strings-concatenation", name: "strings concatenation" },
-    { id: "strings", name: "strings" },
-    { id: "operators", name: "operators" },
-    { id: "booleans", name: "booleans" },
-    { id: "lists", name: "lists" },
-    { id: "list-add-item", name: "list add item" },
-    { id: "list-remove-item", name: "list remove item" },
-    { id: "list-loop-through", name: "list loop through" },
-    { id: "list-operations", name: "list operations" },
-    { id: "if-else", name: "if-else" },
-    { id: "while-loops", name: "while loops" },
-    { id: "for-loops", name: "for loops" },
-    { id: "user-input", name: "user input" },
+    // { id: "syntax", name: "syntax" },
+    // { id: "comments", name: "comments" },
+    // { id: "variables", name: "variables" },
+    // { id: "variable-names", name: "variable names" },
+    // { id: "output-variables", name: "output variables" },
+    // { id: "global-variables", name: "global variables" },
+    // { id: "data-types", name: "data types" },
+    // { id: "numbers", name: "numbers" },
+    // { id: "random", name: "random" },
+    // { id: "casting", name: "casting" },
+    // { id: "strings-concatenation", name: "strings concatenation" },
+    // { id: "strings", name: "strings" },
+    // { id: "operators", name: "operators" },
+    // { id: "booleans", name: "booleans" },
+    // { id: "lists", name: "lists" },
+    // { id: "list-add-item", name: "list add item" },
+    // { id: "list-remove-item", name: "list remove item" },
+    // { id: "list-loop-through", name: "list loop through" },
+    // { id: "list-operations", name: "list operations" },
+    // { id: "if-else", name: "if-else" },
+    // { id: "while-loops", name: "while loops" },
+    // { id: "for-loops", name: "for loops" },
+    // { id: "user-input", name: "user input" },
+
+    { id: "definitions", name: "Definitions" }, //todo
+    { id: "data-types", name: "Data Types" }, //delete some commented out things
+    { id: "variables", name: "Variables" }, //working on rn
+    { id: "functions", name: "Functions" },
+    { id: "loops", name: "Loops" }, //done
+    { id: "conditionals", name: "Conditionals" },
+    { id: "lists", name: "Lists" },
+    { id: "comparisons", name: "Comparisons" },
+    { id: "arithmetics", name: "Arithmetics" },
+    { id: "modifying-strings", name: "Modifying Strings" },
+    { id: "converts", name: "Converting Data Types" },
+    { id: "imports", name: "Imports" },
+    { id: "random", name: "Random" },
+    { id: "errors", name: "Error Message Guide" },
+
+
 ];
