@@ -17,7 +17,7 @@ export interface ISubmission {
     id: string;
     userId: string;
     taskId: string;
-    taskTitle: string;
+    taskDescription: string;
     taskType: string;
     code: string;
     submittedAt: Date;

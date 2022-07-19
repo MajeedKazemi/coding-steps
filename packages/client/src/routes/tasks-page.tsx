@@ -37,7 +37,6 @@ export const TasksPage = () => {
                     <CodingTask
                         key={task.id}
                         taskId={task.id}
-                        title={task.title}
                         output={task.output}
                         solution={task.solution}
                         description={task.description}
@@ -61,7 +60,6 @@ export const TasksPage = () => {
                     <MultipleChoiceTask
                         key={task.id}
                         id={task.id}
-                        title={task.title}
                         description={task.description}
                         choices={task.choices}
                         onCompletion={setNextTask}
@@ -74,7 +72,6 @@ export const TasksPage = () => {
                     <ShortAnswerTask
                         key={task.id}
                         id={task.id}
-                        title={task.title}
                         description={task.description}
                         onCompletion={setNextTask}
                         taskType={task.type}
@@ -89,14 +86,16 @@ export const TasksPage = () => {
 
     if (!loading && !task)
         return (
-            <div className="container">
-                <div className="card p-md">
-                    <p>
-                        Congratulations, you have finished all the tasks! Please
-                        ask the teacher for further instructors.
-                    </p>
+            <Layout>
+                <div className="container">
+                    <div className="card p-md">
+                        <p>
+                            Congratulations, you have finished all the tasks!
+                            Please wait for further instructions.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </Layout>
         );
 
     return <Layout>{task ? getTaskComponent() : <Loader />}</Layout>;

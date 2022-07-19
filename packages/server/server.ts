@@ -10,12 +10,12 @@ import mongoose from "mongoose";
 import passport from "passport";
 
 import { codexRouter } from "./routes/codex-router";
+import { diagRouter } from "./routes/diag-router";
 import { loginRouter } from "./routes/login-router";
 import { tasksRouter } from "./routes/tasks-router";
 import { initLanguageService } from "./sockets/intellisense";
 import { initPythonShell } from "./sockets/python-shell";
 import env from "./utils/env";
-import { diagRouter } from "./routes/diag-router";
 
 const corsOptions = {
     origin: (origin: any, callback: any) => {
@@ -41,6 +41,8 @@ mongoose
         app.use(
             Session({
                 secret: env.COOKIE_SECRET,
+                resave: false,
+                saveUninitialized: false,
             })
         );
 

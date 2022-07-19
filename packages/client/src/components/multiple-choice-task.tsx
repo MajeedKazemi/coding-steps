@@ -1,14 +1,13 @@
 import * as monaco from "monaco-editor";
-import { Fragment, useContext, useEffect, useState } from "react";
-import { apiUserSubmitTask, logError } from "../api/api";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 
+import { apiUserSubmitTask, logError } from "../api/api";
 import { AuthContext } from "../context";
 import { TaskType } from "../utils/constants";
 import { Button } from "./button";
 
 interface IMultipleChoiceTaskProps {
     id: string;
-    title: string;
     description: string;
     choices?: string[];
 
@@ -20,25 +19,25 @@ interface IMultipleChoiceTaskProps {
 export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
     const { context } = useContext(AuthContext);
     const [completed, setCompleted] = useState(false);
-    const [userChoice, setUserChoice] = useState<number>(-1);
+    const [userChoice, setUserChoice] = useState<number | null>(null);
+    const [userChoiceText, setUserChoiceText] = useState<string | null>(null);
     const [canSubmit, setCanSubmit] = useState(false);
     const [startedAt, setStartedAt] = useState(new Date());
+    const taskContainerEl = useRef<HTMLDivElement>(null);
 
     const handleSubmitCode = () => {
         apiUserSubmitTask(
             context?.token,
             props.id,
-            { choice: userChoice },
+            { choiceIndex: userChoice, choiceText: userChoiceText },
             new Date(),
             startedAt
         )
             .then(async (response) => {
                 const data = await response.json();
 
-                if (data.completed) {
-                    setCompleted(true);
-                    props.onCompletion();
-                }
+                setCompleted(true);
+                props.onCompletion();
             })
             .catch((error: any) => {
                 logError(error.toString());
@@ -46,7 +45,7 @@ export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
     };
 
     useEffect(() => {
-        if (userChoice !== undefined && userChoice >= 0) {
+        if (userChoice && userChoice >= 0) {
             setCanSubmit(true);
         } else {
             setCanSubmit(false);
@@ -54,21 +53,25 @@ export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
     }, [userChoice]);
 
     useEffect(() => {
-        Array.from(document.getElementsByClassName("code-block")).forEach(
-            (block) => {
+        if (taskContainerEl.current) {
+            Array.from(
+                taskContainerEl.current.getElementsByClassName("code-block")
+            )?.forEach((block) => {
                 monaco.editor.colorizeElement(block as HTMLElement, {
                     theme: "vs",
+                    mimeType: "python",
+                    tabSize: 4,
                 });
-            }
-        );
-    }, []);
+            });
+        }
+    }, [taskContainerEl]);
 
     return (
         <div className="simple-task-container">
             <section className="simple-task-info">
-                <div>
+                <div ref={taskContainerEl}>
                     <span className="task-title">
-                        Task: <h2>{props.title}</h2>
+                        Multiple Choice Question:
                     </span>
                     <span className="task-subtitle">
                         <p
@@ -77,23 +80,34 @@ export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
                             }}
                         ></p>
                     </span>
+                    <hr />
                     <form>
-                        <p>Please select from one of the following options:</p>
+                        <p>Select from one of the following options:</p>
                         {props.choices?.map((choice, index) => {
                             return (
-                                <Fragment key={index}>
+                                <div className="task-response-item" key={index}>
                                     <input
+                                        className="task-response-radio"
                                         type="radio"
                                         name="choice"
                                         value={index}
                                         checked={userChoice === index}
-                                        onChange={() => setUserChoice(index)}
+                                        onChange={() => {
+                                            setUserChoice(index);
+                                            setUserChoiceText(choice);
+                                        }}
                                     />
-                                    <label onClick={() => setUserChoice(index)}>
-                                        {choice}
-                                    </label>
+                                    <label
+                                        dangerouslySetInnerHTML={{
+                                            __html: choice,
+                                        }}
+                                        onClick={() => {
+                                            setUserChoice(index);
+                                            setUserChoiceText(choice);
+                                        }}
+                                    ></label>
                                     <br />
-                                </Fragment>
+                                </div>
                             );
                         })}
                     </form>

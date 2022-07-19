@@ -31,7 +31,7 @@
     color: #000;
     padding: 0px 4px;
     border-radius: 4px;
-    font-family: monospace;
+    font-family: "Courier New", Courier, monospace;
     font-size: 18px;
 }
 
@@ -59,7 +59,7 @@
     background-color: #bbd4d4;
     padding: 8px;
     border-radius: 8px;
-    font-family: monospace;
+    font-family: "Courier New", Courier, monospace;
     font-size: 16px;
     margin-bottom: 8px;
 }
@@ -73,6 +73,21 @@
     font-weight: 700;
     display: block;
     margin-bottom: 12px;
+}
+
+.task-feedback-container {
+    padding: 8px;
+    background-color: #ebc5f7;
+    border-radius: 8px;
+}
+
+.feedback-header {
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.feedback-content {
+    font-size: 15px;
 }
 
 .task-info {
@@ -106,9 +121,28 @@
 }
 
 .simple-task-info .code-block {
+    margin-top: 8px;
     border-radius: 8px;
     border: 1px solid #ddd;
     padding: 16px;
+    font-family: "Courier New", Courier, monospace;
+}
+
+/* .code-snippet {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 16px;
+    margin-bottom: 8px;
+} */
+
+.task-response-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 12px 0;
+}
+
+.task-response-radio {
+    margin-right: 16px;
 }
 
 .short-answer-textarea {
@@ -121,9 +155,6 @@
     margin-bottom: 24px;
     font-family: "Poppins", sans-serif;
     border-radius: 8px;
-}
-
-.submit-container {
 }
 
 .submit-urgent-message {

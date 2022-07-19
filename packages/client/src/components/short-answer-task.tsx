@@ -1,14 +1,13 @@
 import * as monaco from "monaco-editor";
 import { useContext, useEffect, useState } from "react";
-import { apiUserSubmitTask, logError } from "../api/api";
 
+import { apiUserSubmitTask, logError } from "../api/api";
 import { AuthContext } from "../context";
 import { TaskType } from "../utils/constants";
 import { Button } from "./button";
 
 interface IShortAnswerTask {
     id: string;
-    title: string;
     description: string;
 
     taskType: TaskType;
@@ -66,9 +65,7 @@ export const ShortAnswerTask = (props: IShortAnswerTask) => {
         <div className="simple-task-container">
             <section className="simple-task-info">
                 <div>
-                    <span className="task-title">
-                        Task: <h2>{props.title}</h2>
-                    </span>
+                    <span className="task-title">Short Answer Question:</span>
                     <span className="task-subtitle">
                         <p
                             dangerouslySetInnerHTML={{

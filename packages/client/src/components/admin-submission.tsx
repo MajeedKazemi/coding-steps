@@ -12,6 +12,7 @@ interface IProps {
 export const AdminSubmission = (props: IProps) => {
     const { context } = useContext(AuthContext);
     const [grade, setGrade] = useState("");
+    const [feedback, setFeedback] = useState("");
 
     const handleSubmitGrade = () => {
         if (grade === "pass" || grade === "fail") {
@@ -21,7 +22,8 @@ export const AdminSubmission = (props: IProps) => {
                 props.submission.userId,
                 grade === "pass",
                 props.submission.submittedAt,
-                props.submission.index
+                props.submission.index,
+                feedback
             )
                 .then(async (response) => {
                     const data = await response.json();
@@ -34,14 +36,13 @@ export const AdminSubmission = (props: IProps) => {
                     logError(error.toString());
                 });
         }
-
-        setGrade("");
     };
 
     return (
         <div>
             <Example
-                title={`Task ${props.submission.taskId} : ${props.submission.taskTitle}`}
+                title={`Task ${props.submission.taskId}`}
+                text={props.submission.taskDescription}
                 code={props.submission.code}
             />
 
@@ -56,6 +57,13 @@ export const AdminSubmission = (props: IProps) => {
                         setGrade(e.target.value.toLowerCase());
                     }}
                 ></input>
+                <label>Grade</label>
+                <input
+                    onChange={(e) => {
+                        setFeedback(e.target.value.toLowerCase());
+                    }}
+                ></input>
+                <label>Feedback</label>
                 <button>submit grade</button>
             </form>
         </div>

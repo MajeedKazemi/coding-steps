@@ -58,7 +58,8 @@ export const apiAdminSetGrade = (
     userId: string,
     passed: boolean,
     submittedAt: Date,
-    index: number
+    index: number,
+    feedback: string
 ) =>
     fetch(env.API_URL + "/api/tasks/set-grade", {
         method: "POST",
@@ -74,6 +75,7 @@ export const apiAdminSetGrade = (
             submittedAt,
             checkedAt: new Date(),
             index,
+            feedback,
         }),
     });
 
@@ -102,9 +104,8 @@ export const apiUserSubmitTask = (
         },
         body: JSON.stringify({
             taskId,
-            submittedAt: new Date(),
             data,
-            finishedAt,
+            finishedAt: finishedAt,
             startedAt,
         }),
     });

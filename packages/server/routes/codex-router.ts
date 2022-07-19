@@ -25,7 +25,7 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
             ``,
             `# Command: check if roll is even\nif roll % 2 == 0:\n    print("The roll is even")`,
             ``,
-            `# Context: ${context}`,
+            `${context && context.length > 0 ? "# Context:" + context : ""}`,
             `# Command: ${
                 context && context.length > 0
                     ? "use the above code as context and  "
@@ -36,7 +36,7 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
         const result = await openai.createCompletion({
             model: "code-davinci-002",
             prompt: prompt,
-            temperature: 0.2,
+            temperature: 0.1,
             max_tokens: 500,
             stop: ["# Command:"],
             user: userId,

@@ -58,6 +58,9 @@ tasksRouter.post("/start", verifyUser, (req, res, next) => {
                                 checkingTime: calcCheckingTime(
                                     userTask.submissions
                                 ),
+                                feedback: getLastSubmissionFeedback(
+                                    userTask.submissions
+                                ),
                             });
                         }
                     });
@@ -160,6 +163,9 @@ tasksRouter.get("/grading-status/:taskId", verifyUser, (req, res, next) => {
                         completed: userTask.completed,
                         beingGraded: userTask.beingGraded,
                         checkingTime: calcCheckingTime(userTask.submissions),
+                        feedback: getLastSubmissionFeedback(
+                            userTask.submissions
+                        ),
                     });
                 } else {
                     res.statusCode = 500;
@@ -196,9 +202,9 @@ tasksRouter.get("/not-graded", verifyUser, (req, res, next) => {
                                     id: `${userTask.userTaskId}-${index}`,
                                     userId: userTask.userId,
                                     taskId: userTask.taskId,
-                                    taskTitle: task?.title,
                                     taskType: task?.type,
                                     code: userTask.submissions[index].code,
+                                    taskDescription: task?.description,
                                     submittedAt:
                                         userTask.submissions[index].submittedAt,
                                 };
@@ -220,7 +226,7 @@ tasksRouter.get("/not-graded", verifyUser, (req, res, next) => {
 // either for a multiple-choice question, or if the user wants to simply go to the next task (in the latter case, it should be accompanied with a /grade request)
 tasksRouter.post("/submit", verifyUser, (req, res, next) => {
     const userId = (req.user as IUser)._id;
-    const { taskId, submittedAt, data } = req.body;
+    const { taskId, finishedAt, data } = req.body;
 
     if (userId !== undefined && taskId !== undefined) {
         const task = getTaskFromTaskId(taskId);
@@ -228,13 +234,13 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
             UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
                 if (userTask) {
-                    userTask.finishedAt = submittedAt;
+                    userTask.finishedAt = finishedAt;
                     userTask.completed = true;
                     userTask.beingGraded = true;
 
                     userTask.submissions.push({
                         code: data.code,
-                        submittedAt: submittedAt,
+                        submittedAt: finishedAt,
                     });
 
                     userTask.save((err, userTask) => {
@@ -259,25 +265,45 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
         ) {
             const { startedAt } = req.body;
 
-            const userTask = new UserTaskModel({
-                sequence: getTaskSequenceFromTaskId(taskId),
-                userTaskId: `${userId}_${taskId}`,
-                userId,
-                taskId,
-                startedAt: startedAt,
-                finishedAt: submittedAt,
-                completed: true,
-                data: data,
-            });
+            UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
+                if (userTask) {
+                    userTask.finishedAt = finishedAt;
+                    userTask.completed = true;
+                    userTask.data = data;
 
-            userTask.save((err, userTask) => {
-                if (err) {
-                    res.statusCode = 500;
-                    res.send(err);
+                    userTask.save((err, userTask) => {
+                        if (err) {
+                            res.statusCode = 500;
+                            res.send(err);
+                        } else {
+                            res.send({
+                                success: true,
+                                completed: true,
+                            });
+                        }
+                    });
                 } else {
-                    res.send({
-                        success: true,
+                    const userTask = new UserTaskModel({
+                        sequence: getTaskSequenceFromTaskId(taskId),
+                        userTaskId: `${userId}_${taskId}`,
+                        userId,
+                        taskId,
+                        startedAt: startedAt,
+                        finishedAt: finishedAt,
                         completed: true,
+                        data: data,
+                    });
+
+                    userTask.save((err, userTask) => {
+                        if (err) {
+                            res.statusCode = 500;
+                            res.send(err);
+                        } else {
+                            res.send({
+                                success: true,
+                                completed: true,
+                            });
+                        }
                     });
                 }
             });
@@ -295,8 +321,15 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
 // from admin panel
 tasksRouter.post("/set-grade", verifyUser, (req, res, next) => {
     if ((req.user as IUser).role === "admin") {
-        const { userId, taskId, passed, submittedAt, checkedAt, index } =
-            req.body;
+        const {
+            userId,
+            taskId,
+            passed,
+            submittedAt,
+            checkedAt,
+            index,
+            feedback,
+        } = req.body;
 
         if (userId !== undefined && taskId !== undefined) {
             const task = getTaskFromTaskId(taskId);
@@ -312,6 +345,7 @@ tasksRouter.post("/set-grade", verifyUser, (req, res, next) => {
                         userTask.submissions[index] = {
                             ...userTask.submissions[index],
                             checkedAt,
+                            feedback,
                         };
 
                         if (passed) {
@@ -402,3 +436,20 @@ const calcCheckingTime = (
                       new Date(submission.submittedAt).getTime())
             : acc;
     }, 0);
+
+const getLastSubmissionFeedback = (
+    submissions: Array<{
+        code: string;
+        submittedAt: Date;
+        checkedAt?: Date;
+        feedback?: string;
+    }>
+) => {
+    if (submissions.length > 0) {
+        const lastSubmission = submissions[submissions.length - 1];
+
+        return lastSubmission.checkedAt ? lastSubmission.feedback : "";
+    }
+
+    return "";
+};

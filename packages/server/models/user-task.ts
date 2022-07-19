@@ -12,7 +12,12 @@ export interface IUserTask extends mongoose.Document {
     log: any;
     data: any;
     completed: boolean;
-    submissions: Array<{ code: string; submittedAt: Date; checkedAt?: Date }>;
+    submissions: Array<{
+        code: string;
+        submittedAt: Date;
+        checkedAt?: Date;
+        feedback?: string;
+    }>;
     beingGraded: boolean;
     passed: boolean;
 }

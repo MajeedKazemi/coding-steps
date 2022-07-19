@@ -17,7 +17,6 @@ import { Editor } from "./editor";
 
 interface CodingTaskProps {
     taskId: string;
-    title: string;
     description: string;
     output: Array<Array<string>>;
     solution: string;
@@ -45,6 +44,7 @@ export const CodingTask = (props: CodingTaskProps) => {
 
     const [beingGraded, setBeingGraded] = useState(false);
 
+    const [feedback, setFeedback] = useState("");
     const [userCode, setUserCode] = useState("");
     const [canSubmit, setCanSubmit] = useState(false);
 
@@ -61,13 +61,21 @@ export const CodingTask = (props: CodingTaskProps) => {
     };
 
     const handleSkipTask = () => {
-        apiUserSubmitTask(context?.token, props.taskId, {
-            code: userCode,
-        })
+        apiUserSubmitTask(
+            context?.token,
+            props.taskId,
+            {
+                code: userCode,
+            },
+            new Date()
+        )
             .then(async (response) => {
                 sendLog();
 
-                editorRef.current?.setCode(props.solution);
+                if (TaskType.Authoring) {
+                    editorRef.current?.setCode(props.solution);
+                }
+
                 setSkipped(true);
             })
             .catch((error: any) => {
@@ -100,6 +108,10 @@ export const CodingTask = (props: CodingTaskProps) => {
                     setStarted(true);
 
                     if (data.canContinue) {
+                        if (data.feedback) {
+                            setFeedback(data.feedback);
+                        }
+
                         setStartTime(Date.parse(data.startedAt));
                         setCheckingTime(data.checkingTime);
                         setElapsedTime(
@@ -130,6 +142,7 @@ export const CodingTask = (props: CodingTaskProps) => {
                     setCheckingTime(data.checkingTime);
                     setBeingGraded(false);
                     clearInterval(timerId);
+                    setFeedback(data.feedback);
 
                     if (data.passed) {
                         sendLog();
@@ -255,6 +268,13 @@ export const CodingTask = (props: CodingTaskProps) => {
                             </div>
                         );
                     })}
+
+                    {feedback ? (
+                        <div className="task-feedback-container">
+                            <span className="feedback-header">Feedback:</span>
+                            <span className="feedback-content">{feedback}</span>
+                        </div>
+                    ) : null}
                 </div>
 
                 <div>

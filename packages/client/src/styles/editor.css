@@ -9,7 +9,7 @@
 .output {
     background-color: #023231;
     color: #fff;
-    font-family: monospace;
+    font-family: "Courier New", Courier, monospace;
     padding: 6px;
     padding-left: 12px;
     overflow-y: scroll;
@@ -30,7 +30,7 @@
     background-color: #023231;
     color: #fff;
     border: none;
-    font-family: monospace;
+    font-family: "Courier New", Courier, monospace;
     font-size: 16px;
     margin-left: -2px;
 }
