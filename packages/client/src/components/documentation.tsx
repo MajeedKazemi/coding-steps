@@ -320,7 +320,7 @@ const docs: Array<IDocButton> = [
     { id: "strings", name: "Strings" }, //done
     { id: "arithmetics", name: "Arithmetics" }, //done
     { id: "comparisons", name: "Comparisons" }, //done
-    { id: "imports", name: "Imports" },
+    { id: "imports", name: "Imports" }, //done
     { id: "random", name: "Random" },
     { id: "errors", name: "Error Message Guide" },
 

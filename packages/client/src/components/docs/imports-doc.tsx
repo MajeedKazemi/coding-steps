@@ -22,16 +22,21 @@ export const ImportsDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>
-                    To change the value of a specific item, refer to the index
-                    number:
-                </p>
+                <p>Previously, we dealt with functions and keywords which are included in the Python programming language by default.</p>
+                <p>However, some functions are not available by default. These supplementary functions can only be used after we tell Python that we are introducing "add-ons".
+We do so by "importing" an add-on pack - a module.</p>
                 <Example
                     code={
-                        'thislist = ["apple", "banana", "cherry"]\nthislist[1] = "blackcurrant"\nprint(thislist) #outputs ["apple", "blackcurrant", "cherry"]'
+                        'from random import randint\nfrom random import choice'
                     }
-                    text="Change the second item:"
+                    text="Imports randint and choice from the random module."
                 ></Example>
+                <Example
+                    code={
+                        'from random import randint\nprint(randint(1, 6)) # prints a random number between 1 and 6'
+                    }
+                    text="Imports randint from the random module and prints a random number between 1 and 6."
+                ></Example> 
             </Accordion>
         </Fragment>
     );
