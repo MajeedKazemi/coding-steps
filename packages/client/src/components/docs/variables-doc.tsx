@@ -74,16 +74,58 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>If you have a variable and you want to update it's value based on it's previous value, normally it would look like this.</p>
-                <Example
-                    code={
-                        'x = 4\nx = x + 1\nprint(x) # prints 5'
-                    }
-                ></Example>
-                <p>A faster way of doing this exact same operation would be using the <Code>+=</Code> operator like this.</p>
+                <p>Adds the value on the right-hand side of the <Code>+=</Code> sign to the specified variable and stores the result in the variable.</p>
                 <Example
                 code={
                     'x = 4\nx += 1\nprint(x) # prints 5'
+                }></Example>
+            </Accordion>
+            <Accordion
+                title="-="
+                sectionId="-="
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Subtract the value on the right-hand side of the <Code>-=</Code> sign to the specified variable and stores the result in the variable.</p>
+                <Example
+                code={
+                    'x = 4\nx -= 1\nprint(x) # prints 3'
+                }></Example>
+            </Accordion>
+            <Accordion
+                title="*="
+                sectionId="*="
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Multiplies the value on the right-hand side of the <Code>*=</Code> sign to the specified variable and stores the result in the variable.</p>
+                <Example
+                code={
+                    'x = 4\nx *= 2\nprint(x) # prints 8'
+                }></Example>
+            </Accordion>
+            <Accordion
+                title="/="
+                sectionId="/="
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Divides the value on the right-hand side of the <Code>/=</Code> sign to the specified variable and stores the result in the variable.</p>
+                <Example
+                code={
+                    'x = 4\nx /= 2\nprint(x) # prints 2'
                 }></Example>
             </Accordion>
         </Fragment>
