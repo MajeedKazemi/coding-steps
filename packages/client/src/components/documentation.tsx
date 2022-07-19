@@ -29,7 +29,6 @@ import { UserInputDoc } from "./docs/user-input-doc";
 import { VariablesDoc } from "./docs/variables-doc";
 import { VariableNamesDoc } from "./docs/variables-names-doc";
 import { WhileLoopsDoc } from "./docs/while-loops-doc";
-import { DefinitionsDoc } from "./docs/definitions-doc";
 import { ConditionalsDoc } from "./docs/conditionals-doc";
 import { ComparisonsDoc } from "./docs/comparisons-doc";
 import { ArithmeticsDoc } from "./docs/arithmetics.doc";
@@ -68,13 +67,6 @@ export const Documentation = (props: IPropsDocumentation) => {
 
     const getContentFromId = (pageId: string) => { 
         switch (pageId) {
-            case "definitions":
-                return(
-                    <DefinitionsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                )
             case "data-types":
                 return(
                     <DataTypesDoc
@@ -294,7 +286,6 @@ export const Documentation = (props: IPropsDocumentation) => {
 };
 
 const docs: Array<IDocButton> = [
-    { id: "definitions", name: "Definitions" }, //todo
     { id: "data-types", name: "Data Types" }, //done
     { id: "variables", name: "Variables" }, //done
     { id: "functions", name: "Built-In Functions" }, //done
