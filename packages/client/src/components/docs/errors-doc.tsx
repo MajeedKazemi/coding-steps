@@ -11,7 +11,7 @@ export const ErrorsDoc = (props: IDocPageProps) => {
 
     return (
         <Fragment>
-            <h1 className="doc-title">Hey Carl</h1>
+            <h1 className="doc-title">Coming Soon</h1>
         </Fragment>
     );
 };

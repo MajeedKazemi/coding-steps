@@ -1,3 +1,4 @@
+DELETE THIS ONCE DOCS ARE COMPLETED
 Definitions:
 
     Keywords: special vocabulary in Python that serves a specific purpose
