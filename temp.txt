@@ -107,7 +107,10 @@ Error Mesages (Click here when encounter these error messages!)
 SyntaxError: invalid syntax
 This may be because:
 - you missed a colon (:) at the end of an if-statement / a for-loop / a while-loop, etc
-- 
+- you missed a closing parenthesis / brackets
+- you used a single equality sign (=) rather than a double equality sign (==) when comparing values
+
+
 Refer to the Syntax sections in the documentation
 
 
@@ -144,6 +147,33 @@ This may be because:
 - CAREFUL: string indices start with 0
 - to access the first character of a string of five characters, use index 0
 - to access the last character of a string of five characters, use index 4
+
+
+IndentationError: expected an indented block
+This may be because:
+- you are missing an indentation at an if-statement / a for-loop / a while-loop, etc
+
+ValueError: invalid literal for int() with base 10
+This may be because:
+- you attempted to cast / convert a string into an integer
+
+
+TypeError: 'list' object is not callable
+This may be because:
+- you used round parenthesis () rather than square brackets [] to access list elements
+
+
+TypeError: can only concatenate list (not ___) to list
+This may be because:
+- you tried to append an element to a list by using (+) instead of the .append() method
+
+SyntaxError: can't assign to operator
+This may be because:
+- you used the logical and keyword incorrectly
+- "and" can only be used to join Boolean values, e.g., 10 > 1 and 10 < 100
+
+
+
 
 Python Operators
 

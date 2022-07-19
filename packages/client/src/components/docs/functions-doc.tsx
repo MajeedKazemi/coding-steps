@@ -13,6 +13,123 @@ export const FunctionsDoc = (props: IDocPageProps) => {
         <Fragment>
             <h1 className="doc-title">Python Functions:</h1>
 
+            <h2 className="doc-subtitle">General Functions</h2>
+            <Accordion
+                title="print()"
+                sectionId="print()"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Outputs the textual value to the console</p>
+                <Message>
+                    <p>
+                        Parameters: <Code>print(x)</Code>
+                    </p>
+                </Message>
+                <Example
+                    code={
+                        `print("Hello World") #outputs Hello World to the console`
+                    }
+                ></Example>
+            </Accordion>
+            <Accordion
+                title="input()"
+                sectionId="input()"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Displays a message in the console that prompts the user to enter some text.</p>
+                <p>The entered text will be returned.</p>
+                <Message>
+                    <p>
+                        Parameters: <Code>input("message")</Code>
+                    </p>
+                </Message>
+                <Example
+                    text={
+                       'Assigns the value inputted by the user to the variable answer.' 
+                    }
+                    code={
+                        `answer = input("What is your name?") `
+                    }
+                ></Example>
+            </Accordion>
+            <Accordion
+                title="range()"
+                sectionId="range()"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>
+                    To loop through a set of code a specified number of times,
+                    we can use the <Code>range()</Code> function
+                </p>
+                <p>
+                    The <Code>range()</Code> function returns a sequence of
+                    numbers, starting from 0 by default, and increments by 1 (by
+                    default), and ends at a specified number.
+                </p>
+                <Message>
+                    <p> 
+                        Parameters: <Code>range(start, stop, step)</Code>
+                    </p>
+                </Message>
+                <Example
+                    code={"for x in range(6):\n\tprint(x)"}
+                    text="Using the range() function. This program will print the following numbers: 0, 1, 2, 3, 4, and 5."
+                ></Example>
+                <Message>
+                    <p>
+                        Note that <Code>range(6)</Code> is not the values of 0
+                        to 6, but the values 0 to 5.
+                    </p>
+                </Message>
+                <p>
+                    The <Code>range()</Code> function defaults to 0 as a
+                    starting value, however it is possible to specify the
+                    starting value by adding a parameter:{" "}
+                    <Code>range(2, 6)</Code>, which means values from 2 to 6
+                    (but not including 6):
+                </p>
+                <Example
+                    code={"for x in range(2, 6):\n\tprint(x)"}
+                    text="Using the start parameter:"
+                ></Example>
+            </Accordion>
+            <Accordion
+                title="len()"
+                sectionId="len()"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Returns the number of elements in a list.</p>
+                <Message>
+                    <p>
+                        Parameters: <Code>len(list)</Code>
+                    </p>
+                </Message>
+                <Example
+                    code={
+                        `len(["I", "love", "programming"]) #returns 3`
+                    }
+                ></Example>
+            </Accordion>
             <h2 className="doc-subtitle">Math Functions</h2>
             <Accordion
                 title="abs()"
@@ -32,8 +149,8 @@ export const FunctionsDoc = (props: IDocPageProps) => {
                 </Message>
                 <Example
                     code={
-                        'abs(10) # evaluates to 10\n' +
-                        'abs(-15) # evaluates to 15'
+                        'abs(10) #evaluates to 10\n' +
+                        'abs(-15) #evaluates to 15'
                     }
                 ></Example>
             </Accordion>
@@ -56,7 +173,7 @@ export const FunctionsDoc = (props: IDocPageProps) => {
                 </Message>
                 <Example
                     code={
-                        "pow(a,b) # evaluates to a^b\npow(2,3) # evaluates to 8\npow(3,2) # evaluates to 9"
+                        "pow(a,b) # evaluates to a^b\npow(2,3) # evaluates to 8\npow(3,2) #evaluates to 9"
                     }
                 ></Example>
             </Accordion>
@@ -79,7 +196,145 @@ export const FunctionsDoc = (props: IDocPageProps) => {
                 </Message>
                 <Example
                     code={
-                        `round(2.4, 0) # evaluates to 2.0\nround(3.8, 0) # evalutes to 4.0\nround(3.86, 1) # evaluates to 3.9`
+                        `round(2.4, 0) # evaluates to 2.0\nround(3.8, 0) # evalutes to 4.0\nround(3.86, 1) #evaluates to 3.9`
+                    }
+                ></Example>
+            </Accordion>
+            <Accordion
+                title="min()"
+                sectionId="min"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>returns the minimum value from a list of numbers</p>
+                <Message>
+                    <p>
+                        Parameters: <Code>min([num1, num2, num3, ...])</Code>
+                    </p>
+                </Message>
+                <Example
+                    code={
+                        `min([1,4,3,2]) # returns 1\nmin([9,8,7,6]) #returns 6`
+                    }
+                ></Example>
+            </Accordion>
+            <Accordion
+                title="max()"
+                sectionId="max"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>returns the maximum value from a list of numbers</p>
+                <Message>
+                    <p>
+                        Parameters: <Code>max([num1, num2, num3, ...])</Code>
+                    </p>
+                </Message>
+                <Example
+                    code={
+                        `max([1,4,3,2]) # returns 4\nmin([9,8,7,6]) #returns 9`
+                    }
+                ></Example>
+            </Accordion>
+            <h2 className="doc-subtitle">Data Type Functions</h2>
+            <Accordion
+                title="int()"
+                sectionId="int-casting"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Converts the chosen data type into an integer</p>
+                <Message>
+                    <p>
+                        Parameters: <Code>int(x)</Code>
+                    </p>
+                </Message>
+                <Example
+                    code={
+                        `int("10") #returns 10 as an integer\nint(1.4) #returns 1 as an integer`
+                    }
+                ></Example>
+            </Accordion>
+            <Accordion
+                title="float()"
+                sectionId="float-casting"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Converts the chosen data type into a float</p>
+                <Message>
+                    <p>
+                        Parameters: <Code>float(x)</Code>
+                    </p>
+                </Message>
+                <Example
+                    code={
+                        `float(2) #returns 2.0 as a float\nfloat("3") #returns 3.0 as a float\nfloat("4.2") #returns 4.2 as a float`
+                    }
+                ></Example>
+            </Accordion>
+            <Accordion
+                title="str()"
+                sectionId="str-casting"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Converts the chosen data type into a string</p>
+                <Message>
+                    <p>
+                        Parameters: <Code>str(x)</Code>
+                    </p>
+                </Message>
+                <Example
+                    code={
+                        `str(2) #returns "2" as a string\nstr(3.0) #returns "3.0" as a string`
+                    }
+                ></Example>
+            </Accordion>
+            <Accordion
+                title="type()"
+                sectionId="type-function"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>Returns the data type of the variable.</p>
+                <Message>
+                    <p>
+                        Parameters: <Code>type(x)</Code>
+                    </p>
+                </Message>
+                <Example
+                    code={
+                        `name = "Carl"\ntype(name) #returns str`
+                    }
+                ></Example>
+                <Example
+                    code={
+                        `age = 59\ntype(age) #returns int`
                     }
                 ></Example>
             </Accordion>

@@ -321,7 +321,7 @@ const docs: Array<IDocButton> = [
     { id: "definitions", name: "Definitions" }, //todo
     { id: "data-types", name: "Data Types" }, //delete some commented out things
     { id: "variables", name: "Variables" }, //working on rn
-    { id: "functions", name: "Functions" },
+    { id: "functions", name: "Built-In Functions" },
     { id: "loops", name: "Loops" }, //done
     { id: "conditionals", name: "Conditionals" },
     { id: "lists", name: "Lists" },
