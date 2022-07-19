@@ -1,15 +1,27 @@
 Definitions:
 
-    Keywords:
+    Keywords: special vocabulary in Python that serves a specific purpose
+    Examples include:
+    - int
+    - def
+    - in
+    keywords CANNOT be used as variable names
 
-    Data Types
-    functions
+    Data Types: information about the type of information the computer perceives
+    Examples include:
+    - strings (or plain English text enclosed in quotation marks)
+    - integers
+    - floats (more commonly known as numbers with decimals)
 
-    parameter
+    functions: like mathematical functions y=f(x), functions in Python manipulate, or do something, to its input values x.
+    // so hard help 
 
-    input
-    output
-    concatenation
+    parameter: the expected input value into a function is often called the function's parameter
+
+    input: want to talk to the program you wrote? We do so by *inputting* infomation and pass it along to the Python program
+    output: want the program to tell you its thoughts? We do so by asking it to "output" whatever information you ask for.
+    concatenation: when you concatenate "I" and space and "love programming", the result is "I love programming". Straightforward, eh?
+
 
 Data Types:
     Strings - words enclosed in quotes
@@ -152,10 +164,14 @@ This may be because:
 IndentationError: expected an indented block
 This may be because:
 - you are missing an indentation at an if-statement / a for-loop / a while-loop, etc
+Don't worry, just be sure to:
+- indent all lines that should be nested within the if-statement / a for-loop / a while-loop, etc
 
 ValueError: invalid literal for int() with base 10
 This may be because:
 - you attempted to cast / convert a string into an integer
+Don't worry, just be sure to:
+- double check if 
 
 
 TypeError: 'list' object is not callable
@@ -255,8 +271,3 @@ type(name) # would evaluate to str
 
 age = 59
 type(age) # would evaluate to int
-
-
-
-Python Keywords
-

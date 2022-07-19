@@ -34,7 +34,6 @@ import { ConditionalsDoc } from "./docs/conditionals-doc";
 import { ComparisonsDoc } from "./docs/comparisons-doc";
 import { ArithmeticsDoc } from "./docs/arithmetics.doc";
 import { ModifyingStringsDoc } from "./docs/modifying-strings-doc";
-import { ConvertsDoc } from "./docs/converts-doc";
 import { ImportsDoc } from "./docs/imports-doc";
 import { ErrorsDoc } from "./docs/errors-doc";
 
@@ -118,6 +117,13 @@ export const Documentation = (props: IPropsDocumentation) => {
                         onSectionChange={handleSectionChange}
                     />
                 )
+            case "strings":
+            return(
+                <ModifyingStringsDoc
+                    pageId={pageId}
+                    onSectionChange={handleSectionChange}
+                />
+            )
             case "comparisons":
                 return(
                     <ComparisonsDoc
@@ -128,20 +134,6 @@ export const Documentation = (props: IPropsDocumentation) => {
             case "arithmetics":
                 return(
                     <ArithmeticsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                )
-            case "modifying-strings":
-                return(
-                    <ModifyingStringsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                )
-            case "converts":
-                return(
-                    <ConvertsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
@@ -319,16 +311,15 @@ const docs: Array<IDocButton> = [
     // { id: "user-input", name: "user input" },
 
     { id: "definitions", name: "Definitions" }, //todo
-    { id: "data-types", name: "Data Types" }, //delete some commented out things
-    { id: "variables", name: "Variables" }, //working on rn
-    { id: "functions", name: "Built-In Functions" },
+    { id: "data-types", name: "Data Types" }, //done
+    { id: "variables", name: "Variables" }, //done
+    { id: "functions", name: "Built-In Functions" }, //done
     { id: "loops", name: "Loops" }, //done
-    { id: "conditionals", name: "Conditionals" },
-    { id: "lists", name: "Lists" },
-    { id: "comparisons", name: "Comparisons" },
-    { id: "arithmetics", name: "Arithmetics" },
-    { id: "modifying-strings", name: "Modifying Strings" },
-    { id: "converts", name: "Converting Data Types" },
+    { id: "conditionals", name: "Conditionals" }, //done
+    { id: "lists", name: "Lists" }, //done
+    { id: "strings", name: "Strings" }, //done
+    { id: "arithmetics", name: "Arithmetics" }, //done
+    { id: "comparisons", name: "Comparisons" }, //done
     { id: "imports", name: "Imports" },
     { id: "random", name: "Random" },
     { id: "errors", name: "Error Message Guide" },

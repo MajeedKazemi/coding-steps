@@ -35,6 +35,13 @@ export const FunctionsDoc = (props: IDocPageProps) => {
                         `print("Hello World") #outputs Hello World to the console`
                     }
                 ></Example>
+                <p>To print multiple variables inside the text. You can use <Code>f''</Code> operator (Formattable Text)</p>
+                <p>Inside of the <Code>f''</Code> operator, to convert variables to its textual value, use the <Code>{}</Code> operator</p>
+                <Example
+                    code={
+                        `age = 16\nname = "Alex"\nprint(f'My name is {name} and I am {age} years old')\n#outputs My name is Alex and I am 16 years old`
+                    }
+                ></Example>
             </Accordion>
             <Accordion
                 title="input()"
@@ -118,7 +125,7 @@ export const FunctionsDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>Returns the number of elements in a list.</p>
+                <p>Returns the number of items in a list or characters in a string.</p>
                 <Message>
                     <p>
                         Parameters: <Code>len(list)</Code>
