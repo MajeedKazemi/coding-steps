@@ -22,7 +22,10 @@ export const SyntaxDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>{"Let's write our first Python program:"}</p>
-                <Example code={'print("Hello, World!")'}></Example>
+                <Example
+                    text={`Outputs "Hello World!" to the console`}
+                    code={'print("Hello World!")'}
+                ></Example>
             </Accordion>
 
             <Accordion
@@ -97,12 +100,6 @@ export const SyntaxDoc = (props: IDocPageProps) => {
                     code={'x = 5\ny = "Hello, World!"'}
                     text={"Variables in Python:"}
                 ></Example>
-
-                <p>Python has no command for declaring a variable.</p>
-                <p>
-                    {/* You will learn more about variables in the{" "}
-                    <Link href="/variables">Python Variables</Link> chapter. */}
-                </p>
             </Accordion>
 
             <Accordion

@@ -26,23 +26,17 @@ export const ListsDoc = (props: IDocPageProps) => {
                 <p>
                     Lists are used to store multiple items in a single variable.
                 </p>
-                <p>
-                    Lists are one of 4 built-in data types in Python used to
-                    store collections of data, the other 3 are Tuple, Set, and
-                    Dictionary, all with different qualities and usage.
-                </p>
-                <p>Lists are created using square brackets:</p>
+                <p>Lists are created using square brackets<Code>[]</Code>:</p>
                 <Example
                     code={
-                        'thislist = ["apple", "banana", "cherry"]\nprint(thislist)'
+                        'thislist = ["apple", "banana", "cherry"]\nprint(thislist) #outputs ["apple", "banana", "cherry"]'
                     }
                     text="Create a List:"
                 ></Example>
             </Accordion>
-
             <Accordion
-                title="List Items"
-                sectionId="list-items"
+                title="Adding Items To The End Of A List"
+                sectionId="append-items"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -51,19 +45,19 @@ export const ListsDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>
-                    List items are ordered, changeable, and allow duplicate
-                    values.
+                    To add an item to the end of the list, use the{" "}
+                    <Code>append()</Code> method:
                 </p>
-                <p>
-                    List items are indexed, the first item has index{" "}
-                    <Code>[0]</Code>, the second item has index <Code>[1]</Code>{" "}
-                    etc.
-                </p>
+                <Example
+                    code={
+                        'thislist = ["apple", "banana", "cherry"]\nthislist.append("orange")\nprint(thislist) #outputs ["apple", "banana", "cherry", "orange"]'
+                    }
+                    text="Using the append() method to append an item:"
+                ></Example>
             </Accordion>
-
             <Accordion
-                title="List Properties"
-                sectionId="list-props"
+                title="Inserting Items Into A Specific Position In A List"
+                sectionId="insert-items"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -71,33 +65,31 @@ export const ListsDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <h2>Ordered</h2>
                 <p>
-                    When we say that lists are ordered, it means that the items
-                    have a defined order, and that order will not change.
+                    To insert a new list item, we can use the <Code>insert()</Code>{" "}
+                    method.
                 </p>
                 <p>
-                    If you add new items to a list, the new items will be placed
-                    at the end of the list.
+                    The <Code>insert()</Code> method inserts an item at the
+                    specified index:
                 </p>
+                <Example
+                    code={
+                        'thislist = ["apple", "banana", "cherry"]\nthislist.insert(2, "watermelon")\nprint(thislist) #outputs ["apple", "banana", "watermelon", "cherry"]'
+                    }
+                    text='Insert "watermelon" as the third item:'
+                ></Example>
                 <Message>
                     <p>
-                        Note: There are some list methods that will change the
-                        order, but in general: the order of the items will not
-                        change.
+                        Note: As a result of the examples above, the lists will
+                        now contain 4 items.
                     </p>
                 </Message>
-
-                <h2>Changeable</h2>
-                <p>
-                    The list is changeable, meaning that we can change, add, and
-                    remove items in a list after it has been created.
-                </p>
             </Accordion>
 
             <Accordion
-                title="Allow Duplicates"
-                sectionId="allow-duplicates"
+                title="Accessing List Items"
+                sectionId="accessing-list-items"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -106,20 +98,21 @@ export const ListsDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>
-                    Since lists are indexed, lists can have items with the same
-                    value:
+                    List items are indexed, the first item has index
+                    <Code>[0]</Code>, the second item has index <Code>[1]</Code>
+                    etc.
                 </p>
+                <p>You can access items in a list by referring to the index number:</p>
                 <Example
                     code={
-                        'thislist = ["apple", "banana", "cherry", "apple", "cherry"]\nprint(thislist)'
+                        'thislist = ["apple", "banana", "cherry"]\nprint(thislist[1]) #outputs "banana"'
                     }
-                    text="Lists allow duplicate values:"
+                    text="Print the second item of the list:"
                 ></Example>
             </Accordion>
-
             <Accordion
-                title="List Length"
-                sectionId="list-length"
+                title="Change List Item Value"
+                sectionId="change-list-items-val"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -128,93 +121,14 @@ export const ListsDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>
-                    To determine how many items a list has, use the{" "}
-                    <Code>len()</Code> function:
+                    To change the value of a specific item, refer to the index
+                    number:
                 </p>
                 <Example
                     code={
-                        'thislist = ["apple", "banana", "cherry"]\nprint(len(thislist))'
+                        'thislist = ["apple", "banana", "cherry"]\nthislist[1] = "blackcurrant"\nprint(thislist) #outputs ["apple", "blackcurrant", "cherry"]'
                     }
-                    text="Print the number of items in the list:"
-                ></Example>
-            </Accordion>
-
-            <Accordion
-                title="List Items - Data Types"
-                sectionId="list-items-types"
-                pageId={props.pageId}
-                click={(next: string) => {
-                    props.onSectionChange(current, next);
-                    setCurrent(next);
-                }}
-                current={current}
-            >
-                <p>List items can be of any data type:</p>
-                <Example
-                    code={
-                        'list1 = ["apple", "banana", "cherry"]\nlist2 = [1, 5, 7, 9, 3]\nlist3 = [True, False, False]'
-                    }
-                    text="String, int and boolean data types:"
-                ></Example>
-
-                <p>A list can contain different data types:</p>
-                <Example
-                    code={'list1 = ["abc", 34, True, 40, "male"]'}
-                ></Example>
-                <Example
-                    code={'list1 = ["abc", 34, True, 40, "male"]'}
-                ></Example>
-            </Accordion>
-
-            <Accordion
-                title="The type() function"
-                sectionId="type-function"
-                pageId={props.pageId}
-                click={(next: string) => {
-                    props.onSectionChange(current, next);
-                    setCurrent(next);
-                }}
-                current={current}
-            >
-                <p>
-                    {
-                        "From Python's perspective, lists are defined as objects with the data type 'list':"
-                    }
-                </p>
-                <p>
-                    <Code>
-                        {
-                            "<class 'list'section='specify-var-type' page={props.pageName} click={(next: string) => { setCurrent(cur) }} current={current}>"
-                        }
-                    </Code>
-                </p>
-                <Example
-                    code={
-                        'mylist = ["apple", "banana", "cherry"]\nprint(type(mylist))'
-                    }
-                    text="What is the data type of a list?"
-                ></Example>
-            </Accordion>
-
-            <Accordion
-                title="The list() constructor"
-                sectionId="list-constructor"
-                pageId={props.pageId}
-                click={(next: string) => {
-                    props.onSectionChange(current, next);
-                    setCurrent(next);
-                }}
-                current={current}
-            >
-                <p>
-                    It is also possible to use the <Code>list()</Code>{" "}
-                    constructor when creating a new list.
-                </p>
-                <Example
-                    code={
-                        'thislist = list(("apple", "banana", "cherry")) # note the double round-brackets\nprint(thislist)'
-                    }
-                    text="Using the list() constructor to make a List:"
+                    text="Change the second item:"
                 ></Example>
             </Accordion>
         </Fragment>

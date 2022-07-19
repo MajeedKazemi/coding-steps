@@ -1,0 +1,274 @@
+DELETE THIS ONCE DOCS ARE COMPLETED
+Definitions:
+
+    Keywords: special vocabulary in Python that serves a specific purpose
+    Examples include:
+    - int
+    - def
+    - in
+    keywords CANNOT be used as variable names
+
+    Data Types: information about the type of information the computer perceives
+    Examples include:
+    - strings (or plain English text enclosed in quotation marks)
+    - integers
+    - floats (more commonly known as numbers with decimals)
+
+    functions: like mathematical functions y=f(x), functions in Python manipulate, or do something, to its input values x.
+    // so hard help 
+
+    parameter: the expected input value into a function is often called the function's parameter
+
+    input: want to talk to the program you wrote? We do so by *inputting* infomation and pass it along to the Python program
+    output: want the program to tell you its thoughts? We do so by asking it to "output" whatever information you ask for.
+    concatenation: when you concatenate "I" and space and "love programming", the result is "I love programming". Straightforward, eh?
+
+
+Data Types:
+    Strings - words enclosed in quotes
+    If you wish to express words (in English or otherwise), you must enclose them in quotation marks (") to make them Python strings.
+    Single quotes (') or double quotes (") do not matter, as long as you are consistent with it.
+    Examples of strings include:
+    "This is a String"
+    'This is also a string'
+    "Use a string to store and convey a message"
+
+    Ints - integers
+    Examples of integers include:
+    3
+    -4
+    0
+    Integers can be postive, negative, or zero. Integers CANNOT contain decimal places. Integers are NOT enclosed in quotation marks.
+
+    Floats - numbers that contain decimal places
+    Examples of floats inlcude:
+    3.14159
+    -1.63
+    0.0
+    100.0
+    Floats can be postive, negative, or zero. Floats can also resemble integers (like 100.0), but the .0 decimal place will always be shown explicitly. Floats are also NOT enclosed in quotation marks.
+
+    Booleans - treat this as an answer to a yes/no question
+    Clearly, the answer would be either a yes or a no.
+    The same applies to Boolean values. While we can come up with all sorts of different strings, integers, floats, there is but two Boolean values:
+    True
+    False
+    What then is the use of Booleans as a data type?
+    It turns out that every comparison you make (i.e., 10<100) is a type of Boolean (it simplifies into True).
+    
+
+
+Variables:
+
+Functions: 
+
+Loops: 
+    while ___:
+        repeatedly executes the code block inside the while loop as long as the condition remains `True`.
+
+        Example: 
+        i = 0\nwhile i < 10:\n\tprint(i)\n\ti = i + 1
+    
+    for __ in ():
+        For Loops:
+        executes a set of statements for each element in a sequence (like a `range`, a `list`, or a `string`).
+        
+        Example:
+        fruits = ["apple", "banana", "cherry"]\nfor x in fruits:\n\tif x == "banana":\n\tcontinue\n\tprint(x)
+        
+        Break Statement:
+        With the break statement we can stop the loop before it has looped through all the items:
+
+        Example: 'fruits = ["apple", "banana", "cherry"]\nfor x in fruits:\n\tif x == "banana":\n\t\tbreak\n\tprint(x)':
+                'Exit the loop when x is "banana", but this time the break comes before the print:'
+    print(x)
+    if x == "banana":
+        break
+        
+Conditionals:
+
+Random:
+Previously, we dealt with functions and keywords which are included in the Python programming language by default.
+However, some functions are not available by default! These supplementary functions can only be used after we tell Python that we are introducing "add-ons".
+We do so by "importing" an add-on pack - a module!
+
+"random" is one example of a module. To tell Python that we will be using this add-on, we write:
+import random
+
+Now, we can enjoy the functions and conveniences brought to us by this "random" module!
+
+
+Modifying Strings: 
+
+Lists:
+
+Arithmetics: 
+
+Comparisons: 
+
+Converts:
+
+Imports:
+
+
+
+
+Error Mesages (Click here when encounter these error messages!)
+
+
+
+SyntaxError: invalid syntax
+This may be because:
+- you missed a colon (:) at the end of an if-statement / a for-loop / a while-loop, etc
+- you missed a closing parenthesis / brackets
+- you used a single equality sign (=) rather than a double equality sign (==) when comparing values
+
+
+Refer to the Syntax sections in the documentation
+
+
+TypeError: can only concatenate ___ to ___
+This may be because:
+- you tried to add/concatenate two items of different types
+Refer to the Type Casting and Concatenation sections in the documentation
+
+
+NameError: name ___ is not defined
+This may be because:
+- you tried to use a variable that has yet to be defined or assigned a value
+- you forgot to put quotes (single quotes or double quotes, whichever you like, as long as they are consistent) around your strings
+- if you encounter: "NameError: name 'random' is not defined" specifically,
+    - you forgot to "import random" before you use functions in the random library
+
+
+ZeroDivisionError: division by zero
+This may be because:
+- you tried to divide a number by zero
+- you tried to divide a number by a variable, which happened to be zero
+
+IndexError: list index out of range
+This may be because:
+- you tried to access a non-existent element in a list
+- CAREFUL: list indices start with 0
+- to access the first element of a list of five strings, use index 0
+- to access the last element of a list of five strings, use index 4
+
+
+IndexError: string index out of range
+This may be because:
+- you tried to access a non-existent character in a string
+- CAREFUL: string indices start with 0
+- to access the first character of a string of five characters, use index 0
+- to access the last character of a string of five characters, use index 4
+
+
+IndentationError: expected an indented block
+This may be because:
+- you are missing an indentation at an if-statement / a for-loop / a while-loop, etc
+Don't worry, just be sure to:
+- indent all lines that should be nested within the if-statement / a for-loop / a while-loop, etc
+
+ValueError: invalid literal for int() with base 10
+This may be because:
+- you attempted to cast / convert a string into an integer
+Don't worry, just be sure to:
+- double check if 
+
+
+TypeError: 'list' object is not callable
+This may be because:
+- you used round parenthesis () rather than square brackets [] to access list elements
+
+
+TypeError: can only concatenate list (not ___) to list
+This may be because:
+- you tried to append an element to a list by using (+) instead of the .append() method
+
+SyntaxError: can't assign to operator
+This may be because:
+- you used the logical and keyword incorrectly
+- "and" can only be used to join Boolean values, e.g., 10 > 1 and 10 < 100
+
+
+
+
+Python Operators
+
+
++
+-
+*
+/
+%
+**
+
+
+Python Functions
+
+Math Section
+
+abs(number)
+returns the absolute value of a number
+abs(10) # would evaluate to 10
+abs(-15) # would evaluate to 15
+
+pow(base_number, exponent)
+returns a number raised to an exponent
+pow(a,b) # evaluates to a^b
+pow(2,3) # evaluates to 8
+pow(3,2) # evaluates to 9
+
+round(number_to_round, number_of_decimals)
+rounds a number to the specified decimals
+round(2.4, 0) # evalutaes to 2.0\nround(3.8, 0) # evaultes to 4.0\nround(3.86, 1) # evaluates to 3.9
+
+min([num1, num2, num3, ...])
+returns the minimum value from a list of numbers
+min([1,4,3,2]) # returns 1\nmin([9,8,7,6]) # returns 6
+
+max([num1, num2, num3, ...])
+returns the maximum value from a list of numbers
+max([1,4,3,2]) # returns 4\nmax([9,8,7,6]) # returns 9
+
+Casting Section
+
+int(a_float) or int(a_string)
+returns an integer from a float or string
+int("10") # returns 10 as an integer\nint(1.4) # returns 1 as an integer
+
+str()
+returns a string from a wide variety of data types, including strings, integers, and floats
+str(2) # returns "2" as a string\nstr(3.0) # returns "3.0" as a string
+
+float(an_int) or float(a_string)
+returns a float from an integer or a string 
+float(2) # returns 2.0 as a float\nfloat("3") # returns 3.0 as a float\nfloat("4.2") # returns 4.2 as a float
+
+MISC
+
+print(a_message)
+outputs the message to the console
+
+input(question)
+displays the question, awaits user input into the console, returns the user input
+answer = input("What is your name?") # would assign whatever the user inputted to the variable answer
+
+
+range()
+len(a_python_string)
+returns the number characters in the string
+len("programming") # would evaluate to 11
+
+len(a_python_list)
+returns the number of elements in the list
+len(["I", "love", "programming"]) # would evaluate to 3
+
+
+type(any_variable)
+returns the data type of the variable
+
+name = "Carl"
+type(name) # would evaluate to str
+
+age = 59
+type(age) # would evaluate to int
