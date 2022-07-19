@@ -14,8 +14,8 @@ export const DataTypesDoc = (props: IDocPageProps) => {
             <h1 className="doc-title">Data Types:</h1>
 
             <Accordion
-                title="Built-in Data Types"
-                sectionId="built-in-types"
+                title="Intro To Data Types"
+                sectionId="intro-data-types"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);

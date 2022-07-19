@@ -36,6 +36,7 @@ import { ArithmeticsDoc } from "./docs/arithmetics.doc";
 import { ModifyingStringsDoc } from "./docs/modifying-strings-doc";
 import { ImportsDoc } from "./docs/imports-doc";
 import { ErrorsDoc } from "./docs/errors-doc";
+import { LogicalOperatorsDoc } from "./docs/logical-operators-doc";
 
 interface IPropsDocumentation {
     taskId: string;
@@ -127,6 +128,13 @@ export const Documentation = (props: IPropsDocumentation) => {
             case "comparisons":
                 return(
                     <ComparisonsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                )
+            case "logical-operators":
+                return(
+                    <LogicalOperatorsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
@@ -286,30 +294,6 @@ export const Documentation = (props: IPropsDocumentation) => {
 };
 
 const docs: Array<IDocButton> = [
-    // { id: "syntax", name: "syntax" },
-    // { id: "comments", name: "comments" },
-    // { id: "variables", name: "variables" },
-    // { id: "variable-names", name: "variable names" },
-    // { id: "output-variables", name: "output variables" },
-    // { id: "global-variables", name: "global variables" },
-    // { id: "data-types", name: "data types" },
-    // { id: "numbers", name: "numbers" },
-    // { id: "random", name: "random" },
-    // { id: "casting", name: "casting" },
-    // { id: "strings-concatenation", name: "strings concatenation" },
-    // { id: "strings", name: "strings" },
-    // { id: "operators", name: "operators" },
-    // { id: "booleans", name: "booleans" },
-    // { id: "lists", name: "lists" },
-    // { id: "list-add-item", name: "list add item" },
-    // { id: "list-remove-item", name: "list remove item" },
-    // { id: "list-loop-through", name: "list loop through" },
-    // { id: "list-operations", name: "list operations" },
-    // { id: "if-else", name: "if-else" },
-    // { id: "while-loops", name: "while loops" },
-    // { id: "for-loops", name: "for loops" },
-    // { id: "user-input", name: "user input" },
-
     { id: "definitions", name: "Definitions" }, //todo
     { id: "data-types", name: "Data Types" }, //done
     { id: "variables", name: "Variables" }, //done
@@ -320,9 +304,8 @@ const docs: Array<IDocButton> = [
     { id: "strings", name: "Strings" }, //done
     { id: "arithmetics", name: "Arithmetics" }, //done
     { id: "comparisons", name: "Comparisons" }, //done
+    { id: "logical-operators", name: "Logical Operators" }, //todo
     { id: "imports", name: "Imports" }, //done
-    { id: "random", name: "Random" },
-    { id: "errors", name: "Error Message Guide" },
-
-
+    { id: "random", name: "Random" }, //done
+    { id: "errors", name: "Error Message Guide" }, //todo
 ];

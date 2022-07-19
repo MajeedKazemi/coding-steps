@@ -22,15 +22,44 @@ export const DefinitionsDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>special vocabulary in Python that serves a specific purpose</p>
-                <Example
-                    text={`Examples include:
-                    - strings (or plain English text enclosed in quotation marks)
-                    - integers
-                    - floats (more commonly known as numbers with decimals)`}
-                    code = {""}
-                    
-                ></Example>
+                <p>Special vocabulary in Python that serves a specific purpose. Some examples include:</p>
+                <table className="table-fixed">
+                    <thead>
+                        <tr>
+                            <th>and</th>
+                            <th>A logical operator</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>Text Type:</td>
+                        <td>
+                            <Code>str</Code>
+                        </td>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Numeric Types:</td>
+                            <td>
+                                <Code>int</Code>, <Code>float</Code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sequence Types:</td>
+                            <td>
+                                <Code>list</Code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Boolean Type:</td>
+                            <td>
+                                <Code>bool</Code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <Message>
+                    <p>Keywords CANNOT be used as variable names</p>
+                </Message>
                 
 
             </Accordion>
