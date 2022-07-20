@@ -14,6 +14,7 @@ const WHITELISTED_DOMAINS = process.env.WHITELISTED_DOMAINS;
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const PYLSP_PATH = process.env.PYLSP_PATH;
+const APP_SIGNAL_KEY = process.env.APP_SIGNAL_KEY;
 
 if (REFRESH_TOKEN_EXPIRY === undefined) {
     throw Error("REFRESH_TOKEN_EXPIRY not set in .env");
@@ -55,6 +56,10 @@ if (PYLSP_PATH === undefined) {
     throw Error("PYLSP_PATH not set in .env");
 }
 
+if (APP_SIGNAL_KEY === undefined) {
+    throw Error("APP_SIGNAL_KEY not set in .env");
+}
+
 export default {
     REFRESH_TOKEN_EXPIRY,
     REFRESH_TOKEN_SECRET,
@@ -67,4 +72,5 @@ export default {
     OPENAI_API_KEY,
     dev,
     PYLSP_PATH,
+    APP_SIGNAL_KEY,
 };

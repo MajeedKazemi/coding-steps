@@ -1,5 +1,6 @@
 import "./utils/strategy";
 
+import { expressMiddleware } from "@appsignal/express";
 import bodyParser from "body-parser";
 import compression from "compression";
 import cookieParser from "cookie-parser";
@@ -9,6 +10,7 @@ import Session from "express-session";
 import mongoose from "mongoose";
 import passport from "passport";
 
+import { appSignal } from "./appsignal";
 import { codexRouter } from "./routes/codex-router";
 import { diagRouter } from "./routes/diag-router";
 import { loginRouter } from "./routes/login-router";
@@ -51,6 +53,8 @@ mongoose
         app.use(passport.initialize());
         app.use(passport.session());
         app.use(bodyParser.json());
+
+        app.use(expressMiddleware(appSignal));
 
         app.use("/api/auth/", loginRouter);
         app.use("/api/tasks/", tasksRouter);

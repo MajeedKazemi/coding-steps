@@ -72,7 +72,7 @@ export const CodingTask = (props: CodingTaskProps) => {
             .then(async (response) => {
                 sendLog();
 
-                if (TaskType.Authoring) {
+                if (props.taskType == TaskType.Authoring) {
                     editorRef.current?.setCode(props.solution);
                 }
 
