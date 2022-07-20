@@ -23,6 +23,7 @@ export const Login = () => {
         authLogin(username, password)
             .then(async (response) => {
                 setIsSubmitting(false);
+
                 if (!response.ok) {
                     console.error("login failed");
                 } else {
