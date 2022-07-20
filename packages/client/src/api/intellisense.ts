@@ -11,19 +11,9 @@ import "monaco-editor/esm/vs/editor/standalone/browser/quickInput/standaloneQuic
 import "monaco-editor/esm/vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch.js";
 import "monaco-editor/esm/vs/editor/standalone/browser/toggleHighContrast/toggleHighContrast.js";
 
-import {
-    toSocket,
-    WebSocketMessageReader,
-    WebSocketMessageWriter,
-} from "@codingame/monaco-jsonrpc";
+import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from "@codingame/monaco-jsonrpc";
 import * as monaco from "monaco-editor";
-import {
-    CloseAction,
-    ErrorAction,
-    MessageTransports,
-    MonacoLanguageClient,
-    MonacoServices,
-} from "monaco-languageclient";
+import { CloseAction, ErrorAction, MessageTransports, MonacoLanguageClient, MonacoServices } from "monaco-languageclient";
 
 import env from "../utils/env";
 import { createUrl } from "../utils/shared";
@@ -268,10 +258,11 @@ monaco.languages.setMonarchTokensProvider("python", {
 // install Monaco language client services
 MonacoServices.install(monaco);
 
-export function initializeLanguageClient() {
-    const webSocket = new WebSocket(
-        createUrl(env.API_URL, 3001, "/ws/intellisense")
-    );
+let webSocket: WebSocket;
+
+export function initLanguageClient() {
+    console.log("initLanguageClient");
+    webSocket = new WebSocket(createUrl(env.API_URL, 3001, "/ws/intellisense"));
 
     webSocket.onopen = () => {
         const setupLanguageClient = () => {
@@ -299,7 +290,7 @@ export function initializeLanguageClient() {
 
     webSocket.onclose = () => {
         setTimeout(() => {
-            initializeLanguageClient();
+            initLanguageClient();
         });
     };
 }
@@ -345,3 +336,8 @@ function createLanguageClient(
         },
     });
 }
+
+export const stopLanguageClient = () => {
+    console.log("stopLanguageClient");
+    webSocket.close();
+};

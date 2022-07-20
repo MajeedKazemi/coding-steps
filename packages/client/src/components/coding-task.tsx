@@ -348,25 +348,3 @@ export const CodingTask = (props: CodingTaskProps) => {
         </div>
     );
 };
-
-// when the user starts the code -> the timer starts (based on the start time -- as they could've started previously and still have time)
-// they either submit the code in the given time -> and it gets checked -> and its ok -> and then go to the next activity
-// or they submit the code after the time limit -> and it gets checked -> and its not ok -> and they continue working on the activitiy
-
-// when the timer reaches 0
-// it should continue going down. but should show a message saying that they have reached the time limit and that they should submit the code now
-
-// in case that the next task is a modify task -> if the result was ok -> they should continue working on their own code for the next task
-// however, if not, they could modify the given solution instead
-
-// if the next task is not modify -> then just wait to see if it is correct or not -> though no need to wait if the time limit is reached
-
-// submit to be checked -> when the task is AuthoringCode or there is some time in ModifyingCode, other tasks submit will be handled by those respective tasks.tsx pages
-// otherwise -> submit but go to the next task without waiting for it to be checked
-
-// we either have a starttime
-// startTime + checkingTime
-// -> start timer from either one of these two times
-
-// we submit tasks -> pause timer
-// -> they take a few seconds to get checked -> we can get the new checkingTime -> simply updates the checkingTime

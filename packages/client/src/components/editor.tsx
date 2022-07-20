@@ -1,14 +1,16 @@
 import * as monaco from "monaco-editor";
 import { forwardRef, Fragment, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
 
-import { initializeLanguageClient } from "../api/intellisense";
+import { initLanguageClient, stopLanguageClient } from "../api/intellisense";
 import {
     executeCode,
+    initPythonShellSocket,
     isConnected,
     onShellClose,
     onShellMessage,
     onShellOpen,
     sendShell,
+    stopPythonShell,
     stopShell,
 } from "../api/python-shell";
 import { AuthContext } from "../context";
@@ -46,7 +48,8 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
 
     useEffect(() => {
         if (monacoEl && !editor) {
-            initializeLanguageClient();
+            initLanguageClient();
+            initPythonShellSocket();
 
             if (props.starterCode.length > 0) {
                 log(
@@ -148,6 +151,13 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
             setConnected(false);
         });
     });
+
+    useEffect(() => {
+        return () => {
+            stopLanguageClient();
+            stopPythonShell();
+        };
+    }, []);
 
     return (
         <Fragment>
