@@ -20,6 +20,8 @@ export interface IUserTask extends mongoose.Document {
     }>;
     beingGraded: boolean;
     passed: boolean;
+    savedCode: string;
+    lastSaveAt: Date;
 }
 
 // a user-task represents a user's progress on a task
@@ -81,6 +83,15 @@ const UserTaskSchema = new Schema({
         // if not -> we should provide the correct version
         type: Boolean,
         default: false,
+    },
+
+    savedCode: {
+        type: String,
+        default: "",
+    },
+    lastSaveAt: {
+        type: Date,
+        required: false,
     },
 });
 

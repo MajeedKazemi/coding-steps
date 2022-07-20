@@ -12,7 +12,7 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
 
     if (description !== undefined && type !== undefined) {
         const prompt = [
-            `<|endoftext|># I start with a blank Python3 file. Each Command corresponds to a short Python code snippet.`,
+            `<|endoftext|># blank Python3 file. Each Command corresponds to a short Python code snippet.`,
             `# Command: say hello world\nprint("hello world")`,
             ``,
             `# Command: ask the user for their name\nname = input("What is your name? ")`,
@@ -30,7 +30,7 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
                 context && context.length > 0
                     ? "use the above code as context and  "
                     : ""
-            } ${description.trim()}\n`,
+            }${description.trim()}\n`,
         ].join("\n");
 
         const result = await openai.createCompletion({

@@ -61,11 +61,16 @@ mongoose
         app.use("/api/codex/", codexRouter);
         app.use("/diagnostics/", diagRouter);
 
-        const server = app.listen(env.PORT, () => {
-            console.log(
-                `Express server listening at http://localhost:${env.PORT}`
-            );
-        });
+        const server = app.listen(
+            env.PORT_PREFIX + env.NODE_APP_INSTANCE,
+            () => {
+                console.log(
+                    `Express server listening at http://localhost:${
+                        env.PORT_PREFIX + env.NODE_APP_INSTANCE
+                    }`
+                );
+            }
+        );
 
         initLanguageService(server);
         initPythonShell(server);
