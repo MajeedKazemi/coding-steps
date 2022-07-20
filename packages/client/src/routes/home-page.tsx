@@ -89,6 +89,13 @@ export const HomePage = () => {
                                     </a>{" "}
                                     us.
                                 </p>
+                                <p className="text-sm">
+                                    Powered by{" "}
+                                    <a href="https://openai.com/blog/openai-codex/">
+                                        OpenAI Codex
+                                    </a>
+                                    .
+                                </p>
                             </section>
                         </div>
                     )}
