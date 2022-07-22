@@ -262,35 +262,22 @@ let webSocket: WebSocket;
 
 export function initLanguageClient() {
     console.log("initLanguageClient");
+
     webSocket = new WebSocket(createUrl(env.API_URL, 3001, "/ws/intellisense"));
 
     webSocket.onopen = () => {
-        const setupLanguageClient = () => {
-            const socket = toSocket(webSocket);
-            const reader = new WebSocketMessageReader(socket);
-            const writer = new WebSocketMessageWriter(socket);
-            const languageClient = createLanguageClient({
-                reader,
-                writer,
-            });
+        const socket = toSocket(webSocket);
+        const reader = new WebSocketMessageReader(socket);
+        const writer = new WebSocketMessageWriter(socket);
+        const languageClient = createLanguageClient({
+            reader,
+            writer,
+        });
 
-            languageClient.start();
+        languageClient.start();
 
-            reader.onClose(() => {
-                languageClient.stop();
-
-                setTimeout(() => {
-                    setupLanguageClient();
-                }, 1000);
-            });
-        };
-
-        setupLanguageClient();
-    };
-
-    webSocket.onclose = () => {
-        setTimeout(() => {
-            initLanguageClient();
+        reader.onClose(() => {
+            languageClient.stop();
         });
     };
 }
@@ -298,6 +285,8 @@ export function initLanguageClient() {
 function createLanguageClient(
     transports: MessageTransports
 ): MonacoLanguageClient {
+    console.log("createLanguageClient");
+
     return new MonacoLanguageClient({
         name: "Python Language Client",
         clientOptions: {
@@ -338,6 +327,14 @@ function createLanguageClient(
 }
 
 export const stopLanguageClient = () => {
-    console.log("stopLanguageClient");
     webSocket.close();
+};
+
+export const retryOpeningLanguageClient = () => {
+    if (
+        webSocket.readyState === WebSocket.CLOSED ||
+        webSocket.readyState === WebSocket.CLOSING
+    ) {
+        initLanguageClient();
+    }
 };

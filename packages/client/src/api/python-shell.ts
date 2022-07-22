@@ -16,14 +16,12 @@ export const initPythonShellSocket = () => {
 
     webSocket.onclose = () => {
         isConnected = false;
-
-        setTimeout(() => {
-            initPythonShellSocket();
-        }, 1000);
     };
 };
 
 export function executeCode(code?: string) {
+    retryOpeningPythonShell();
+
     webSocket.send(JSON.stringify({ type: "run", code }));
 }
 
@@ -32,6 +30,8 @@ export function stopShell() {
 }
 
 export function sendShell(value: string) {
+    retryOpeningPythonShell();
+
     webSocket.send(
         JSON.stringify({
             type: "stdin",
@@ -61,4 +61,10 @@ export function onShellClose(callback: () => void) {
 export function stopPythonShell() {
     console.log("stopPythonShell");
     webSocket.close();
+}
+
+function retryOpeningPythonShell() {
+    if (!isConnected) {
+        initPythonShellSocket();
+    }
 }

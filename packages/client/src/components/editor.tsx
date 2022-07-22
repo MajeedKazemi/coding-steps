@@ -1,14 +1,11 @@
 import * as monaco from "monaco-editor";
 import { forwardRef, Fragment, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
 
-import { initLanguageClient, stopLanguageClient } from "../api/intellisense";
+import { initLanguageClient, retryOpeningLanguageClient, stopLanguageClient } from "../api/intellisense";
 import {
     executeCode,
     initPythonShellSocket,
-    isConnected,
-    onShellClose,
     onShellMessage,
-    onShellOpen,
     sendShell,
     stopPythonShell,
     stopShell,
@@ -34,7 +31,6 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
     const monacoEl = useRef(null);
     const [output, setOutput] = useState<string[]>([]);
     const [terminalInput, setTerminalInput] = useState<string>("");
-    const [connected, setConnected] = useState(isConnected);
     const [running, setRunning] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -73,6 +69,8 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
 
             editor.onDidChangeModelContent((e) => {
                 log(props.taskId, context?.user?.id, LogType.ReplayEvent, e);
+
+                retryOpeningLanguageClient();
             });
 
             editor.onDidPaste((e) => {
@@ -139,16 +137,6 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                     runId: runId,
                 });
             }
-        });
-    });
-
-    useEffect(() => {
-        onShellOpen(() => {
-            setConnected(true);
-        });
-
-        onShellClose(() => {
-            setConnected(false);
         });
     });
 
