@@ -175,7 +175,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "1b",
-        "Modify the given program so that it would display another message after the first one: <b>Beep Boop</b>",
+        "Modify the given program so it displays another message after the first one: <b>Beep Boop</b>",
         `print("I am a robot!")`,
         [["output: <b>Beep Boop</b>"]],
         [`print("I'm Wall-E!")`, `print("Beep Boop")`].join("\n"),
@@ -202,14 +202,14 @@ export const CodingTasks = [
     // join a string variable with a literal
     new AuthoringTask(
         "3a",
-        "Write a program that would create a variable called <i>name</i> and set its value to <b>Wall-E</b>. Then, display the message <b>My name is <i>name</i></b>.",
+        "Write a program that creates a variable called <i>name</i> and sets its value to <b>Wall-E</b>. Then, display the message <b>My name is <i>name</i></b>.",
         [[`output: <b>My name is Wall-E</b>`]],
         [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
         60 * 5
     ),
     new ModifyingTask(
         "3b",
-        "Modify the given program so that it would display the following message: <b>Hi, <i>name</i>! Nice to meet you!</b>.",
+        "Modify the given program so that it displays the following message: <b>Hi, <i>name</i>! Nice to meet you!</b>.",
         [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
         [["output: <b>Hi, Wall-E! Nice to meet you!</b>"]],
         [`name = "Wall-E"`, `print("Hi, " + name + "! Nice to meet you!)`].join(
@@ -221,7 +221,7 @@ export const CodingTasks = [
     // get input from user -> store variable -> and add a string to it
     new AuthoringTask(
         "4a",
-        "Write a program that would ask the user their name and then store their name into a variable called <i>name</i>. Finally, display the message <b>Hello, <i>name</i>!</b>.",
+        "Write a program that asks the user for their name and then stores their name into a variable called <i>name</i>. Finally, display the message <b>Hello, <i>name</i>!</b>.",
         [
             [
                 "output: <b>What's your name?</b>",
@@ -242,7 +242,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "4b",
-        "Modify the following program so that it would ask the user their family name (storing into <i>family_name</i>) in addition to their given name and display the message <b>Hello, <i>name</i> <i>family_name</i>!</b>.",
+        "Modify the following program so that it asks the user for their family name (storing into <i>family_name</i>) in addition to their given name and displays the message <b>Hello, <i>name</i> <i>family_name</i>!</b>.",
         [
             `name = input("What is your name? ")`,
             `print("Hello, " + name + "!")`,
@@ -274,7 +274,7 @@ export const CodingTasks = [
     // join two string variables
     new AuthoringTask(
         "5a",
-        "Write a program that would create a variable called <i>food1</i> and set its value to <b>nuts</b>, and another variable called <i>food2</i> set to <b>bolts</b>. Then create a third variable called <i>robot_food</i> and set it to the value of <b><i>food1</i> and <i>food2</i></b>. Finally, display the message <b>I like <i>robot_food</i>.</b>. <br/>Note: pay attention to the space between and after the <b>and</b>.",
+        "Write a program that creates a variable called <i>food1</i> and set its value to <b>nuts</b>, and another variable called <i>food2</i> set to <b>bolts</b>. Then create a third variable called <i>robot_food</i> and set it to the value of <b><i>food1</i> and <i>food2</i></b>. Finally, display the message <b>I like <i>robot_food</i>.</b>. <br/>Note: pay attention to the space between and after the <b>and</b>.",
         [[`output: <b>I like nuts and bolts</b>`]],
         [
             `food1 = "nuts"`,
@@ -286,7 +286,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "5b",
-        "Modify the following program so that it would include a third food (called <i>food3</i>) set to <b>screws</b>. Then modify <i>robot_food</i> to be the value of <b><i>food1</i>, <i>food2</i> and <i>food3</i></b>. Finally display the message <b>I like <i>robot_food</i>.</b>.",
+        "Modify the following program so that it includes a third food (called <i>food3</i>) set to <b>screws</b>. Then modify <i>robot_food</i> to be the value of <b><i>food1</i>, <i>food2</i> and <i>food3</i></b>. Finally display the message <b>I like <i>robot_food</i>.</b>.",
         [
             `food1 = "nuts"`,
             `food2 = "bolts"`,
@@ -307,7 +307,7 @@ export const CodingTasks = [
     // numbers -> add -> print
     new AuthoringTask(
         "6a",
-        "Write a program that would set a variable called <i>num1</i> to <b>10</b>, and another variable called <i>num2</i> to <b>20</b>. Then, add the values of <i>num1</i> and <i>num2</i> and store the result in a variable called <i>num3</i>. Finally, display the value of <i>num3</i>.",
+        "Write a program that sets a variable called <i>num1</i> to <b>10</b>, and another variable called <i>num2</i> to <b>20</b>. Then, add the values of <i>num1</i> and <i>num2</i> and store the result in a variable called <i>num3</i>. Finally, display the value of <i>num3</i>.",
         [["output: <b>30</b>"]],
         [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
             "\n"
@@ -316,7 +316,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "6b",
-        "Modify the following program so that it would store the multiplication of <i>num1</i> and <i>num2</i> into a new variable called <i>num4</i> and then display the value of <i>num3</i> and <i>num4</i> separately.",
+        "Modify the following program so that it stores <i>num1</i> multiplied by <i>num2</i> into a new variable called <i>num4</i> and then display the value of <i>num3</i> and <i>num4</i> separately.",
         [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
             "\n"
         ),
@@ -380,7 +380,7 @@ export const CodingTasks = [
 
     new MultipleChoiceTask(
         "mc5",
-        `What is the right way to initiate a variable in Python?`,
+        `What is the right way to initialize a variable in Python?`,
         [
             `<div class="code-block">${`var num = 10`}</div>`,
             `<div class="code-block">${`num == 10`}</div>`,
@@ -405,7 +405,7 @@ export const CodingTasks = [
     // random number -> print
     new AuthoringTask(
         "7a",
-        "Write a program that would generate a random number between 1 and 10 and set it to a variable called <i>num</i>. Then, display the value of <i>num</i>.",
+        "Write a program that generates a random number between 1 and 10 and sets it to a variable called <i>num</i>. Then, display the value of <i>num</i>.",
         [["output: <b>3</b>"], ["output: <b>5</b>"], ["output: <b>7</b>"]],
         [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
             "\n"
@@ -414,7 +414,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "7b",
-        "Modify the following program so that it would generate a second random number between 50 and 100 and set it to another variable named <i>num2</i>. Then, display the value of <i>num2</i> below the value of <i>num</i>.",
+        "Modify the following program so it generates a second random number between 50 and 100 and sets it to another variable named <i>num2</i>. Then, display the value of <i>num2</i> below the value of <i>num</i>.",
         [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
             "\n"
         ),
@@ -435,7 +435,7 @@ export const CodingTasks = [
     // random number -> print
     new AuthoringTask(
         "8a",
-        "Write a program that would generate a random number between 1 and 6 and set it to a variable named <i>roll</i>. Then, create another variable called <i>message</i> and set it to the value of <b>You rolled: <i>roll</i></b>. Finally, display the value of <i>message</i>.",
+        "Write a program that generates a random number between 1 and 6 and sets it to a variable named <i>roll</i>. Then, create another variable called <i>message</i> and set it to the value of <b>You rolled: <i>roll</i></b>. Finally, display the value of <i>message</i>.",
         [
             ["output: <b>You rolled: 4</b>"],
             ["output: <b>You rolled: 2</b>"],
@@ -451,7 +451,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "8b",
-        "Modify the following program so that it would generate a second random number between 1 and 6 and set it to another variable named <i>roll2</i>. Then modify the message to be the value of <b>You rolled: <i>roll</i> and <i>roll2</i></b>.",
+        "Modify the following program so that it generates a second random number between 1 and 6 and sets it to another variable named <i>roll2</i>. Then modify the message to be the value of <b>You rolled: <i>roll</i> and <i>roll2</i></b>. Finally, display the value of <i>message</i>.",
         [
             `import random`,
             `roll = random.randint(1, 6)`,
@@ -474,7 +474,7 @@ export const CodingTasks = [
     // random number -> print
     new AuthoringTask(
         "9a",
-        "Write a program that would ask the user for two numbers and then display the sum of them.",
+        "Write a program that asks the user for two numbers and then displays the sum of them.",
         [
             [
                 "output: <b>Enter a number: </b>",
@@ -500,7 +500,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "9b",
-        "Modify the following program so that it would display the subtraction, multiplication, and division of the two numbers as well.",
+        "Modify the following program so that it displays the subtraction, multiplication, and division of the two numbers as well.",
         [
             `num1 = int(input("Enter a number: "))`,
             `num2 = int(input("Enter another number: "))`,
@@ -531,7 +531,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "10a",
-        "Write a program that would first generate a random number between 1 and 6 and assign it to a variable called <i>roll</i>. Then display the message <b>rolled six</b> only if the number is equal to six.",
+        "Write a program that first, generates a random number between 1 and 6 and assigns it to a variable called <i>roll</i>. Then, display the message <b>rolled six</b> only if the number is equal to six.",
         [["output: <b>rolled six</b>"]],
         [
             `import random`,
@@ -543,7 +543,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "10b",
-        "Modify the following program so that it would generate a second random number between 1 and 6 and set it to another variable named <i>roll2</i>. Then, display the message <b>rolled the same</b> only if both rolls were equal to each other.",
+        "Modify the following program so that it generates a second random number between 1 and 6 and sets it to another variable named <i>roll2</i>. Then, display the message <b>rolled the same</b> only if both rolls were equal to each other.",
         [
             `import random`,
             `roll = random.randint(1, 6)`,
@@ -563,7 +563,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "11a",
-        "Write a program that would first generate two random numbers between 1 and 6 and then display the message <b>both rolled six</b> only if both are equal to six.",
+        "Write a program that first, generates two random numbers between 1 and 6 and then displays the message <b>both rolled six</b> only if both are equal to six.",
         [["output: <b>both rolled six</b>"]],
         [
             `import random`,
