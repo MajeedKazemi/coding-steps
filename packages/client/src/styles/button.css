@@ -51,6 +51,12 @@
     border: solid 1px #065b5a;
 }
 
+.btn-block-inline {
+    justify-content: center;
+    border: solid 1px #065b5a;
+    display: inline-flex;
+}
+
 .disabled {
     opacity: 0.5;
     cursor: not-allowed;

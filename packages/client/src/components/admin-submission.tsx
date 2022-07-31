@@ -1,9 +1,11 @@
-import { useContext, useState } from "react";
+import * as monaco from "monaco-editor";
+import { useContext, useEffect, useRef, useState } from "react";
+import ReactDiffViewer from "react-diff-viewer";
 
 import { apiAdminSetGrade, logError } from "../api/api";
 import { AuthContext } from "../context";
 import { ISubmission } from "../types";
-import { Example } from "./doc-example";
+import { Button } from "./button";
 
 interface IProps {
     submission: ISubmission;
@@ -13,6 +15,32 @@ export const AdminSubmission = (props: IProps) => {
     const { context } = useContext(AuthContext);
     const [grade, setGrade] = useState("");
     const [feedback, setFeedback] = useState("");
+
+    const monacoEl = useRef(null);
+    const [editor, setEditor] =
+        useState<monaco.editor.IStandaloneCodeEditor | null>(null);
+
+    useEffect(() => {
+        if (monacoEl && !editor) {
+            const editor = monaco.editor.create(monacoEl.current!, {
+                value: props.submission.code,
+                readOnly: true,
+                language: "python",
+                automaticLayout: true,
+                fontSize: 18,
+                lineHeight: 30,
+                dimension: {
+                    width: 700,
+                    height: 30 * props.submission.code.split("\n").length,
+                },
+                minimap: { enabled: false },
+                wordWrap: "on",
+                wrappingIndent: "indent",
+            });
+
+            setEditor(editor);
+        }
+    }, [monacoEl.current]);
 
     const handleSubmitGrade = () => {
         if (grade === "pass" || grade === "fail") {
@@ -39,33 +67,62 @@ export const AdminSubmission = (props: IProps) => {
     };
 
     return (
-        <div>
-            <Example
-                title={`Task ${props.submission.taskId}`}
-                text={props.submission.taskDescription}
-                code={props.submission.code}
-            />
+        <div className="task-submission-container">
+            <div className="task-submission-divider">
+                <div className="submitted-code-container">
+                    {/* <span>{props.submission.submittedAt}</span> */}
+                    <h2>Task {props.submission.taskId}</h2>
+                    <p
+                        dangerouslySetInnerHTML={{
+                            __html: props.submission.taskDescription,
+                        }}
+                    ></p>
+                    <div ref={monacoEl} className="editor-user-code"></div>
+                </div>
 
-            <form
-                onSubmit={(e) => {
-                    handleSubmitGrade();
-                    e.preventDefault();
-                }}
-            >
-                <input
-                    onChange={(e) => {
-                        setGrade(e.target.value.toLowerCase());
+                <form
+                    className="admin-feedback-container"
+                    onSubmit={(e) => {
+                        handleSubmitGrade();
+                        e.preventDefault();
                     }}
-                ></input>
-                <label>Grade</label>
-                <input
-                    onChange={(e) => {
-                        setFeedback(e.target.value.toLowerCase());
-                    }}
-                ></input>
-                <label>Feedback</label>
-                <button>submit grade</button>
-            </form>
+                >
+                    <div>
+                        <label>Grade </label>
+                        <input
+                            onChange={(e) => {
+                                setGrade(e.target.value.toLowerCase());
+                            }}
+                        ></input>
+                        <br />
+                        <br />
+                    </div>
+
+                    <div>
+                        <label>Feedback</label>
+                        <br />
+                        <textarea
+                            className="feedback-textarea"
+                            onChange={(e) => {
+                                setFeedback(e.target.value.toLowerCase());
+                            }}
+                        ></textarea>
+                        <br />
+                        <br />
+                    </div>
+
+                    <Button color="primary" type="block">
+                        submit grade
+                    </Button>
+                </form>
+            </div>
+            <br />
+            <div></div>
+            <ReactDiffViewer
+                oldValue={props.submission.code}
+                newValue={props.submission.solution}
+                splitView={true}
+            />
         </div>
     );
 };

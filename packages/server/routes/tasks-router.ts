@@ -196,6 +196,14 @@ tasksRouter.get("/not-graded", verifyUser, (req, res, next) => {
 
                             if (userTask.submissions.length > 0) {
                                 const index = userTask.submissions.length - 1;
+                                let solution = "";
+
+                                if (
+                                    task instanceof AuthoringTask ||
+                                    task instanceof ModifyingTask
+                                ) {
+                                    solution = task.solution;
+                                }
 
                                 return {
                                     index,
@@ -203,6 +211,7 @@ tasksRouter.get("/not-graded", verifyUser, (req, res, next) => {
                                     userId: userTask.userId,
                                     taskId: userTask.taskId,
                                     taskType: task?.type,
+                                    solution,
                                     code: userTask.submissions[index].code,
                                     taskDescription: task?.description,
                                     submittedAt:

@@ -21,6 +21,7 @@ export interface ISubmission {
     taskType: string;
     code: string;
     submittedAt: Date;
+    solution: string;
 }
 
 export interface IContext {
