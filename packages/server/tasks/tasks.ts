@@ -173,11 +173,12 @@ export const CodingTasks = [
         [`print("I'm Wall-E!")`].join("\n"),
         60 * 3
     ),
+    // print another string
     new ModifyingTask(
         "1b",
-        "Modify the given program so that it would display another message after the first one: <b>Beep Boop</b>",
+        "Modify the given program so it displays another message after the first one: <b>Beep Boop</b>",
         `print("I am a robot!")`,
-        [["output: <b>Beep Boop</b>"]],
+        [["output: <b>I am a robot!</b>"], ["output: <b>Beep Boop</b>"]],
         [`print("I'm Wall-E!")`, `print("Beep Boop")`].join("\n"),
         60 * 2
     ),
@@ -185,11 +186,12 @@ export const CodingTasks = [
     // print the value of a variable
     new AuthoringTask(
         "2a",
-        "Write a program that will first create a variable called <i>name</i> and set its value to <b>Wall-E</b>. Then, display the value of the variable.",
+        "Write a program that first, creates a variable called <i>name</i> and sets its value to <b>Wall-E</b>. Then, display the value of the variable.",
         [["output: <b>Wall-E</b>"]],
         [`name = "Wall-E"`, `print(name)`].join("\n"),
         60 * 4
     ),
+    // rename the variable
     new ModifyingTask(
         "2b",
         "Modify the given program's variable name from <i>name</i> to <i>robot_name</i>.",
@@ -202,14 +204,15 @@ export const CodingTasks = [
     // join a string variable with a literal
     new AuthoringTask(
         "3a",
-        "Write a program that would create a variable called <i>name</i> and set its value to <b>Wall-E</b>. Then, display the message <b>My name is <i>name</i></b>.",
+        "Write a program that creates a variable called <i>name</i> and sets its value to <b>Wall-E</b>. Then, display the message <b>My name is <i>name</i></b>.",
         [[`output: <b>My name is Wall-E</b>`]],
         [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
         60 * 5
     ),
+    // join the variable with another literal
     new ModifyingTask(
         "3b",
-        "Modify the given program so that it would display the following message: <b>Hi, <i>name</i>! Nice to meet you!</b>.",
+        "Modify the given program so that it displays the following message: <b>Hi, <i>name</i>! Nice to meet you!</b>.",
         [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
         [["output: <b>Hi, Wall-E! Nice to meet you!</b>"]],
         [`name = "Wall-E"`, `print("Hi, " + name + "! Nice to meet you!)`].join(
@@ -218,10 +221,46 @@ export const CodingTasks = [
         60 * 2
     ),
 
+    // join a string variable with a literal
+    new AuthoringTask(
+        "3ia",
+        "Write a program that creates a variable called <i>name</i> and sets its value to <b>ro</b>. Then, update the <i>name</i> variable by adding the value <b>bot</b> to it's previous value. Finally, display the message <b>Created: <i>name</i></b>.",
+        [[`output: <b>Created: robot</b>`]],
+        [`name = "ro"`, `name += "bot"`, `print("Created: " + name)`].join(
+            "\n"
+        ),
+        60 * 4
+    ),
+    // join the variable with another literal
+    new ModifyingTask(
+        "3ib",
+        "Modify the given program so that instead of adding <b>bot</b> to the <i>name</i> variable at once, it adds the characters b, o, and t one at a time. Print the value of the variable <i>name</i> after adding each of the characters. Finally, display the message <b>My name is <i>name</i></b>.",
+        [`name = "ro"`, `name += "bot"`, `print("Created: " + name)`].join(
+            "\n"
+        ),
+        [
+            ["output: <b>rob</b>"],
+            ["output: <b>robo</b>"],
+            ["output: <b>robot</b>"],
+            ["output: <b>Created: robot</b>"],
+        ],
+        [
+            `name = "ro"`,
+            `name += "b"`,
+            `print(name)`,
+            `name += "o"`,
+            `print(name)`,
+            `name += "t"`,
+            `print(name)`,
+            `print("Created: " + name)`,
+        ].join("\n"),
+        60 * 4
+    ),
+
     // get input from user -> store variable -> and add a string to it
     new AuthoringTask(
         "4a",
-        "Write a program that would ask the user their name and then store their name into a variable called <i>name</i>. Finally, display the message <b>Hello, <i>name</i>!</b>.",
+        "Write a program that asks the user for their name and then stores their name into a variable called <i>name</i>. Finally, display the message <b>Hello, <i>name</i>!</b>.",
         [
             [
                 "output: <b>What's your name?</b>",
@@ -240,9 +279,10 @@ export const CodingTasks = [
         ].join("\n"),
         60 * 5
     ),
+    // ask the user for another name -> store it -> and add it to the message
     new ModifyingTask(
         "4b",
-        "Modify the following program so that it would ask the user their family name (storing into <i>family_name</i>) in addition to their given name and display the message <b>Hello, <i>name</i> <i>family_name</i>!</b>.",
+        "Modify the following program so that it also asks the user for their family name and stores it into <i>family_name</i>. Then, display the message <b>Hello, <i>name</i> <i>family_name</i>!</b>.",
         [
             `name = input("What is your name? ")`,
             `print("Hello, " + name + "!")`,
@@ -274,7 +314,7 @@ export const CodingTasks = [
     // join two string variables
     new AuthoringTask(
         "5a",
-        "Write a program that would create a variable called <i>food1</i> and set its value to <b>nuts</b>, and another variable called <i>food2</i> set to <b>bolts</b>. Then create a third variable called <i>robot_food</i> and set it to the value of <b><i>food1</i> and <i>food2</i></b>. Finally, display the message <b>I like <i>robot_food</i>.</b>. <br/>Note: pay attention to the space between and after the <b>and</b>.",
+        "Write a program that first, creates a variable called <i>food1</i> and set its value to <b>nuts</b>. Then, createss another variable called <i>food2</i> sets it to <b>bolts</b>. After, creates a third variable called <i>robot_food</i> and sets it to the value of <b><i>food1</i> and <i>food2</i></b>. Finally, display the message <b>I like <i>robot_food</i>.</b>. <br/>Note: pay attention to the space between and after the <b>and</b>.",
         [[`output: <b>I like nuts and bolts</b>`]],
         [
             `food1 = "nuts"`,
@@ -284,9 +324,10 @@ export const CodingTasks = [
         ].join("\n"),
         60 * 5
     ),
+    // add another variable to be displayed + change the literal
     new ModifyingTask(
         "5b",
-        "Modify the following program so that it would include a third food (called <i>food3</i>) set to <b>screws</b>. Then modify <i>robot_food</i> to be the value of <b><i>food1</i>, <i>food2</i> and <i>food3</i></b>. Finally display the message <b>I like <i>robot_food</i>.</b>.",
+        "Modify the following program so that it includes a third food (called <i>food3</i>) set to <b>screws</b>. Then modify <i>robot_food</i> to be the value of <b><i>food1</i>, <i>food2</i> and <i>food3</i></b>. Finally display the message <b>I like <i>robot_food</i>.</b>.",
         [
             `food1 = "nuts"`,
             `food2 = "bolts"`,
@@ -304,30 +345,69 @@ export const CodingTasks = [
         60 * 2
     ),
 
+    // TODO: add string from input to avariable
+
     // numbers -> add -> print
     new AuthoringTask(
         "6a",
-        "Write a program that would set a variable called <i>num1</i> to <b>10</b>, and another variable called <i>num2</i> to <b>20</b>. Then, add the values of <i>num1</i> and <i>num2</i> and store the result in a variable called <i>num3</i>. Finally, display the value of <i>num3</i>.",
-        [["output: <b>30</b>"]],
-        [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
-            "\n"
-        ),
+        "Write a program that sets <i>num1</i> to 20, and<i>num2</i> to 5. Then set another variable called <i>add</i> to the addition of num1 and num2, <i>sub</i> to their subtraction, <i>mult</i> to their multiplication, and <i>div</i> to their division. Finally, display each of the <i>add</i>, <i>sub</i>, <i>mult</i> and <i>div</i> variables.",
+        [
+            ["output: <b>25</b>"],
+            ["output: <b>15</b>"],
+            ["output: <b>100</b>"],
+            ["output: <b>2.5</b>"],
+        ],
+        [
+            `num1 = 20`,
+            `num2 = 5`,
+            `add = num1 + num2`,
+            `sub = num1 - num2`,
+            `mult = num1 * num2`,
+            `div = num1 / num2`,
+            `print(add)`,
+            `print(sub)`,
+            `print(mult)`,
+            `print(div)`,
+        ].join("\n"),
+
         60 * 3
     ),
     new ModifyingTask(
         "6b",
-        "Modify the following program so that it would store the multiplication of <i>num1</i> and <i>num2</i> into a new variable called <i>num4</i> and then display the value of <i>num3</i> and <i>num4</i> separately.",
-        [`num1 = 10`, `num2 = 20`, `num3 = num1 + num2`, `print(num3)`].join(
-            "\n"
-        ),
-        [["output: <b>200</b>"]],
+        "Modify the following program so that it sets a new variable called <i>some_num</i> to the addition of all <i>add</i>, <i>sub</i>, <i>mult</i> and <i>div</i>. Then, in another line, update <i>some_num</i> by multiplying it by 2. Finally, display the value of <i>some_num</i>.",
         [
-            `num1 = 10`,
-            `num2 = 20`,
-            `num3 = num1 + num2`,
-            `num4 = num1 * num2`,
-            `print(num3)`,
-            `print(num4)`,
+            `num1 = 20`,
+            `num2 = 5`,
+            `add = num1 + num2`,
+            `sub = num1 - num2`,
+            `mult = num1 * num2`,
+            `div = num1 / num2`,
+            `print(add)`,
+            `print(sub)`,
+            `print(mult)`,
+            `print(div)`,
+        ].join("\n"),
+        [
+            ["output: <b>25</b>"],
+            ["output: <b>15</b>"],
+            ["output: <b>100</b>"],
+            ["output: <b>2.5</b>"],
+            ["output: <b>285.0</b>"],
+        ],
+        [
+            `num1 = 20`,
+            `num2 = 5`,
+            `add = num1 + num2`,
+            `sub = num1 - num2`,
+            `mult = num1 * num2`,
+            `div = num1 / num2`,
+            `print(add)`,
+            `print(sub)`,
+            `print(mult)`,
+            `print(div)`,
+            `some_num = add + sub + mult + div`,
+            `some_num = some_num * 2`,
+            `print(some_num)`,
         ].join("\n"),
         60 * 2
     ),
@@ -380,7 +460,7 @@ export const CodingTasks = [
 
     new MultipleChoiceTask(
         "mc5",
-        `What is the right way to initiate a variable in Python?`,
+        `What is the right way to initialize a variable in Python?`,
         [
             `<div class="code-block">${`var num = 10`}</div>`,
             `<div class="code-block">${`num == 10`}</div>`,
@@ -405,7 +485,7 @@ export const CodingTasks = [
     // random number -> print
     new AuthoringTask(
         "7a",
-        "Write a program that would generate a random number between 1 and 10 and set it to a variable called <i>num</i>. Then, display the value of <i>num</i>.",
+        "Write a program that generates a random number between 1 and 10 and sets it to a variable called <i>num</i>. Then, display the value of <i>num</i>.",
         [["output: <b>3</b>"], ["output: <b>5</b>"], ["output: <b>7</b>"]],
         [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
             "\n"
@@ -414,67 +494,102 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "7b",
-        "Modify the following program so that it would generate a second random number between 50 and 100 and set it to another variable named <i>num2</i>. Then, display the value of <i>num2</i> below the value of <i>num</i>.",
+        "Modify the following program so it generates a second random number between 50 and 100 and sets it to another variable named <i>num2</i>. Then, display the value of <i>num2</i> below the value of <i>num</i>.",
         [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
             "\n"
         ),
         [
-            ["output: <b>91</b>", "output: <b>63</b>"],
-            ["output: <b>75</b>", "output: <b>99</b>"],
-            ["output: <b>81</b>", "output: <b>53</b>"],
+            ["output: <b>5</b>", "output: <b>63</b>"],
+            ["output: <b>7</b>", "output: <b>99</b>"],
+            ["output: <b>3</b>", "output: <b>53</b>"],
         ],
         [
             `import random`,
             `num = random.randint(1, 10)`,
             `num2 = random.randint(50, 100)`,
             `print(num)`,
+            `print(num2)`,
         ].join("\n"),
         60 * 4
     ),
 
-    // random number -> print
+    // number + text -> cast
     new AuthoringTask(
         "8a",
-        "Write a program that would generate a random number between 1 and 6 and set it to a variable named <i>roll</i>. Then, create another variable called <i>message</i> and set it to the value of <b>You rolled: <i>roll</i></b>. Finally, display the value of <i>message</i>.",
+        "Write a program that first, sets the variable <i>num</i> to a random number between 1 and 10. Then create another variable called <i>message</i> and set it to the message <b>num is: <i>num</i></b>. Then, display the value of <i>message</i>.",
         [
-            ["output: <b>You rolled: 4</b>"],
-            ["output: <b>You rolled: 2</b>"],
-            ["output: <b>You rolled: 6</b>"],
+            ["output: <b>num is: 3</b>"],
+            ["output: <b>num is: 5</b>"],
+            ["output: <b>num is: 7</b>"],
         ],
         [
             `import random`,
-            `roll = random.randint(1, 6)`,
-            `message = "You rolled: " + str(roll)`,
+            `num = random.randint(1, 10)`,
+            `message = "num is: " + str(num)`,
             `print(message)`,
         ].join("\n"),
-        60 * 6
+        60 * 5
     ),
     new ModifyingTask(
         "8b",
-        "Modify the following program so that it would generate a second random number between 1 and 6 and set it to another variable named <i>roll2</i>. Then modify the message to be the value of <b>You rolled: <i>roll</i> and <i>roll2</i></b>.",
+        "Modify the following program by creating a second variable called <i>num2</i> and setting it to the number 5. Then change <i>message</i> to display the following message: <b>num is: <i>num</i> and num2 is: <i>num2</i></b>.",
         [
             `import random`,
-            `roll = random.randint(1, 6)`,
-            `message = "You rolled: " + str(roll)`,
+            `num = random.randint(1, 10)`,
+            `message = "num is: " + str(num)`,
             `print(message)`,
         ].join("\n"),
         [
-            ["output: <b>You rolled: 4 and 1</b>"],
-            ["output: <b>You rolled: 2 and 5</b>"],
-            ["output: <b>You rolled: 6 and 3</b>"],
+            ["output: <b>num is: 3 and num2 is: 5</b>"],
+            ["output: <b>num is: 5 and num2 is: 5</b>"],
+            ["output: <b>num is: 7 and num2 is: 5</b>"],
         ],
         [
-            `num1 = int(input("Enter a number: "))`,
-            `num2 = int(input("Enter another number: "))`,
-            `print(num1 + num2)`,
+            `import random`,
+            `num = random.randint(1, 10)`,
+            `num2 = 5`,
+            `message = "num is: " + str(num) + " and num2 is: " + str(num2)`,
+            `print(message)`,
         ].join("\n"),
         60 * 4
     ),
 
-    // random number -> print
+    // number + text -> cast
+    new AuthoringTask(
+        "8ia",
+        "Write a program that first, sets <i>num1</i> to 12, and <i>num2</i> to 21. Then sets a variable named <i>message</i> to the value <b>num1 times num2 = <i>the multiplication of num1 and num2</i></b>. Finally, print <i>message</i>.",
+        [["output: <b>num1 times num2 = 252</b>"]],
+        [
+            `num1 = 12`,
+            `num2 = 21`,
+            `message = "num1 times num2 is " + str(num1 * num2)`,
+            `print(message)`,
+        ].join("\n"),
+        60 * 5
+    ),
+    new ModifyingTask(
+        "8ib",
+        "Modify the value of <i>message</i> so that it displays the value of <i>num1</i> times <i>num2</i> like the following example. <br/> <b>Note: </b> the values of <i>num1</i> and <i>num2</i> can be anything and your code should work regardless of their values.",
+        [
+            `num1 = 12`,
+            `num2 = 21`,
+            `message = "num1 times num2 is " + str(num1 * num2)`,
+            `print(message)`,
+        ].join("\n"),
+        [["output: <b>12 times 21 = 252</b>"]],
+        [
+            `num1 = 12`,
+            `num2 = 21`,
+            `message = str(num1) + " times " + str(num2) + " is " + str(num1 * num2)`,
+            `print(message)`,
+        ].join("\n"),
+        60 * 5
+    ),
+
+    // convert input to int
     new AuthoringTask(
         "9a",
-        "Write a program that would ask the user for two numbers and then display the sum of them.",
+        "Write a program that asks the user for two numbers and then displays the sum of them.",
         [
             [
                 "output: <b>Enter a number: </b>",
@@ -500,7 +615,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "9b",
-        "Modify the following program so that it would display the subtraction, multiplication, and division of the two numbers as well.",
+        "Modify the following program so that after displaying the sum of <i>num1</i> and <i>num2</i>, it would ask for another number from the user and then display the sum of all three numbers.",
         [
             `num1 = int(input("Enter a number: "))`,
             `num2 = int(input("Enter another number: "))`,
@@ -513,92 +628,183 @@ export const CodingTasks = [
                 "output: <b>Enter another number: </b>",
                 "input: <b>10</b>",
                 "output: <b>30</b>",
-                "output: <b>10</b>",
-                "output: <b>200</b>",
-                "output: <b>2</b>",
+                "output: <b>Enter the last number: </b>",
+                "input: <b>5</b>",
+                "output: <b>35</b>",
             ],
         ],
         [
             `num1 = int(input("Enter a number: "))`,
             `num2 = int(input("Enter another number: "))`,
             `print(num1 + num2)`,
-            `print(num1 - num2)`,
-            `print(num1 * num2)`,
-            `print(num1 / num2)`,
+            `num3 = int(input("Enter the last number: "))`,
+            `print(num1 + num2 + num3)`,
         ].join("\n"),
-        60 * 2
+        60 * 3
     ),
 
+    // convert input to int + accumulator
+    new AuthoringTask(
+        "9ia",
+        "Write a program that asks the user for four numbers and then displays the sum of them. Note that your program should ONLY use ONE variable called <i>total</i>. The display message when asking the user to enter a new number should also include the value of <i>total</i> so far. At the end, it should display the value of total like this: <b>Total: <i>total</i></b>.",
+        [
+            [
+                "output: <b>Enter a number: </b>",
+                "input: <b>20</b>",
+                "output: <b>Total: 20, Enter another number: </b>",
+                "input: <b>10</b>",
+                "output: <b>Total: 30, Enter another number: </b>",
+                "input: <b>5</b>",
+                "output: <b>Total: 35, Enter another number: </b>",
+                "input: <b>15</b>",
+                "output: <b>Total is: 50</b>",
+            ],
+        ],
+        [
+            `total = 0`,
+            `total = total + int(input("Enter a number: "))`,
+            `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
+            `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
+            `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
+            `print("Total: " + str(total))`,
+        ].join("\n"),
+        60 * 8
+    ),
+    new ModifyingTask(
+        "9ib",
+        "Modify the following program by including a variable called <i>count</i> that would be incremented whenever a new number is entered. The display message when asking the user to enter a new number should also include the <i>count</i> of numbers entered so far. Finally, it should display the total and the count like this: <b>The sum is: <i>total</i> from <i>count</i> entries.</b>.",
+        [
+            `total = 0`,
+            `total = total + int(input("Enter a number: "))`,
+            `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
+            `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
+            `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
+            `print("Total: " + str(total))`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>Enter a number: </b>",
+                "input: <b>20</b>",
+                "output: <b>Total: 20, Count: 1, Enter another number: </b>",
+                "input: <b>10</b>",
+                "output: <b>Total: 30, Count: 2, Enter another number: </b>",
+                "input: <b>5</b>",
+                "output: <b>Total: 35, Count: 3, Enter another number: </b>",
+                "input: <b>15</b>",
+                "output: <b>The sum is: 50 from 4 entries.</b>",
+            ],
+        ],
+        [
+            `total = 0`,
+            `count = 0`,
+            `total = total + int(input("Enter a number: "))`,
+            `count = count + 1`,
+            `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
+            `count = count + 1`,
+            `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
+            `count = count + 1`,
+            `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
+            `count = count + 1`,
+            `print("The sum is: " + str(total) + " from " + str(count) + " entries.")`,
+        ].join("\n"),
+        60 * 3
+    ),
+
+    // using if and ==
     new AuthoringTask(
         "10a",
-        "Write a program that would first generate a random number between 1 and 6 and assign it to a variable called <i>roll</i>. Then display the message <b>rolled six</b> only if the number is equal to six.",
-        [["output: <b>rolled six</b>"]],
+        "Write a program that first, generates a random number between 1 and 6 and assigns it to a variable called <i>roll</i> and then display <i>roll</i>. Finally, display the message <b>rolled six</b> only if <i>roll</i> is equal to six.",
+        [
+            ["output: <b>4</b>"],
+            ["output: <b>2</b>"],
+            ["output: <b>6</b>", "output: <b>rolled six</b>"],
+        ],
         [
             `import random`,
             `roll = random.randint(1, 6)`,
+            `print(roll)`,
             `if roll == 6:`,
             `    print("rolled six")`,
         ].join("\n"),
-        60 * 5
+        60 * 6
     ),
     new ModifyingTask(
         "10b",
-        "Modify the following program so that it would generate a second random number between 1 and 6 and set it to another variable named <i>roll2</i>. Then, display the message <b>rolled the same</b> only if both rolls were equal to each other.",
+        "Modify the following program so that it generates a second random number between 1 and 6 and sets it to another variable named <i>roll2</i>. Display both variables and finally, display the message <b>rolled the same</b> only if both rolls were equal to each other.",
         [
             `import random`,
             `roll = random.randint(1, 6)`,
+            `print(roll)`,
             `if roll == 6:`,
             `    print("rolled six")`,
         ].join("\n"),
-        [["output: <b>rolled the same</b>"]],
+        [
+            ["output: <b>4</b>", "output: <b>2</b>"],
+            [
+                "output: <b>1</b>",
+                "output: <b>1</b>",
+                "output: <b>rolled the same</b>",
+            ],
+        ],
         [
             `import random`,
             `roll = random.randint(1, 6)`,
             `roll2 = random.randint(1, 6)`,
+            `print(roll)`,
+            `print(roll2)`,
             `if roll == roll2:`,
             `    print("rolled the same")`,
         ].join("\n"),
         60 * 3
     ),
 
+    // using `and` and > + multiple statements in the if statement
     new AuthoringTask(
         "11a",
-        "Write a program that would first generate two random numbers between 1 and 6 and then display the message <b>both rolled six</b> only if both are equal to six.",
-        [["output: <b>both rolled six</b>"]],
+        "Write a program that first, generates two random numbers between 1 and 6 and check if both of the variables are greater than 3 (either 4, 5, or 6). If both are greater than 3, then first display their values and then in another line, display the message: <b>both rolled greater than 3</b>",
+        [["output: <b>both rolled greater than 3</b>"]],
         [
             `import random`,
-            `roll = random.randint(1, 6)`,
+            `roll1 = random.randint(1, 6)`,
             `roll2 = random.randint(1, 6)`,
-            `if roll == 6 and roll2 == 6:`,
-            `    print("both rolled six")`,
+            `if roll1 > 3 and roll2 > 3:`,
+            `    print("roll1: " + str(roll1))`,
+            `    print("roll2: " + str(roll2))`,
+            `    print("both rolled greater than 3")`,
         ].join("\n"),
         60 * 5
     ),
     new ModifyingTask(
         "11b",
-        "Modify the following program so that it would generate a third random number between 1 and 6 and check if all three are equal to six, if yes then display the message all three dice rolled six.",
+        "Modify the following program so that it would generate a third random number called <i>grade</i> between 25 and 100. Then check if <i>roll1</i> and <i>roll2</i> are greater than 3 in addition to <i>grade</i> being greater than 50. If yes, display the values of each of the three variables and display the message <b>All three above half</b>.",
         [
             `import random`,
-            `roll = random.randint(1, 6)`,
+            `roll1 = random.randint(1, 6)`,
             `roll2 = random.randint(1, 6)`,
-            `if roll == 6 and roll2 == 6:`,
-            `    print("both rolled six")`,
+            `if roll1 > 3 and roll2 > 3:`,
+            `    print("roll1: " + str(roll1))`,
+            `    print("roll2: " + str(roll2))`,
+            `    print("both rolled greater than 3")`,
         ].join("\n"),
-        [["output: <b>All three dice rolled six</b>"]],
+        [["output: <b>All three above half</b>"]],
         [
             `import random`,
-            `roll = random.randint(1, 6)`,
+            `roll1 = random.randint(1, 6)`,
             `roll2 = random.randint(1, 6)`,
-            `roll3 = random.randint(1, 6)`,
-            `if roll == 6 and roll2 == 6 and roll3 == 6:`,
-            `    print("all three dice rolled six")`,
+            `grade = random.randint(25, 100)`,
+            `if roll1 > 3 and roll2 > 3 and grade > 50:`,
+            `    print("roll1: " + str(roll1))`,
+            `    print("roll2: " + str(roll2))`,
+            `    print("grade: " + str(grade))`,
+            `    print("All three above half")`,
         ].join("\n"),
-        60 * 2
+        60 * 3
     ),
 
+    // ask -> convert using int -> check -> if + else
     new AuthoringTask(
         "12a",
-        "Write a program that would ask the user to enter a number between 10 and 100. Then check if the number is greater than 75. If it is, display the message <b>Greater than 75</b>; otherwise, display the message <b>Less than 75</b>. Only one of these messages should be displayed.",
+        "Write a program that asks the user to enter a number between 10 and 100. Then, check if the number is greater than 75. If it is, display the message <b>Greater than 75</b>; otherwise, display the message <b>Less than 75</b>. Note that only one of these messages should be displayed.",
         [
             [
                 "output: <b>enter a number between 10 and 100:</b>",
@@ -622,7 +828,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "12b",
-        "Modify the following program so that it check if the input number is between 75 and 90. If it is, display the message <b>Between 75 and 90</b>; otherwise, display the message <b>Not between 75 and 90</b>. Only one of these messages should be displayed.",
+        "Modify the following program so that it asks for a second number as well. Check if the first number is greater than the second. If it is, display the message <b>First number is greater</b>; otherwise, display the message <b>Second number is greater</b>. Note that only one of these messages should be displayed.",
         [
             `num = int(input("enter a number between 10 and 100: "))`,
             `if num > 75:`,
@@ -634,20 +840,25 @@ export const CodingTasks = [
             [
                 "output: <b>enter a number between 10 and 100:</b>",
                 "input: <b>80</b>",
-                "output: <b>Between 75 and 90</b>",
+                "output: <b>enter another number between 10 and 100:</b>",
+                "input: <b>50</b>",
+                "output: <b>First number is greater</b>",
             ],
             [
                 "output: <b>enter a number between 10 and 100:</b>",
                 "input: <b>60</b>",
-                "output: <b>Not between 75 and 90</b>",
+                "output: <b>enter another number between 10 and 100:</b>",
+                "input: <b>70</b>",
+                "output: <b>Second number is greater</b>",
             ],
         ],
         [
-            `num = int(input("enter a number between 10 and 100: "))`,
-            `if num > 75 and num < 90:`,
-            `    print("Between 75 and 90")`,
+            `first = int(input("enter a number between 10 and 100: "))`,
+            `second = int(input("enter a number between 10 and 100: "))`,
+            `if first > second:`,
+            `    print("First number is greater")`,
             `else:`,
-            `    print("Not between 75 and 90")`,
+            `    print("Second number is greater")`,
         ].join("\n"),
         60 * 3
     ),
@@ -660,7 +871,7 @@ export const CodingTasks = [
             `c = "20"`,
         ].join(
             "\n"
-        )}</div> <br/> How can we correctly compute the arithmetic sum of three numbers?`,
+        )}</div> <br/> How can we correctly compute the arithmetic sum of all the three numbers?`,
         [
             `<div class="code-block">${[`print(int(a) + int(b) + int(c))`].join(
                 "\n"
@@ -796,9 +1007,10 @@ export const CodingTasks = [
         ]
     ),
 
+    // if - elif - else usage
     new AuthoringTask(
         "13a",
-        "Write a program that would ask the user to enter a number between 0 and 100 and set it to a variable called score. Create a variable called grade and set it to an empty message. Now check if the number is less than 50, then it should set the grade variable to the letter <b>C</b>, if between 50 and 75 set grade to <b>B</b>, and if greater than 75 set grade to <b>A</b>. Then display the message <b>Grade:</b> followed by the grade variable.",
+        "Write a program that asks the user to enter a number between 0 and 100 and set it to a variable called <i>score</i>. Additionally, create a variable called <i>grade</i> and set it to an empty text. Then check if the <i>score</i> is less than 50, if it is, then set <i>grade</i> to the letter <b>C</b>, if it's between 50 and 75, set <i>grade</i> to <b>B</b>, otherwise, set <i>grade</i> to <b>A</b>. Then display the message <b>Grade: <i>grade</i></b>.",
         [
             [
                 "output: <b>enter a number between 0 and 100:</b>",
@@ -825,7 +1037,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "13b",
-        "Modify the following program so that if the score is less than 20 it would set grade to <b>F</b>, if between 20 and 40 set grade to <b>E</b>, if between 40 and 60 set grade to <b>D</b>, if between 60 and 80 set grade to <b>C</b>, if between 80 and 90 set grade to <b>B</b>, and finally if between 90 and 100 set grade to <b>A</b>.",
+        "Modify the following program so that if the score is less than 20 set <i>grade</i> to <b>F</b>, if it's between 20 and 40 set <i>grade</i> to <b>E</b>, if it's between 40 and 60 set <i>grade</i> to <b>D</b>, if it's between 60 and 80 set <i>grade</i> to <b>C</b>, if it's between 80 and 90 set <i>grade</i> to <b>B</b>, otherwise, sets <i>grade</i> to <b>A</b>.",
         [
             `score = int(input("enter a number between 0 and 100: "))`,
             `grade = ""`,
@@ -869,7 +1081,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "14a",
-        "Write a program that creates a variable called <i>coin</i>. Then use a random number generator (between 1 and 2) set the variable to either <b>heads</b> or <b>tails</b>. Then display the message <b>Coin:</b> followed by the value of coin.",
+        "Write a program that creates a variable called <i>coin</i>. Then use a random number generator to generate a number between 1 and 2. If the number is 1, set <i>coin</i> to <b>heads</b>, otherwise, set it to <b>tails</b>. Then display the message <b>Coin:</b> followed by the value of <i>coin</i>.",
         [["output: <b>Coin: heads</b>"], ["output: <b>Coin: tails</b>"]],
         [
             `import random`,
@@ -881,12 +1093,12 @@ export const CodingTasks = [
             `    coin = "tails"`,
             `print("Coin: " + coin)`,
         ].join("\n"),
-        5 * 60
+        6 * 60
     ),
 
     new ModifyingTask(
         "14b",
-        `Add a variable called dice and set it to a random number between 1 and 6. Display both the values inside <i>coin</i> and <i>dice</i>. Then finally, display the message <b>Bingo!</b> only if the user rolled a 6 with the dice AND received "heads" from the coin. Otherwise display the message <b>Try again!</b>`,
+        `Modify the program so that it would generate a random number between 1 and 7, and then display one of the days in the week based on the number generated.`,
         [
             `import random`,
             `coin = random.randint(1, 2)`,
@@ -898,39 +1110,35 @@ export const CodingTasks = [
             `print("Coin: " + coin)`,
         ].join("\n"),
         [
-            [
-                "output: <b>Coin: heads</b>",
-                "output: <b>Dice: 1</b>",
-                "output: <b>Try again!</b>",
-            ],
-            [
-                "output: <b>Coin: heads</b>",
-                "output: <b>Dice: 6</b>",
-                "output: <b>Bingo!</b>",
-            ],
+            ["output: <b>Tuesday</b>"],
+            ["output: <b>Saturday</b>"],
+            ["output: <b>Monday</b>"],
         ],
         [
             `import random`,
-            `coin = random.randint(1, 2)`,
-            `dice = random.randint(1, 6)`,
+            `rand = random.randint(1, 7)`,
             ``,
-            `if coin == 1:`,
-            `    coin = "heads"`,
+            `if rand == 1:`,
+            `    print("Monday")`,
+            `elif rand == 2:`,
+            `    print("Tuesday")`,
+            `elif rand == 3:`,
+            `    print("Wednesday")`,
+            `elif rand == 4:`,
+            `    print("Thursday")`,
+            `elif rand == 5:`,
+            `    print("Friday")`,
+            `elif rand == 6:`,
+            `    print("Saturday")`,
             `else:`,
-            `    coin = "tails"`,
-            `print("Coin: " + coin)`,
-            `print("Dice: " + str(dice))`,
-            `if dice == 6 and coin == "heads":`,
-            `    print("Bingo!")`,
-            `else:`,
-            `    print("Try again!")`,
+            `    print("Sunday")`,
         ].join("\n"),
-        60 * 5
+        6 * 60
     ),
 
     new AuthoringTask(
         "15a",
-        "Write a program that would get two numbers from the user and then ask an operator (from one of the following choices: +, -, *, and /). Then it should check which operator the user has entered, and then perform the appropriate operation. For example if the user enters + then it should add the two numbers and display the result.",
+        "Write a program that gets two numbers from the user and then asks for an operator (from one of the following choices: +, -, *, and /). Then it should check which operator the user has entered, and then perform the appropriate operation. For example if the user enters + then it should add the two numbers and display the result.",
         [
             [
                 "output: <b>enter the first number:</b>",
@@ -959,7 +1167,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "15b",
-        "Modify the following code so that it would display an error message if the user doesn't enter one of the +, -, * and / operators. Furthermore, instead of asking the user to enter two numbers, modify the program so that it would generate two numbers between 1 and 1000, display them one by one, and then ask the user to enter an operator and then perform the appropriate operation.",
+        "Modify the program so that it would ask a third number. And then perform the appropriate operation between the three numbers for + and *. If the user enters a different operator, then display an error message: <b>Error: Invalid operator</b>.",
         [
             `num1 = int(input("enter the first number: "))`,
             `num2 = int(input("enter the second number: "))`,
@@ -975,32 +1183,44 @@ export const CodingTasks = [
         ].join("\n"),
         [
             [
-                "output: <b>first number: 21</b>",
+                "output: <b>first number: 7</b>",
                 "output: <b>second number: 5</b>",
+                "output: <b>second number: 2</b>",
                 "output: <b>enter an operator</b>",
                 "input: <b>*</b>",
-                "output: <b>105</b>",
+                "output: <b>70</b>",
+            ],
+            [
+                "output: <b>first number: 7</b>",
+                "output: <b>second number: 5</b>",
+                "output: <b>second number: 2</b>",
+                "output: <b>enter an operator</b>",
+                "input: <b>/</b>",
+                "output: <b>Error: Invalid operator</b>",
             ],
         ],
         [
-            `num1 = random.randint(1, 1000)`,
-            `num2 = random.randint(1, 1000)`,
+            `num1 = int(input("enter the first number: "))`,
+            `num2 = int(input("enter the second number: "))`,
+            `num3 = int(input("enter the third number: "))`,
             `operator = input("enter an operator: ")`,
+
             `if operator == "+":`,
-            `    print(num1 + num2)`,
+            `    print(num1 + num2 + num3)`,
             `elif operator == "-":`,
-            `    print(num1 - num2)`,
+            `    print("Error: Invalid operator")`,
             `elif operator == "*":`,
-            `    print(num1 * num2)`,
+            `    print(num1 * num2 * num3)`,
             `elif operator == "/":`,
-            `    print(num1 / num2)`,
+            `    print("Error: Invalid operator")`,
         ].join("\n"),
-        60 * 5
+        60 * 3
     ),
 
+    // using % and remaineder and checking divisibility
     new AuthoringTask(
         "16a",
-        "Ask the user to enter a number. Check if it is even or odd. If it is odd, display the message <b>The number <i>num</i> is odd</b> otherwise display the message <b>The number <i>num</i> is even</b>. <br/> <b>Hint:</b> a number is even if the remainder of the division of the number by 2 is 0 (or in other words, it's divisble by two).",
+        "Ask the user to enter a number and store it in a variable called <i>num</i>. Check if it is even or odd. If it is odd, display the message <b>The number <i>num</i> is odd</b> otherwise display the message <b>The number <i>num</i> is even</b>. <br/> <b>Hint:</b> a number is even if the remainder of the division of the number by 2 is 0 (or in other words, it's divisble by two).",
         [
             [
                 "output: <b>enter a number:</b>",
@@ -1025,7 +1245,7 @@ export const CodingTasks = [
 
     new ModifyingTask(
         "16b",
-        "Modify the program so that it gets another number called divisor and checks if the entered number is divisible by the divisor. If it is, display the message <b>The number <i>num</i> is divisible by <i>divisor</i></b> otherwise display the message <b>The number <i>num</i> is not divisible by <i>divisor</i></b>.",
+        "Modify the program so that it asks for another number called <i>divisor</i> then, checks if the entered number is divisible by the divisor. If it is, display the message <b>The number <i>num</i> is divisible by <i>divisor</i></b> otherwise display the message <b>The number <i>num</i> is not divisible by <i>divisor</i></b>.",
         [
             `num = int(input("enter a number: "))`,
             `if num % 2 == 0:`,
@@ -1053,6 +1273,122 @@ export const CodingTasks = [
         60 * 5
     ),
 
+    // nested if
+    new AuthoringTask(
+        "16ia",
+        "Set two variables called <i>num1</i> and <i>num2</i> to a random number between 1 and 1000 and a third variable called <i>result</i> to 0. Ask the user to enter one of the two options: <b>greater</b>, or <b>smaller</b> and then check which one the user has entered. (display an error message: <b>Invalid Option</b> if the user didn't enter any of the two). If the user enters <b>greater</b>, then check if the <i>num1</i> is greater than <i>num2</i>. If it is, set <i>result</i> to <i>num1</i> and otherwise, set <i>result</i> to <i>num2</i>. However, if the user enters <b>smaller</b>, then check if the <i>num1</i> is smaller than <i>num2</i>. If it is, set <i>result</i> to <i>num1</i> and otherwise, set <i>result</i> to <i>num2</i>. Finally, if the user did not enter an invalid input, display the message: <b>You entered <i>option</i> and the result is <i>result</i></b>",
+        [
+            [
+                "output: <b>enter one of the options:</b>",
+                "input: <b>smaller</b>",
+                "output: <b>You entered smaller and the result is 51</b>",
+            ],
+            [
+                "output: <b>enter one of the options:</b>",
+                "input: <b>greater</b>",
+                "output: <b>You entered greater and the result is 472</b>",
+            ],
+        ],
+        [
+            `import random`,
+            ``,
+            `num1 = random.randint(1, 1000)`,
+            `num2 = random.randint(1, 1000)`,
+            `result = 0`,
+            `option = input("enter one of the options: ")`,
+            ``,
+            `if option == "greater":`,
+            `    if num1 > num2:`,
+            `        result = num1`,
+            `    else:`,
+            `        result = num2`,
+            `elif option == "smaller":`,
+            `    if num1 < num2:`,
+            `        result = num1`,
+            `    else:`,
+            `        result = num2`,
+            `else:`,
+            `    print("Invalid Option")`,
+            ``,
+            `print("You entered " + option + " and the result is " + str(result))`,
+        ].join("\n"),
+        10 * 60
+    ),
+    new ModifyingTask(
+        "16ib",
+        "Modify the code by adding a third option called <b>equal</b> that would check if the two numbers are equal or not. If they are, then display the message <b>The numbers are equal</b> otherwise, display three messages (each in a line): the value of <i>num1</i>, the value of <i>num2</i>, and the message <b>The numbers are not equal</b>.",
+        [
+            `import random`,
+            ``,
+            `num1 = random.randint(1, 1000)`,
+            `num2 = random.randint(1, 1000)`,
+            `result = 0`,
+            `option = input("enter one of the options: ")`,
+            ``,
+            `if option == "greater":`,
+            `    if num1 > num2:`,
+            `        result = num1`,
+            `    else:`,
+            `        result = num2`,
+            `elif option == "smaller":`,
+            `    if num1 < num2:`,
+            `        result = num1`,
+            `    else:`,
+            `        result = num2`,
+            `else:`,
+            `    print("Invalid Option")`,
+            ``,
+            `print("You entered " + option + " and the result is " + str(result))`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter one of the options:</b>",
+                "input: <b>equal</b>",
+                "output: <b>395</b>",
+                "output: <b>78</b>",
+                "output: <b>The numbers are not equal</b>",
+            ],
+            [
+                "output: <b>enter one of the options:</b>",
+                "input: <b>equal</b>",
+                "output: <b>The numbers are equal</b>",
+            ],
+        ],
+        [
+            `import random`,
+            ``,
+            `num1 = random.randint(1, 1000)`,
+            `num2 = random.randint(1, 1000)`,
+            `result = 0`,
+            `option = input("enter one of the options: ")`,
+            ``,
+            `if option == "greater":`,
+            `    if num1 > num2:`,
+            `        result = num1`,
+            `    else:`,
+            `        result = num2`,
+            `elif option == "smaller":`,
+            `    if num1 < num2:`,
+            `        result = num1`,
+            `    else:`,
+            `        result = num2`,
+            `elif option == "equal":`,
+            `    if num1 == num2:`,
+            `        print("The numbers are equal")`,
+            `    else:`,
+            `        print(num1)`,
+            `        print(num2)`,
+            `        print("The numbers are not equal")`,
+            `else:`,
+            `    print("Invalid Option")`,
+            ``,
+            `print("You entered " + option + " and the result is " + str(result))`,
+        ].join("\n"),
+        60 * 6
+    ),
+
+    // TODO: add multiple choice tasks for if-else and logical expressions
+
     new AuthoringTask(
         "17a",
         "display <b>Hello</b> 10 times using a loop.",
@@ -1065,34 +1401,35 @@ export const CodingTasks = [
                 "output: <b>Hello</b>",
             ],
         ],
-        [`for i in range(3):`, `    print("Hello")`].join("\n"),
+        [`for i in range(10):`, `    print("Hello")`].join("\n"),
         60 * 6
     ),
     new ModifyingTask(
         "17b",
-        "Modify the code so that it would instead repeat the following program for 5 times: ask the user for their name, display <b>Hello, <i>name</i></b>. At the end, display the message <b>program finished</b> only once.",
-        [`for i in range(2):`, `    print("hello world")`].join("\n"),
+        "Modify the code so that it would instead repeat the following program for 5 times: display <b>Hello</b> then display <b>World!</b>. Then finally, display <b>Bye Bye</b> only once afterwards.",
+        [`for i in range(10):`, `    print("Hello")`].join("\n"),
         [
             [
-                "output: <b>enter your name:</b>",
-                "input: <b>joe</b>",
-                "output: <b>Hello, joe</b>",
+                "output: <b>Hello</b>",
+                "output: <b>World</b>",
+                "output: <b>Hello</b>",
+                "output: <b>World</b>",
                 "...",
-                "output: <b>enter your name:</b>",
-                "input: <b>dan</b>",
-                "output: <b>Hello, dan</b>",
-                "output: <b>program finished</b>",
+                "output: <b>Hello</b>",
+                "output: <b>World</b>",
+                "output: <b>Bye Bye</b>",
             ],
         ],
         [
             `for i in range(5):`,
-            `    name = input("enter your name: ")`,
-            `    print("Hello, " + name)`,
-            `print("program finished")`,
+            `    print("Hello")`,
+            `    print("World!")`,
+            `print("Bye Bye")`,
         ].join("\n"),
         60 * 6
     ),
 
+    // checked everything until here.
     new AuthoringTask(
         "18a",
         "Set a variable to 0 and then create a loop that would add the number 5 to the variable for 25 times and display the variable as it increases.",
@@ -1115,7 +1452,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "18b",
-        "Modify the program so that it includes another variable that is initially set to 125 and then is decremented by 5 for 25 times. display the value of both variables everytime their value changes in the loop.",
+        "Modify the program so that it includes another variable that is initially set to 125 and then is reduced by 5 for 25 times. Display the value of both variables everytime their value changes in the loop.",
         [
             `num = 0`,
             `for i in range(25):`,
@@ -1147,7 +1484,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "19a",
-        "set a variable called <i>sentence</i> to <b>we</b>. Then create a loop that would repeatedly add the letter <b>e</b> to <i>sentence</i> for 5 times and displaying the sentence every time. At the end of the loop, at an exclamation mark (!) to the <i>sentence</i> variable and then display its value.",
+        "Set a variable called <i>sentence</i> to <b>we</b>. Then create a loop that would repeatedly add the letter <b>e</b> to <i>sentence</i> for 5 times and displaying the sentence every time. At the end of the loop, add an exclamation mark (!) to the <i>sentence</i> variable and then display its value.",
         [
             [
                 "output: <b>we</b>",
@@ -1204,7 +1541,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "20a",
-        "display all the numbers from 1 to 100 line by line.",
+        "Display all the numbers from 1 to 100 line by line.",
         [
             [
                 "output: <b>1</b>",
@@ -1292,7 +1629,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "22a",
-        "Write a program that would repeatedly ask the user to enter a password (as a number) and check if the password is equal to 123. If it is, display the message <b>Password is correct</b>. If it is not, display the message <b>Password is incorrect</b> and should ask for the user to enter another password. The program should stop when the user enters the number 123. Finally, after the user got the correct password, display the message <b>Password is correct</b>.",
+        "Write a program that would repeatedly ask the user to enter a password (as a number) and check if the password is equal to 123. If it is, display the message <b>Password is correct</b>. If it is not, display the message <b>Password is incorrect</b> and ask the user to enter another password. The program should stop when the user enters the number 123. Finally, after the user gets the correct password, display the message <b>Password is correct</b>.",
         [
             [
                 "output: <b>enter a number:</b>",
@@ -1314,7 +1651,7 @@ export const CodingTasks = [
 
     new ModifyingTask(
         "22b",
-        "Modify the program so that it would count the number of incorrect attempts at the end.",
+        "Modify the program so that also counts the number of incorrect attempts and outputs it at the end.",
         [
             `num = int(input("enter a number: "))`,
             `while num != 123:`,
@@ -1349,7 +1686,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "23a",
-        "Write a program that would repeatedly do the following until the user enters <b>stop</b>: ask the user for a number, and then add it up to a variable called <b>total</b>. If the user enters <b>stop</b>, display the total at the end (only once).",
+        "Write a program that repeatedly does the following until the user enters <b>stop</b>: ask the user for a number, and then add it up to a variable called <b>total</b>. If the user enters <b>stop</b>, display the total at the end (only once).",
         [
             [
                 "output: <b>enter a number:</b>",
@@ -1373,7 +1710,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "23b",
-        "Modify the program so that it would calculate the average of all numbers entered by the user. <br/>Note: the average is the sum of all numbers divided by the number of numbers entered.",
+        "Modify the program so that it calculates the average of all numbers entered by the user. <br/>Note: the average is the sum of all numbers divided by the number of numbers entered.",
         [
             `total = 0`,
             `num = input("enter a number: ")`,
@@ -1437,7 +1774,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "24b",
-        "Modify the program so that it would count the number of incorrect attempts and display the message <b>You guessed the number after <i>n</i> incorrect attempts!</b> at the end.",
+        "Modify the program so that it also counts the number of incorrect attempts and displays the message <b>You guessed the number after <i>n</i> incorrect attempts!</b> at the end.",
         [
             `num = random.randint(1, 1000)`,
             `num_guess = int(input("enter a number: "))`,
@@ -1480,7 +1817,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "25a",
-        "write a program that would ask the user to enter a number between 1 and 100. The program should then repeatedly decrease the number by 1 until it reaches 0 and displaying the number each time.",
+        "Write a program that asks the user to enter a number between 1 and 100. The program should then repeatedly decrease the number by 1 until it reaches 0 and display the number each time.",
         [
             [
                 "output: <b>enter a number:</b>",
@@ -1502,7 +1839,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "25b",
-        "Modify the program so that it would continue repeatedly decreasing the number by 1 until it becomes divisible by 5. After the number becomes divisible by 5, it should repeatedly decrease the number by 5 on each step until it reaches 0. <b>Hint:</b> you could use another variable to store and update the decrement value.",
+        "Modify the program so that it continually decreases the number by 1 until it becomes divisible by 5. After the number becomes divisible by 5, it should repeatedly decrease the number by 5 on each step until it reaches 0. <b>Hint:</b> you could use another variable to store and update the decrement value.",
         [
             `num = int(input("enter a number: "))`,
             `while num >= 0:`,
@@ -1537,7 +1874,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "26a",
-        "Write a program that generates a number between 1 and 999999 and then displays the number of digits in the number by repeatedly dividing the number by 10 until the number becomes less than 10 and counting the number of divisions.",
+        "Write a program that generates a number between 1 and 999999. Then, it displays the number of digits in the number by repeatedly dividing the number by 10 until the number becomes less than 10 and counting the number of times it was divided.",
         [
             [
                 "output: <b>enter a number:</b>",
@@ -1563,7 +1900,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "26b",
-        "Modify the program so that it would add all the digits in the number and display the sum.",
+        "Modify the program so that it adds all the digits in the number and then displays the sum.",
         [
             `num = random.randint(1, 999999)`,
             `num_digits = 0`,
@@ -1616,7 +1953,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "27b",
-        "Modify the program so that it stop when when the random number becomes equal to 50 for six times (in total).<br/><b>Hint: </b>you could use a counter to count the number of successful hits.",
+        "Modify the program so that it stops when when the random number becomes equal to 50 for six times (in total).<br/><b>Hint: </b>you could use a counter to count the number of successful hits.",
         [
             `num = random.randint(0, 100)`,
             `attempts = 0`,
@@ -1664,7 +2001,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "28b",
-        "Modify the program so that it would count the number of times it rolled any of the six faces and finally display the result.",
+        "Modify the program so that it counts the number of times it rolled each of the six faces and finally display the result.",
         [
             `times = 0`,
             `for i in range(1000):`,
@@ -1717,7 +2054,7 @@ export const CodingTasks = [
     // can start working with lists
     new AuthoringTask(
         "29a",
-        "create a list with these values: 1, 5, 9, 13, 17, 21. Then, display the first item in the list by accessing the list using the appropriate indicies. Then, display the length of the list.<br/> <b>Hint: </b>you should use a special function that returns the length of a list.",
+        "Create a list with these values: 1, 5, 9, 13, 17, 21. Then, display the first item in the list by accessing the list using the appropriate indicies. Then, display the length of the list.<br/> <b>Hint: </b>you should use a special function that returns the length of a list.",
         [["output: <b>First item: 1</b>", "output: <b>Length: 6</b>"]],
         [
             `list = [1, 5, 9, 13, 17, 21]`,
@@ -1728,7 +2065,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "29b",
-        "Modify the program so that it would display the last item in the list by accessing the list using the appropriate index.<br/> <b>Note:</b> You must use the <b>len</b> function to determine the length of the list.",
+        "Modify the program so that it displays the last item in the list by accessing the list using the appropriate index.<br/> <b>Note:</b> You must use the <b>len</b> function to determine the length of the list.",
         [
             `list = [1, 5, 9, 13, 17, 21]`,
             `print("First item: " + str(list[0]))`,
@@ -1752,7 +2089,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "30a",
-        `Write a program that would create a list with the following textual values: "math", "history", "programming", and "art". Then use a while loop to display the items in the list one by one.`,
+        `Write a program that creates a list with the following textual values: "math", "history", "programming", and "art". Then use a while loop to display the items in the list one by one.`,
         [
             [
                 "output: <b>math</b>",
@@ -1772,7 +2109,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "30b",
-        "Modify the program so that it would display the items in the list in reverse order.",
+        "Modify the program so that it displays the items in the list in reverse order.",
         [
             `list = ["math", "history", "programming", "art"]`,
             `i = 0`,
@@ -1800,7 +2137,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "31a",
-        `Write a program that would create an empty list and then, inside a loop that would repeat for 10 times, ask the user to enter a number and then add it to the list. At the end, display the length of the list.`,
+        `Write a program that creates an empty list and then, inside a loop that repeats for 10 times, ask the user to enter a number and then add it to the end of the list. At the end, display the length of the list.`,
         [
             [
                 "output: <b>Enter a number:</b>",
@@ -1860,7 +2197,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "32a",
-        `Create an empty list called grades. Then, repeatedly add a random number between 50 to 100 to the list for a random number of times (between 15 and 25). Finally, use another loop to find the smallest number in the list and then display the smallest value.`,
+        `Create an empty list called <i>grades</i>. Then, repeatedly add a random number between 50 to 100 to the list, for a random number of times (between 15 and 25). Finally, use another loop to find the smallest number in the list and then display the smallest value.`,
         [["output: <b>Smallest: 54</b>"]],
         [
             `grades = []`,
@@ -1876,7 +2213,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "32b",
-        "Modify the code so that it would also find the largest number in the list and display the largest value as well.",
+        "Modify the code so that it also finds the largest number in the list and displays the largest value as well.",
         [
             `grades = []`,
             `for i in range(random.randint(500, 750)):`,
