@@ -46,6 +46,8 @@ export const CodingTask = (props: CodingTaskProps) => {
 
     const [feedback, setFeedback] = useState("");
     const [userCode, setUserCode] = useState("");
+    const [submittedCode, setSubmittedCode] = useState("");
+
     const [canSubmit, setCanSubmit] = useState(false);
 
     const sendLog = () => {
@@ -90,6 +92,7 @@ export const CodingTask = (props: CodingTaskProps) => {
 
                 if (data.success) {
                     setBeingGraded(true);
+                    setSubmittedCode(userCode);
                 }
             })
             .catch((error: any) => {
@@ -139,8 +142,8 @@ export const CodingTask = (props: CodingTaskProps) => {
                 const data = await response.json();
 
                 if (!data.beingGraded) {
-                    setCheckingTime(data.checkingTime);
                     setBeingGraded(false);
+                    setCheckingTime(data.checkingTime);
                     clearInterval(timerId);
                     setFeedback(data.feedback);
 
@@ -334,15 +337,8 @@ export const CodingTask = (props: CodingTaskProps) => {
                 ref={editorRef}
                 showCodex={props.showCodex}
                 taskId={props.taskId}
-                starterCode={
-                    userCode
-                        ? userCode
-                        : props.taskType === TaskType.Authoring
-                        ? ""
-                        : props.starterCode !== undefined
-                        ? props.starterCode
-                        : ""
-                }
+                submittedCode={submittedCode}
+                starterCode={props.starterCode ? props.starterCode : ""}
                 updateCode={setUserCode}
             />
         </div>

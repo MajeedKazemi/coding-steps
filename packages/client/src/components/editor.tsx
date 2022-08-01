@@ -18,6 +18,7 @@ import { Documentation } from "./documentation";
 interface EditorProps {
     taskId: string;
     starterCode: string;
+    submittedCode: string;
     showCodex: boolean;
     updateCode?: (code: string) => void;
 }
@@ -57,7 +58,9 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
             }
 
             const editor = monaco.editor.create(monacoEl.current!, {
-                value: props.starterCode,
+                value: props.submittedCode
+                    ? props.submittedCode
+                    : props.starterCode,
                 language: "python",
                 automaticLayout: true,
                 fontSize: 18,
@@ -147,59 +150,70 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
         };
     }, []);
 
+    const handleClickRun = () => {
+        if (!running) {
+            log(props.taskId, context?.user?.id, LogType.RunEvent, {
+                type: RunEventType.Start,
+                code: editor?.getValue(),
+                runId: runId,
+            });
+
+            setOutput([]);
+            setRunning(true);
+            executeCode(editor?.getValue());
+        } else {
+            stopShell();
+            setRunning(false);
+            editor?.focus();
+        }
+    };
+
+    const handleClickReset = () => {
+        editor?.setValue(props.starterCode);
+    };
+
+    const handleClickUndo = () => {
+        editor?.trigger("myapp", "undo", {});
+    };
+
     return (
         <Fragment>
             <section className="task-workspace">
                 <div className="editor" ref={monacoEl}></div>
-                <button
-                    className={`code-exec-button ${
-                        running ? "stop-button" : "run-button"
-                    }`}
-                    onClick={() => {
-                        if (!running) {
-                            log(
-                                props.taskId,
-                                context?.user?.id,
-                                LogType.RunEvent,
-                                {
-                                    type: RunEventType.Start,
-                                    code: editor?.getValue(),
-                                    runId: runId,
-                                }
-                            );
+                <div className="editor-buttons-container">
+                    <button
+                        className={`code-exec-button ${
+                            running ? "stop-button" : "run-button"
+                        }`}
+                        onClick={handleClickRun}
+                    >
+                        {" "}
+                        {!running ? (
+                            <Fragment>
+                                {" "}
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    color="currentColor"
+                                    stroke="none"
+                                    strokeWidth="0"
+                                    fill="currentColor"
+                                    className="play-icon"
+                                >
+                                    <path d="M20.2253 11.5642C20.5651 11.7554 20.5651 12.2446 20.2253 12.4358L5.74513 20.5809C5.41183 20.7683 5 20.5275 5 20.1451L5 3.85492C5 3.47251 5.41183 3.23165 5.74513 3.41914L20.2253 11.5642Z"></path>
+                                </svg>
+                                Run
+                            </Fragment>
+                        ) : (
+                            <Fragment>Stop</Fragment>
+                        )}
+                    </button>
 
-                            setOutput([]);
-                            setRunning(true);
-                            executeCode(editor?.getValue());
-                        } else {
-                            stopShell();
-                            setRunning(false);
-                            editor?.focus();
-                        }
-                    }}
-                >
-                    {" "}
-                    {!running ? (
-                        <Fragment>
-                            {" "}
-                            <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                color="currentColor"
-                                stroke="none"
-                                strokeWidth="0"
-                                fill="currentColor"
-                                className="play-icon"
-                            >
-                                <path d="M20.2253 11.5642C20.5651 11.7554 20.5651 12.2446 20.2253 12.4358L5.74513 20.5809C5.41183 20.7683 5 20.5275 5 20.1451L5 3.85492C5 3.47251 5.41183 3.23165 5.74513 3.41914L20.2253 11.5642Z"></path>
-                            </svg>
-                            Run
-                        </Fragment>
-                    ) : (
-                        <Fragment>Stop</Fragment>
-                    )}
-                </button>
+                    <button>Save Code</button>
+                    <button onClick={handleClickReset}>Reset</button>
+                    <button onClick={handleClickUndo}>Undo</button>
+                </div>
                 <div className="output">
                     {output.map((line, index) => (
                         <p key={"line-" + index}>{line}</p>

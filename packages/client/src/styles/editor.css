@@ -1,6 +1,6 @@
 .editor {
     width: 47vw;
-    height: 50vh;
+    height: 55vh;
     border: solid 1px #ccc;
     border-radius: 6px;
     overflow: hidden;
@@ -13,10 +13,9 @@
     padding: 6px;
     padding-left: 12px;
     overflow-y: scroll;
-    height: calc(50vh - 160px);
+    height: calc(40vh - 160px);
     border-radius: 6px;
     position: relative;
-    margin-top: 24px;
     width: 47vw;
 }
 
@@ -40,8 +39,14 @@
     font-size: 16px;
 }
 
+.editor-buttons-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: calc(5vh + 24px);
+}
+
 .code-exec-button {
-    position: absolute;
     z-index: 99;
     border: none;
     height: 40px;
