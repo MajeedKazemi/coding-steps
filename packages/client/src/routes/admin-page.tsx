@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { apiAdminGetSubmissions, logError } from "../api/api";
 
+import { apiAdminGetSubmissions, logError } from "../api/api";
 import { AdminSubmission } from "../components/admin-submission";
 import { Layout } from "../components/layout";
 import { AuthContext } from "../context";
@@ -30,9 +30,7 @@ export const AdminPage = () => {
 
     return (
         <Layout>
-            <h1>Admin Page</h1>
-            <span>user role: {context?.user?.role}</span>
-            <div>
+            <div className="admin-grading-container">
                 <h2>Grade the following submissions:</h2>
                 {submissions?.map((s) => (
                     <AdminSubmission key={s.id} submission={s} />

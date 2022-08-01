@@ -1,8 +1,12 @@
+.admin-grading-container {
+    padding: 24px;
+}
+
 .task-submission-container {
-    background-color: rgb(255, 251, 188);
+    background-color: #bbb;
     border-radius: 24px;
     padding: 24px;
-    margin: 24px;
+    margin-bottom: 24px;
 }
 
 .task-submission-divider {
