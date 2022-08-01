@@ -30,7 +30,9 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
     const [editor, setEditor] =
         useState<monaco.editor.IStandaloneCodeEditor | null>(null);
     const monacoEl = useRef(null);
-    const [output, setOutput] = useState<string[]>([]);
+    const [output, setOutput] = useState<
+        Array<{ type: "error" | "output" | "input"; line: string }>
+    >([]);
     const [terminalInput, setTerminalInput] = useState<string>("");
     const [running, setRunning] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -52,7 +54,6 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                 .then((response) => {
                     if (response.ok) {
                         response.json().then((data) => {
-                            console.log(data.savedCode);
                             if (data.savedCode) {
                                 const savedCode = data.savedCode;
 
@@ -129,60 +130,6 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                                 if (props.updateCode) {
                                     props.updateCode(editor.getValue());
                                 }
-
-                                onShellMessage((data) => {
-                                    if (data.type === "stdout") {
-                                        if (data.out.split("\n").length > 0) {
-                                            setOutput([
-                                                ...output,
-                                                ...data.out.split("\n"),
-                                            ]);
-                                        } else {
-                                            setOutput([...output, data.out]);
-                                        }
-
-                                        log(
-                                            props.taskId,
-                                            context?.user?.id,
-                                            LogType.RunEvent,
-                                            {
-                                                type: RunEventType.Output,
-                                                output: data.out,
-                                                runId: runId,
-                                            }
-                                        );
-                                    }
-
-                                    if (data.type === "stderr") {
-                                        setOutput([...output, data.err]);
-
-                                        log(
-                                            props.taskId,
-                                            context?.user?.id,
-                                            LogType.RunEvent,
-                                            {
-                                                type: RunEventType.Error,
-                                                error: data.err,
-                                                runId: runId,
-                                            }
-                                        );
-                                    }
-
-                                    if (data.type === "close") {
-                                        setRunning(false);
-                                        setRunId(runId + 1);
-
-                                        log(
-                                            props.taskId,
-                                            context?.user?.id,
-                                            LogType.RunEvent,
-                                            {
-                                                type: RunEventType.Stop,
-                                                runId: runId,
-                                            }
-                                        );
-                                    }
-                                });
                             }
                         });
                     }
@@ -194,6 +141,64 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
 
         return () => editor?.dispose();
     }, [monacoEl.current]);
+
+    useEffect(() => {
+        onShellMessage((data) => {
+            if (data.type === "stdout") {
+                if (data.out.split("\n").length > 0) {
+                    setOutput([
+                        ...output,
+                        ...data.out.split("\n").map((i: string) => {
+                            return {
+                                type: "output",
+                                line: i,
+                            };
+                        }),
+                    ]);
+                } else {
+                    setOutput([
+                        ...output,
+                        {
+                            type: "output",
+                            line: data.out,
+                        },
+                    ]);
+                }
+
+                log(props.taskId, context?.user?.id, LogType.RunEvent, {
+                    type: RunEventType.Output,
+                    output: data.out,
+                    runId: runId,
+                });
+            }
+
+            if (data.type === "stderr") {
+                setOutput([
+                    ...output,
+                    {
+                        type: "error",
+                        line: data.err,
+                    },
+                ]);
+
+                log(props.taskId, context?.user?.id, LogType.RunEvent, {
+                    type: RunEventType.Error,
+                    error: data.err,
+                    runId: runId,
+                });
+            }
+
+            if (data.type === "close") {
+                setRunning(false);
+                setRunId(runId + 1);
+
+                log(props.taskId, context?.user?.id, LogType.RunEvent, {
+                    type: RunEventType.Stop,
+                    runId: runId,
+                });
+            }
+        });
+    }, [output, runId]);
 
     useEffect(() => {
         return () => {
@@ -292,8 +297,15 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                     <button onClick={handleClickUndo}>Undo</button>
                 </div>
                 <div className="output">
-                    {output.map((line, index) => (
-                        <p key={"line-" + index}>{line}</p>
+                    {output.map((i, index) => (
+                        <p
+                            className={
+                                i.type === "error" ? `console-output-error` : ""
+                            }
+                            key={"line-" + index}
+                        >
+                            {i.line}
+                        </p>
                     ))}
                     {running && (
                         <input
@@ -304,7 +316,13 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                             onKeyUp={(e) => {
                                 if (e.key === "Enter") {
                                     sendShell(terminalInput);
-                                    setOutput([...output, terminalInput]);
+                                    setOutput([
+                                        ...output,
+                                        {
+                                            type: "input",
+                                            line: terminalInput,
+                                        },
+                                    ]);
                                     setTerminalInput("");
                                     log(
                                         props.taskId,

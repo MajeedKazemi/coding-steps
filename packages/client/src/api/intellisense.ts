@@ -261,8 +261,6 @@ MonacoServices.install(monaco);
 let webSocket: WebSocket;
 
 export function initLanguageClient() {
-    console.log("initLanguageClient");
-
     webSocket = new WebSocket(createUrl(env.API_URL, 3001, "/ws/intellisense"));
 
     webSocket.onopen = () => {
@@ -285,8 +283,6 @@ export function initLanguageClient() {
 function createLanguageClient(
     transports: MessageTransports
 ): MonacoLanguageClient {
-    console.log("createLanguageClient");
-
     return new MonacoLanguageClient({
         name: "Python Language Client",
         clientOptions: {

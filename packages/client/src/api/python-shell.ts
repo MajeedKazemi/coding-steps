@@ -5,7 +5,6 @@ export let isConnected = false;
 let webSocket: WebSocket;
 
 export const initPythonShellSocket = () => {
-    console.log("initPythonShellSocket");
     const url = createUrl(env.API_URL, 3001, "/ws/shell");
 
     webSocket = new WebSocket(url);
@@ -41,9 +40,11 @@ export function sendShell(value: string) {
 }
 
 export function onShellMessage(callback: (response: any) => void) {
-    webSocket.onmessage = (event) => {
-        callback(JSON.parse(event.data));
-    };
+    if (isConnected) {
+        webSocket.onmessage = (event) => {
+            callback(JSON.parse(event.data));
+        };
+    }
 }
 
 export function onShellOpen(callback: () => void) {
@@ -59,7 +60,6 @@ export function onShellClose(callback: () => void) {
 }
 
 export function stopPythonShell() {
-    console.log("stopPythonShell");
     webSocket.close();
 }
 

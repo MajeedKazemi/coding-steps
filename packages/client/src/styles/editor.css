@@ -10,28 +10,41 @@
     background-color: #023231;
     color: #fff;
     font-family: "Courier New", Courier, monospace;
-    padding: 6px;
-    padding-left: 12px;
     overflow-y: scroll;
     height: calc(40vh - 160px);
     border-radius: 6px;
     position: relative;
     width: 47vw;
+    padding: 12px 0 12px 0;
 }
 
 .output p {
     margin: 0;
     font-size: 16px;
+    font-weight: 600;
+    padding: 2px 12px 2px 12px;
+}
+
+.console-output-error {
+    color: #ec9e9e;
+    background-color: #2a0200;
+    border: solid 1px #ff000075;
+    padding: 12px !important;
+    margin-top: 6px !important;
 }
 
 .terminal-input {
     display: inline;
-    background-color: #023231;
+    background-color: #004847;
     color: #fff;
     border: none;
     font-family: "Courier New", Courier, monospace;
     font-size: 16px;
-    margin-left: -2px;
+    font-weight: 600;
+    padding: 2px 12px 2px 12px;
+    width: calc(100% - 24px);
+    border-bottom: 1px solid #fff6;
+    height: 20px;
 }
 
 .terminal-input:focus {
