@@ -114,6 +114,8 @@ tasksRouter.post("/eval-code", verifyUser, (req, res, next) => {
                 UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
                     if (userTask) {
                         userTask.beingGraded = true;
+                        userTask.savedCode = data.code;
+                        userTask.lastSaveAt = submittedAt;
 
                         userTask.submissions.push({
                             code: data.code,
@@ -416,6 +418,71 @@ tasksRouter.post("/log", verifyUser, (req, res, next) => {
                                 success: true,
                             });
                         }
+                    });
+                } else {
+                    res.statusCode = 500;
+                    res.send({ message: "UserTask not found" });
+                }
+            });
+        } else {
+            res.statusCode = 500;
+            res.send({
+                message: `No task was found with taskId: ${taskId}`,
+            });
+        }
+    }
+});
+
+tasksRouter.post("/save-code", verifyUser, (req, res, next) => {
+    const userId = (req.user as IUser)._id;
+    const { taskId, code } = req.body;
+
+    if (userId !== undefined && taskId !== undefined) {
+        const task = getTaskFromTaskId(taskId);
+
+        if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
+            UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
+                if (userTask) {
+                    userTask.savedCode = code;
+                    userTask.lastSaveAt = new Date();
+
+                    userTask.save((err, userTask) => {
+                        if (err) {
+                            res.statusCode = 500;
+                            res.send(err);
+                        } else {
+                            res.send({
+                                success: true,
+                            });
+                        }
+                    });
+                } else {
+                    res.statusCode = 500;
+                    res.send({ message: "UserTask not found" });
+                }
+            });
+        } else {
+            res.statusCode = 500;
+            res.send({
+                message: `No task was found with taskId: ${taskId}`,
+            });
+        }
+    }
+});
+
+tasksRouter.get("/get-saved-code/:taskId", verifyUser, (req, res, next) => {
+    const userId = (req.user as IUser)._id;
+    const taskId = req.params.taskId;
+
+    if (userId !== undefined && taskId !== undefined) {
+        const task = getTaskFromTaskId(taskId);
+
+        if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
+            UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
+                if (userTask) {
+                    res.send({
+                        success: true,
+                        savedCode: userTask.savedCode,
                     });
                 } else {
                     res.statusCode = 500;

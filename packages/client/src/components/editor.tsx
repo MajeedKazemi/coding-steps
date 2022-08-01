@@ -1,6 +1,7 @@
 import * as monaco from "monaco-editor";
 import { forwardRef, Fragment, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
 
+import { apiGetSavedUserCode, apiSaveUserCode, logError } from "../api/api";
 import { initLanguageClient, retryOpeningLanguageClient, stopLanguageClient } from "../api/intellisense";
 import {
     executeCode,
@@ -18,7 +19,6 @@ import { Documentation } from "./documentation";
 interface EditorProps {
     taskId: string;
     starterCode: string;
-    submittedCode: string;
     showCodex: boolean;
     updateCode?: (code: string) => void;
 }
@@ -34,6 +34,9 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
     const [terminalInput, setTerminalInput] = useState<string>("");
     const [running, setRunning] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
+    const [lastEditedAt, setLastEditedAt] = useState<Date | null>(null);
+    const [saved, setSaved] = useState(true);
+    const [canReset, setCanReset] = useState(false);
 
     useImperativeHandle(ref, () => ({
         setCode(code: string) {
@@ -45,103 +48,152 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
 
     useEffect(() => {
         if (monacoEl && !editor) {
-            initLanguageClient();
-            initPythonShellSocket();
+            apiGetSavedUserCode(context?.token, props.taskId)
+                .then((response) => {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            console.log(data.savedCode);
+                            if (data.savedCode) {
+                                const savedCode = data.savedCode;
 
-            if (props.starterCode.length > 0) {
-                log(
-                    props.taskId,
-                    context?.user?.id,
-                    LogType.InitialCode,
-                    props.starterCode
-                );
-            }
+                                initLanguageClient();
+                                initPythonShellSocket();
 
-            const editor = monaco.editor.create(monacoEl.current!, {
-                value: props.submittedCode
-                    ? props.submittedCode
-                    : props.starterCode,
-                language: "python",
-                automaticLayout: true,
-                fontSize: 18,
-                lineHeight: 30,
-                minimap: { enabled: false },
-                wordWrap: "on",
-                wrappingIndent: "indent",
-            });
+                                if (props.starterCode.length > 0) {
+                                    log(
+                                        props.taskId,
+                                        context?.user?.id,
+                                        LogType.InitialCode,
+                                        props.starterCode
+                                    );
+                                }
 
-            editor.onDidChangeModelContent((e) => {
-                log(props.taskId, context?.user?.id, LogType.ReplayEvent, e);
+                                const editor = monaco.editor.create(
+                                    monacoEl.current!,
+                                    {
+                                        value: savedCode
+                                            ? savedCode
+                                            : props.starterCode,
+                                        language: "python",
+                                        automaticLayout: true,
+                                        fontSize: 18,
+                                        lineHeight: 30,
+                                        minimap: { enabled: false },
+                                        wordWrap: "on",
+                                        wrappingIndent: "indent",
+                                    }
+                                );
 
-                retryOpeningLanguageClient();
-            });
+                                editor.onDidChangeModelContent((e) => {
+                                    log(
+                                        props.taskId,
+                                        context?.user?.id,
+                                        LogType.ReplayEvent,
+                                        e
+                                    );
 
-            editor.onDidPaste((e) => {
-                console.log(e);
-            });
+                                    retryOpeningLanguageClient();
 
-            editor.addCommand(
-                monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
-                function () {
-                    setOutput([]);
-                    setRunning(true);
-                    executeCode(editor?.getValue());
-                }
-            );
+                                    setLastEditedAt(new Date());
+                                    setSaved(false);
 
-            setEditor(editor);
+                                    if (
+                                        editor.getValue() !== props.starterCode
+                                    ) {
+                                        setCanReset(true);
+                                    } else {
+                                        setCanReset(false);
+                                    }
 
-            if (props.updateCode) {
-                props.updateCode(editor.getValue());
-            }
+                                    if (props.updateCode) {
+                                        props.updateCode(editor.getValue());
+                                    }
+                                });
 
-            editor.onDidChangeModelContent(() => {
-                if (props.updateCode) {
-                    props.updateCode(editor.getValue());
-                }
-            });
+                                editor.onDidPaste((e) => {
+                                    console.log(e);
+                                });
+
+                                editor.addCommand(
+                                    monaco.KeyMod.CtrlCmd |
+                                        monaco.KeyCode.Enter,
+                                    function () {
+                                        setOutput([]);
+                                        setRunning(true);
+                                        executeCode(editor?.getValue());
+                                    }
+                                );
+
+                                setEditor(editor);
+
+                                if (props.updateCode) {
+                                    props.updateCode(editor.getValue());
+                                }
+
+                                onShellMessage((data) => {
+                                    if (data.type === "stdout") {
+                                        if (data.out.split("\n").length > 0) {
+                                            setOutput([
+                                                ...output,
+                                                ...data.out.split("\n"),
+                                            ]);
+                                        } else {
+                                            setOutput([...output, data.out]);
+                                        }
+
+                                        log(
+                                            props.taskId,
+                                            context?.user?.id,
+                                            LogType.RunEvent,
+                                            {
+                                                type: RunEventType.Output,
+                                                output: data.out,
+                                                runId: runId,
+                                            }
+                                        );
+                                    }
+
+                                    if (data.type === "stderr") {
+                                        setOutput([...output, data.err]);
+
+                                        log(
+                                            props.taskId,
+                                            context?.user?.id,
+                                            LogType.RunEvent,
+                                            {
+                                                type: RunEventType.Error,
+                                                error: data.err,
+                                                runId: runId,
+                                            }
+                                        );
+                                    }
+
+                                    if (data.type === "close") {
+                                        setRunning(false);
+                                        setRunId(runId + 1);
+
+                                        log(
+                                            props.taskId,
+                                            context?.user?.id,
+                                            LogType.RunEvent,
+                                            {
+                                                type: RunEventType.Stop,
+                                                runId: runId,
+                                            }
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    }
+                })
+                .catch((error) => {
+                    logError(error.toString());
+                });
         }
 
         return () => editor?.dispose();
     }, [monacoEl.current]);
-
-    useEffect(() => {
-        onShellMessage((data) => {
-            if (data.type === "stdout") {
-                if (data.out.split("\n").length > 0) {
-                    setOutput([...output, ...data.out.split("\n")]);
-                } else {
-                    setOutput([...output, data.out]);
-                }
-
-                log(props.taskId, context?.user?.id, LogType.RunEvent, {
-                    type: RunEventType.Output,
-                    output: data.out,
-                    runId: runId,
-                });
-            }
-
-            if (data.type === "stderr") {
-                setOutput([...output, data.err]);
-
-                log(props.taskId, context?.user?.id, LogType.RunEvent, {
-                    type: RunEventType.Error,
-                    error: data.err,
-                    runId: runId,
-                });
-            }
-
-            if (data.type === "close") {
-                setRunning(false);
-                setRunId(runId + 1);
-
-                log(props.taskId, context?.user?.id, LogType.RunEvent, {
-                    type: RunEventType.Stop,
-                    runId: runId,
-                });
-            }
-        });
-    });
 
     useEffect(() => {
         return () => {
@@ -175,6 +227,27 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
     const handleClickUndo = () => {
         editor?.trigger("myapp", "undo", {});
     };
+
+    const handleClickSave = () => {
+        const code = editor?.getValue();
+
+        if (code) {
+            apiSaveUserCode(context?.token, props.taskId, code);
+        }
+    };
+
+    useEffect(() => {
+        const id = setInterval(() => {
+            if (lastEditedAt && lastEditedAt.getTime() + 5000 < Date.now()) {
+                handleClickSave();
+                setSaved(true);
+            }
+        }, 1000);
+
+        return () => {
+            clearInterval(id);
+        };
+    }, [lastEditedAt]);
 
     return (
         <Fragment>
@@ -210,8 +283,12 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                         )}
                     </button>
 
-                    <button>Save Code</button>
-                    <button onClick={handleClickReset}>Reset</button>
+                    <button disabled={saved} onClick={handleClickSave}>
+                        {saved ? "Code Saved" : "Save Code"}
+                    </button>
+                    <button disabled={!canReset} onClick={handleClickReset}>
+                        Reset
+                    </button>
                     <button onClick={handleClickUndo}>Undo</button>
                 </div>
                 <div className="output">

@@ -46,7 +46,6 @@ export const CodingTask = (props: CodingTaskProps) => {
 
     const [feedback, setFeedback] = useState("");
     const [userCode, setUserCode] = useState("");
-    const [submittedCode, setSubmittedCode] = useState("");
 
     const [canSubmit, setCanSubmit] = useState(false);
 
@@ -92,7 +91,6 @@ export const CodingTask = (props: CodingTaskProps) => {
 
                 if (data.success) {
                     setBeingGraded(true);
-                    setSubmittedCode(userCode);
                 }
             })
             .catch((error: any) => {
@@ -337,7 +335,6 @@ export const CodingTask = (props: CodingTaskProps) => {
                 ref={editorRef}
                 showCodex={props.showCodex}
                 taskId={props.taskId}
-                submittedCode={submittedCode}
                 starterCode={props.starterCode ? props.starterCode : ""}
                 updateCode={setUserCode}
             />

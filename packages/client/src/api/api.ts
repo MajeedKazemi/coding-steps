@@ -160,6 +160,37 @@ export const apiUserEvaluateCode = (
         }),
     });
 
+export const apiSaveUserCode = (
+    token: string | null | undefined,
+    taskId: string,
+    code: string
+) =>
+    fetch(env.API_URL + "/api/tasks/save-code", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            taskId,
+            code,
+        }),
+    });
+
+export const apiGetSavedUserCode = (
+    token: string | null | undefined,
+    taskId: string
+) =>
+    fetch(env.API_URL + "/api/tasks/get-saved-code/" + taskId, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
 export const apiGenerateCodex = (
     token: string | null | undefined,
     description: string,
