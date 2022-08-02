@@ -45,7 +45,7 @@ export const MultipleChoiceTask = (props: IMultipleChoiceTaskProps) => {
     };
 
     useEffect(() => {
-        if (userChoice && userChoice >= 0) {
+        if (userChoice !== null && userChoice >= 0) {
             setCanSubmit(true);
         } else {
             setCanSubmit(false);
