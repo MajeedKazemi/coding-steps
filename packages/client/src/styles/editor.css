@@ -1,6 +1,6 @@
 .editor {
-    width: 47vw;
-    height: 55vh;
+    width: 45vw;
+    height: calc(55% - 2px);
     border: solid 1px #ccc;
     border-radius: 6px;
     overflow: hidden;
@@ -10,11 +10,11 @@
     background-color: #023231;
     color: #fff;
     font-family: "Courier New", Courier, monospace;
-    overflow-y: scroll;
-    height: calc(40vh - 160px);
+    overflow-y: auto;
+    height: calc(45% - 88px);
     border-radius: 6px;
     position: relative;
-    width: 47vw;
+    width: 45vw;
     padding: 12px 0 12px 0;
 }
 
@@ -56,29 +56,59 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: calc(5vh + 24px);
+    justify-content: space-between;
+    height: 64px;
 }
 
-.code-exec-button {
-    z-index: 99;
+.quick-editing-buttons-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.editor-button {
     border: none;
     height: 40px;
     border-radius: 12px;
     color: #fff;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     font-size: 18px;
     font-weight: 500;
+
     font-family: "Poppins";
+
+    cursor: pointer;
+    padding: 0 20px;
+}
+
+.editing-btn {
+    height: 35px;
+    background-color: rgb(0, 122, 204);
+    color: rgb(255, 255, 255);
+    margin-left: 16px;
+
     -webkit-transition: background-color 0.2s, color 0.2s;
     transition: background-color 0.2s, color 0.2s;
     -webkit-transition-timing-function: ease-in-out;
     transition-timing-function: ease-in-out;
-    cursor: pointer;
-    padding: 0 20px;
-    top: calc(50vh + 46px);
-    left: calc(67vw - 18px);
+}
+
+.editing-btn:hover {
+    background-color: rgb(0, 152, 255);
+    color: rgb(255, 255, 255);
+}
+
+.editing-btn-disabled {
+    height: 35px;
+    background-color: #e4e4e4;
+    color: #9b9b9b;
+    margin-left: 16px;
+    border: solid 1px #cfcfcf;
+    cursor: not-allowed;
 }
 
 .stop-button {
@@ -101,12 +131,15 @@
 }
 
 .task-workspace {
-    margin-left: 24px;
+    margin-left: 12px;
 }
 
 .task-assists {
-    margin-left: 24px;
+    margin-left: 12px;
     width: 15vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 @keyframes fade-highlight {

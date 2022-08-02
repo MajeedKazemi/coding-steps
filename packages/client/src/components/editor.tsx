@@ -54,82 +54,79 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                 .then((response) => {
                     if (response.ok) {
                         response.json().then((data) => {
-                            if (data.savedCode) {
-                                const savedCode = data.savedCode;
+                            const savedCode = data.savedCode
+                                ? data.savedCode
+                                : "";
 
-                                initLanguageClient();
-                                initPythonShellSocket();
+                            initLanguageClient();
+                            initPythonShellSocket();
 
-                                if (props.starterCode.length > 0) {
-                                    log(
-                                        props.taskId,
-                                        context?.user?.id,
-                                        LogType.InitialCode,
-                                        props.starterCode
-                                    );
+                            if (props.starterCode.length > 0) {
+                                log(
+                                    props.taskId,
+                                    context?.user?.id,
+                                    LogType.InitialCode,
+                                    props.starterCode
+                                );
+                            }
+
+                            const editor = monaco.editor.create(
+                                monacoEl.current!,
+                                {
+                                    value: savedCode
+                                        ? savedCode
+                                        : props.starterCode,
+                                    language: "python",
+                                    automaticLayout: true,
+                                    fontSize: 15,
+                                    lineHeight: 25,
+                                    minimap: { enabled: false },
+                                    wordWrap: "on",
+                                    wrappingIndent: "indent",
                                 }
+                            );
 
-                                const editor = monaco.editor.create(
-                                    monacoEl.current!,
-                                    {
-                                        value: savedCode
-                                            ? savedCode
-                                            : props.starterCode,
-                                        language: "python",
-                                        automaticLayout: true,
-                                        fontSize: 18,
-                                        lineHeight: 30,
-                                        minimap: { enabled: false },
-                                        wordWrap: "on",
-                                        wrappingIndent: "indent",
-                                    }
+                            editor.onDidChangeModelContent((e) => {
+                                log(
+                                    props.taskId,
+                                    context?.user?.id,
+                                    LogType.ReplayEvent,
+                                    e
                                 );
 
-                                editor.onDidChangeModelContent((e) => {
-                                    log(
-                                        props.taskId,
-                                        context?.user?.id,
-                                        LogType.ReplayEvent,
-                                        e
-                                    );
+                                retryOpeningLanguageClient();
 
-                                    retryOpeningLanguageClient();
+                                setLastEditedAt(new Date());
+                                setSaved(false);
 
-                                    setLastEditedAt(new Date());
-                                    setSaved(false);
-
-                                    if (
-                                        editor.getValue() !== props.starterCode
-                                    ) {
-                                        setCanReset(true);
-                                    } else {
-                                        setCanReset(false);
-                                    }
-
-                                    if (props.updateCode) {
-                                        props.updateCode(editor.getValue());
-                                    }
-                                });
-
-                                editor.onDidPaste((e) => {
-                                    console.log(e);
-                                });
-
-                                editor.addCommand(
-                                    monaco.KeyMod.CtrlCmd |
-                                        monaco.KeyCode.Enter,
-                                    function () {
-                                        setOutput([]);
-                                        setRunning(true);
-                                        executeCode(editor?.getValue());
-                                    }
-                                );
-
-                                setEditor(editor);
+                                if (editor.getValue() !== props.starterCode) {
+                                    setCanReset(true);
+                                } else {
+                                    setCanReset(false);
+                                }
 
                                 if (props.updateCode) {
                                     props.updateCode(editor.getValue());
                                 }
+                            });
+
+                            editor.onDidPaste((e) => {
+                                console.log(e);
+                            });
+
+                            editor.addCommand(
+                                monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+                                function () {
+                                    setOutput([]);
+                                    setRunning(true);
+                                    executeCode(editor?.getValue());
+                                }
+                            );
+
+                            setEditor(editor);
+
+                            if (props.updateCode) {
+                                props.updateCode(editor.getValue());
                             }
                         });
                     }
@@ -260,7 +257,7 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                 <div className="editor" ref={monacoEl}></div>
                 <div className="editor-buttons-container">
                     <button
-                        className={`code-exec-button ${
+                        className={`editor-button ${
                             running ? "stop-button" : "run-button"
                         }`}
                         onClick={handleClickRun}
@@ -288,13 +285,34 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                         )}
                     </button>
 
-                    <button disabled={saved} onClick={handleClickSave}>
-                        {saved ? "Code Saved" : "Save Code"}
-                    </button>
-                    <button disabled={!canReset} onClick={handleClickReset}>
-                        Reset
-                    </button>
-                    <button onClick={handleClickUndo}>Undo</button>
+                    <div className="quick-editing-buttons-container">
+                        <button
+                            className={`editor-button ${
+                                saved ? "editing-btn-disabled" : "editing-btn"
+                            }`}
+                            disabled={saved}
+                            onClick={handleClickSave}
+                        >
+                            {saved ? "Code Saved" : "Save Code"}
+                        </button>
+                        <button
+                            className={`editor-button ${
+                                canReset
+                                    ? "editing-btn"
+                                    : "editing-btn-disabled"
+                            }`}
+                            disabled={!canReset}
+                            onClick={handleClickReset}
+                        >
+                            Reset
+                        </button>
+                        <button
+                            className="editor-button editing-btn"
+                            onClick={handleClickUndo}
+                        >
+                            Undo
+                        </button>
+                    </div>
                 </div>
                 <div className="output">
                     {output.map((i, index) => (
@@ -345,10 +363,12 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
             </section>
 
             <section className="task-assists">
-                <Documentation taskId={props.taskId} />
                 {props.showCodex ? (
                     <Codex editor={editor} taskId={props.taskId} />
-                ) : null}
+                ) : (
+                    <div></div>
+                )}
+                <Documentation taskId={props.taskId} />
             </section>
         </Fragment>
     );

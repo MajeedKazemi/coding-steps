@@ -1,5 +1,4 @@
 .codex-container {
-    margin-top: 48px;
 }
 
 .codex-description-input {
@@ -21,4 +20,9 @@
 .codex-feedback {
     margin-top: 8px;
     font-size: 15px;
+}
+
+.codex-description-label {
+    display: block;
+    margin-bottom: 6px;
 }

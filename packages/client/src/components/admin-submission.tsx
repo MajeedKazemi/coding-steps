@@ -27,8 +27,8 @@ export const AdminSubmission = (props: IProps) => {
                 readOnly: true,
                 language: "python",
                 automaticLayout: true,
-                fontSize: 18,
-                lineHeight: 30,
+                fontSize: 16,
+                lineHeight: 26,
                 dimension: {
                     width: 700,
                     height: 30 * props.submission.code.split("\n").length,

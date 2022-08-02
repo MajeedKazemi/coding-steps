@@ -51,6 +51,12 @@
     border: solid 1px #065b5a;
 }
 
+.btn-block-big {
+    height: 50px;
+    font-weight: 900;
+    font-size: 18px;
+}
+
 .btn-block-inline {
     justify-content: center;
     border: solid 1px #065b5a;
@@ -63,11 +69,17 @@
 }
 
 .btn-color-warning {
-    background-color: #ffd5d5;
-    color: #ff5700;
+    background-color: #e200ff2e;
+    color: #c000ff;
+    font-weight: 900;
 }
 
 .btn-color-warning:hover {
-    background-color: #ff5700;
+    background-color: #c000ff;
     color: #fff;
+}
+
+.btn-attention {
+    background-color: #a9e6a9;
+    font-weight: 900;
 }

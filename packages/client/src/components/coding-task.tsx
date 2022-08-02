@@ -43,6 +43,7 @@ export const CodingTask = (props: CodingTaskProps) => {
     const [reachedTimeLimit, setReachedTimeLimit] = useState(false);
 
     const [beingGraded, setBeingGraded] = useState(false);
+    const [blink, setBlink] = useState(false);
 
     const [feedback, setFeedback] = useState("");
     const [userCode, setUserCode] = useState("");
@@ -75,9 +76,11 @@ export const CodingTask = (props: CodingTaskProps) => {
 
                 if (props.taskType == TaskType.Authoring) {
                     editorRef.current?.setCode(props.solution);
+                    setSkipped(true);
+                } else {
+                    setCompleted(true);
+                    props.onCompletion();
                 }
-
-                setSkipped(true);
             })
             .catch((error: any) => {
                 logError("handleSkipTask: " + error.toString());
@@ -180,6 +183,10 @@ export const CodingTask = (props: CodingTaskProps) => {
                 // is there enough time to continue?
                 if (elapsedTime / 1000 > props.timeLimit) {
                     setReachedTimeLimit(true);
+
+                    if (elapsedTime / 1000 > props.timeLimit * 2) {
+                        setBlink(!blink);
+                    }
                 }
             }
         }, 1000);
@@ -187,7 +194,7 @@ export const CodingTask = (props: CodingTaskProps) => {
         return () => {
             clearInterval(id);
         };
-    }, [startTime, beingGraded, elapsedTime]);
+    }, [startTime, beingGraded, elapsedTime, blink]);
 
     const handleGoNextTask = () => {
         setCompleted(true);
@@ -280,15 +287,16 @@ export const CodingTask = (props: CodingTaskProps) => {
 
                 <div>
                     {reachedTimeLimit && !skipped ? (
-                        <div>
-                            <Button
-                                onClick={handleSkipTask}
-                                type="block"
-                                color="warning"
-                            >
-                                Skip Task
-                            </Button>
-                        </div>
+                        <Button
+                            class="skip-button"
+                            onClick={handleSkipTask}
+                            type="block"
+                            color="warning"
+                        >
+                            {props.taskType === TaskType.Authoring
+                                ? "Skip Task + See Solution"
+                                : "Skip Task"}
+                        </Button>
                     ) : null}
                     {skipped ? (
                         <Button
@@ -302,22 +310,8 @@ export const CodingTask = (props: CodingTaskProps) => {
 
                     {!skipped ? (
                         <div className="submit-container">
-                            {reachedTimeLimit ? (
-                                <Fragment>
-                                    <p className="submit-urgent-message">
-                                        Hurry Up!!
-                                        <br />
-                                        You should submit the code now.
-                                    </p>
-                                    <div className="time-indicator-container">
-                                        <span className="time-indicator">
-                                            {convertTime(elapsedTime / 1000)}
-                                        </span>
-                                    </div>
-                                </Fragment>
-                            ) : null}
-
                             <Button
+                                class={blink ? "btn-attention" : ""}
                                 onClick={handleGradeCode}
                                 type="block"
                                 disabled={!canSubmit}
@@ -326,6 +320,16 @@ export const CodingTask = (props: CodingTaskProps) => {
                                     ? "Being Graded"
                                     : "Submit to Grade"}
                             </Button>
+
+                            {reachedTimeLimit ? (
+                                <div className="submit-urgent-message">
+                                    <span>Please submit the code sooner!</span>
+
+                                    <span className="time-indicator">
+                                        {convertTime(elapsedTime / 1000)}
+                                    </span>
+                                </div>
+                            ) : null}
                         </div>
                     ) : null}
                 </div>

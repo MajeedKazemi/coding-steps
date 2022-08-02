@@ -1,23 +1,23 @@
 import { Fragment, useContext, useState } from "react";
+
 import { AuthContext } from "../context";
 import { DocEventType, log, LogType } from "../utils/logger";
-
 import { Button } from "./button";
 import { DocButton, IDocButton } from "./doc-button";
-import { DataTypesDoc } from "./docs/data-types-doc";
-import { ListsDoc } from "./docs/lists-doc";
-import { LoopsDoc } from "./docs/loops-doc";
-import { FunctionsDoc } from "./docs/functions-doc";
-import { RandomDoc } from "./docs/random-doc";
-import { VariablesDoc } from "./docs/variables-doc";
-import { ConditionalsDoc } from "./docs/conditionals-doc";
-import { ComparisonsDoc } from "./docs/comparisons-doc";
 import { ArithmeticsDoc } from "./docs/arithmetics.doc";
-import { ModifyingStringsDoc } from "./docs/modifying-strings-doc";
-import { ImportsDoc } from "./docs/imports-doc";
+import { ComparisonsDoc } from "./docs/comparisons-doc";
+import { ConditionalsDoc } from "./docs/conditionals-doc";
+import { DataTypesDoc } from "./docs/data-types-doc";
 import { ErrorsDoc } from "./docs/errors-doc";
+import { FunctionsDoc } from "./docs/functions-doc";
+import { ImportsDoc } from "./docs/imports-doc";
+import { ListsDoc } from "./docs/lists-doc";
 import { LogicalOperatorsDoc } from "./docs/logical-operators-doc";
+import { LoopsDoc } from "./docs/loops-doc";
+import { ModifyingStringsDoc } from "./docs/modifying-strings-doc";
+import { RandomDoc } from "./docs/random-doc";
 import { SyntaxDoc } from "./docs/syntax-doc";
+import { VariablesDoc } from "./docs/variables-doc";
 
 interface IPropsDocumentation {
     taskId: string;
@@ -47,116 +47,113 @@ export const Documentation = (props: IPropsDocumentation) => {
         setSelectedSectionId(next);
     };
 
-    const getContentFromId = (pageId: string) => { 
+    const getContentFromId = (pageId: string) => {
         switch (pageId) {
             case "syntax":
-                return <SyntaxDoc 
-                    pageId={pageId}
-                    onSectionChange={handleSectionChange}
-                />;
+                return (
+                    <SyntaxDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
             case "data-types":
-                return(
+                return (
                     <DataTypesDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                    
-                )
+                );
             case "variables":
-                return(
+                return (
                     <VariablesDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "functions":
                 return (
                     <FunctionsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "loops":
-                return(
+                return (
                     <LoopsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "conditionals":
-                return(
+                return (
                     <ConditionalsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "lists":
-                return(
+                return (
                     <ListsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "strings":
-            return(
-                <ModifyingStringsDoc
-                    pageId={pageId}
-                    onSectionChange={handleSectionChange}
-                />
-            )
+                return (
+                    <ModifyingStringsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
             case "comparisons":
-                return(
+                return (
                     <ComparisonsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "logical-operators":
-                return(
+                return (
                     <LogicalOperatorsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "arithmetics":
-                return(
+                return (
                     <ArithmeticsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "imports":
-                return(
+                return (
                     <ImportsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "random":
-                return(
+                return (
                     <RandomDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
-                )
+                );
             case "errors":
-                return(
+                return (
                     <ErrorsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
-                    />      
-                )
+                    />
+                );
         }
     };
 
     return (
         <div>
-            <p>
-                here you could use the provided documentations for Python to
-                learn about different concepts
-            </p>
             <Button
-                type="block"
+                type="block-big"
                 onClick={() => {
                     log(props.taskId, context?.user?.id, LogType.DocEvent, {
                         type: DocEventType.OpenDocModal,
@@ -164,7 +161,7 @@ export const Documentation = (props: IPropsDocumentation) => {
                     setShowModal(true);
                 }}
             >
-                Open Documentation
+                Python Documentation
             </Button>
 
             <Fragment>

@@ -269,11 +269,13 @@ export const Codex = (props: ICodexProps) => {
 
     return (
         <div className="codex-container">
-            <p>Provide Instructions:</p>
+            <span className="codex-description-label">
+                Generate code from the following instructions:
+            </span>
             <textarea
                 // ref={textareaRef}
                 className="codex-description-input"
-                placeholder="Describe the behavior of the code..."
+                placeholder="Describe the behavior of the code to be generated..."
                 onChange={(e) => {
                     setDescription(e.target.value.trim());
                 }}
@@ -290,7 +292,7 @@ export const Codex = (props: ICodexProps) => {
             ></textarea>
             <Button
                 disabled={waiting}
-                type="block"
+                type="block-big"
                 onClick={() => {
                     generateCode();
                 }}

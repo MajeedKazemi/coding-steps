@@ -5,7 +5,7 @@ interface ButtonProps {
     onClick?: (e: any) => void;
     icon?: string;
     class?: string;
-    type?: "link" | "button" | "block" | "block-inline";
+    type?: "link" | "button" | "block" | "block-inline" | "block-big";
     disabled?: boolean;
     color?: "warning" | "primary";
 }
@@ -24,6 +24,10 @@ export const Button = (props: ButtonProps) => {
 
         case "block-inline":
             style += " btn btn-block-inline";
+            break;
+
+        case "block-big":
+            style += " btn btn-block btn-block-big";
             break;
 
         default:

@@ -5,14 +5,15 @@
     padding: 0;
     margin: 0;
     top: 0;
-    height: 75px;
-    width: calc(100% - 48px);
+    height: 50px;
+    width: calc(100% - 72px);
+    margin: 0 12px;
     display: flex;
     align-items: center;
     padding-left: 24px;
     padding-right: 24px;
-    border-bottom-left-radius: 24px;
-    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
     justify-content: space-between;
 }
 
@@ -25,8 +26,9 @@
     font-weight: 600;
     margin-left: 16px;
     color: #085b5b;
+    font-size: 28px;
 }
 
 .navbar .navbar-logo-container .navbar-logo {
-    height: 36px;
+    height: 28px;
 }
