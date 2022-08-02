@@ -177,8 +177,8 @@ export const CodingTasks = [
     new ModifyingTask(
         "1b",
         "Modify the given program so it displays another message after the first one: <b>Beep Boop</b>",
-        `print("I am a robot!")`,
-        [["output: <b>I am a robot!</b>"], ["output: <b>Beep Boop</b>"]],
+        `print("I'm Wall-E!")`,
+        [["output: <b>I'm Wall-E!</b>"], ["output: <b>Beep Boop</b>"]],
         [`print("I'm Wall-E!")`, `print("Beep Boop")`].join("\n"),
         60 * 2
     ),
@@ -234,7 +234,7 @@ export const CodingTasks = [
     // join the variable with another literal
     new ModifyingTask(
         "3ib",
-        "Modify the given program so that instead of adding <b>bot</b> to the <i>name</i> variable at once, it adds the characters b, o, and t one at a time. Print the value of the variable <i>name</i> after adding each of the characters. Finally, display the message <b>My name is <i>name</i></b>.",
+        "Modify the given program so that instead of adding <b>bot</b> to the <i>name</i> variable at once, it adds the characters b, o, and t one at a time. Print the value of the variable <i>name</i> after adding each of the characters. Finally, display the message <b>Created: <i>name</i></b>.",
         [`name = "ro"`, `name += "bot"`, `print("Created: " + name)`].join(
             "\n"
         ),
@@ -355,7 +355,7 @@ export const CodingTasks = [
             ["output: <b>25</b>"],
             ["output: <b>15</b>"],
             ["output: <b>100</b>"],
-            ["output: <b>2.5</b>"],
+            ["output: <b>4.0</b>"],
         ],
         [
             `num1 = 20`,
@@ -562,7 +562,7 @@ export const CodingTasks = [
         [
             `num1 = 12`,
             `num2 = 21`,
-            `message = "num1 times num2 is " + str(num1 * num2)`,
+            `message = "num1 times num2 = " + str(num1 * num2)`,
             `print(message)`,
         ].join("\n"),
         60 * 5
@@ -573,14 +573,14 @@ export const CodingTasks = [
         [
             `num1 = 12`,
             `num2 = 21`,
-            `message = "num1 times num2 is " + str(num1 * num2)`,
+            `message = "num1 times num2 = " + str(num1 * num2)`,
             `print(message)`,
         ].join("\n"),
         [["output: <b>12 times 21 = 252</b>"]],
         [
             `num1 = 12`,
             `num2 = 21`,
-            `message = str(num1) + " times " + str(num2) + " is " + str(num1 * num2)`,
+            `message = str(num1) + " times " + str(num2) + " = " + str(num1 * num2)`,
             `print(message)`,
         ].join("\n"),
         60 * 5
