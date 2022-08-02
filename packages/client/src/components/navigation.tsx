@@ -31,6 +31,12 @@ export const NavigationBar = (props: NavigationBarProps) => {
                     <h1 className="logo-type">Coding Steps</h1>
                 </div>
             </Link>
+            {context?.user?.firstName && (
+                <span>
+                    {context?.user?.firstName + " " + context?.user?.lastName}
+                </span>
+            )}
+
             <div>
                 {!props.loading && context?.token ? (
                     <Button icon="logout" onClick={logoutHandler}>
