@@ -49,7 +49,7 @@
     color: #085b5b;
 }
 
-.doc-subtitle{
+.doc-subtitle {
     margin: 0;
     font-size: 24px;
     font-weight: 500;
@@ -133,4 +133,17 @@
     font-weight: 600;
     color: #00f;
     border-radius: 6px;
+}
+
+.learn-py-container {
+    padding: 6px;
+    background: #179a98;
+    border-radius: 6px;
+}
+
+.learn-py-doc-label {
+    color: #fff;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
 }

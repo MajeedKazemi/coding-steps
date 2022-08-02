@@ -2,21 +2,21 @@
     width: calc(100% - 10px);
     background: rgb(101, 245, 255);
     background: -moz-linear-gradient(
-        130deg,
-        rgba(101, 245, 255, 1) 33%,
-        rgba(180, 35, 226, 1) 100%
+        180deg,
+        rgba(101, 245, 255, 1) 50%,
+        rgba(19, 173, 189, 1) 100%
     );
     background: -webkit-linear-gradient(
-        130deg,
-        rgba(101, 245, 255, 1) 33%,
-        rgba(180, 35, 226, 1) 100%
+        180deg,
+        rgba(101, 245, 255, 1) 50%,
+        rgba(19, 173, 189, 1) 100%
     );
     background: linear-gradient(
-        130deg,
-        rgba(101, 245, 255, 1) 33%,
-        rgba(180, 35, 226, 1) 100%
+        180deg,
+        rgba(101, 245, 255, 1) 50%,
+        rgba(19, 173, 189, 1) 100%
     );
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#65f5ff",endColorstr="#b423e2",GradientType=1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#65f5ff",endColorstr="#13adbd",GradientType=1);
 
     padding: 6px;
     color: #fff;

@@ -151,7 +151,8 @@ export const Documentation = (props: IPropsDocumentation) => {
     };
 
     return (
-        <div>
+        <div className="learn-py-container">
+            <span className="learn-py-doc-label">Learn about Python:</span>
             <Button
                 type="block-big"
                 onClick={() => {
