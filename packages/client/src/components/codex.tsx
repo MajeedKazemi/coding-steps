@@ -270,7 +270,7 @@ export const Codex = (props: ICodexProps) => {
     return (
         <div className="codex-container">
             <span className="codex-description-label">
-                Generate code from the following instructions:
+                Code Generator Instructions:
             </span>
             <textarea
                 // ref={textareaRef}

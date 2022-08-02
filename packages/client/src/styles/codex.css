@@ -1,14 +1,36 @@
 .codex-container {
+    width: calc(100% - 10px);
+    background: rgb(101, 245, 255);
+    background: -moz-linear-gradient(
+        130deg,
+        rgba(101, 245, 255, 1) 33%,
+        rgba(180, 35, 226, 1) 100%
+    );
+    background: -webkit-linear-gradient(
+        130deg,
+        rgba(101, 245, 255, 1) 33%,
+        rgba(180, 35, 226, 1) 100%
+    );
+    background: linear-gradient(
+        130deg,
+        rgba(101, 245, 255, 1) 33%,
+        rgba(180, 35, 226, 1) 100%
+    );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#65f5ff",endColorstr="#b423e2",GradientType=1);
+
+    padding: 6px;
+    color: #fff;
+    border-radius: 6px;
 }
 
 .codex-description-input {
-    width: 100%;
-    height: 100px;
+    width: calc(100% - 15px);
+    height: 150px;
     font-family: "Courier New", Courier, monospace;
     resize: none;
     border: 1px solid #aaa;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 15px;
     padding: 6px;
 }
 
@@ -25,4 +47,6 @@
 .codex-description-label {
     display: block;
     margin-bottom: 6px;
+    font-weight: 600;
+    color: #000;
 }

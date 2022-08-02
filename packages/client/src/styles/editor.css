@@ -136,7 +136,7 @@
 
 .task-assists {
     margin-left: 12px;
-    width: 15vw;
+    width: calc(20vw - 76px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
