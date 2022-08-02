@@ -244,7 +244,7 @@ export const CodingTask = (props: CodingTaskProps) => {
     return (
         <div className="coding-task-container">
             <section className="task-info">
-                <div>
+                <div className="task-description-container">
                     <span className="task-title">Task Description:</span>
                     <span className="task-subtitle">
                         <p
@@ -285,7 +285,7 @@ export const CodingTask = (props: CodingTaskProps) => {
                     ) : null}
                 </div>
 
-                <div>
+                <div className="task-submission-buttons-container">
                     {reachedTimeLimit && !skipped ? (
                         <Button
                             class="skip-button"

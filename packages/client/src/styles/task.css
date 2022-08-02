@@ -191,3 +191,12 @@
 .skip-button {
     margin-bottom: 12px;
 }
+
+.task-description-container {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.task-submission-buttons-container {
+    margin-top: 12px;
+}
