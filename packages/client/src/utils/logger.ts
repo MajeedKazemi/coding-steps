@@ -203,3 +203,22 @@ setInterval(() => {
         logMapMemory.delete(key);
     });
 }, 2500);
+
+setInterval(() => {
+    const keys = Object.keys(localStorage).filter((key) =>
+        key.startsWith("log-lastUpdate-")
+    );
+
+    // if log has not been updated in the last hour, delete it
+    keys.forEach((key) => {
+        const logKey = key.substring("log-lastUpdate-".length);
+
+        const lastUpdateStr = localStorage.getItem(key);
+        const lastUpdate = lastUpdateStr ? parseInt(lastUpdateStr) : 0;
+
+        if (Date.now() - lastUpdate > 3600 * 1000) {
+            localStorage.removeItem(logKey);
+            localStorage.removeItem(key);
+        }
+    });
+}, 15 * 60 * 1000);
