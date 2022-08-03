@@ -172,6 +172,10 @@ export const getNextTask = (completedTasks: IUserTask[]): Task => {
 };
 
 export const CodingTasks = [
+    new WatchVideoTask(
+        "wv0",
+        "Watch the following tutorial to learn how to properly use Coding Steps to learn about Python and write code."
+    ),
     // print string
     new AuthoringTask(
         "1a",

@@ -10,6 +10,7 @@ import {
     ModifyingTask,
     MultipleChoiceTask,
     ShortAnswerTask,
+    WatchVideoTask,
 } from "../tasks/tasks";
 import { verifyUser } from "../utils/strategy";
 
@@ -272,7 +273,8 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
             });
         } else if (
             task instanceof MultipleChoiceTask ||
-            task instanceof ShortAnswerTask
+            task instanceof ShortAnswerTask ||
+            task instanceof WatchVideoTask
         ) {
             const { startedAt } = req.body;
 
