@@ -263,12 +263,12 @@ export const CodingTasks = [
         "Write a program that asks the user for their name and then stores their name into a variable called <i>name</i>. Finally, display the message <b>Hello, <i>name</i>!</b>.",
         [
             [
-                "output: <b>What's your name?</b>",
+                "output: <b>What is your name?</b>",
                 "input: <b>Bob</b>",
                 "output: <b>Hello, Bob!</b>",
             ],
             [
-                "output: <b>What's your name?</b>",
+                "output: <b>What is your name?</b>",
                 "input: <b>James</b>",
                 "output: <b>Hello, James!</b>",
             ],
@@ -289,16 +289,16 @@ export const CodingTasks = [
         ].join("\n"),
         [
             [
-                "output: <b>What's your name?</b>",
+                "output: <b>What is your name?</b>",
                 "input: <b>Bob</b>",
-                "output: <b>What's your family name?</b>",
+                "output: <b>What is your family name?</b>",
                 "input: <b>Dylan</b>",
                 "output: <b>Hello, Bob Dylon!</b>",
             ],
             [
-                "output: <b>What's your name?</b>",
+                "output: <b>What is your name?</b>",
                 "input: <b>James</b>",
-                "output: <b>What's your family name?</b>",
+                "output: <b>What is your family name?</b>",
                 "input: <b>Madison</b>",
                 "output: <b>Hello, James Madison!</b>",
             ],
@@ -314,7 +314,7 @@ export const CodingTasks = [
     // join two string variables
     new AuthoringTask(
         "5a",
-        "Write a program that first, creates a variable called <i>food1</i> and set its value to <b>nuts</b>. Then, createss another variable called <i>food2</i> sets it to <b>bolts</b>. After, creates a third variable called <i>robot_food</i> and sets it to the value of <b><i>food1</i> and <i>food2</i></b>. Finally, display the message <b>I like <i>robot_food</i>.</b>. <br/>Note: pay attention to the space between and after the <b>and</b>.",
+        "Write a program that first, creates a variable called <i>food1</i> and set its value to <b>nuts</b>. Then, creates another variable called <i>food2</i> sets it to <b>bolts</b>. Afterwards, create a third variable called <i>robot_food</i> and sets it to the value of <b><i>food1</i> and <i>food2</i></b>. Finally, display the message <b>I like <i>robot_food</i>.</b>. <br/>Note: pay attention to the space between and after the <b>and</b>.",
         [[`output: <b>I like nuts and bolts</b>`]],
         [
             `food1 = "nuts"`,
