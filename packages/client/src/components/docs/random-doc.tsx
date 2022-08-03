@@ -14,8 +14,40 @@ export const RandomDoc = (props: IDocPageProps) => {
             <h1 className="doc-title">Random Numbers:</h1>
 
             <Accordion
-                title="Python Random choice() Method"
-                sectionId="choice-method"
+                title="Generate random number using `randint()`"
+                sectionId="randint-function"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>
+                    The <Code>randint()</Code> method returns a randomly
+                    generated number from the given range. Needs to be imported
+                    from the random module.
+                </p>
+                <Message>
+                    Parameters:{" "}
+                    <Code>random.randint(range_start, range_end)</Code>
+                </Message>
+                <Example
+                    code={
+                        "import random\n\nprint(random.randint(3, 9)) # prints a random number between 3 and 9"
+                    }
+                    text="Return a number between 3 and 9 (both included):"
+                ></Example>
+                <Message>
+                    Don't forget to <b>import the random module</b> before using
+                    the <Code>randint( )</Code> function. Otherwise, it will
+                    throw an error.
+                </Message>
+            </Accordion>
+
+            <Accordion
+                title="Choose randomly from a list using `choice()`"
+                sectionId="choice-function"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -28,10 +60,13 @@ export const RandomDoc = (props: IDocPageProps) => {
                     element from the specified sequence.
                 </p>
                 <p>
-                    The sequence can be a string, a range, a list, or any other kind of sequence.
+                    The sequence can be a string, a range, a list, or any other
+                    kind of sequence.
                 </p>
                 <Message>
-                    <p>Parameters: <Code>random.choice(list)</Code></p>
+                    <p>
+                        Parameters: <Code>random.choice(list)</Code>
+                    </p>
                 </Message>
                 <Example
                     code={
@@ -40,9 +75,10 @@ export const RandomDoc = (props: IDocPageProps) => {
                     text="Return a random element from a list:"
                 ></Example>
             </Accordion>
+
             <Accordion
-                title="Python Random randint() Method"
-                sectionId="randint-method"
+                title="Imports"
+                sectionId="imports"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -51,14 +87,26 @@ export const RandomDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>
-                    The <Code>randint()</Code> method returns a randomly generated number from the given range. Needs to be imported from the random module.
+                    Previously, we dealt with functions and keywords which are
+                    included in the Python programming language by default.
                 </p>
-                <Message>
-                    <p>Parameters: <Code>random.randint(range_start, range_end)</Code></p>
-                </Message>
+                <p>
+                    However, some functions are not available by default. These
+                    supplementary functions can only be used after we tell
+                    Python that we are introducing "add-ons". We do so by
+                    "importing" an add-on pack - a module.
+                </p>
                 <Example
-                    code={"import random\n\nprint(random.randint(3, 9)) # prints a random number between 3 and 9"}
-                    text="Return a number between 3 and 9 (both included):"
+                    code={
+                        "from random import randint\nfrom random import choice"
+                    }
+                    text="Imports randint and choice from the random module."
+                ></Example>
+                <Example
+                    code={
+                        "from random import randint\nprint(randint(1, 6)) # prints a random number between 1 and 6"
+                    }
+                    text="Imports randint from the random module and prints a random number between 1 and 6."
                 ></Example>
             </Accordion>
         </Fragment>

@@ -3,20 +3,20 @@ import { Fragment, useContext, useState } from "react";
 import { AuthContext } from "../context";
 import { DocEventType, log, LogType } from "../utils/logger";
 import { Button } from "./button";
+
 import { DocButton, IDocButton } from "./doc-button";
-import { ArithmeticsDoc } from "./docs/arithmetics.doc";
-import { ComparisonsDoc } from "./docs/comparisons-doc";
+import { CommentsDoc } from "./docs/comments-doc";
 import { ConditionalsDoc } from "./docs/conditionals-doc";
 import { DataTypesDoc } from "./docs/data-types-doc";
 import { ErrorsDoc } from "./docs/errors-doc";
 import { FunctionsDoc } from "./docs/functions-doc";
-import { ImportsDoc } from "./docs/imports-doc";
+import { IndentationsDoc } from "./docs/indentations-doc";
+import { InputOutputDoc } from "./docs/input-output-doc";
+import { IntroDoc } from "./docs/intro-doc";
 import { ListsDoc } from "./docs/lists-doc";
-import { LogicalOperatorsDoc } from "./docs/logical-operators-doc";
 import { LoopsDoc } from "./docs/loops-doc";
-import { ModifyingStringsDoc } from "./docs/modifying-strings-doc";
+import { OperatorsDoc } from "./docs/operators-doc";
 import { RandomDoc } from "./docs/random-doc";
-import { SyntaxDoc } from "./docs/syntax-doc";
 import { VariablesDoc } from "./docs/variables-doc";
 
 interface IPropsDocumentation {
@@ -47,22 +47,46 @@ export const Documentation = (props: IPropsDocumentation) => {
         setSelectedSectionId(next);
     };
 
+    // python
+    // python statements
+    // blocks and indentation
+    // comments
+
+    // operators
+    // using + to join strings
+    // using + to add numbers
+    // arithmetic operations on numbers
+    // adding a value to the previous value of a var
+    // using other shorthand arithmetic operators
+
+    // random
+    // generate random numbers
+    // select randomly from a list of items
+
+    // if else elif conditionals
+
+    // comparators
+
+    // logical operators
+
+    // loops
+
+    // lists
+
+    // fixing the behavior of code and debugging
+
+    // error messages
+
     const getContentFromId = (pageId: string) => {
         switch (pageId) {
-            case "syntax":
+            case "input-and-output":
                 return (
-                    <SyntaxDoc
+                    <InputOutputDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
                 );
-            case "data-types":
-                return (
-                    <DataTypesDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
+
             case "variables":
                 return (
                     <VariablesDoc
@@ -70,27 +94,39 @@ export const Documentation = (props: IPropsDocumentation) => {
                         onSectionChange={handleSectionChange}
                     />
                 );
-            case "functions":
+
+            case "data-types":
                 return (
-                    <FunctionsDoc
+                    <DataTypesDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
                 );
-            case "loops":
+
+            case "operators":
                 return (
-                    <LoopsDoc
+                    <OperatorsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
                 );
-            case "conditionals":
+
+            case "comments":
                 return (
-                    <ConditionalsDoc
+                    <CommentsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
                 );
+
+            case "errors":
+                return (
+                    <ErrorsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
             case "lists":
                 return (
                     <ListsDoc
@@ -98,51 +134,50 @@ export const Documentation = (props: IPropsDocumentation) => {
                         onSectionChange={handleSectionChange}
                     />
                 );
-            case "strings":
+
+            case "loops":
                 return (
-                    <ModifyingStringsDoc
+                    <LoopsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
                 );
-            case "comparisons":
-                return (
-                    <ComparisonsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-            case "logical-operators":
-                return (
-                    <LogicalOperatorsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-            case "arithmetics":
-                return (
-                    <ArithmeticsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-            case "imports":
-                return (
-                    <ImportsDoc
-                        pageId={pageId}
-                        onSectionChange={handleSectionChange}
-                    />
-                );
-            case "random":
+
+            case "randoms":
                 return (
                     <RandomDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
                 );
-            case "errors":
+
+            case "conditionals":
                 return (
-                    <ErrorsDoc
+                    <ConditionalsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "functions":
+                return (
+                    <FunctionsDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "intro":
+                return (
+                    <IntroDoc
+                        pageId={pageId}
+                        onSectionChange={handleSectionChange}
+                    />
+                );
+
+            case "indentations":
+                return (
+                    <IndentationsDoc
                         pageId={pageId}
                         onSectionChange={handleSectionChange}
                     />
@@ -271,18 +306,39 @@ export const Documentation = (props: IPropsDocumentation) => {
 };
 
 const docs: Array<IDocButton> = [
-    { id: "syntax", name: "Syntax" }, //done
-    { id: "data-types", name: "Data Types" }, //done
-    { id: "variables", name: "Variables" }, //done
-    { id: "functions", name: "Built-In Functions" }, //done
-    { id: "loops", name: "Loops" }, //done
-    { id: "conditionals", name: "Conditionals" }, //done
-    { id: "lists", name: "Lists" }, //done
-    { id: "strings", name: "Strings" }, //done
-    { id: "arithmetics", name: "Arithmetics" }, //done
-    { id: "comparisons", name: "Comparisons" }, //done
-    { id: "logical-operators", name: "Logical Operators" }, //todo
-    { id: "imports", name: "Imports" }, //done
-    { id: "random", name: "Random" }, //done
-    { id: "errors", name: "Error Message Guide" }, //todo
+    { id: "input-and-output", name: "Input and Output" },
+    { id: "variables", name: "Variables" },
+    { id: "data-types", name: "Data Types" },
+    { id: "operators", name: "Operators" },
+    { id: "comments", name: "Comments" },
+    { id: "indentations", name: "Indentations" },
+    { id: "conditionals", name: "Conditionals" },
+    { id: "loops", name: "Loops" },
+    { id: "lists", name: "Lists" },
+    { id: "randoms", name: "Randoms" },
+    { id: "functions", name: "All Python Functions" },
+    { id: "errors", name: "Errors" },
+    // { id: "syntax", name: "syntax" },
+    // { id: "comments", name: "comments" },
+    // { id: "variables", name: "variables" },
+    // { id: "variable-names", name: "variable names" },
+    // { id: "output-variables", name: "output variables" },
+    // { id: "global-variables", name: "global variables" },
+    // { id: "data-types", name: "data types" },
+    // { id: "numbers", name: "numbers" },
+    // { id: "random", name: "random" },
+    // { id: "casting", name: "casting" },
+    // { id: "strings-concatenation", name: "strings concatenation" },
+    // { id: "strings", name: "strings" },
+    // { id: "operators", name: "operators" },
+    // { id: "booleans", name: "booleans" },
+    // { id: "lists", name: "lists" },
+    // { id: "list-add-item", name: "list add item" },
+    // { id: "list-remove-item", name: "list remove item" },
+    // { id: "list-loop-through", name: "list loop through" },
+    // { id: "list-operations", name: "list operations" },
+    // { id: "if-else", name: "if-else" },
+    // { id: "while-loops", name: "while loops" },
+    // { id: "for-loops", name: "for loops" },
+    // { id: "user-input", name: "user input" },
 ];

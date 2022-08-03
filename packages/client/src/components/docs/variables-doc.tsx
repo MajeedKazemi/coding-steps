@@ -14,8 +14,8 @@ export const VariablesDoc = (props: IDocPageProps) => {
             <h1 className="doc-title">Variables:</h1>
 
             <Accordion
-                title="Creating Variables"
-                sectionId="creating-variables"
+                title="Variable Basics"
+                sectionId="variable-basics"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -23,50 +23,66 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>Variables are containers for storing data values.</p>
                 <p>
-                    A variable is created the moment you first assign a value to
-                    it.
+                    Variables are like a container that store values in the
+                    computer memory and their value can be reassigned to be
+                    updated.
                 </p>
                 <p>
-                    You can assign a value by using the <Code>=</Code> operator
+                    Python has <u>no</u> command for declaring a variable and a
+                    variable is created the moment you first set a value to it.
+                    See the example below:
                 </p>
-
                 <Example
                     code={'x = 5\ny = "John"\nprint(x)\nprint(y)'}
                 ></Example>
-
-                
-                <Message>
-                    <p>Variables names are case-sensitive.</p>
-                    <p>Python will interpret <Code>Name</Code> and <Code>name</Code> as different variables</p>
-                </Message>
-            </Accordion>
-            <Accordion
-                title="Updating Variables"
-                sectionId="updating-variables"
-                pageId={props.pageId}
-                click={(next: string) => {
-                    props.onSectionChange(current, next);
-                    setCurrent(next);
-                }}
-                current={current}
-            >
-                <p>You can change the value of a variable by using the <Code>=</Code> operator</p>
-                <p>
-                    Variables can change types after they have been set.
-                </p>
+                <ul>
+                    <li>
+                        Each variable has a <b>unique</b> name (called an
+                        identifier)
+                    </li>
+                    <li>
+                        You can set the value of a variable using the{" "}
+                        <Code>=</Code> operator.
+                    </li>
+                    <li>
+                        For example <Code>x = 10</Code> creates a variable
+                        called x and sets its value to a fixed number (integer).
+                    </li>
+                    <li>
+                        For example <Code>message = "some message"</Code>{" "}
+                        creates a variable called message and sets it to a fixed
+                        text (string).
+                    </li>
+                    <li>
+                        Variables can only be accessed (to get their value){" "}
+                        <b>after</b> they've been assigned a value, otherwise
+                        the program is not able to recognize the variable. See
+                        and compare the examples below:
+                    </li>
+                </ul>
                 <Example
-                    code={
-                        'x = 4\t# x is of type int\nx = "Sally" # x is now of type str\nprint(x)'
-                    }
+                    isError
+                    title="Error: Variable accessed before being assigned a value"
+                    code={[
+                        `print(var) # throws an error as var needs to be defined before it is accessed`,
+                        `var = "some text"`,
+                    ].join("\n")}
+                ></Example>
+
+                <Example
+                    isError
+                    title="Error: Variable accessed before being assigned a value"
+                    code={[
+                        `var = "some text"`,
+                        `print(var) # will display: some text`,
+                    ].join("\n")}
                 ></Example>
             </Accordion>
 
-            <h2 className="doc-subtitle">Shorcuts for Updating Variables</h2>
             <Accordion
-                title="+="
-                sectionId="+="
+                title="Variable Names"
+                sectionId="var-names-intro"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -74,15 +90,46 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>Adds the value on the right-hand side of the <Code>+=</Code> sign to the specified variable and stores the result in the variable.</p>
+                <p>
+                    A variable can have a short name (like x and y) or a more
+                    descriptive name (age, carname, total_volume). Rules for
+                    Python variables:
+                </p>
+                <ul>
+                    <li>
+                        A variable name must start with a letter or the
+                        underscore character
+                    </li>
+                    <li>A variable name cannot start with a number</li>
+                    <li>
+                        A variable name can only contain alpha-numeric
+                        characters and underscores (A-z, 0-9, and _ )
+                    </li>
+                    <li>
+                        Variable names are case-sensitive (age, Age and AGE are
+                        three different variables)
+                    </li>
+                </ul>
                 <Example
-                code={
-                    'x = 4\nx += 1\nprint(x) # prints 5'
-                }></Example>
+                    code={
+                        'myvar = "John"\nmy_var = "John"\n_my_var = "John"\nmyVar = "John"\nMYVAR = "John"\nmyvar2 = "John"'
+                    }
+                    text="Legal variable names:"
+                ></Example>
+
+                <Example
+                    code={'2myvar = "John"\nmy-var = "John"\nmy var = "John"'}
+                    text="Illegal variable names:"
+                    isError
+                ></Example>
+                <Message>
+                    Remember that variable names are case-sensitive
+                </Message>
             </Accordion>
+
             <Accordion
-                title="-="
-                sectionId="-="
+                title="Variable Name Standards"
+                sectionId="var-name-standards"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -90,15 +137,37 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>Subtract the value on the right-hand side of the <Code>-=</Code> sign to the specified variable and stores the result in the variable.</p>
+                <p>
+                    Variable names with more than one word can be difficult to
+                    read.
+                </p>
+                <p>
+                    There are several techniques you can use to make them more
+                    readable:
+                </p>
+
+                <h2>Snake Case</h2>
                 <Example
-                code={
-                    'x = 4\nx -= 1\nprint(x) # prints 3'
-                }></Example>
+                    code={'my_variable_name = "John"'}
+                    text="Each word is separated by an underscore character:"
+                ></Example>
+
+                <h2>Camel Case</h2>
+                <Example
+                    code={'myVariableName = "John"'}
+                    text="Each word, except the first, starts with a capital letter:"
+                ></Example>
+
+                <h2>Pascal Case</h2>
+                <Example
+                    code={'MyVariableName = "John"'}
+                    text="Each word starts with a capital letter:"
+                ></Example>
             </Accordion>
+
             <Accordion
-                title="*="
-                sectionId="*="
+                title="Accessing value of a variable"
+                sectionId="access-value-vars"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -106,15 +175,26 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>Multiplies the value on the right-hand side of the <Code>*=</Code> sign to the specified variable and stores the result in the variable.</p>
+                <p>
+                    Variable names are case sensitive. So when accessing them,
+                    they should be exactly the same.
+                </p>
+
                 <Example
-                code={
-                    'x = 4\nx *= 2\nprint(x) # prints 8'
-                }></Example>
+                    code={[
+                        `my_var = "john"`,
+                        `MY_VAR = "doe"`,
+                        ``,
+                        `print(my_var) # will display: john`,
+                        `print(MY_VAR) # will display: doe`,
+                    ].join("\n")}
+                    text="Each word is separated by an underscore character:"
+                ></Example>
             </Accordion>
+
             <Accordion
-                title="/="
-                sectionId="/="
+                title="Multiple assignments in one line"
+                sectionId="multi-assign-vars"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -122,11 +202,22 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 }}
                 current={current}
             >
-                <p>Divides the value on the right-hand side of the <Code>/=</Code> sign to the specified variable and stores the result in the variable.</p>
+                <p>
+                    In python you can use the comma operator to assign multiple
+                    values to multiple variables
+                </p>
+
                 <Example
-                code={
-                    'x = 4\nx /= 2\nprint(x) # prints 2'
-                }></Example>
+                    code={[
+                        `a, b, c = “hello”, 10, False`,
+                        ``,
+                        `# the code above is the same as below:`,
+                        ``,
+                        `a = “hello”`,
+                        `b = 10`,
+                        `c = False`,
+                    ].join("\n")}
+                ></Example>
             </Accordion>
         </Fragment>
     );

@@ -51,6 +51,15 @@
     margin: 0;
 }
 
+.accordion-title-code {
+    font-family: "Courier New", Courier, monospace;
+    background-color: #bb1fd5;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 11px;
+    font-weight: 600;
+}
+
 .accordion-content {
     overflow: hidden;
 }

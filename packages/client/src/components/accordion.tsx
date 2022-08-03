@@ -37,7 +37,14 @@ export const Accordion = (props: IAccordionProps) => {
                 className={`accordion-header ${isOpen && "open-header"}`}
                 onClick={handleClick}
             >
-                <h2 className="accordion-title">{props.title}</h2>
+                <h2
+                    className="accordion-title"
+                    dangerouslySetInnerHTML={{
+                        __html: props.title.replace(/`(.*?)`/g, (match, p1) => {
+                            return `<span class="accordion-title-code">${p1}</span>`;
+                        }),
+                    }}
+                ></h2>
                 <div className="accordion-arrow-button" onClick={handleClick}>
                     {isOpen ? (
                         <svg
