@@ -3,6 +3,7 @@ export enum TaskType {
     Modifying = "modifying",
     ShortAnswer = "shortAnswer",
     MultipleChoice = "multipleChoice",
+    WatchVideo = "watchVideo",
 }
 
 export interface IUserTask {
@@ -40,6 +41,12 @@ export abstract class Task {
         this.id = id;
         this.description = description;
         this.type = type;
+    }
+}
+
+export class WatchVideoTask extends Task {
+    constructor(id: string, description: string) {
+        super(id, description, TaskType.WatchVideo);
     }
 }
 

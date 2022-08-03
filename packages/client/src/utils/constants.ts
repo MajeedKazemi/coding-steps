@@ -8,4 +8,5 @@ export enum TaskType {
     Modifying = "modifying",
     ShortAnswer = "shortAnswer",
     MultipleChoice = "multipleChoice",
+    WatchVideo = "watchVideo",
 }

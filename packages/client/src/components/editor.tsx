@@ -1,8 +1,20 @@
 import * as monaco from "monaco-editor";
-import { forwardRef, Fragment, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
+import {
+    forwardRef,
+    Fragment,
+    useContext,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState,
+} from "react";
 
 import { apiGetSavedUserCode, apiSaveUserCode, logError } from "../api/api";
-import { initLanguageClient, retryOpeningLanguageClient, stopLanguageClient } from "../api/intellisense";
+import {
+    initLanguageClient,
+    retryOpeningLanguageClient,
+    stopLanguageClient,
+} from "../api/intellisense";
 import {
     executeCode,
     initPythonShellSocket,
@@ -114,14 +126,14 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                                 console.log(e);
                             });
 
-                            editor.addCommand(
-                                monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
-                                function () {
-                                    setOutput([]);
-                                    setRunning(true);
-                                    executeCode(editor?.getValue());
-                                }
-                            );
+                            // editor.addCommand(
+                            //     monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+                            //     function () {
+                            //         setOutput([]);
+                            //         setRunning(true);
+                            //         executeCode(editor?.getValue());
+                            //     }
+                            // );
 
                             setEditor(editor);
 

@@ -6,6 +6,7 @@ import { Layout } from "../components/layout";
 import { Loader } from "../components/loader";
 import { MultipleChoiceTask } from "../components/multiple-choice-task";
 import { ShortAnswerTask } from "../components/short-answer-task";
+import { WatchVideoTask } from "../components/watch-video-task";
 import { AuthContext } from "../context";
 import { TaskType } from "../utils/constants";
 
@@ -76,6 +77,17 @@ export const TasksPage = () => {
                         onCompletion={setNextTask}
                         taskType={task.type}
                     ></ShortAnswerTask>
+                );
+
+            case TaskType.WatchVideo:
+                return (
+                    <WatchVideoTask
+                        key={task.id}
+                        id={task.id}
+                        description={task.description}
+                        onCompletion={setNextTask}
+                        taskType={task.type}
+                    ></WatchVideoTask>
                 );
         }
     };
