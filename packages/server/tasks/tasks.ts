@@ -135,53 +135,6 @@ export class ShortAnswerTask extends Task {
     }
 }
 
-export const getNextTask = (completedTasks: IUserTask[]): Task => {
-    // this should get a diff from the available tasks and the completed tasks
-    // and then return the first one after
-
-    // for (let i = 0; i < CodingTasks.length; i++) {
-    //     if (!completedTasks.some((task) => task.taskId === CodingTasks[i].id)) {
-    //         break;
-    //     }
-    // }
-
-    // if the last task was an authoring task and they did it correctly, the starting code for it should be the final code that they submitted.
-    if (completedTasks === undefined || completedTasks.length === 0)
-        return CodingTasks[0];
-
-    const availableTaskIds = CodingTasks.map((task) => task.id);
-
-    // for each completed task, remove it from the available task ids list
-    completedTasks.forEach((task) => {
-        const index = availableTaskIds.indexOf(task.taskId);
-
-        if (index > -1) {
-            availableTaskIds.splice(index, 1);
-        }
-    });
-
-    const nextTaskId = availableTaskIds[0];
-
-    const nextTask = CodingTasks.find((task) => task.id === nextTaskId);
-    const nextTaskIndex = CodingTasks.findIndex(
-        (task) => task.id === nextTaskId
-    );
-    const prevTaskId = CodingTasks[nextTaskIndex - 1].id;
-    const prevTask = completedTasks.find((task) => task.taskId === prevTaskId);
-
-    if (
-        prevTask !== undefined &&
-        nextTask instanceof ModifyingTask &&
-        getTaskFromTaskId(prevTask.taskId)?.type === TaskType.Authoring &&
-        prevTask.passed
-    ) {
-        nextTask.starterCode =
-            prevTask.submissions[prevTask.submissions.length - 1].code;
-    }
-
-    return nextTask as any;
-};
-
 export const CodingTasks = [
     new WatchVideoTask(
         "wv0",
@@ -2329,6 +2282,59 @@ export const CodingTasks = [
         60 * 4
     ),
 ];
+
+export const getNextTask = (completedTasks: IUserTask[]): Task => {
+    // this should get a diff from the available tasks and the completed tasks
+    // and then return the first one after
+
+    // for (let i = 0; i < CodingTasks.length; i++) {
+    //     if (!completedTasks.some((task) => task.taskId === CodingTasks[i].id)) {
+    //         break;
+    //     }
+    // }
+
+    // if the last task was an authoring task and they did it correctly, the starting code for it should be the final code that they submitted.
+    if (completedTasks === undefined || completedTasks.length === 0)
+        return CodingTasks[0];
+
+    const availableTaskIds = CodingTasks.map((task) => task.id);
+
+    // for each completed task, remove it from the available task ids list
+    completedTasks.forEach((task) => {
+        const index = availableTaskIds.indexOf(task.taskId);
+
+        if (index > -1) {
+            availableTaskIds.splice(index, 1);
+        }
+    });
+
+    const nextTaskId = availableTaskIds[0];
+
+    const nextTask = CodingTasks.find((task) => task.id === nextTaskId);
+    const nextTaskIndex = CodingTasks.findIndex(
+        (task) => task.id === nextTaskId
+    );
+
+    const prevTaskInCodingTasks = CodingTasks[nextTaskIndex - 1];
+    const prevTaskId = prevTaskInCodingTasks.id;
+    let prevTask = undefined;
+
+    if (prevTaskInCodingTasks) {
+        prevTask = completedTasks.find((task) => task.taskId === prevTaskId);
+    }
+
+    if (
+        prevTask !== undefined &&
+        nextTask instanceof ModifyingTask &&
+        getTaskFromTaskId(prevTask.taskId)?.type === TaskType.Authoring &&
+        prevTask.passed
+    ) {
+        nextTask.starterCode =
+            prevTask.submissions[prevTask.submissions.length - 1].code;
+    }
+
+    return nextTask as any;
+};
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
     CodingTasks.findIndex((task) => task.id === taskId);
