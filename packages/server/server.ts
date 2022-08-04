@@ -52,7 +52,16 @@ mongoose
         app.use(cookieParser(env.COOKIE_SECRET));
         app.use(passport.initialize());
         app.use(passport.session());
-        app.use(bodyParser.json());
+        app.use(
+            bodyParser.json({
+                limit: "50mb",
+            })
+        );
+        app.use(
+            bodyParser.urlencoded({
+                limit: "10mb",
+            })
+        );
 
         app.use(expressMiddleware(appSignal));
 
