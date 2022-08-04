@@ -16,6 +16,11 @@ export const initPythonShellSocket = () => {
     webSocket.onclose = () => {
         isConnected = false;
     };
+
+    webSocket.onerror = () => {
+        isConnected = false;
+        webSocket.close();
+    };
 };
 
 export function executeCode(code?: string) {
@@ -25,6 +30,8 @@ export function executeCode(code?: string) {
 }
 
 export function stopShell() {
+    retryOpeningPythonShell();
+
     webSocket.send(JSON.stringify({ type: "stop" }));
 }
 
@@ -49,17 +56,20 @@ export function onShellMessage(callback: (response: any) => void) {
 
 export function onShellOpen(callback: () => void) {
     webSocket.onopen = () => {
+        isConnected = true;
         callback();
     };
 }
 
 export function onShellClose(callback: () => void) {
     webSocket.onclose = () => {
+        isConnected = false;
         callback();
     };
 }
 
 export function stopPythonShell() {
+    isConnected = false;
     webSocket.close();
 }
 

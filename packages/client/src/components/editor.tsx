@@ -1,20 +1,8 @@
 import * as monaco from "monaco-editor";
-import {
-    forwardRef,
-    Fragment,
-    useContext,
-    useEffect,
-    useImperativeHandle,
-    useRef,
-    useState,
-} from "react";
+import { forwardRef, Fragment, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
 
 import { apiGetSavedUserCode, apiSaveUserCode, logError } from "../api/api";
-import {
-    initLanguageClient,
-    retryOpeningLanguageClient,
-    stopLanguageClient,
-} from "../api/intellisense";
+import { initLanguageClient, retryOpeningLanguageClient, stopLanguageClient } from "../api/intellisense";
 import {
     executeCode,
     initPythonShellSocket,
@@ -218,15 +206,15 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
 
     const handleClickRun = () => {
         if (!running) {
+            executeCode(editor?.getValue());
+            setOutput([]);
+            setRunning(true);
+
             log(props.taskId, context?.user?.id, LogType.RunEvent, {
                 type: RunEventType.Start,
                 code: editor?.getValue(),
                 runId: runId,
             });
-
-            setOutput([]);
-            setRunning(true);
-            executeCode(editor?.getValue());
         } else {
             stopShell();
             setRunning(false);
