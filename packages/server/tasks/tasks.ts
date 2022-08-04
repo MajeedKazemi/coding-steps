@@ -2297,34 +2297,17 @@ export const getNextTask = (completedTasks: IUserTask[]): Task => {
     if (completedTasks === undefined || completedTasks.length === 0)
         return CodingTasks[0];
 
-    const availableTaskIds = CodingTasks.map((task) => task.id);
-
-    // for each completed task, remove it from the available task ids list
-    completedTasks.forEach((task) => {
-        const index = availableTaskIds.indexOf(task.taskId);
-
-        if (index > -1) {
-            availableTaskIds.splice(index, 1);
-        }
-    });
-
-    const nextTaskId = availableTaskIds[0];
-
-    const nextTask = CodingTasks.find((task) => task.id === nextTaskId);
-    const nextTaskIndex = CodingTasks.findIndex(
-        (task) => task.id === nextTaskId
+    const lastCompletedTaskId =
+        completedTasks[completedTasks.length - 1].taskId;
+    const lastCompletedTaskIndex = CodingTasks.findIndex(
+        (task) => task.id === lastCompletedTaskId
     );
 
-    const prevTaskInCodingTasks = CodingTasks[nextTaskIndex - 1];
-    const prevTaskId = prevTaskInCodingTasks.id;
-    let prevTask = undefined;
+    const nextTask = CodingTasks[lastCompletedTaskIndex + 1];
 
-    if (prevTaskInCodingTasks) {
-        prevTask = completedTasks.find((task) => task.taskId === prevTaskId);
-    }
+    const prevTask = completedTasks[completedTasks.length - 1];
 
     if (
-        prevTask !== undefined &&
         nextTask instanceof ModifyingTask &&
         getTaskFromTaskId(prevTask.taskId)?.type === TaskType.Authoring &&
         prevTask.passed
@@ -2333,7 +2316,7 @@ export const getNextTask = (completedTasks: IUserTask[]): Task => {
             prevTask.submissions[prevTask.submissions.length - 1].code;
     }
 
-    return nextTask as any;
+    return nextTask;
 };
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
