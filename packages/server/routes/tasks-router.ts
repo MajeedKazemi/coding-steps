@@ -188,46 +188,54 @@ tasksRouter.get("/grading-status/:taskId", verifyUser, (req, res, next) => {
 // get all tasks that should be graded by the admin
 tasksRouter.get("/not-graded", verifyUser, (req, res, next) => {
     if ((req.user as IUser).role === "admin") {
-        UserTaskModel.find({ beingGraded: true })
-            .sort({ startedAt: 1 })
-            .then((userTasks) => {
-                res.send({
-                    success: true,
-                    submissions: userTasks
-                        .map((userTask) => {
-                            const task = getTaskFromTaskId(userTask.taskId);
+        UserTaskModel.find({ beingGraded: true }).then((userTasks) => {
+            res.send({
+                success: true,
+                submissions: userTasks
+                    .map((userTask) => {
+                        const task = getTaskFromTaskId(userTask.taskId);
 
-                            if (userTask.submissions.length > 0) {
-                                const index = userTask.submissions.length - 1;
-                                let solution = "";
+                        if (userTask.submissions.length > 0) {
+                            const index = userTask.submissions.length - 1;
+                            let solution = "";
 
-                                if (
-                                    task instanceof AuthoringTask ||
-                                    task instanceof ModifyingTask
-                                ) {
-                                    solution = task.solution;
-                                }
-
-                                return {
-                                    index,
-                                    id: `${userTask.userTaskId}-${index}`,
-                                    userId: userTask.userId,
-                                    taskId: userTask.taskId,
-                                    taskType: task?.type,
-                                    solution,
-                                    code: userTask.submissions[index].code,
-                                    taskDescription: task?.description,
-                                    submittedAt:
-                                        userTask.submissions[index].submittedAt,
-                                };
+                            if (
+                                task instanceof AuthoringTask ||
+                                task instanceof ModifyingTask
+                            ) {
+                                solution = task.solution;
                             }
-                        })
-                        .filter((submission) => submission !== undefined)
-                        .sort(
-                            (a: any, b: any) => a.submittedAt - b.submittedAt
-                        ),
-                });
+
+                            return {
+                                index,
+                                id: `${userTask.userTaskId}-${index}`,
+                                userId: userTask.userId,
+                                taskId: userTask.taskId,
+                                taskType: task?.type,
+                                solution,
+                                startedAt: userTask.startedAt,
+                                submissionCount: userTask.submissions.length,
+                                code: userTask.submissions[index].code,
+                                taskDescription: task?.description,
+                                submittedAt: new Date(
+                                    userTask.submissions[index].submittedAt
+                                ),
+                            };
+                        }
+                    })
+                    .filter((submission) => submission !== undefined)
+                    .sort((b, a) => {
+                        return (
+                            (b?.submittedAt?.getTime()
+                                ? b?.submittedAt?.getTime()
+                                : 0) -
+                            (a?.submittedAt?.getTime()
+                                ? a?.submittedAt?.getTime()
+                                : 0)
+                        );
+                    }),
             });
+        });
     } else {
         res.statusCode = 500;
         res.send({ success: false, message: "Not authorized" });

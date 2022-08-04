@@ -22,6 +22,7 @@ export interface ISubmission {
     code: string;
     submittedAt: Date;
     solution: string;
+    submissionCount: number;
 }
 
 export interface IContext {

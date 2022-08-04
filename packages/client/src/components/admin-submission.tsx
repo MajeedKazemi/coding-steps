@@ -1,6 +1,5 @@
 import * as monaco from "monaco-editor";
 import { useContext, useEffect, useRef, useState } from "react";
-import ReactDiffViewer from "react-diff-viewer";
 
 import { apiAdminSetGrade, logError } from "../api/api";
 import { AuthContext } from "../context";
@@ -19,6 +18,7 @@ export const AdminSubmission = (props: IProps) => {
     const monacoEl = useRef(null);
     const [editor, setEditor] =
         useState<monaco.editor.IStandaloneCodeEditor | null>(null);
+    const solutionEl = useRef(null);
 
     useEffect(() => {
         if (monacoEl && !editor) {
@@ -31,7 +31,8 @@ export const AdminSubmission = (props: IProps) => {
                 lineHeight: 26,
                 dimension: {
                     width: 700,
-                    height: 30 * props.submission.code.split("\n").length,
+                    height:
+                        26 * (props.submission?.code?.split("\n").length + 2),
                 },
                 minimap: { enabled: false },
                 wordWrap: "on",
@@ -41,6 +42,16 @@ export const AdminSubmission = (props: IProps) => {
             setEditor(editor);
         }
     }, [monacoEl.current]);
+
+    useEffect(() => {
+        if (solutionEl.current) {
+            monaco.editor.colorizeElement(solutionEl.current as HTMLElement, {
+                theme: "vs",
+                mimeType: "python",
+                tabSize: 4,
+            });
+        }
+    }, [solutionEl]);
 
     const handleSubmitGrade = () => {
         if (grade === "pass" || grade === "fail") {
@@ -70,14 +81,20 @@ export const AdminSubmission = (props: IProps) => {
         <div className="task-submission-container">
             <div className="task-submission-divider">
                 <div className="submitted-code-container">
-                    {/* <span>{props.submission.submittedAt}</span> */}
                     <h2>Task {props.submission.taskId}</h2>
                     <p
                         dangerouslySetInnerHTML={{
                             __html: props.submission.taskDescription,
                         }}
                     ></p>
+                    <span>
+                        Submission Count: {props.submission.submissionCount}
+                    </span>
                     <div ref={monacoEl} className="editor-user-code"></div>
+
+                    <div ref={solutionEl} className="admin-solution-code">
+                        {props.submission.solution}
+                    </div>
                 </div>
 
                 <form
@@ -117,12 +134,6 @@ export const AdminSubmission = (props: IProps) => {
                 </form>
             </div>
             <br />
-            <div></div>
-            <ReactDiffViewer
-                oldValue={props.submission.code}
-                newValue={props.submission.solution}
-                splitView={true}
-            />
         </div>
     );
 };

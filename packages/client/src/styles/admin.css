@@ -27,10 +27,17 @@
 
 .editor-user-code {
     width: 100%;
-    height: 50%;
 }
 
 .feedback-textarea {
     width: 100%;
     height: 50px;
+}
+
+.admin-solution-code {
+    margin-top: 12px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: "Courier New", Courier, monospace;
 }
