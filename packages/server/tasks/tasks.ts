@@ -1362,8 +1362,6 @@ export const CodingTasks = [
         60 * 6
     ),
 
-    // TODO: add multiple choice tasks for if-else and logical expressions
-
     new AuthoringTask(
         "17a",
         "display <b>Hello</b> 10 times using a loop.",
@@ -1404,10 +1402,227 @@ export const CodingTasks = [
         60 * 6
     ),
 
+    new MultipleChoiceTask(
+        "mc12",
+        `What value for <i>x</i> will make the following code display the message <b>yes</b>? <br/> <div class="code-block">${[
+            `if x > 5:`,
+            `    print("yes")`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${[`x = 3`].join("\n")}</div>`,
+
+            `<div class="code-block">${[`x = 4`].join("\n")}</div>`,
+
+            `<div class="code-block">${[`x = 5`].join("\n")}</div>`,
+
+            `None of the values above will make the code display the message <b>yes</b>.`,
+
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc13",
+        `What will the following program display in the output when it runs? <br/> <div class="code-block">${[
+            `number = 10`,
+            `if number >= 10:`,
+            `    number = number + 1`,
+            `else:`,
+            `    number = number - 1`,
+            `print(number)`,
+        ].join("\n")}</div>`,
+        [`9`, `10`, `11`, `number`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc14",
+        `What values for <i>month</i> and <i>day</i> will make the following expression become <b>True</b>? <br/> <div class="code-block">${[
+            `(month == "january" and day > 15) or (month == "march" and day < 15)`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${[`month = "january"`, `day = 15`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`month = "march"`, `day = 15`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`month = "january"`, `day = 14`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`month = "march"`, `day = 14`].join(
+                "\n"
+            )}</div>`,
+
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc15",
+        `Which of the following expressions checks if <i>number</i> is positive and <i>coin</i> is equal to <b>heads</b> <div class="code-block">${[
+            `(month == "january" and day > 15) or (month == "march" and day < 15)`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${[
+                `coin == "heads" or number == 0 or number > 0 `,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[`coin == "heads" and 0 > number`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`coin == "heads" and number > 0`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`0 < number and coin = "heads" `].join(
+                "\n"
+            )}</div>`,
+
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc16",
+        `What will this program display in the output? <b>heads</b> <div class="code-block">${[
+            `var1 = 5`,
+            `var2 = 10`,
+            ``,
+            `if var1 < 10`,
+            `    var1 = 10`,
+            ``,
+            `    if var2 != var1`,
+            `        var2 = var1 - 5`,
+            `    else:`,
+            `        var2 = var1 + 5`,
+            ``,
+            `print(var2)`,
+        ].join("\n")}</div>`,
+        [`5`, `10`, `15`, `20`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc17",
+        `Assume that <i>roll1</i>, <i>roll2</i> and <i>roll3</i> are three random numbers <b>between 1 and 10</b>. Which of the following codes checks if they are all equal to <b>10</b>?`,
+        [
+            `<div class="code-block">${[
+                `roll1 == roll2 and roll1 == roll3`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[`roll1 and roll2 and roll3 == 10`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[
+                `roll1 == roll2 and roll2 and roll3 == 10`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `roll1 == roll2 and roll3 == 10 and roll1 == roll3`,
+            ].join("\n")}</div>`,
+
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc18",
+        `What will the following code display in the output? <br/> <div class="code-block">${[
+            `msg = ""`,
+            `usr1 = "jon"`,
+            `usr2 = "john"`,
+            `usr3 = "jonathan"`,
+            ``,
+            `if usr1 == "jonathan":`,
+            `    msg = usr1`,
+            `elif usr2 == "john":`,
+            `    msg = usr2`,
+            `elif usr3 == "jon":`,
+            `    msg = usr3`,
+            `else:`,
+            `    msg = "jack"`,
+            ``,
+            `print(msg)`,
+        ].join("\n")}</div>`,
+        [`jack`, `john`, `jonathan`, `jon`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc19",
+        `What will the following code display in the output? <br/> <div class="code-block">${[
+            `import random`,
+            `x = random.randint(1, 3)`,
+            `y = random.randint(5, 10)`,
+            `z = random.randint(50, 100)`,
+            ``,
+            `if x > 5 or y > 5:`,
+            `    if x > y:`,
+            `        print("X > Y")`,
+            `    else:`,
+            `        print("Y > X")`,
+            `else:`,
+            `    print("Z > X and Z > Y")`,
+        ].join("\n")}</div>`,
+        [
+            `X > Y`,
+            `Y > X`,
+            `Z > X and Z > Y`,
+            `This program will not display any message.`,
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc20",
+        `What will the following code display in the output? <br/> <div class="code-block">${[
+            `num1 = 10 - 20`,
+            `num2 = 20 - 10`,
+            `num3 = 5`,
+            ``,
+            `if num1 > 0:`,
+            `    print("first")`,
+            `elif num2 > 10:`,
+            `    print("second")`,
+            `elif num3 > 5:`,
+            `    print("third")`,
+        ].join("\n")}</div>`,
+        [
+            `first`,
+            `second`,
+            `third`,
+            `This program will not display any message.`,
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc21",
+        `Which set of values for <i>num</i> will make the following code only display <b>YES</b> in the output? <br/> <div class="code-block">${[
+            `import random`,
+            `num = random.randint(0, 50)`,
+            ``,
+            `if num <= 47 and num >= 4:`,
+            `    print("NO")`,
+            `else:`,
+            `    print("YES")`,
+        ].join("\n")}</div>`,
+        [
+            `any of the values between 0 and 50`,
+            `[0, 1, 2, 3, 4, 47, 48, 49, 50]`,
+            `[0, 1, 2, 3, 48, 49, 50]`,
+            `[5, 6, 45, 46]`,
+            `I don't know.`,
+        ]
+    ),
+
     // checked everything until here.
     new AuthoringTask(
         "18a",
-        "Set a variable to 0 and then create a loop that would add the number 5 to the variable for 25 times and display the variable as it increases.",
+        "Set a variable called <i>num</i> to 0 and then create a loop that would add the number 5 to <i>num</i> for <b>25 times</b> and display the value of the variable as it increases inside the loop.",
         [
             [
                 "output: <b>5</b>",
@@ -1427,7 +1642,7 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "18b",
-        "Modify the program so that it includes another variable that is initially set to 125 and then is reduced by 5 for 25 times. Display the value of both variables everytime their value changes in the loop.",
+        "Modify the program so that it includes another variable that is initially set to 125. Then the loop would reduce its value by 5 for 25 times. Display the value of both variables everytime their value changes in the loop.",
         [
             `num = 0`,
             `for i in range(25):`,
@@ -1436,13 +1651,13 @@ export const CodingTasks = [
         ].join("\n"),
         [
             [
-                "output: <b>First: 5</b>",
-                "output: <b>Second: 120</b>",
-                "output: <b>First: 10</b>",
-                "output: <b>Second: 115</b>",
+                "output: <b>5</b>",
+                "output: <b>120</b>",
+                "output: <b>10</b>",
+                "output: <b>115</b>",
                 "...",
-                "output: <b>First: 0</b>",
-                "output: <b>Second: 125</b>",
+                "output: <b>0</b>",
+                "output: <b>125</b>",
             ],
         ],
         [
@@ -1451,15 +1666,15 @@ export const CodingTasks = [
             `for i in range(25):`,
             `    num1 -= 5`,
             `    num2 += 5`,
-            `    print("First: " + str(num1))`,
-            `    print("Second: " + str(num2))`,
+            `    print(num1)`,
+            `    print(num2)`,
         ].join("\n"),
         60 * 4
     ),
 
     new AuthoringTask(
         "19a",
-        "Set a variable called <i>sentence</i> to <b>we</b>. Then create a loop that would repeatedly add the letter <b>e</b> to <i>sentence</i> for 5 times and displaying the sentence every time. At the end of the loop, add an exclamation mark (!) to the <i>sentence</i> variable and then display its value.",
+        "Set a variable called <i>text</i> to the text <b>w</b>. Then create a loop that would repeatedly add the letter <b>e</b> to the <i>text</i> for 5 times and displaying the text every time. After the loop, add an exclamation mark <b>!</b> to the <i>text</i> variable and then display its value.",
         [
             [
                 "output: <b>we</b>",
@@ -1471,52 +1686,114 @@ export const CodingTasks = [
             ],
         ],
         [
-            `sentence = "we"`,
+            `text = "w"`,
             `for i in range(5):`,
-            `    sentence += "e"`,
-            `    print(sentence)`,
-            `sentence += "!"`,
-            `print(sentence)`,
+            `    text += "e"`,
+            `    print(text)`,
+            `text += "!"`,
+            `print(text)`,
         ].join("\n"),
         60 * 8
     ),
     new ModifyingTask(
         "19b",
-        "set a variable called <i>sentence</i> to <b>My top three fruits are:</b>. Then create a loop that would repeatedly ask the user to enter a fruit and then add it to the <i>sentence</i>. The loop should be repeated for 3 times. At the end, add a dot (.) to the sentence and then display the sentence.",
+        "Add another loop to the program (after the first loop) that would add the the text <b>*</b> for 3 times to the <i>text</i> variable and display the text every time. Finally, after the loop, add a dot <b>.</b> to the <i>text</i> variable and display its value.",
         [
-            `sentence = "we"`,
+            `text = "w"`,
             `for i in range(5):`,
-            `    sentence += "e"`,
-            `    print(sentence)`,
-            `sentence += "!"`,
-            `print(sentence)`,
+            `    text += "e"`,
+            `    print(text)`,
+            `text += "!"`,
+            `print(text)`,
         ].join("\n"),
         [
             [
-                "output: <b>enter a fruit:</b>",
-                "input: <b>apple</b>",
-                "output: <b>enter a fruit:</b>",
-                "input: <b>orange</b>",
-                "output: <b>enter a fruit:</b>",
-                "input: <b>strawberry</b>",
-
-                "output: <b>My top three fruits are: apple orange strawberry.</b>",
+                "output: <b>we</b>",
+                "output: <b>wee</b>",
+                "...",
+                "output: <b>weeeee!</b>",
+                "output: <b>weeeee!*</b>",
+                "output: <b>weeeee!**</b>",
+                "output: <b>weeeee!***</b>",
+                "output: <b>weeeee!***.</b>",
             ],
         ],
         [
-            `sentence = "My top three fruits are"`,
+            `text = "w"`,
+            `for i in range(5):`,
+            `    text += "e"`,
+            `    print(text)`,
+            `text += "!"`,
+            `print(text)`,
             `for i in range(3):`,
-            `    fruit = input("enter a fruit: ")`,
-            `    sentence += " " + fruit`,
-            `sentence += "."`,
-            `print(sentence)`,
+            `    text += "*"`,
+            `    print(text)`,
+            `text += "."`,
+            `print(text)`,
+        ].join("\n"),
+        60 * 6
+    ),
+
+    new AuthoringTask(
+        "19ia",
+        "Set a variable called <i>fruits</i> to the text <b>I like these fruits: </b>. Then create a loop that would repeatedly do the following things for 5 times: first, ask the user to enter a fruit name and then adding what the user entered to the fruits (separated with a space). After the loop, display the value of the <i>fruits</i> variable.",
+        [
+            [
+                "output: <b>Enter a fruit: </b>",
+                "input: <b>apple</b>",
+                "...",
+                "output: <b>Enter a fruit: </b>",
+                "input: <b>banana</b>",
+                "output: <b>I like these fruits: apple orange strawberry grapes banana</b>",
+            ],
+        ],
+        [
+            `fruits = "I like these fruits: "`,
+            `for i in range(5):`,
+            `    fruit = input("Enter a fruit: ")`,
+            `    fruits += fruit + " "`,
+            `print(fruits)`,
+        ].join("\n"),
+        60 * 8
+    ),
+    new ModifyingTask(
+        "19ib",
+        "Change the program so that when it is done with the first loop, it would then create another variable called <i>movies</i> and set it to <b>I like these movies: </b> and then use another loop that would repeat for 5 times to ask the user for their favorite movies and then add them to a the variable <i>movies</i> one by one. After the second loop, display the value of the <i>movies</i> variable.",
+        [
+            `fruits = "I like these fruits: "`,
+            `for i in range(5):`,
+            `    fruit = input("Enter a fruit: ")`,
+            `    fruits += fruit + " "`,
+            `print(fruits)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>Enter a fruit: </b>",
+                "input: <b>apple</b>",
+                "...",
+                "output: <b>Enter a fruit: </b>",
+                "input: <b>banana</b>",
+                "output: <b>I like these fruits: apple orange strawberry grapes banana</b>",
+            ],
+        ],
+        [
+            `fruits = "I like these fruits: "`,
+            `for i in range(5):`,
+            `    fruit = input("Enter a fruit: ")`,
+            `    fruits += fruit + " "`,
+            `print(fruits)`,
+            `movies = "I like these movies: "`,
+            `for i in range(5):`,
+            `    movie = input("Enter your favorite movie: ")`,
+            `    movies += movie + " "`,
+            `print(movies)`,
         ].join("\n"),
         60 * 6
     ),
 
     new AuthoringTask(
         "20a",
-        "Display all the numbers from 1 to 100 line by line.",
+        "Display all the numbers from 1 to 100 line by line using a loop.",
         [
             [
                 "output: <b>1</b>",
@@ -1531,25 +1808,76 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "20b",
-        "Modify the following program to ask the user for a number, and then display all the numbers from 1 to that number line by line.",
+        "Modify the following program so that it would display all the numbers from 250 to 300 line by line and after each line (inside the loop), it would also display the number multiplied by 2.",
         [`for i in range(1, 101):`, `    print(i)`].join("\n"),
         [
             [
-                "output: <b>enter a number:</b>",
-                "input: <b>25</b>",
+                "output: <b>250</b>",
+                "output: <b>500</b>",
+                "output: <b>251</b>",
+                "output: <b>502</b>",
+                "...",
+                "output: <b>300</b>",
+                "output: <b>600</b>",
+            ],
+        ],
+        [`for i in range(250, 301):`, `    print(i)`, `    print(i * 2)`].join(
+            "\n"
+        ),
+        60 * 3
+    ),
+
+    new AuthoringTask(
+        "20ia",
+        "Ask the user to enter a number, then display all the numbers from 1 to the number entered line by line.",
+        [
+            [
+                "output: <b>Enter a number: </b>",
+                "input: <b>10</b>",
                 "output: <b>1</b>",
                 "output: <b>2</b>",
                 "...",
-                "output: <b>24</b>",
-                "output: <b>25</b>",
+                "output: <b>9</b>",
+                "output: <b>10</b>",
             ],
         ],
         [
-            `num = int(input("enter a number: "))`,
-            `for i in range(1, num + 1):`,
+            `number = int(input("Enter a number: "))`,
+            `for i in range(1, number + 1):`,
             `    print(i)`,
         ].join("\n"),
-        60 * 3
+        60 * 6
+    ),
+    new ModifyingTask(
+        "20ib",
+        "Modify the following program so that it would ask two numbers, then display all the numbers from the first number to the second number line by line.",
+        [
+            `number = int(input("Enter a number: "))`,
+            `for i in range(1, number + 1):`,
+            `    print(i)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>Enter a number: </b>",
+                "input: <b>5</b>",
+
+                "output: <b>Enter a number: </b>",
+                "input: <b>15</b>",
+
+                "output: <b>5</b>",
+                "output: <b>6</b>",
+                "...",
+                "output: <b>14</b>",
+                "output: <b>15</b>",
+            ],
+        ],
+        [
+            `number1 = int(input("Enter a number: "))`,
+            `number2 = int(input("Enter a number: "))`,
+            `for i in range(number1, number2 + 1):`,
+            `    print(i)`,
+        ].join("\n"),
+        60 * 4
     ),
 
     // checked times until here.
