@@ -26,12 +26,35 @@ export const LoopsDoc = (props: IDocPageProps) => {
                 <p>Python has two loop commands:</p>
                 <ul>
                     <li>
-                        <Code>while</Code> loops
-                    </li>
-                    <li>
                         <Code>for</Code> loops
                     </li>
+                    <li>
+                        <Code>while</Code> loops
+                    </li>
                 </ul>
+            </Accordion>
+
+            <Accordion
+                title="`for in` Loops"
+                sectionId="for-loops"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>
+                    Executes a set of statements for each element in a sequence
+                    (like a <Code>range()</Code>, a <Code>list</Code>, or a{" "}
+                    <Code>string</Code>).
+                </p>
+                <Example
+                    code={
+                        'fruits = ["apple", "banana", "cherry"]\nfor x in fruits:\n\tprint(x)'
+                    }
+                    text="Print each fruit in a fruit list:"
+                ></Example>
             </Accordion>
 
             <Accordion
@@ -60,29 +83,6 @@ export const LoopsDoc = (props: IDocPageProps) => {
                 </Message>
             </Accordion>
 
-            <Accordion
-                title="`for in` Loops"
-                sectionId="for-loops"
-                pageId={props.pageId}
-                click={(next: string) => {
-                    props.onSectionChange(current, next);
-                    setCurrent(next);
-                }}
-                current={current}
-            >
-                <p>
-                    Executes a set of statements for each element in a sequence
-                    (like a <Code>range()</Code>, a <Code>list</Code>, or a{" "}
-                    <Code>string</Code>).
-                </p>
-                <Example
-                    code={
-                        'fruits = ["apple", "banana", "cherry"]\nfor x in fruits:\n\tprint(x)'
-                    }
-                    text="Print each fruit in a fruit list:"
-                ></Example>
-            </Accordion>
-
             <h2 className="doc-subtitle">Useful Tools For Loops</h2>
             <Accordion
                 title="The `break` Statement"
@@ -102,6 +102,20 @@ export const LoopsDoc = (props: IDocPageProps) => {
                     code={
                         'fruits = ["apple", "banana", "cherry"]\nfor x in fruits:\n\tif x == "banana":\n\t\tbreak'
                     }
+                    text='Exit the loop when x is "banana":'
+                ></Example>
+
+                <Example
+                    code={[
+                        `i = 0`,
+                        `while i < 10:`,
+                        `    print(i)`,
+                        `    if i == 5:`,
+                        `        print("Reached 5!")`,
+                        `        break`,
+                        `    i += 1`,
+                        `print("Completed the loop.")`,
+                    ].join("\n")}
                     text='Exit the loop when x is "banana":'
                 ></Example>
             </Accordion>
@@ -192,7 +206,7 @@ export const LoopsDoc = (props: IDocPageProps) => {
 
             <h2 className="doc-subtitle">Looping Through Lists</h2>
             <Accordion
-                title="Loop Through a List"
+                title="Looping through the items of a List"
                 sectionId="loop-through-list"
                 pageId={props.pageId}
                 click={(next: string) => {
@@ -202,7 +216,7 @@ export const LoopsDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>
-                    You can loop through the list items by using a{" "}
+                    You can loop through the items of a list by using a{" "}
                     <Code>for</Code> loop:
                 </p>
                 <Example
@@ -212,13 +226,17 @@ export const LoopsDoc = (props: IDocPageProps) => {
                     text="Print all items in the list, one by one:"
                 ></Example>
                 <p>
-                    Learn more about for loops in our Python For Loops Chapter.
+                    The for loop will create the x variable and will set it to
+                    each of the items in the list one by one when the loop
+                    starts repeating. So it loops over the list using the
+                    variable x and the value of x will be the value of the
+                    current item in the list.
                 </p>
             </Accordion>
 
             <Accordion
-                title="Loop Through the Index Numbers"
-                sectionId="loop-through-index-numbers"
+                title="Loop through the items of a list using their index."
+                sectionId="loop-through-list-using-index"
                 pageId={props.pageId}
                 click={(next: string) => {
                     props.onSectionChange(current, next);
@@ -227,8 +245,8 @@ export const LoopsDoc = (props: IDocPageProps) => {
                 current={current}
             >
                 <p>
-                    You can also loop through the list items by referring to
-                    their index number.
+                    You can also loop through the items of a list by referring
+                    to their index number.
                 </p>
                 <p>
                     Use the <Code>range()</Code> and <Code>len()</Code>{" "}
@@ -238,16 +256,27 @@ export const LoopsDoc = (props: IDocPageProps) => {
                     code={
                         'thislist = ["apple", "banana", "cherry"]\nfor i in range(len(thislist)):\n\tprint(thislist[i])'
                     }
-                    text="Print all items by referring to their index number:"
+                    text="Print all items by referring to their index number - using a for loop:"
                 ></Example>
                 <p>
                     The iterable created in the example above is{" "}
                     <Code>[0, 1, 2]</Code>.
                 </p>
+                <p>You could also use a while loop to the same thing:</p>
+                <Example
+                    code={[
+                        `thislist = ["apple", "banana", "cherry"]`,
+                        `i = 0`,
+                        `while i < len(thislist):`,
+                        `    print(thislist[i])`,
+                        `    i += 1`,
+                    ].join("\n")}
+                    text="Print all items by referring to their index number - using a while loop:"
+                ></Example>
             </Accordion>
 
             <Accordion
-                title="Using a While Loop"
+                title="Using a `while` Loop (conditional loop)"
                 sectionId="using-while-loop"
                 pageId={props.pageId}
                 click={(next: string) => {
@@ -270,6 +299,34 @@ export const LoopsDoc = (props: IDocPageProps) => {
                     code={
                         'thislist = ["apple", "banana", "cherry"]\ni = 0\nwhile i < len(thislist):\n]tprint(thislist[i])\n\ti = i + 1'
                     }
+                    text="Print all items, using a while loop to go through all the index numbers"
+                ></Example>
+            </Accordion>
+
+            <Accordion
+                title="Using an `else` after a `while` loop"
+                sectionId="using-while-else-loop"
+                pageId={props.pageId}
+                click={(next: string) => {
+                    props.onSectionChange(current, next);
+                    setCurrent(next);
+                }}
+                current={current}
+            >
+                <p>
+                    While loops can also have an <Code>else</Code> clause after
+                    them.
+                </p>
+
+                <Example
+                    code={[
+                        `num = int(input("Enter a number: "))`,
+                        `while num >= 0:`,
+                        `    print(str(num) " is positive or zero.")`,
+                        `    num = int(input("Enter a number: "))`,
+                        `else:`,
+                        `    print("The number is negative.")`,
+                    ].join("\n")}
                     text="Print all items, using a while loop to go through all the index numbers"
                 ></Example>
             </Accordion>

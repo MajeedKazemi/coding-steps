@@ -1462,9 +1462,7 @@ export const CodingTasks = [
 
     new MultipleChoiceTask(
         "mc15",
-        `Which of the following expressions checks if <i>number</i> is positive and <i>coin</i> is equal to <b>heads</b> <div class="code-block">${[
-            `(month == "january" and day > 15) or (month == "march" and day < 15)`,
-        ].join("\n")}</div>`,
+        `Which of the following expressions checks if <i>number</i> is positive and <i>coin</i> is equal to <b>heads</b>?`,
         [
             `<div class="code-block">${[
                 `coin == "heads" or number == 0 or number > 0 `,
@@ -1619,7 +1617,6 @@ export const CodingTasks = [
         ]
     ),
 
-    // checked everything until here.
     new AuthoringTask(
         "18a",
         "Set a variable called <i>num</i> to 0 and then create a loop that would add the number 5 to <i>num</i> for <b>25 times</b> and display the value of the variable as it increases inside the loop.",
@@ -1846,7 +1843,7 @@ export const CodingTasks = [
             `for i in range(1, number + 1):`,
             `    print(i)`,
         ].join("\n"),
-        60 * 6
+        60 * 7
     ),
     new ModifyingTask(
         "20ib",
@@ -1880,8 +1877,6 @@ export const CodingTasks = [
         60 * 4
     ),
 
-    // checked times until here.
-
     new AuthoringTask(
         "21a",
         "Write a program that would ask the user to enter a number, then use a loop to calculate the total sum of all numbers from 1 to the given number (including the given number). Finally, display the total.",
@@ -1899,12 +1894,11 @@ export const CodingTasks = [
             `    total += i`,
             `print(total)`,
         ].join("\n"),
-        60 * 4
+        60 * 8
     ),
-
     new ModifyingTask(
         "21b",
-        "Modify the program so that it would only calculate the sum of all even numbers between 1 to the given number (including the given number). Finally, display the sum. <br/><b>Hint:</b> a number is even when it is divisible by 2.",
+        "Modify the program so that it would ask the user for two numbers and then use a loop to calculate the total sum of all numbers between the first and the second one (including both first and second numbers). (<b>Note</b> that the second number should always be greater than the first number). So for example, if the user enters 3 and 8, it should calculate the sum of 3, 4, 5, 6, 7, and 8. Within the loop, also display the value of the total as it increases every time. Then finally, display the total.",
         [
             `num = int(input("enter a number: "))`,
             `total = 0`,
@@ -1912,6 +1906,35 @@ export const CodingTasks = [
             `    total += i`,
             `print(total)`,
         ].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>3</b>",
+                "output: <b>enter another number (greater than the previous one):</b>",
+                "input: <b>8</b>",
+                "output: <b>3</b>",
+                "output: <b>7</b>",
+                "output: <b>12</b>",
+                "output: <b>18</b>",
+                "output: <b>25</b>",
+                "output: <b>33</b>",
+            ],
+        ],
+        [
+            `num1 = int(input("enter a number: "))`,
+            `num2 = int(input("enter a number: "))`,
+            `total = 0`,
+            `for i in range(num1, num2 + 1):`,
+            `    total += i`,
+            `    print(total)`,
+            `print(total)`,
+        ].join("\n"),
+        60 * 4
+    ),
+
+    new AuthoringTask(
+        "21ia",
+        "Write a program that would calculate the sum of all even numbers between 1 to a number asked from the user (including that number). Finally, display the sum. <br/><b>Hint:</b> a number is even when the remainder of its division by 2 is 0.",
         [
             [
                 "output: <b>enter a number:</b>",
@@ -1927,128 +1950,214 @@ export const CodingTasks = [
             `        total += i`,
             `print(total)`,
         ].join("\n"),
-        60 * 4
+        60 * 6
+    ),
+    new ModifyingTask(
+        "21ib",
+        "Modify the loop so that it would also calculate the sum of all odd numbers between 1 to the given number at the same time. Then display two messages, first the sum of all even numbers, then the sum of all odd numbers. <br/><b>Hint:</b> a number is even when the remainder of its division by 2 is 0, and odd when the remainder of its division by 2 is 1.",
+        [
+            `num = int(input("enter a number: "))`,
+            `total = 0`,
+            `for i in range(1, num + 1):`,
+            `    if i % 2 == 0:`,
+            `        total += i`,
+            `print(total)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>50</b>",
+                "output: <b>600</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            `total_even = 0`,
+            `total_odd = 0`,
+            `for i in range(1, num + 1):`,
+            `    if i % 2 == 0:`,
+            `        total_even += i`,
+            `    if i % 2 == 1:`,
+            `        total_odd += i`,
+            `print(total_even)`,
+            `print(total_odd)`,
+        ].join("\n"),
+        60 * 5
     ),
 
     new AuthoringTask(
         "22a",
-        "Write a program that would repeatedly ask the user to enter a password (as a number) and check if the password is equal to 123. If it is, display the message <b>Password is correct</b>. If it is not, display the message <b>Password is incorrect</b> and ask the user to enter another password. The program should stop when the user enters the number 123. Finally, after the user gets the correct password, display the message <b>Password is correct</b>.",
+        "Write a program that uses a <b>while</b> loop to repeatedly ask the user to enter a password (as a number) and check if the password is equal to 123. If it is, display the message <b>Password is correct</b>. If it is not, display the message <b>Password is incorrect</b> and ask the user to re-enter the password. The program should stop when the user enters the number 123. Finally, after the user gets the correct password, display the message <b>Password is correct</b>.",
         [
             [
-                "output: <b>enter a number:</b>",
+                "output: <b>Enter the password:</b>",
                 "input: <b>321</b>",
                 "output: <b>Password is incorrect</b>",
-                "output: <b>enter a number:</b>",
+                "output: <b>Re-enter the password:</b>",
                 "input: <b>123</b>",
                 "output: <b>Password is correct</b>",
             ],
         ],
         [
-            `num = int(input("enter a number: "))`,
+            `num = int(input("Enter the password: "))`,
             `while num != 123:`,
-            `    num = int(input("enter a number: "))`,
+            `    print("Password is incorrect")`,
+            `    num = int(input("Re-enter the password: "))`,
             `print("Password is correct")`,
         ].join("\n"),
-        60 * 4
+        60 * 8
     ),
-
     new ModifyingTask(
         "22b",
-        "Modify the program so that also counts the number of incorrect attempts and outputs it at the end.",
+        "Modify the program by changing the password from 123 to 7512 and also count the number of incorrect attempts (each time the user enters the password incorrectly). Finally display the incorrect attempts at the end of the loop.",
         [
-            `num = int(input("enter a number: "))`,
+            `num = int(input("Enter the password: "))`,
             `while num != 123:`,
-            `    num = int(input("enter a number: "))`,
+            `    print("Password is incorrect")`,
+            `    num = int(input("Re-enter the password: "))`,
             `print("Password is correct")`,
         ].join("\n"),
         [
             [
-                "output: <b>enter a number:</b>",
-                "input: <b>321</b>",
+                "output: <b>Enter the password:</b>",
+                "input: <b>7321</b>",
                 "output: <b>Password is incorrect</b>",
-                "output: <b>enter a number:</b>",
-                "input: <b>222</b>",
+                "output: <b>Re-enter the password:</b>",
+                "input: <b>2422</b>",
                 "output: <b>Password is incorrect</b>",
-                "output: <b>enter a number:</b>",
-                "input: <b>123</b>",
+                "output: <b>Re-enter the password:</b>",
+                "input: <b>7512</b>",
                 "output: <b>Password is correct</b>",
                 "output: <b>Incorrect attempts: 2</b>",
             ],
         ],
         [
-            `num = int(input("enter a number: "))`,
+            `num = int(input("Enter the password: "))`,
             `incorrect_attempts = 0`,
-            `while num != 123:`,
-            `    num = int(input("enter a number: "))`,
-            `    incorrect_attempts += 1`,
+            ``,
+            `while num != 7512:`,
+            `    print("Password is incorrect")`,
+            `    num = int(input("Re-enter the password: "))`,
             `print("Password is correct")`,
             `print("Incorrect attempts: " + str(incorrect_attempts))`,
         ].join("\n"),
-        60 * 4
+        60 * 5
     ),
 
     new AuthoringTask(
         "23a",
-        "Write a program that repeatedly does the following until the user enters <b>stop</b>: ask the user for a number, and then add it up to a variable called <b>total</b>. If the user enters <b>stop</b>, display the total at the end (only once).",
+        "Write a program that repeatedly does the following until the user enters the number <b>0</b>: ask the user for a number, and then add it up to a variable called <b>total</b>. If the user enters <b>0</b>, display the total at the end (only once).",
         [
             [
                 "output: <b>enter a number:</b>",
                 "input: <b>7</b>",
-                "output: <b>enter a number:</b>",
+                "output: <b>enter another number:</b>",
                 "input: <b>25</b>",
-                "output: <b>enter a number:</b>",
-                "input: <b>stop</b>",
+                "output: <b>enter another number:</b>",
+                "input: <b>0</b>",
                 "output: <b>total: 32</b>",
             ],
         ],
         [
             `total = 0`,
-            `num = input("enter a number: ")`,
-            `while num != "stop":`,
-            `    total += int(num)`,
-            `    num = input("enter a number: ")`,
+            `num = int(input("enter a number: "))`,
+            `while num != 0:`,
+            `    total += num`,
+            `    num = input("enter another number: ")`,
             `print("total: " + str(total))`,
         ].join("\n"),
         60 * 4
     ),
     new ModifyingTask(
         "23b",
-        "Modify the program so that it calculates the average of all numbers entered by the user. <br/>Note: the average is the sum of all numbers divided by the number of numbers entered.",
+        "Modify the program so that it calculates the average of all numbers entered by the user. <br/> <b>Note</b>: the average is the sum of all numbers entered, divided by the count of numbers entered. <br/><b>Hint:</b> use another variable to count the number of numbers entered by the user.",
         [
             `total = 0`,
-            `num = input("enter a number: ")`,
-            `while num != "stop":`,
-            `    total += int(num)`,
-            `    num = input("enter a number: ")`,
+            `num = int(input("enter a number: "))`,
+            `while num != 0:`,
+            `    total += num`,
+            `    num = input("enter another number: ")`,
             `print("total: " + str(total))`,
         ].join("\n"),
         [
             [
                 "output: <b>enter a number:</b>",
                 "input: <b>15</b>",
-                "output: <b>enter a number:</b>",
+                "output: <b>enter another number:</b>",
                 "input: <b>7</b>",
-                "output: <b>enter a number:</b>",
-                "input: <b>stop</b>",
-                "output: <b>the average is: 11</b>",
+                "output: <b>enter another number:</b>",
+                "input: <b>0</b>",
+                "output: <b>the average is: 11.0</b>",
             ],
         ],
         [
             `total = 0`,
             `count = 0`,
-            `num = input("enter a number: ")`,
-            `while num != "stop":`,
-            `    total += int(num)`,
+            `num = int(input("enter a number: "))`,
+            `while num != 0:`,
+            `    total += num`,
             `    count += 1`,
-            `    num = input("enter a number: ")`,
+            `    num = input("enter another number: ")`,
             `print("the average is: " + str(total / count))`,
+        ].join("\n"),
+        60 * 6
+    ),
+
+    new AuthoringTask(
+        "23ia",
+        "Write a program that asks the user to enter a number between 1 and 100 and then display the difference of that number with the value <b>50</b>. The difference between two numbers is always a positive number. <br/> <b>Note</b>: you can use the <b>abs( )</b> function to calculate the positive value of any number.",
+        [
+            [
+                "output: <b>enter a number between 1 and 100:</b>",
+                "input: <b>32</b>",
+                "output: <b>the difference with 50 is: 18</b>",
+            ],
+            [
+                "output: <b>enter a number between 1 and 100:</b>",
+                "input: <b>59</b>",
+                "output: <b>the difference with 50 is: 9</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number between 1 and 100: "))`,
+            `print("the difference with 50 is: " + str(abs(num - 50)))`,
+        ].join("\n"),
+        60 * 6
+    ),
+    new ModifyingTask(
+        "23ib",
+        "Modify the program so that asks the user for two numbers and then display the difference between each of the numbers. Again, note that the difference between two numbers is always a positive number.",
+        [
+            `num = int(input("enter a number between 1 and 100: "))`,
+            `print("the difference with 50 is: " + str(abs(num - 50)))`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>7</b>",
+                "output: <b>enter another number:</b>",
+                "input: <b>5</b>",
+                "output: <b>The difference is: 2</b>",
+            ],
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>51</b>",
+                "output: <b>enter another number:</b>",
+                "input: <b>60</b>",
+                "output: <b>The difference is: 9</b>",
+            ],
+        ],
+        [
+            `num1 = int(input("enter a number: "))`,
+            `num2 = int(input("enter another number: "))`,
+            `print("The difference is: " + str(abs(num1 - num2)))`,
         ].join("\n"),
         60 * 4
     ),
 
     new AuthoringTask(
         "24a",
-        "Write a guess a number game: the program will first pick a random number between 1 and 1000. Then it would repeatedly ask the user to guess the number. If the user guesses the number, the program would display the message <b>You guessed the number!</b>. If the user guesses a number that is too high, the program should display the message <b>The number is too high</b>. If the user guesses a number that is too low, the program should display the message <b>The number is too low</b>. The program should stop when the user guesses the number.",
+        "Write a guess a number game: the program will first set the variable <i>picked_number</i> to a random number between 1 and 1000. Then it should *repeatedly* do the following until the user guesses the number (if it's equal to <i>picked_number</i>): If the user guesses a number that is too high, the program should display the message <b>The number is too high</b>. If the user guesses a number that is too low, the program should display the message <b>The number is too low</b>. Finally, if the user guesses the number, the while loop should stop repeating and the program should display the message <b>You guessed the number!</b>.",
         [
             [
                 "output: <b>enter a number:</b>",
@@ -2063,26 +2172,26 @@ export const CodingTasks = [
             ],
         ],
         [
-            `num = random.randint(1, 1000)`,
+            `picked_number = random.randint(1, 1000)`,
             `num_guess = int(input("enter a number: "))`,
-            `while num_guess != num:`,
-            `    if num_guess > num:`,
+            `while num_guess != picked_number:`,
+            `    if num_guess > picked_number:`,
             `        print("The number is too high")`,
             `    else:`,
             `        print("The number is too low")`,
             `    num_guess = int(input("enter a number: "))`,
             `print("You guessed the number!")`,
         ].join("\n"),
-        60 * 4
+        60 * 12
     ),
     new ModifyingTask(
         "24b",
-        "Modify the program so that it also counts the number of incorrect attempts and displays the message <b>You guessed the number after <i>n</i> incorrect attempts!</b> at the end.",
+        "Modify the program so that it would count the number of incorrect attempts the user has made and display it at the end. Additionally, on every guess it should check if the difference between the guessed number and the picked number is less than 50. If it is, the program should display another message <b>You are close!</b>. <br/><b>Note</b>: you can use the <b>abs( )</b> function to calculate the positive value of any number.",
         [
-            `num = random.randint(1, 1000)`,
+            `picked_number = random.randint(1, 1000)`,
             `num_guess = int(input("enter a number: "))`,
-            `while num_guess != num:`,
-            `    if num_guess > num:`,
+            `while num_guess != picked_number:`,
+            `    if num_guess > picked_number:`,
             `        print("The number is too high")`,
             `    else:`,
             `        print("The number is too low")`,
@@ -2103,19 +2212,107 @@ export const CodingTasks = [
             ],
         ],
         [
-            `num = random.randint(1, 1000)`,
+            `picked_number = random.randint(1, 1000)`,
+            `incorrect_guesses = 0`,
             `num_guess = int(input("enter a number: "))`,
-            `incorrect_attempts = 0`,
-            `while num_guess != num:`,
-            `    if num_guess > num:`,
+            `while num_guess != picked_number:`,
+            `    if num_guess > picked_number:`,
             `        print("The number is too high")`,
             `    else:`,
             `        print("The number is too low")`,
-            `    incorrect_attempts += 1`,
+            `    if abs(num_guess - picked_number) < 50:`,
+            `        print("You are close!")`,
+            `    incorrect_guesses += 1`,
             `    num_guess = int(input("enter a number: "))`,
-            `print("You guessed the number after " + str(incorrect_attempts) + " incorrect attempts!")`,
+            `print("You guessed the number!")`,
         ].join("\n"),
-        60 * 4
+        60 * 6
+    ),
+
+    // using break
+    new AuthoringTask(
+        "24ia",
+        "Write a program that would use a while loop to repeatedly ask the user to guess a number until the user enters the number <b>0</b>. Inside the loop, check if the number is divisble by both 2 and 3, if it is, then display the message <b>The number is divisble by 2 and 3</b> and then break out of the loop. At the end of the loop it should simply display the message <b>Finished loop</b>",
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>10</b>",
+                "output: <b>enter another number:</b>",
+                "input: <b>0</b>",
+                "output: <b>Finished loop</b>",
+            ],
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>14</b>",
+                "output: <b>enter another number:</b>",
+                "input: <b>30</b>",
+                "output: <b>The number is divisble by 2 and 3</b>",
+                "output: <b>Finished loop</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            ``,
+            `while num != 0:`,
+            `    if num % 2 == 0 and num % 3 == 0:`,
+            `        print("The number is divisble by 2 and 3")`,
+            `        break`,
+            ``,
+            `    num = input("enter another number: ")`,
+            ``,
+            `print("Finished loop")`,
+        ].join("\n"),
+        60 * 8
+    ),
+    new ModifyingTask(
+        "24ib",
+        "Modify the program by adding another if statement inside the while loop to check if the number is divisible by 5, if it is then display the message <b>The number is divisble by 5</b> and then break out of the loop. The program should also include another variable called <i>did_break</i> that is set to <b>False</b> and then set to <b>True</b> if one of the breaks are triggered. At the end, display the message <b>breaked the loop</b> only if the variable <i>did_break</i> is equal to <b>True</b>.",
+        [
+            `num = int(input("enter a number: "))`,
+            ``,
+            `while num != 0:`,
+            `    if num % 2 == 0 and num % 3 == 0:`,
+            `        print("The number is divisble by 2 and 3")`,
+            `        break`,
+            `    num = input("enter another number: ")`,
+            ``,
+            `print("Finished loop")`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>15</b>",
+                "output: <b>The number is divisble by 5</b>",
+                "output: <b>breaked the loop</b>",
+                "output: <b>Finished loop</b>",
+            ],
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>7</b>",
+                "output: <b>enter another number:</b>",
+                "input: <b>0</b>",
+                "output: <b>Finished loop</b>",
+            ],
+        ],
+        [
+            `num = int(input("enter a number: "))`,
+            `did_break = False`,
+            `while num != 0:`,
+            `    if num % 2 == 0 and num % 3 == 0:`,
+            `        print("The number is divisble by 2 and 3")`,
+            `        did_break = True`,
+            `        break`,
+            ``,
+            `    if num % 5 == 0:`,
+            `        print("The number is divisble by 5")`,
+            `        did_break = True`,
+            `        break`,
+            ``,
+            `    num = input("enter a number: ")`,
+            ``,
+            `print("Finished loop")`,
+        ].join("\n"),
+        60 * 6
     ),
 
     new AuthoringTask(
@@ -2138,11 +2335,11 @@ export const CodingTasks = [
             `    print(num)`,
             `    num -= 1`,
         ].join("\n"),
-        60 * 4
+        60 * 7
     ),
     new ModifyingTask(
         "25b",
-        "Modify the program so that it continually decreases the number by 1 until it becomes divisible by 5. After the number becomes divisible by 5, it should repeatedly decrease the number by 5 on each step until it reaches 0. <b>Hint:</b> you could use another variable to store and update the decrement value.",
+        "Modify the program so that it would first ask the user to enter a number greater than 100 and then use the loop to continuously decreases the number <b>by 10</b> every time while the number is greater than 100. At this point the number should be equal or less than 100, use <b>another</b> loop to continuously decrease the number by 3 every time while the number is greater than zero.",
         [
             `num = int(input("enter a number: "))`,
             `while num >= 0:`,
@@ -2151,43 +2348,44 @@ export const CodingTasks = [
         ].join("\n"),
         [
             [
-                "output: <b>enter a number:</b>",
-                "input: <b>73</b>",
-                "output: <b>72</b>",
-                "output: <b>71</b>",
-                "output: <b>70</b>",
-                "output: <b>65</b>",
-                "output: <b>60</b>",
+                "output: <b>enter a number between 100 and 200:</b>",
+                "input: <b>135</b>",
+                "output: <b>125</b>",
+                "output: <b>115</b>",
+                "output: <b>105</b>",
+                "output: <b>95</b>",
+                "output: <b>92</b>",
+                "output: <b>89</b>",
+                "output: <b>86</b>",
                 "...",
+                "output: <b>8</b>",
                 "output: <b>5</b>",
-                "output: <b>0</b>",
+                "output: <b>2</b>",
             ],
         ],
         [
-            `num = int(input("enter a number: "))`,
-            `decrement = 1`,
-            `while num >= 0:`,
-            `    if num % 5 == 0:`,
-            `        decrement = 5`,
+            `num = int(input("enter a number between 100 and 200: "))`,
+            `while num >= 100:`,
             `    print(num)`,
-            `    num -= decrement`,
+            `    num -= 10`,
+            `while num >= 0:`,
+            `    print(num)`,
+            `    num -= 3`,
         ].join("\n"),
-        60 * 4
+        60 * 5
     ),
 
     new AuthoringTask(
         "26a",
-        "Write a program that generates a number between 1 and 999999. Then, it displays the number of digits in the number by repeatedly dividing the number by 10 until the number becomes less than 10 and counting the number of times it was divided.",
+        "Write a program that generates a number between 1 and 999999. Then, it displays the number of digits in the number by repeatedly dividing the number by 10 until the number becomes less than 10 and counting the number of times it was divided. For example, 1874 ÷ 10 = 187 (first) -> 187 ÷ 10 = 18 (second) -> 18 ÷ 10 = 1 (third) -> 1 ÷ 10 = 0 (fourth). Therefore, 1874 has four digits.",
         [
             [
-                "output: <b>enter a number:</b>",
-                "input: <b>100</b>",
-                "output: <b>The number has 3 digits</b>",
+                "output: <b>Generated 1874:</b>",
+                "output: <b>The number has 4 digits</b>",
             ],
             [
-                "output: <b>enter a number:</b>",
-                "input: <b>74182</b>",
-                "output: <b>The number has 5 digits</b>",
+                "output: <b>Generated 95:</b>",
+                "output: <b>The number has 2 digits</b>",
             ],
         ],
         [
@@ -2197,49 +2395,107 @@ export const CodingTasks = [
             `while num > 10:`,
             `    num = num // 10`,
             `    num_digits += 1`,
+            `print("The number has " + str(num_digits) + " digits")`,
+        ].join("\n"),
+        60 * 8
+    ),
+    new ModifyingTask(
+        "26b",
+        "Modify the program so that it displays each digit of the number from the right to the left as the number is being divided by 10. To obtain the digit, the program should use the modulus operator (<b>%</b>) to obtain the remainder of the division.",
+        [
+            `num = random.randint(1, 999999)`,
+            `num_digits = 0`,
+            ``,
+            `while num > 10:`,
+            `    num = num // 10`,
+            `    num_digits += 1`,
+            `print("The number has " + str(num_digits) + " digits")`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>Generated 1874:</b>",
+                "output: <b>4</b>",
+                "output: <b>7</b>",
+                "output: <b>8</b>",
+                "output: <b>1</b>",
+                "output: <b>The number has 4 digits</b>",
+            ],
+            [
+                "output: <b>Generated 95:</b>",
+                "output: <b>5</b>",
+                "output: <b>9</b>",
+                "output: <b>The number has 2 digits</b>",
+            ],
+        ],
+        [
+            `num = random.randint(1, 999999)`,
+            `num_digits = 0`,
+            ``,
+            `while num > 10:`,
+            `    num = num // 10`,
+            `    num_digits += 1`,
+            `    print(num % 10)`,
             `print("The number has " + str(num_digits) + " digits")`,
         ].join("\n"),
         60 * 4
     ),
-    new ModifyingTask(
-        "26b",
-        "Modify the program so that it adds all the digits in the number and then displays the sum.",
-        [
-            `num = random.randint(1, 999999)`,
-            `num_digits = 0`,
-            ``,
-            `while num > 10:`,
-            `    num = num // 10`,
-            `    num_digits += 1`,
-            `print("The number has " + str(num_digits) + " digits")`,
-        ].join("\n"),
+
+    // nested loops
+    new AuthoringTask(
+        "26ia",
+        "Write a program that includes a for loop that uses the variable <i>i</i> to go from 0 to 1 (including 1). Then inside the loop, have another loop that uses the variable <i>j</i> to go from 0 to 1 (including 1). The program should display the value of <i>i</i> and <i>j</i> every time like the provided sample.",
         [
             [
-                "output: <b>enter a number:</b>",
-                "input: <b>100</b>",
-                "output: <b>The sum of the digits is 1</b>",
-            ],
-            [
-                "output: <b>enter a number:</b>",
-                "input: <b>74182</b>",
-                "output: <b>The sum of the digits is 22</b>",
+                "output: <b>i: 0, j: 0:</b>",
+                "output: <b>i: 0, j: 1:</b>",
+                "output: <b>i: 1, j: 0:</b>",
+                "output: <b>i: 1, j: 1:</b>",
             ],
         ],
         [
-            `num = random.randint(1, 999999)`,
-            `digits_sum = 0`,
-            ``,
-            `while num > 10:`,
-            `    num = num // 10`,
-            `    digits_sum += num`,
-            `print("The sum of the digits is " + str(digits_sum))`,
+            `for i in range(0, 2):`,
+            `    for j in range(0, 2):`,
+            `        print("i: " + str(i) + " j: " + str(j))`,
+        ].join("\n"),
+        60 * 6
+    ),
+    new ModifyingTask(
+        "26ib",
+        "Modify the program so that the first loop would go from 0 to 10 (instead of 0 to 1) and the second loop to go from 0 to 2 instead (including 2). It should also display the message <b>i changed to <i>i</i></b> whenever the value of <i>i</i> (in the outer loop) changes.",
+        [
+            `for i in range(0, 2):`,
+            `    for j in range(0, 2):`,
+            `        print("i: " + str(i) + " j: " + str(j))`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>i: 0, j: 0:</b>",
+                "output: <b>i: 0, j: 1:</b>",
+                "output: <b>i: 0, j: 2:</b>",
+                "output: <b>i changed to 1:</b>",
+                "output: <b>i: 1, j: 0:</b>",
+                "output: <b>i: 1, j: 1:</b>",
+                "output: <b>i: 1, j: 2:</b>",
+                "output: <b>i changed to 2:</b>",
+                "...",
+                "output: <b>i changed to 10:</b>",
+                "output: <b>i: 10, j: 0:</b>",
+                "output: <b>i: 10, j: 1:</b>",
+                "output: <b>i: 10, j: 2:</b>",
+            ],
+        ],
+        [
+            `for i in range(0, 11):`,
+            `    print("i changed to " + str(i))`,
+            `    for j in range(0, 3):`,
+            `        print("i: " + str(i) + " j: " + str(j))`,
         ].join("\n"),
         60 * 4
     ),
 
     new AuthoringTask(
         "27a",
-        "Write a program that repeatedly generates a random number between 0 and 100 until the number is equal to 50. Then display the number of attempts it took to generate the number.",
+        "Write a program that repeatedly generates a random number between 0 and 100 until the random number that it generates becomes equal to 50 (and then stop). Then display the number of attempts it took to generate the number.",
         [
             ["output: <b>It took 27 attempts.</b>"],
             ["output: <b>It took 14 attempts.</b>"],
@@ -2256,32 +2512,33 @@ export const CodingTasks = [
     ),
     new ModifyingTask(
         "27b",
-        "Modify the program so that it stops when when the random number becomes equal to 50 for six times (in total).<br/><b>Hint: </b>you could use a counter to count the number of successful hits.",
+        "Modify the program so that it stops when when the random number becomes equal to any of hte numbers 25, 50, or 75. It should also display which number it stopped on after displaying the number of attempts after the loop.",
         [
             `num = random.randint(0, 100)`,
             `attempts = 0`,
-            `while num < 50:`,
+            `while num != 50:`,
             `    num = random.randint(0, 100)`,
             `    attempts += 1`,
             `print("It took " + str(attempts) + " attempts.")`,
         ].join("\n"),
         [
             [
-                "output: <b>It took 75 attempts.</b>",
-                "output: <b>It took 43 attempts.</b>",
+                "output: <b>It took 6 attempts.</b>",
+                "output: <b>It stopped on 75.</b>",
+            ],
+            [
+                "output: <b>It took 9 attempts.</b>",
+                "output: <b>It stopped on 25.</b>",
             ],
         ],
         [
             `num = random.randint(0, 100)`,
             `attempts = 0`,
-            `success_count = 0`,
-
-            `while success_count < 6:`,
-            `    if num == 50:`,
-            `        success_count += 1`,
+            `while num != 25 and num != 50 and num != 75:`,
             `    num = random.randint(0, 100)`,
             `    attempts += 1`,
             `print("It took " + str(attempts) + " attempts.")`,
+            `print("It stopped on " + str(num))`,
         ].join("\n"),
         60 * 4
     ),
@@ -2300,11 +2557,11 @@ export const CodingTasks = [
             `        times += 1`,
             `print("It rolled six for " + str(times) + " times.")`,
         ].join("\n"),
-        60 * 4
+        60 * 5
     ),
     new ModifyingTask(
         "28b",
-        "Modify the program so that it counts the number of times it rolled each of the six faces and finally display the result.",
+        "Modify the program so that it counts the number of times it rolled each of the six faces (using six variables) and then finally display the value of all six variables.",
         [
             `times = 0`,
             `for i in range(1000):`,
@@ -2351,10 +2608,147 @@ export const CodingTasks = [
             `print("It rolled five for " + str(fives) + " times.")`,
             `print("It rolled six for " + str(sixes) + " times.")`,
         ].join("\n"),
-        60 * 4
+        60 * 7
     ),
 
-    // can start working with lists
+    new MultipleChoiceTask(
+        "mc22",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `x = 2`,
+            `for i in range(6):`,
+            `    x += 4`,
+            `print(x)`,
+        ].join("\n")}</div>`,
+        [`24`, `26`, `28`, `30`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc23",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `number = 10`,
+            `for x in range(5):`,
+            `    if x == 2:`,
+            `        number = 0`,
+            `    else:`,
+            `        number += 5`,
+            `print(number)`,
+        ].join("\n")}</div>`,
+        [`10`, `15`, `20`, `25`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc24",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `num = 10`,
+            `while num >= 5:`,
+            `    num = num - 2`,
+            `print(num)`,
+        ].join("\n")}</div>`,
+        [`5`, `4`, `6`, `3`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc25",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `num = 0`,
+            `for i in range(3):`,
+            `    for j in range(4):`,
+            `        for k in range(5):`,
+            `            num += 1`,
+            `print(num)`,
+        ].join("\n")}</div>`,
+        [`12`, `60`, `24`, `20`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc26",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `num = 5`,
+            `while num > 10:`,
+            `    num = num + 1`,
+            `    if num == 8:`,
+            `        num = num + 2`,
+            `    elif num == 9:`,
+            `        num = num + 3`,
+            `print(num)`,
+        ].join("\n")}</div>`,
+        [`11`, `9`, `7`, `5`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc27",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `import random`,
+            `count_six = 3`,
+            `while count_six != 10:`,
+            `    if random.randint(1, 6) == 6:`,
+            `        count_six = count_six + 1`,
+            `    if count_six == 5:`,
+            `        break`,
+            `print(count_six)`,
+        ].join("\n")}</div>`,
+        [`3`, `5`, `6`, `10`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc28",
+        `We want the following while loop to STOP when <i>item</i> is either equal to <b>"stop"</b> or an empty string <b>""</b>. Which of the following conditions will do this?<br/> <div class="code-block">${[
+            "item = input('Enter an item: ')",
+            `message = ""`,
+            `while (CONDITION):`,
+            `    message = message + " " + item`,
+            `    item = input("Enter another item: ")`,
+            `print(message)`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${`item != "" or item != "stop"`}</div>`,
+            `<div class="code-block">${`item == "" or item == "stop"`}</div>`,
+            `<div class="code-block">${`item != "" and item != "stop"`}</div>`,
+            `<div class="code-block">${`item == "" and item == "stop"`}</div>`,
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc29",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `x = 11`,
+            `while True:`,
+            `    x = x - 1`,
+            `    if x == 5:`,
+            `        x = x + 1`,
+            `        break`,
+            `    elif x == 9:`,
+            `        x = x + 1`,
+            `        break`,
+            `    elif x == 7:`,
+            `        x = x + 1`,
+            `        break`,
+            `print(x)`,
+        ].join("\n")}</div>`,
+        [`6`, `8`, `10`, `5`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc30",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `x = 10`,
+            `y = 0`,
+            `while x > y:`,
+            `    x = x - 1`,
+            `    y = y + 1`,
+            `print("x = " + str(x) + ", y = " + str(y))`,
+        ].join("\n")}</div>`,
+        [
+            `x = 5, y = 5`,
+            `x = 9, y = 1`,
+            `x = 6, y = 4`,
+            `x = 10, y = 0`,
+            `I don't know.`,
+        ]
+    ),
+
+    // checked everything until here
     new AuthoringTask(
         "29a",
         "Create a list with these values: 1, 5, 9, 13, 17, 21. Then, display the first item in the list by accessing the list using the appropriate indicies. Then, display the length of the list.<br/> <b>Hint: </b>you should use a special function that returns the length of a list.",

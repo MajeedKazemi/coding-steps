@@ -63,7 +63,8 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 </ul>
                 <Example
                     isError
-                    title="Error: Variable accessed before being assigned a value"
+                    title="Invalid"
+                    text="Error: Variable accessed before being assigned a value"
                     code={[
                         `print(var) # throws an error as var needs to be defined before it is accessed`,
                         `var = "some text"`,
@@ -71,8 +72,8 @@ export const VariablesDoc = (props: IDocPageProps) => {
                 ></Example>
 
                 <Example
-                    isError
-                    title="Error: Variable accessed before being assigned a value"
+                    title="Valid"
+                    text="This is a valid example of accessing the value of the variable var as it is first assigned a value and then accessed on the next line."
                     code={[
                         `var = "some text"`,
                         `print(var) # will display: some text`,
