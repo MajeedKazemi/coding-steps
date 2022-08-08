@@ -1554,7 +1554,7 @@ export const CodingTasks = [
         `What will the following code display in the output? <br/> <div class="code-block">${[
             `import random`,
             `x = random.randint(1, 3)`,
-            `y = random.randint(5, 10)`,
+            `y = random.randint(10, 15)`,
             `z = random.randint(50, 100)`,
             ``,
             `if x > 5 or y > 5:`,
