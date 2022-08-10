@@ -2758,11 +2758,11 @@ export const CodingTasks = [
             `print("First item: " + str(list[0]))`,
             `print("Length: " + str(len(list)))`,
         ].join("\n"),
-        60 * 4
+        60 * 5
     ),
     new ModifyingTask(
         "29b",
-        "Modify the program so that it displays the last item in the list by accessing the list using the appropriate index.<br/> <b>Note:</b> You must use the <b>len</b> function to determine the length of the list.",
+        "Modify the program so that it displays the last item in the list by accessing the list using the appropriate index. You have to calculate the index of the last item of the list using the length of the list (ask your self what is the relationship between the index of the last item of a list and the length of a list.<br/> <b>Note:</b>You must use the <b>len</b> function to determine the length of the list.",
         [
             `list = [1, 5, 9, 13, 17, 21]`,
             `print("First item: " + str(list[0]))`,
@@ -2786,7 +2786,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "30a",
-        `Write a program that creates a list with the following textual values: "math", "history", "programming", and "art". Then use a while loop to display the items in the list one by one.`,
+        `Write a program that creates a list with the following textual values: "math", "history", "programming", and "art". Then use a while loop and an index variable to display all of the items in the list one by one.`,
         [
             [
                 "output: <b>math</b>",
@@ -2802,7 +2802,7 @@ export const CodingTasks = [
             `    print(list[i])`,
             `    i += 1`,
         ].join("\n"),
-        60 * 4
+        60 * 8
     ),
     new ModifyingTask(
         "30b",
@@ -2834,7 +2834,7 @@ export const CodingTasks = [
 
     new AuthoringTask(
         "31a",
-        `Write a program that creates an empty list and then, inside a loop that repeats for 10 times, ask the user to enter a number and then add it to the end of the list. At the end, display the length of the list.`,
+        `Write a program that creates an empty list and then, inside a for loop that repeats for 10 times, ask the user to enter a number and then add it to the end of the list. At the end, display the length of the list.`,
         [
             [
                 "output: <b>Enter a number:</b>",
@@ -2854,11 +2854,11 @@ export const CodingTasks = [
             `    list.append(num)`,
             `print("Length: " + str(len(list)))`,
         ].join("\n"),
-        60 * 4
+        60 * 7
     ),
     new ModifyingTask(
         "31b",
-        "After receiving the 10 numbers, use another loop to calculate the sum of all the numbers in the list and display the result.",
+        "Rename the list to <i>grades</i> and create another empty list called <i>students</i> before the loop. Then, inside the loop, first ask the user to enter a student name (as a text/string) and then add the student name into the <i>students</i> list. Then, ask the user to enter a grade (as a number/integer) and then add the grade into the <i>grades</i> list. Finally, after the loop, display the length of both lists.",
         [
             `list = []`,
             `for i in range(10):`,
@@ -2868,81 +2868,173 @@ export const CodingTasks = [
         ].join("\n"),
         [
             [
-                "output: <b>Enter a number:</b>",
-                "input: <b>13</b>",
-                "output: <b>Enter a number:</b>",
-                "input: <b>4</b>",
+                "output: <b>Enter a student name:</b>",
+                "input: <b>Sophie</b>",
+                "output: <b>Enter a grade:</b>",
+                "input: <b>85</b>",
                 "...",
-                "output: <b>Enter a number:</b>",
-                "input: <b>22</b>",
-                "output: <b>Length: 10</b>",
+                "output: <b>Enter a student name:</b>",
+                "input: <b>Michael</b>",
+                "output: <b>Enter a grade:</b>",
+                "input: <b>69</b>",
+                "output: <b>Students length: 10</b>",
+                "output: <b>Grades length: 10</b>",
             ],
         ],
         [
-            `list = []`,
+            `grades = []`,
+            `students = []`,
             `for i in range(10):`,
-            `    num = int(input("Enter a number: "))`,
-            `    list.append(num)`,
-            `print("Length: " + str(len(list)))`,
-            `sum = 0`,
-            `for i in range(len(list)):`,
-            `    sum += list[i]`,
-            `print("Sum: " + str(sum))`,
+            `    student = input("Enter a student name: ")`,
+            `    students.append(student)`,
+            `    grade = int(input("Enter a grade: "))`,
+            `    grades.append(grade)`,
+            `print("Students length: " + str(len(students)))`,
+            `print("Grades length: " + str(len(grades)))`,
         ].join("\n"),
         60 * 4
     ),
 
     new AuthoringTask(
         "32a",
-        `Create an empty list called <i>grades</i>. Then, repeatedly add a random number between 50 to 100 to the list, for a random number of times (between 15 and 25). Finally, use another loop to find the smallest number in the list and then display the smallest value.`,
-        [["output: <b>Smallest: 54</b>"]],
+        `Create an empty list called <i>grades</i>. Then, repeatedly add a random number between 50 to 100 to the list, for a random number of times (between 15 and 25). Finally, use another loop to display all the items in the grades list.<br/> <b>Note:</b> your program should use the for loop with the range function, not a while loop.`,
+        [
+            [
+                "output: <b>51</b>",
+                "output: <b>78</b>",
+                "output: <b>66</b>",
+                "...",
+                "output: <b>89</b>",
+            ],
+        ],
         [
             `grades = []`,
-            `for i in range(random.randint(500, 750)):`,
+            `for i in range(random.randint(15, 25)):`,
             `    grades.append(random.randint(50, 100))`,
-            `smallest = grades[0]`,
-            `for i in range(len(grades)):`,
-            `    if grades[i] < smallest:`,
-            `        smallest = grades[i]`,
-            `print("Smallest: " + str(smallest))`,
+            `for item in grades:`,
+            `    print(item)`,
         ].join("\n"),
-        60 * 4
+        60 * 7
     ),
     new ModifyingTask(
         "32b",
-        "Modify the code so that it also finds the largest number in the list and displays the largest value as well.",
+        "Modify the code so that it defines a second list called <i>grades2</i> and uses another loop to repeatedly add a random number between 1 to 10 to the <i>grades2</i> list for a random number of times (between 100 to 500). In summary, your code should define two lists with random values and random lengths, then display the contents of both lists.",
         [
             `grades = []`,
-            `for i in range(random.randint(500, 750)):`,
+            `for i in range(random.randint(15, 25)):`,
             `    grades.append(random.randint(50, 100))`,
-            `smallest = grades[0]`,
-            `for i in range(len(grades)):`,
-            `    if grades[i] < smallest:`,
-            `        smallest = grades[i]`,
-            `print("Smallest: " + str(smallest))`,
+            `for item in grades:`,
+            `    print(item)`,
         ].join("\n"),
-        [["output: <b>Smallest: 54</b>", "output: <b>Largest: 98</b>"]],
+        [
+            [
+                "output: <b>Grades list:</b>",
+                "output: <b>88</b>",
+                "output: <b>59</b>",
+                "output: <b>97</b>",
+                "...",
+                "output: <b>62</b>",
+                "output: <b>Grades 2 list:</b>",
+                "output: <b>3</b>",
+                "output: <b>1</b>",
+                "output: <b>2</b>",
+                "...",
+                "output: <b>5</b>",
+            ],
+        ],
         [
             `grades = []`,
-            `for i in range(random.randint(500, 750)):`,
+            `grades2 = []`,
+            `for i in range(random.randint(15, 25)):`,
             `    grades.append(random.randint(50, 100))`,
-            `smallest = grades[0]`,
-            `for i in range(len(grades)):`,
-            `    if grades[i] < smallest:`,
-            `        smallest = grades[i]`,
-            `print("Smallest: " + str(smallest))`,
-            `largest = grades[0]`,
-            `for i in range(len(grades)):`,
-            `    if grades[i] > largest:`,
-            `        largest = grades[i]`,
-            `print("Largest: " + str(largest))`,
+            `for i in range(random.randint(100, 500)):`,
+            `    grades2.append(random.randint(1, 10))`,
+            `print("Grades list:")`,
+            `for item in grades:`,
+            `    print(item)`,
+            `print("Grades 2 list:")`,
+            `for item in grades2:`,
+            `    print(item)`,
         ].join("\n"),
-        60 * 4
+        60 * 5
     ),
 
     new AuthoringTask(
         "33a",
-        `Repeatedly ask the user to enter a movie name and add it to a list called <i>movies</i> until the user enters <b>stop</b>. At the end just display how many movies the user has entered.<br/><b>Note:</b> The list should not contain the stop word.`,
+        `Create a list called <i>numbers</i>, and then use a for loop that repeats for 5 times to repeatedly ask the user to enter a number (as an integer) and add it to the list. Then use another loop to go through the items of the <i>numbers</i> list and find the largest number. Finally, display the value of the largest number. (Note: you can NOT use the <i>max</i> function.)`,
+        [
+            [
+                "output: <b>Enter a number:</b>",
+                "input: <b>14</b>",
+                "output: <b>Enter a number:</b>",
+                "input: <b>58</b>",
+                "...",
+                "output: <b>Enter a number:</b>",
+                "input: <b>25</b>",
+                "output: <b>The largest number is: 58</b>",
+            ],
+        ],
+        [
+            `numbers = []`,
+            `for i in range(5):`,
+            `    number = int(input("Enter a number: "))`,
+            `    numbers.append(number)`,
+            `largest = numbers[0]`,
+            `for num in range(numbers):`,
+            `    if num > largest:`,
+            `        largest = num`,
+            `print("The largest number is: " + str(largest))`,
+        ].join("\n"),
+        60 * 10
+    ),
+    new ModifyingTask(
+        "33b",
+        "Modify the program so that it also finds the smallest number in the list and displays it at the end. (Note: you can NOT use the <i>min</i> or <i>max</i> function.)",
+        [
+            `numbers = []`,
+            `for i in range(5):`,
+            `    number = int(input("Enter a number: "))`,
+            `    numbers.append(number)`,
+            `largest = numbers[0]`,
+            `for num in range(numbers):`,
+            `    if num > largest:`,
+            `        largest = num`,
+            `print("The largest number is: " + str(largest))`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>Enter a number:</b>",
+                "input: <b>14</b>",
+                "output: <b>Enter a number:</b>",
+                "input: <b>58</b>",
+                "...",
+                "output: <b>Enter a number:</b>",
+                "input: <b>25</b>",
+                "output: <b>The largest number is: 58</b>",
+                "output: <b>The smallest number is: 14</b>",
+            ],
+        ],
+        [
+            `numbers = []`,
+            `for i in range(5):`,
+            `    number = int(input("Enter a number: "))`,
+            `    numbers.append(number)`,
+            `largest = numbers[0]`,
+            `smallest = numbers[0]`,
+            `for num in range(numbers):`,
+            `    if num < smallest:`,
+            `        smallest = num`,
+            `    if num > largest:`,
+            `        largest = num`,
+            `print("The largest number is: " + str(largest))`,
+            `print("The smallest number is: " + str(smallest))`,
+        ].join("\n"),
+        60 * 5
+    ),
+
+    new AuthoringTask(
+        "34a",
+        `Repeatedly ask the user to enter a movie name and add it to a list called <i>movies</i> until the user enters <b>stop</b>. At the end just display how many movies the user has entered.<br/><b>Note:</b> The list should not contain the word <b>stop</b>.`,
         [
             [
                 "output: <b>Enter a movie name:</b>",
@@ -2962,10 +3054,12 @@ export const CodingTasks = [
             `    movie = input("Enter a movie name: ")`,
             `print("You entered " + str(len(movies)) + " movies.")`,
         ].join("\n"),
-        60 * 4
+        60 * 8
     ),
+
+    // checked until here.
     new ModifyingTask(
-        "33b",
+        "34b",
         "Ask the user to enter a movie name and then using another loop, search if the new movie is inside the list or not.",
         [
             `movies = []`,
