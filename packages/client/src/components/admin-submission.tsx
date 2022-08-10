@@ -90,6 +90,31 @@ export const AdminSubmission = (props: IProps) => {
                     <span>
                         Submission Count: {props.submission.submissionCount}
                     </span>
+                    <br />
+                    <span>
+                        Worked on task for:{" "}
+                        {Math.round(
+                            (new Date(props.submission.submittedAt).getTime() -
+                                new Date(
+                                    props.submission.startedAt
+                                ).getTime()) /
+                                (1000 * 60)
+                        )}{" "}
+                        Minutes
+                    </span>
+                    <br />
+                    <span>
+                        Waiting to be graded for:{" "}
+                        {Math.round(
+                            (new Date().getTime() -
+                                new Date(
+                                    props.submission.submittedAt
+                                ).getTime()) /
+                                (1000 * 60)
+                        )}{" "}
+                        Minutes
+                    </span>
+                    <br />
                     <div ref={monacoEl} className="editor-user-code"></div>
 
                     <div ref={solutionEl} className="admin-solution-code">

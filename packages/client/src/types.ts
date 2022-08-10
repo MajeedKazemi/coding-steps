@@ -20,6 +20,7 @@ export interface ISubmission {
     taskDescription: string;
     taskType: string;
     code: string;
+    startedAt: Date;
     submittedAt: Date;
     solution: string;
     submissionCount: number;
