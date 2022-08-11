@@ -2748,7 +2748,6 @@ export const CodingTasks = [
         ]
     ),
 
-    // checked everything until here
     new AuthoringTask(
         "29a",
         "Create a list with these values: 1, 5, 9, 13, 17, 21. Then, display the first item in the list by accessing the list using the appropriate indicies. Then, display the length of the list.<br/> <b>Hint: </b>you should use a special function that returns the length of a list.",
@@ -3057,10 +3056,9 @@ export const CodingTasks = [
         60 * 8
     ),
 
-    // checked until here.
     new ModifyingTask(
         "34b",
-        "Ask the user to enter a movie name and then using another loop, search if the new movie is inside the list or not.",
+        "Create another list called <i>ratings</i> and for each movie that is entered (that is not equal to <b>stop</b>), ask the user to enter a rating from 0 to 10 (as an integer) and add the number to the <i>ratings</i> list. At the end, display the number of movies and the number of ratings <br/>Note: they should have the same number of elements and stop should not be included in the movies.",
         [
             `movies = []`,
             `movie = input("Enter a movie name: ")`,
@@ -3073,29 +3071,260 @@ export const CodingTasks = [
             [
                 "output: <b>Enter a movie name:</b>",
                 "input: <b>spiderman</b>",
+                "output: <b>Enter the rating:</b>",
+                "input: <b>5</b>",
                 "output: <b>Enter a movie name:</b>",
-                "input: <b>rango</b>",
+                "input: <b>Lord of the Rings</b>",
+                "output: <b>Enter the rating:</b>",
+                "input: <b>10</b>",
                 "output: <b>Enter a movie name:</b>",
                 "input: <b>stop</b>",
-                "output: <b>You entered 3 movies.</b>",
-                "output: <b>Enter a movie name to search for:</b>",
-                "input: <b>spiderman</b>",
-                "output: <b>Spiderman is already in the list.</b>",
+                "output: <b>You entered 2 movies.</b>",
+                "output: <b>You entered 2 ratings.</b>",
             ],
         ],
         [
             `movies = []`,
+            `ratings = []`,
             `movie = input("Enter a movie name: ")`,
             `while movie != "stop":`,
             `    movies.append(movie)`,
+            `    rating = int(input("Enter the rating: "))`,
             `    movie = input("Enter a movie name: ")`,
             `print("You entered " + str(len(movies)) + " movies.")`,
-            `movie = input("Enter a movie name to search for: ")`,
-            `for i in range(len(movies)):`,
-            `    if movie == movies[i]:`,
-            `        print(movie + " is already in the list.")`,
+            `print("You entered " + str(len(ratings)) + " ratings.")`,
         ].join("\n"),
-        60 * 4
+        60 * 5
+    ),
+
+    new AuthoringTask(
+        "35a",
+        `Create an empty list called <i>numbers</i> and then use a for loop that repeats for a random number of times between 50 to 75 to update the list by adding a random number between 0 to 100. Then use another loop to find the largest number in the list. Finally, display the largest number after the second loop has finished.`,
+        [[`output: <b>Largest number: 92</b>`]],
+        [
+            `numbers = []`,
+            `for i in range(random.randint(50, 75)):`,
+            `    numbers.append(random.randint(0, 100))`,
+            `largest = numbers[0]`,
+            `for num in range(numbers):`,
+            `    if num > largest:`,
+            `        largest = num`,
+            `print("Largest number: " + str(largest))`,
+        ].join("\n"),
+        60 * 8
+    ),
+
+    new ModifyingTask(
+        "35b",
+        "Create another variable called <i>smallest</i> and use the second for loop to find the smallest number in the list in addition to the largest. At the end, display both the largest and the smallest numbers.",
+        [
+            `numbers = []`,
+            `for i in range(random.randint(50, 75)):`,
+            `    numbers.append(random.randint(0, 100))`,
+            `largest = numbers[0]`,
+            `for num in range(numbers):`,
+            `    if num > largest:`,
+            `        largest = num`,
+            `print("Largest number: " + str(largest))`,
+        ].join("\n"),
+        [
+            [
+                `output: <b>Largest number: 92</b>`,
+                `output: <b>Smallest number: 3</b>`,
+            ],
+        ],
+        [
+            `numbers = []`,
+            `for i in range(random.randint(50, 75)):`,
+            `    numbers.append(random.randint(0, 100))`,
+            `largest = numbers[0]`,
+            `smallest = numbers[0]`,
+            `for num in range(numbers):`,
+            `    if num > largest:`,
+            `        largest = num`,
+            `    if num < smallest:`,
+            `        smallest = num`,
+            `print("Largest number: " + str(largest))`,
+            `print("Smallest number: " + str(smallest))`,
+        ].join("\n"),
+        60 * 5
+    ),
+
+    new MultipleChoiceTask(
+        "mc31",
+        `How can we get the first value of the following list?<br/> <div class="code-block">${[
+            "items = [1, 5, 10, 15, 20]",
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${`items(1)`}</div>`,
+            `<div class="code-block">${`items(0)`}</div>`,
+            `<div class="code-block">${`items[1]`}</div>`,
+            `<div class="code-block">${`items[0]`}</div>`,
+
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc32",
+        `Assume we have the following list of numbers called <i>items</i>, which of the following loops correctly displays each element of the list?<br/> <div class="code-block">${[
+            "items = [1, 5, 10, 15, 20]",
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${[
+                `for i in range(len(items)):`,
+                `    print(items[i])`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `for i in len(items):`,
+                `    print(items[i])`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `for i in items:`,
+                `    print(items[i])`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `for i in items:`,
+                `    print(items)`,
+            ].join("\n")}</div>`,
+
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc33",
+        `What does this code display at the end?<br/> <div class="code-block">${[
+            `l = []`,
+            `l.append("z")`,
+            `l.append(l[0] + "t")`,
+            `l.append(l[1] + "q")`,
+            `print(l[2])`,
+        ].join("\n")}</div>`,
+        [`qt`, `qtz`, `tq`, `ztq`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc34",
+        `What does this code display at the end?<br/> <div class="code-block">${[
+            `my_list = [3, 1, 7, 5, 9]`,
+            ``,
+            `for i in range(len(my_list)):`,
+            `    my_list[i] = my_list[i] * 2`,
+            ``,
+            `print(my_list[2])`,
+        ].join("\n")}</div>`,
+        [`1`, `2`, `7`, `14`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc35",
+        `What does this code display at the end?<br/> <div class="code-block">${[
+            `my_list = ["f", "o", "z", "q", "m"]`,
+            `other_list = []`,
+            ``,
+            `i = len(my_list) - 1`,
+            `j = 0`,
+            ``,
+            `while i >= 0 and j < len(my_list):`,
+            `    other_list.append(my_list[i] + my_list[j])`,
+            `    i = i - 1`,
+            `    j = j + 1`,
+            ``,
+            `print(other_list[1])`,
+        ].join("\n")}</div>`,
+        [`mf`, `qo`, `zz`, `oq`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc36",
+        `Which of the following codes correctly calculates the average of the list <i>numbers = [10, 6, 2, 12, 17, 8]</i>?`,
+        [
+            `<div class="code-block">${[
+                `count = 0`,
+                `for n in range(numbers):`,
+                `    total += n`,
+                `    count += 1`,
+                `print(total / count)`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `total = 0`,
+                `for i in len(numbers):`,
+                `    total += numbers[i]`,
+                `print(total / len(numbers))`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `total = 0`,
+                `for i in len(range(numbers)):`,
+                `    total += numbers[i]`,
+                `print(total / len(numbers))`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `total = 0`,
+                `for n in numbers:`,
+                `    total += n`,
+                `print(total / len(numbers))`,
+            ].join("\n")}</div>`,
+
+            `I don't know.`,
+        ]
+    ),
+
+    new MultipleChoiceTask(
+        "mc37",
+        `What does the following code display at the end?<br/> <div class="code-block">${[
+            `symbols = ["*"]`,
+            `letters = ["L"]`,
+            `symbols.append("@")`,
+            `letters.append("Q")`,
+            `symbols.append("+")`,
+            `letters.append("M")`,
+            ``,
+            `print(letters[1] + symbols[2])`,
+        ].join("\n")}</div>`,
+        [`Q+`, `L+`, `M@`, `Q*`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc38",
+        `What does the following code display at the end?<br/> <div class="code-block">${[
+            `nums = [1, 3]`,
+            `nums.append(nums[0])`,
+            `nums.append(nums[1] + nums[2])`,
+            `nums.append(nums[1] + nums[2] + nums[3])`,
+            `print(nums[4])`,
+        ].join("\n")}</div>`,
+        [`4`, `8`, `7`, `3`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc39",
+        `What does the following code display at the end?<br/> <div class="code-block">${[
+            `nums = [1, 3, 5]`,
+            `words = ["a", "c", "e", "f", "h"]`,
+            `print(str(nums[1]) + words[len(nums)])`,
+        ].join("\n")}</div>`,
+        [`3f`, `3e`, `1f`, `1e`, `I don't know.`]
+    ),
+
+    new MultipleChoiceTask(
+        "mc40",
+        `What does the following code display at the end?<br/> <div class="code-block">${[
+            `nums = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]`,
+            `i = len(nums) - 1`,
+            `while i >= 0:`,
+            `    if nums[i] % 2 == 0:`,
+            `        print(nums[i])`,
+            `        break`,
+            `    i = i - 1`,
+        ].join("\n")}</div>`,
+        [`34`, `2`, `89`, `55`, `I don't know.`]
     ),
 ];
 
