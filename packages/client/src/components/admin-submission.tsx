@@ -22,24 +22,27 @@ export const AdminSubmission = (props: IProps) => {
 
     useEffect(() => {
         if (monacoEl && !editor) {
-            const editor = monaco.editor.create(monacoEl.current!, {
-                value: props.submission.code,
-                readOnly: true,
-                language: "python",
-                automaticLayout: true,
-                fontSize: 16,
-                lineHeight: 26,
-                dimension: {
-                    width: 700,
-                    height:
-                        26 * (props.submission?.code?.split("\n").length + 2),
-                },
-                minimap: { enabled: false },
-                wordWrap: "on",
-                wrappingIndent: "indent",
-            });
+            if (props.submission.code.split("\n").length < 100) {
+                const editor = monaco.editor.create(monacoEl.current!, {
+                    value: props.submission.code,
+                    readOnly: true,
+                    language: "python",
+                    automaticLayout: true,
+                    fontSize: 16,
+                    lineHeight: 26,
+                    dimension: {
+                        width: 700,
+                        height:
+                            26 *
+                            (props.submission?.code?.split("\n").length + 2),
+                    },
+                    minimap: { enabled: false },
+                    wordWrap: "on",
+                    wrappingIndent: "indent",
+                });
 
-            setEditor(editor);
+                setEditor(editor);
+            }
         }
     }, [monacoEl.current]);
 
