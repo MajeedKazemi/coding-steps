@@ -3406,11 +3406,123 @@ export const CodingTasks = [
         6 * 60
     ),
 
-    // five simple modifying
-
     new ModifyingTask(
         "epm1",
-        "Assume you have the following program. Modify it by adding two new lists: if the number in the list is less than 4, add it to a list called <i>list_1</i>, if the number is between 4 and 7, add it to a list called <i>list_2</i>, and if the number is greater than 7, add it to a list called <i>list_3</i>. Finally, display the length of each list.",
+        "Modify the given program so that it would ask the user for two numbers: <i>num1</i> and <i>num2</i> and then calculate the addition of them by displaying the following message instead: <b>The sum of <i>num1</i> and <i>num2</i> is: <i>the value of num1 + num2</i></b>.",
+        [
+            `num1 = int(input("Enter a number"))`,
+            `message = "num1 plus 10 is " + str(num1 + 10)`,
+            ``,
+            `print(message)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>Enter a number:</b>",
+                "input: <b>5</b>",
+                "output: <b>Enter another number:</b>",
+                "input: <b>10</b>",
+                "output: <b>The sum of 5 and 10 is 15</b>",
+            ],
+        ],
+        "",
+        5 * 60
+    ),
+
+    new ModifyingTask(
+        "epm2",
+        "Modify the given program so that when the temperature is above 90, <i>feels_like</i> becomes <b>extremely hot</b> and when the temperature is below 30, <i>feels_like</i> becomes <b>extremely cold</b>.",
+        [
+            `temperature = int(input("enter a temperature between 0 and 100: "))`,
+            `feels_like = ""`,
+            ``,
+            `if temperature > 75:`,
+            `    feels_like = "hot"`,
+            `elif temperature > 50:`,
+            `    feels_like = "warm"`,
+            `else:`,
+            `    feels_like = "cold"`,
+            ``,
+            `print("It feels " + feels_like)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a temperature between 0 and 100:</b>",
+                "input: <b>35</b>",
+                "output: <b>It feels cold</b>",
+            ],
+            [
+                "output: <b>enter a temperature between 0 and 100:</b>",
+                "input: <b>80</b>",
+                "output: <b>It feels extremely hot</b>",
+            ],
+            [
+                "output: <b>enter a temperature between 0 and 100:</b>",
+                "input: <b>95</b>",
+                "output: <b>It feels extremely hot</b>",
+            ],
+        ],
+        "",
+        5 * 60
+    ),
+
+    new ModifyingTask(
+        "epm3",
+        "Modify the given program so that it would count the number of incorrect guesses that the user makes and then display it at the end of the program, only once.",
+        [
+            `import random`,
+            `num = int(input("Guess the number: "))`,
+            `choose = random.randint(1, 10)`,
+            `while num != choose:`,
+            `    num = int(input("Wrong! Guess another time: "))`,
+            `print("Correct!! :)")`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>Guess the number: </b>",
+                "input: <b>5</b>",
+                "output: <b>Wrong! Guess another time:</b>",
+                "input: <b>7</b>",
+                "output: <b>Wrong! Guess another time:</b>",
+                "input: <b>4</b>",
+                "output: <b>Correct!! :)</b>",
+                "output: <b>Incorrect guesses: 2</b>",
+            ],
+        ],
+        "",
+        5 * 60
+    ),
+
+    new ModifyingTask(
+        "epm4",
+        "Modify the given program so that instead of reducing the value of <i>num</i> to go to zero, it would ask the user to enter two numbers: <i>num1</i> and <i>num2</i> and then while <i>num1</i> is greater than or equal to <i>num2</i>, the loop should reduce the value of <i>num1</i> by 3 every time, and increase the value of <i>num2</i> by 3. Display their values as they change every time.",
+        [
+            `num = int(input("enter a number: "))`,
+            `while num > -1:`,
+            `    print(num)`,
+            `    num -= 1`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number between 100 and 999:</b>",
+                "input: <b>751</b>",
+                "output: <b>enter a smaller number:</b>",
+                "input: <b>500</b>",
+                "output: <b>num1: 750</b>",
+                "output: <b>num2: 501</b>",
+                "output: <b>num1: 749</b>",
+                "output: <b>num2: 502</b>",
+                "...",
+                "output: <b>num1: 628</b>",
+                "output: <b>num2: 623</b>",
+            ],
+        ],
+        "",
+        5 * 60
+    ),
+
+    new ModifyingTask(
+        "epm5",
+        "Modify the given program by adding two new lists and then inside the <b>second loop</b>, if the number in the list is less than 4, add it to a list called <i>list_1</i>, if the number is between 4 and 7, add it to a list called <i>list_2</i>, and if the number is greater than 7, add it to a list called <i>list_3</i>. Finally, display the length of each list.",
         [
             `import random`,
             ``,
@@ -3558,8 +3670,9 @@ export const CodingTasks = [
         "emc8",
         `What does the following code display at the end?<br/> <div class="code-block">${[
             `nums = [1, 2, 3]`,
+            `length = len(nums)`,
             `i = 0`,
-            `while i + 1 < len(nums):`,
+            `while i + 1 < length:`,
             `    nums.append(nums[i] + nums[i + 1])`,
             `    i = i + 1`,
 
@@ -3631,14 +3744,14 @@ export const CodingTasks = [
 
     new MultipleChoiceTask(
         "emc12",
-        `What will this program display in the output? <b>heads</b> <div class="code-block">${[
+        `What will this program display in the output? <div class="code-block">${[
             `var1 = 2`,
             `var2 = 4`,
             ``,
-            `if var1 < 4`,
+            `if var1 < 4:`,
             `    var1 = var1 * 2`,
             ``,
-            `    if var2 != var1`,
+            `    if var2 != var1:`,
             `        var2 = var1 - 3`,
             `    else:`,
             `        var2 = var1 + 3`,
@@ -3772,7 +3885,7 @@ export const CodingTasks = [
 
     new MultipleChoiceTask(
         "emc20",
-        `What values for <i>month</i> and <i>day</i> will make the following expression become <b>True</b>? <br/> <div class="code-block">${[
+        `What values for <i>mouse</i> and <i>click_count</i> will make the following expression become <b>True</b>? <br/> <div class="code-block">${[
             `(mouse == "clicked" and click_count <= 3) and (mouse != "dragged" and click_count == 1)`,
         ].join("\n")}</div>`,
         [
@@ -3955,18 +4068,12 @@ export const CodingTasks = [
             `import random`,
             `num = random.randint(1, 5)`,
             ``,
-            `if not(num > 2 or num < 4):`,
+            `if num <= 2 or 4 <= num:`,
             `    print("UP")`,
             `else:`,
             `    print("DOWN")`,
         ].join("\n")}</div>`,
-        [
-            `[1, 5]`,
-            `[1, 2, 4, 5]`,
-            `[3]`,
-            `This code will NEVER say DOWN`,
-            `I don't know.`,
-        ]
+        [`[1, 5]`, `[1, 2, 4, 5]`, `[3]`, `[2, 3, 4]`, `I don't know.`]
     ),
 
     new MultipleChoiceTask(
@@ -3989,7 +4096,7 @@ export const CodingTasks = [
             ``,
             `for v1 in range(3):`,
             `    for v2 in range(5):`,
-            `        num += 2:`,
+            `        num += 2`,
             `    num += 1`,
             ``,
             `print(num)`,
@@ -4117,7 +4224,7 @@ export const CodingTasks = [
             `    i = i + 1`,
             `    j = j - 1`,
             ``,
-            `print(my_list[2])`,
+            `print(list_a[2])`,
         ].join("\n")}</div>`,
         [`10`, `7`, `9`, `8`, `I don't know.`]
     ),
