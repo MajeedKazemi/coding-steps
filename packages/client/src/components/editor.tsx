@@ -13,8 +13,6 @@ import {
 } from "../api/python-shell";
 import { AuthContext } from "../context";
 import { log, LogType, RunEventType } from "../utils/logger";
-import { Codex } from "./codex";
-import { Documentation } from "./documentation";
 
 interface EditorProps {
     taskId: string;
@@ -113,15 +111,6 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                             editor.onDidPaste((e) => {
                                 console.log(e);
                             });
-
-                            // editor.addCommand(
-                            //     monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
-                            //     function () {
-                            //         setOutput([]);
-                            //         setRunning(true);
-                            //         executeCode(editor?.getValue());
-                            //     }
-                            // );
 
                             setEditor(editor);
 
@@ -360,15 +349,6 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                         />
                     )}
                 </div>
-            </section>
-
-            <section className="task-assists">
-                {props.showCodex ? (
-                    <Codex editor={editor} taskId={props.taskId} />
-                ) : (
-                    <div></div>
-                )}
-                <Documentation taskId={props.taskId} />
             </section>
         </Fragment>
     );

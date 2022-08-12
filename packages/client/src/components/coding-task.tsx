@@ -1,13 +1,6 @@
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
 
-import {
-    apiLogEvents,
-    apiUserEvaluateCode,
-    apiUserGradingStatus,
-    apiUserStartTask,
-    apiUserSubmitTask,
-    logError,
-} from "../api/api";
+import { apiLogEvents, apiUserStartTask, apiUserSubmitTask, logError } from "../api/api";
 import { AuthContext } from "../context";
 import { TaskType } from "../utils/constants";
 import { getLogObject } from "../utils/logger";
@@ -35,14 +28,11 @@ export const CodingTask = (props: CodingTaskProps) => {
 
     const [started, setStarted] = useState(false);
     const [completed, setCompleted] = useState(false);
-    const [skipped, setSkipped] = useState(false);
 
     const [startTime, setStartTime] = useState(Date.now());
     const [elapsedTime, setElapsedTime] = useState(0);
-    const [checkingTime, setCheckingTime] = useState(0);
     const [reachedTimeLimit, setReachedTimeLimit] = useState(false);
 
-    const [beingGraded, setBeingGraded] = useState(false);
     const [blink, setBlink] = useState(false);
 
     const [feedback, setFeedback] = useState("");
@@ -62,7 +52,7 @@ export const CodingTask = (props: CodingTaskProps) => {
             });
     };
 
-    const handleSkipTask = () => {
+    const handleSubmitTask = () => {
         apiUserSubmitTask(
             context?.token,
             props.taskId,
@@ -74,30 +64,11 @@ export const CodingTask = (props: CodingTaskProps) => {
             .then(async (response) => {
                 sendLog();
 
-                if (props.taskType == TaskType.Authoring) {
-                    editorRef.current?.setCode(props.solution);
-                    setSkipped(true);
-                } else {
-                    setCompleted(true);
-                    props.onCompletion();
-                }
+                setCompleted(true);
+                props.onCompletion();
             })
             .catch((error: any) => {
                 logError("handleSkipTask: " + error.toString());
-            });
-    };
-
-    const handleGradeCode = () => {
-        apiUserEvaluateCode(context?.token, props.taskId, userCode)
-            .then(async (response) => {
-                const data = await response.json();
-
-                if (data.success) {
-                    setBeingGraded(true);
-                }
-            })
-            .catch((error: any) => {
-                logError("handleGradeCode: " + error.toString());
             });
     };
 
@@ -117,18 +88,10 @@ export const CodingTask = (props: CodingTaskProps) => {
                         }
 
                         setStartTime(Date.parse(data.startedAt));
-                        setCheckingTime(data.checkingTime);
-                        setElapsedTime(
-                            now - Date.parse(data.startedAt) - data.checkingTime
-                        );
+                        setElapsedTime(now - Date.parse(data.startedAt));
                     } else {
                         setStartTime(now);
                         setElapsedTime(now - startTime);
-                    }
-
-                    if (data.beingGraded) {
-                        // the user has already submitted the task and should wait for the result
-                        setBeingGraded(true);
                     }
                 }
             })
@@ -137,56 +100,16 @@ export const CodingTask = (props: CodingTaskProps) => {
             });
     };
 
-    const getGradingStatus = (timerId: any) => {
-        apiUserGradingStatus(context?.token, props.taskId)
-            .then(async (response) => {
-                const data = await response.json();
-
-                if (!data.beingGraded) {
-                    setBeingGraded(false);
-                    setCheckingTime(data.checkingTime);
-                    clearInterval(timerId);
-                    setFeedback(data.feedback);
-
-                    if (data.passed) {
-                        sendLog();
-
-                        setCompleted(true);
-                        props.onCompletion(); // go to the next task
-                    }
-                }
-            })
-            .catch((error: any) => {
-                logError("apiUserGradingStatus: " + error.toString());
-            });
-    };
-
-    useEffect(() => {
-        if (beingGraded) {
-            const id = setInterval(() => {
-                // check task status
-                // if completed, either pass or fail
-                getGradingStatus(id);
-            }, 1000);
-
-            return () => {
-                clearInterval(id);
-            };
-        }
-    }, [beingGraded]);
-
     useEffect(() => {
         const id = setInterval(() => {
-            if (!beingGraded) {
-                setElapsedTime(Date.now() - startTime - checkingTime);
+            setElapsedTime(Date.now() - startTime);
 
-                // is there enough time to continue?
-                if (elapsedTime / 1000 > props.timeLimit) {
-                    setReachedTimeLimit(true);
+            // is there enough time to continue?
+            if (elapsedTime / 1000 > props.timeLimit) {
+                setReachedTimeLimit(true);
 
-                    if (elapsedTime / 1000 > props.timeLimit * 2) {
-                        setBlink(!blink);
-                    }
+                if (elapsedTime / 1000 > props.timeLimit * 2) {
+                    setBlink(!blink);
                 }
             }
         }, 1000);
@@ -194,12 +117,7 @@ export const CodingTask = (props: CodingTaskProps) => {
         return () => {
             clearInterval(id);
         };
-    }, [startTime, beingGraded, elapsedTime, blink]);
-
-    const handleGoNextTask = () => {
-        setCompleted(true);
-        props.onCompletion();
-    };
+    }, [startTime, elapsedTime, blink]);
 
     useEffect(() => {
         if (userCode.length > 10) {
@@ -208,19 +126,6 @@ export const CodingTask = (props: CodingTaskProps) => {
             setCanSubmit(false);
         }
     }, [userCode]);
-
-    if (beingGraded) {
-        return (
-            <div className="container">
-                <div className="card p-md">
-                    <p>
-                        Your submission is being graded. We will get back to you
-                        soon. Your timer is paused.
-                    </p>
-                </div>
-            </div>
-        );
-    }
 
     if (!started) {
         return (
@@ -286,52 +191,35 @@ export const CodingTask = (props: CodingTaskProps) => {
                 </div>
 
                 <div className="task-submission-buttons-container">
-                    {reachedTimeLimit && !skipped ? (
-                        <Button
-                            class="skip-button"
-                            onClick={handleSkipTask}
-                            type="block"
-                            color="warning"
-                        >
-                            {props.taskType === TaskType.Authoring
-                                ? "Skip Task + See Solution"
-                                : "Skip Task"}
-                        </Button>
-                    ) : null}
-                    {skipped ? (
-                        <Button
-                            onClick={handleGoNextTask}
-                            type="block"
-                            color="warning"
-                        >
-                            Start Next Task
-                        </Button>
-                    ) : null}
-
-                    {!skipped ? (
-                        <div className="submit-container">
-                            <Button
-                                class={blink ? "btn-attention" : ""}
-                                onClick={handleGradeCode}
-                                type="block"
-                                disabled={!canSubmit}
-                            >
-                                {beingGraded
-                                    ? "Being Graded"
-                                    : "Submit to Grade"}
-                            </Button>
-
-                            {reachedTimeLimit ? (
-                                <div className="submit-urgent-message">
-                                    <span>Please submit the code sooner!</span>
-
-                                    <span className="time-indicator">
-                                        {convertTime(elapsedTime / 1000)}
-                                    </span>
-                                </div>
-                            ) : null}
+                    <div className="submit-container">
+                        <div className="submit-attention">
+                            <b>ATTENTION</b>
+                            <br />
+                            <br />
+                            You can only submit <b>ONCE</b>. You will <b>NOT</b>{" "}
+                            receive feedback. So please double-check your
+                            solution before submitting.
                         </div>
-                    ) : null}
+                        <br />
+                        <Button
+                            class={blink ? "btn-attention" : ""}
+                            onClick={handleSubmitTask}
+                            type="block"
+                            disabled={!canSubmit}
+                        >
+                            Submit and Start Next Task
+                        </Button>
+
+                        {reachedTimeLimit ? (
+                            <div className="submit-urgent-message">
+                                <span>Please submit the code sooner!</span>
+
+                                <span className="time-indicator">
+                                    {convertTime(elapsedTime / 1000)}
+                                </span>
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
             </section>
 

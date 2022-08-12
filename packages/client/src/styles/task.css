@@ -118,6 +118,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: auto;
+    height: calc(100% - 48px);
 }
 
 .simple-task-info .code-block {
@@ -126,6 +128,11 @@
     border: 1px solid #ddd;
     padding: 16px;
     font-family: "Courier New", Courier, monospace;
+}
+
+.submit-attention {
+    color: rgb(92, 0, 221);
+    text-align: center;
 }
 
 /* .code-snippet {
