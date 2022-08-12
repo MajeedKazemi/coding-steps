@@ -4211,6 +4211,7 @@ export const CodingTasks = [
         ]
     ),
 
+    // have to remove this task as it had the wrong answer
     new MultipleChoiceTask(
         "emc37",
         `What does this code display at the end?<br/> <div class="code-block">${[
@@ -4226,7 +4227,7 @@ export const CodingTasks = [
             ``,
             `print(list_a[2])`,
         ].join("\n")}</div>`,
-        [`10`, `7`, `9`, `8`, `I don't know.`]
+        [`10`, `7`, `9`, `14`, `I don't know.`]
     ),
 
     new MultipleChoiceTask(
