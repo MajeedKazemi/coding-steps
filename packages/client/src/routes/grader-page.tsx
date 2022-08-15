@@ -20,6 +20,7 @@ export const GraderPage = () => {
             feedbacks: string[];
             graded: boolean;
             gradedGrade: number | undefined;
+            notModified: boolean;
         }>
     >([]);
     const [taskId, setTaskId] = useState("epa1");
@@ -94,6 +95,7 @@ export const GraderPage = () => {
                             userId={s.userId}
                             graded={s.graded}
                             gradedGrade={s.gradedGrade}
+                            notModified={s.notModified}
                         />
                     ))}
                 </div>

@@ -151,6 +151,12 @@ adminRouter.get(
                 ) {
                     const userIds = [...BaselineUserIds, ...CopilotUserIds];
 
+                    let starterCode = "";
+
+                    if (task instanceof ModifyingTask) {
+                        starterCode = task.starterCode;
+                    }
+
                     UserTaskModel.find({
                         taskId,
                         userId: { $in: userIds },
@@ -161,16 +167,17 @@ adminRouter.get(
                             solution: task.solution,
                             submissions: shuffle(
                                 userTasks.map((userTask) => {
-                                    const lastItemIndex =
-                                        userTask.submissions.length - 1;
+                                    const code =
+                                        userTask.submissions[
+                                            userTask.submissions.length - 1
+                                        ].code;
 
                                     return {
                                         id: userTask.userTaskId,
                                         userId: userTask.userId,
                                         taskId: userTask.taskId,
-                                        code: userTask.submissions[
-                                            lastItemIndex
-                                        ].code,
+                                        notModified: starterCode === code,
+                                        code: code,
                                         feedbacks: userTask.submissions.map(
                                             (submission) => submission.feedback
                                         ),

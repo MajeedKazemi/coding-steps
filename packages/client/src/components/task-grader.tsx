@@ -12,6 +12,7 @@ interface IProps {
     userId: string;
     graded: boolean;
     gradedGrade: number | undefined;
+    notModified: boolean;
 }
 
 export const TaskGrader = (props: IProps) => {
@@ -85,10 +86,14 @@ export const TaskGrader = (props: IProps) => {
         }
     }, [submittedGrade, grade]);
 
+    const notModifiedMsg = props.notModified ? "NOT MODIFIED" : "";
+
     return (
         <div className={`task-submission-container ${color}`}>
             <span>userId: {props.userId}</span>
             <br />
+
+            {notModifiedMsg && <h4>{notModifiedMsg}</h4>}
 
             <div className="task-submission-divider">
                 <div className="submitted-code-container">
