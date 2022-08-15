@@ -3554,6 +3554,7 @@ export const CodingTasks = [
             `print("x" + "y")`,
         ].join("\n")}</div>`,
         [`10`, `x + y`, `xy`, `The code has an error.`, `I don't know.`]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -3596,6 +3597,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -3609,6 +3611,7 @@ export const CodingTasks = [
             `print(l[3])`,
         ].join("\n")}</div>`,
         [`30`, `40`, `50`, `60`, `I don't know.`]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -3619,6 +3622,7 @@ export const CodingTasks = [
             `print(var1 + str(var2))`,
         ].join("\n")}</div>`,
         [`30`, `1020`, `"10"20`, `The code has an error.`, `I don't know.`]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -3637,6 +3641,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -3650,6 +3655,7 @@ export const CodingTasks = [
             `print(x)`,
         ].join("\n")}</div>`,
         [`xyxyxx`, `xxyx`, `xxyxyx`, `xyxyy`, `I don't know.`]
+        // solution: 0
     ),
 
     new MultipleChoiceTask(
@@ -3664,6 +3670,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -3679,6 +3686,7 @@ export const CodingTasks = [
             `print(nums[len(nums) - 1])`,
         ].join("\n")}</div>`,
         [`4`, `5`, `3`, `2`, `I don't know.`]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -3694,6 +3702,7 @@ export const CodingTasks = [
             `print(hats)`,
         ].join("\n")}</div>`,
         [`18`, `8`, `20`, `18`, `I don't know.`]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -3710,6 +3719,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -3740,6 +3750,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -3760,6 +3771,7 @@ export const CodingTasks = [
             `print(var2)`,
         ].join("\n")}</div>`,
         [`4`, `6`, `7`, `8`, `I don't know.`]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -3770,6 +3782,7 @@ export const CodingTasks = [
             `print(var1 + int(var2))`,
         ].join("\n")}</div>`,
         [`30`, `1020`, `"10"20`, `The code has an error.`, `I don't know.`]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -3792,6 +3805,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -3811,6 +3825,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -3823,6 +3838,7 @@ export const CodingTasks = [
             `print(x)`,
         ].join("\n")}</div>`,
         [`4`, `8`, `4x`, `8x`, `I don't know.`]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -3842,6 +3858,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -3859,6 +3876,7 @@ export const CodingTasks = [
             `print(number)`,
         ].join("\n")}</div>`,
         [`9`, `10`, `11`, `12`, `I don't know.`]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -3881,6 +3899,7 @@ export const CodingTasks = [
             `print(y)`,
         ].join("\n")}</div>`,
         [`4`, `3`, `2`, `1`, `I don't know.`]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -3911,6 +3930,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 0
     ),
 
     new MultipleChoiceTask(
@@ -3944,6 +3964,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -3963,6 +3984,7 @@ export const CodingTasks = [
             `<div class="code-block">${`not(num == 0 and num == 10 and num == 100)`}</div>`,
             `I don't know.`,
         ]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -3985,6 +4007,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -4008,6 +4031,7 @@ export const CodingTasks = [
             `print(msg)`,
         ].join("\n")}</div>`,
         [`num1`, `num2`, `num3`, `num4`, `I don't know.`]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -4026,6 +4050,7 @@ export const CodingTasks = [
             `    print("C")`,
         ].join("\n")}</div>`,
         [`A`, `B`, `C`, `None of the values B or C.`, `I don't know.`]
+        // solution: 0
     ),
 
     new MultipleChoiceTask(
@@ -4042,6 +4067,7 @@ export const CodingTasks = [
             `    print("C")`,
         ].join("\n")}</div>`,
         [`A`, `B`, `C`, `The code has an error!`, `I don't know.`]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -4060,6 +4086,7 @@ export const CodingTasks = [
             `print(n2)`,
         ].join("\n")}</div>`,
         [`10`, `15`, `20`, `25`, `I don't know.`]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -4074,6 +4101,7 @@ export const CodingTasks = [
             `    print("DOWN")`,
         ].join("\n")}</div>`,
         [`[1, 5]`, `[1, 2, 4, 5]`, `[3]`, `[2, 3, 4]`, `I don't know.`]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -4087,6 +4115,7 @@ export const CodingTasks = [
             `print(q)`,
         ].join("\n")}</div>`,
         [`12`, `15`, `13`, `16`, `I don't know.`]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -4102,6 +4131,7 @@ export const CodingTasks = [
             `print(num)`,
         ].join("\n")}</div>`,
         [`31`, `33`, `30`, `25`, `I don't know.`]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -4118,6 +4148,7 @@ export const CodingTasks = [
             `print(len(not_six))`,
         ].join("\n")}</div>`,
         [`4`, `3`, `9`, `10`, `I don't know.`]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -4134,6 +4165,7 @@ export const CodingTasks = [
             `print(number)`,
         ].join("\n")}</div>`,
         [`21`, `22`, `24`, `26`, `I don't know.`]
+        // solution: 0
     ),
 
     new MultipleChoiceTask(
@@ -4151,6 +4183,7 @@ export const CodingTasks = [
             `print(num)`,
         ].join("\n")}</div>`,
         [`6`, `17`, `0`, `1`, `I don't know.`]
+        // solution: 2
     ),
 
     new MultipleChoiceTask(
@@ -4170,6 +4203,7 @@ export const CodingTasks = [
             `first: 55, second: 45`,
             `I don't know.`,
         ]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -4178,6 +4212,7 @@ export const CodingTasks = [
             `print("2" + 5)`,
         ].join("\n")}</div>`,
         [`25`, `7`, `"2 + 5"`, `The code has an error.`, `I don't know.`]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -4209,6 +4244,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 3
     ),
 
     // have to remove this task as it had the wrong answer
@@ -4228,6 +4264,7 @@ export const CodingTasks = [
             `print(list_a[2])`,
         ].join("\n")}</div>`,
         [`10`, `7`, `9`, `14`, `I don't know.`]
+        // solution: 3
     ),
 
     new MultipleChoiceTask(
@@ -4247,6 +4284,7 @@ export const CodingTasks = [
             `print(other_list[1])`,
         ].join("\n")}</div>`,
         [`mf`, `qo`, `zz`, `oq`, `I don't know.`]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -4277,6 +4315,7 @@ export const CodingTasks = [
 
             `I don't know.`,
         ]
+        // solution: 1
     ),
 
     new MultipleChoiceTask(
@@ -4290,6 +4329,7 @@ export const CodingTasks = [
             `print(x + y)`,
         ].join("\n")}</div>`,
         [`20`, `24`, `25`, `26`, `I don't know.`]
+        // solution: 0
     ),
 
     new MultipleChoiceTask(
@@ -4302,6 +4342,7 @@ export const CodingTasks = [
             `print(ans)`,
         ].join("\n")}</div>`,
         [`8+7`, `15`, `"8"+"7"`, `The code has an error.`, `I don't know.`]
+        // solution: 3
     ),
 ];
 
