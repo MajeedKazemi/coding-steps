@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap");
 
 @import "styles/admin.css";
+@import "styles/grader.css";
 @import "styles/editor.css";
 @import "styles/navbar.css";
 @import "styles/button.css";

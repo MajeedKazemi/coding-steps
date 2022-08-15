@@ -3346,7 +3346,15 @@ export const CodingTasks = [
                 "output: <b>53</b>",
             ],
         ],
-        "",
+        [
+            `num1 = int(input("Enter a number: "))`,
+            `num2 = int(input("Enter another number: "))`,
+            ``,
+            `if num1 > num2:`,
+            `    print(num1)`,
+            `else:`,
+            `    print(num2)`,
+        ].join("\n"),
         3 * 60
     ),
 
@@ -3364,7 +3372,15 @@ export const CodingTasks = [
                 "output: <b>Total is: 11</b>",
             ],
         ],
-        "",
+        [
+            `total = 0`,
+            ``,
+            `num = int(input("Enter a number between 0 and 10: "))`,
+            `while num != 0:`,
+            `    total += num`,
+            `    num = int(input("Enter a number between 0 and 10: "))`,
+            `print("Total is: " + str(total))`,
+        ].join("\n"),
         5 * 60
     ),
 
@@ -3380,7 +3396,7 @@ export const CodingTasks = [
                 "output: <b>100</b>",
             ],
         ],
-        "",
+        [`for i in range(50, 101):`, `    print(i)`].join("\n"),
         5 * 60
     ),
 
@@ -3394,7 +3410,17 @@ export const CodingTasks = [
             ],
             ["output: <b>first: 6, and second: 6</b>", "output: <b>Bingo!</b>"],
         ],
-        "",
+        [
+            `rand1 = random.randint(1, 6)`,
+            `rand2 = random.randint(1, 6)`,
+            ``,
+            `print("first: " + str(rand1) + ", and second: " + str(rand2))`,
+            ``,
+            `if rand1 == 6 and rand2 == 6:`,
+            `    print("Bingo!")`,
+            `else:`,
+            `    print("Try again!")`,
+        ].join("\n"),
         4 * 60
     ),
 
@@ -3402,7 +3428,15 @@ export const CodingTasks = [
         "epa5",
         "Write a program that uses a loop that repeats for 100 times to generate a random number between 1 and 100 every time it repeats. Every time it generates a random number, add the ones that are less than 25 to a list called <i>special_numbers</i>. Finally, display the length of <i>special_numbers</i> only once.",
         [["output: <b>21</b>"]],
-        "",
+        [
+            `special_numbers = []`,
+            ``,
+            `for i in range(100):`,
+            `    rand = random.randint(1, 100)`,
+            `    if rand < 25:`,
+            `        special_numbers.append(rand)`,
+            `print(len(special_numbers))`,
+        ].join("\n"),
         6 * 60
     ),
 
@@ -3424,7 +3458,14 @@ export const CodingTasks = [
                 "output: <b>The sum of 5 and 10 is 15</b>",
             ],
         ],
-        "",
+        [
+            `num1 = int(input("Enter a number"))`,
+            `num2 = int(input("Enter another number"))`,
+            ``,
+            `message = "The sum of " + str(num1) + " and " + str(num2) + " is " + str(num1 + num2)`,
+            ``,
+            `print(message)`,
+        ].join("\n"),
         5 * 60
     ),
 
@@ -3461,7 +3502,23 @@ export const CodingTasks = [
                 "output: <b>It feels extremely hot</b>",
             ],
         ],
-        "",
+        [
+            `temperature = int(input("enter a temperature between 0 and 100: "))`,
+            `feels_like = ""`,
+            ``,
+            `if temperature > 90:`,
+            `    feels_like = "extremely hot"`,
+            `elif temperature > 75:`,
+            `    feels_like = "hot"`,
+            `elif temperature > 50:`,
+            `    feels_like = "warm"`,
+            `elif temperature > 30:`,
+            `    feels_like = "cold"`,
+            `else:`,
+            `    feels_like = "extremely cold"`,
+            ``,
+            `print("It feels " + feels_like)`,
+        ].join("\n"),
         5 * 60
     ),
 
@@ -3488,7 +3545,19 @@ export const CodingTasks = [
                 "output: <b>Incorrect guesses: 2</b>",
             ],
         ],
-        "",
+        [
+            `import random`,
+            `num = int(input("Guess the number: "))`,
+            `choose = random.randint(1, 10)`,
+            `incorrect_guesses = 0`,
+            ``,
+            `while num != choose:`,
+            `    num = int(input("Wrong! Guess another time: "))`,
+            `    incorrect_guesses += 1`,
+            ``,
+            `print("Correct!! :)")`,
+            `print("Incorrect guesses: " + str(incorrect_guesses))`,
+        ].join("\n"),
         5 * 60
     ),
 
@@ -3516,7 +3585,16 @@ export const CodingTasks = [
                 "output: <b>num2: 623</b>",
             ],
         ],
-        "",
+        [
+            `num1 = int(input("enter a number: "))`,
+            `num2 = int(input("enter a smaller number: "))`,
+            ``,
+            `while num1 >= num2:`,
+            `    print("num1: " + str(num1))`,
+            `    print("num2: " + str(num2))`,
+            `    num1 -= 3`,
+            `    num2 += 3`,
+        ].join("\n"),
         5 * 60
     ),
 
@@ -3540,7 +3618,30 @@ export const CodingTasks = [
             ["output: <b>list2: 35</b>"],
             ["output: <b>list3: 26</b>"],
         ],
-        "",
+        [
+            `import random`,
+            ``,
+            `rand_nums = []`,
+            ``,
+            `for i in range(100):`,
+            `    rand_nums.append(random.randint(1, 10))`,
+            ``,
+            `list_1 = []`,
+            `list_2 = []`,
+            `list_3 = []`,
+            ``,
+            `for item in rand_nums:`,
+            `    if item < 4:`,
+            `        list_1.append(item)`,
+            `    elif item > 7:`,
+            `        list_3.append(item)`,
+            `    else:`,
+            `        list_2.append(item)`,
+            ``,
+            `print("list1: " + str(len(list_1)))`,
+            `print("list2: " + str(len(list_2)))`,
+            `print("list3: " + str(len(list_3)))`,
+        ].join("\n"),
         5 * 60
     ),
 

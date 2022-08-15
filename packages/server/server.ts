@@ -11,6 +11,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 
 import { appSignal } from "./appsignal";
+import { adminRouter } from "./routes/admin-router";
 import { codexRouter } from "./routes/codex-router";
 import { diagRouter } from "./routes/diag-router";
 import { loginRouter } from "./routes/login-router";
@@ -67,6 +68,7 @@ mongoose
 
         app.use("/api/auth/", loginRouter);
         app.use("/api/tasks/", tasksRouter);
+        app.use("/api/admin/", adminRouter);
         app.use("/api/codex/", codexRouter);
         app.use("/diagnostics/", diagRouter);
 

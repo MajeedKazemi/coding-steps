@@ -43,7 +43,20 @@ export const authSignup = (
     });
 
 export const apiAdminGetSubmissions = (token: string | null | undefined) =>
-    fetch(env.API_URL + "/api/tasks/not-graded", {
+    fetch(env.API_URL + "/api/admin/not-graded", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+export const apiAdminFinalSubmissions = (
+    token: string | null | undefined,
+    taskId: string
+) =>
+    fetch(env.API_URL + "/api/admin/get-final-submissions/" + taskId, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -61,7 +74,7 @@ export const apiAdminSetGrade = (
     index: number,
     feedback: string
 ) =>
-    fetch(env.API_URL + "/api/tasks/set-grade", {
+    fetch(env.API_URL + "/api/admin/set-grade", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -76,6 +89,26 @@ export const apiAdminSetGrade = (
             checkedAt: new Date(),
             index,
             feedback,
+        }),
+    });
+
+export const apiAdminSetFinalGrade = (
+    token: string | null | undefined,
+    taskId: string,
+    userId: string,
+    grade: number
+) =>
+    fetch(env.API_URL + "/api/admin/set-final-grade", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            taskId,
+            userId,
+            grade,
         }),
     });
 

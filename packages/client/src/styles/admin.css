@@ -9,6 +9,18 @@
     margin-bottom: 24px;
 }
 
+.container-green {
+    background-color: rgb(149, 207, 149) !important;
+}
+
+.container-orange {
+    background-color: rgb(255, 200, 149) !important;
+}
+
+.container-default {
+    background-color: #bbb !important;
+}
+
 .task-submission-divider {
     display: flex;
     flex-direction: row;

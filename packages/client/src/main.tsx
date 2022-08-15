@@ -8,6 +8,7 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-route
 import { authRefresh, logError } from "./api/api";
 import { AuthContext } from "./context";
 import { AdminPage } from "./routes/admin-page";
+import { GraderPage } from "./routes/grader-page";
 import { HomePage } from "./routes/home-page";
 import { TasksPage } from "./routes/tasks-page";
 
@@ -84,6 +85,14 @@ function App() {
                         element={
                             <RequireAuth role="admin">
                                 <AdminPage />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route
+                        path="/grader"
+                        element={
+                            <RequireAuth role="admin">
+                                <GraderPage />
                             </RequireAuth>
                         }
                     />
