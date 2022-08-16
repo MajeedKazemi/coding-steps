@@ -167,10 +167,14 @@ adminRouter.get(
                             solution: task.solution,
                             submissions: shuffle(
                                 userTasks.map((userTask) => {
-                                    const code =
-                                        userTask.submissions[
-                                            userTask.submissions.length - 1
-                                        ].code;
+                                    let code = "";
+
+                                    if (userTask.submissions.length > 0) {
+                                        code =
+                                            userTask.submissions[
+                                                userTask.submissions.length - 1
+                                            ].code;
+                                    }
 
                                     const adminGrade =
                                         userTask.finalGrades.find(
