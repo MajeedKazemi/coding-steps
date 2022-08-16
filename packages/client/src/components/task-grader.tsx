@@ -13,6 +13,7 @@ interface IProps {
     graded: boolean;
     gradedGrade: number | undefined;
     notModified: boolean;
+    receivedDirectHint: boolean;
 }
 
 export const TaskGrader = (props: IProps) => {
@@ -20,6 +21,9 @@ export const TaskGrader = (props: IProps) => {
     const [grade, setGrade] = useState<number | undefined>(props.gradedGrade);
     const [submittedGrade, setSubmittedGrade] = useState<number | undefined>(
         props.gradedGrade
+    );
+    const [receivedDirectHint, setReceivedDirectHint] = useState(
+        props.receivedDirectHint
     );
     const [graded, setGraded] = useState(false);
     const [color, setColor] = useState("container-default");
@@ -58,7 +62,8 @@ export const TaskGrader = (props: IProps) => {
                 context?.token,
                 props.taskId,
                 props.userId,
-                grade
+                grade,
+                receivedDirectHint
             )
                 .then(async (response) => {
                     const data = await response.json();
@@ -118,6 +123,23 @@ export const TaskGrader = (props: IProps) => {
                         e.preventDefault();
                     }}
                 >
+                    <div
+                        className="task-response-radio"
+                        onClick={() => {
+                            setReceivedDirectHint(!receivedDirectHint);
+                        }}
+                    >
+                        <label>Received Direct Hint?</label>
+                        <input
+                            type="checkbox"
+                            checked={receivedDirectHint === true}
+                            onChange={() => {
+                                setReceivedDirectHint(!receivedDirectHint);
+                            }}
+                        ></input>
+                    </div>
+                    <br />
+                    <br />
                     <div>
                         <div
                             onClick={() => {

@@ -96,7 +96,8 @@ export const apiAdminSetFinalGrade = (
     token: string | null | undefined,
     taskId: string,
     userId: string,
-    grade: number
+    grade: number,
+    receivedDirectHint: boolean
 ) =>
     fetch(env.API_URL + "/api/admin/set-final-grade", {
         method: "POST",
@@ -109,6 +110,7 @@ export const apiAdminSetFinalGrade = (
             taskId,
             userId,
             grade,
+            receivedDirectHint,
         }),
     });
 
@@ -209,6 +211,16 @@ export const apiSaveUserCode = (
             taskId,
             code,
         }),
+    });
+
+export const apiGetAllTaskIds = (token: string | null | undefined) =>
+    fetch(env.API_URL + "/api/tasks/all-task-ids", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
     });
 
 export const apiGetSavedUserCode = (

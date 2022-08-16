@@ -172,28 +172,35 @@ adminRouter.get(
                                             userTask.submissions.length - 1
                                         ].code;
 
+                                    const adminGrade =
+                                        userTask.finalGrades.find(
+                                            (u) =>
+                                                u.grader ===
+                                                    adminUser.username &&
+                                                u.grade !== undefined
+                                        );
+
                                     return {
                                         id: userTask.userTaskId,
                                         userId: userTask.userId,
                                         taskId: userTask.taskId,
                                         notModified: starterCode === code,
                                         code: code,
-                                        feedbacks: userTask.submissions.map(
-                                            (submission) => submission.feedback
-                                        ),
-                                        graded:
-                                            userTask.finalGrades.find(
-                                                (u) =>
-                                                    u.grader ===
-                                                        adminUser.username &&
-                                                    u.grade !== undefined
-                                            ) !== undefined,
-                                        gradedGrade: userTask.finalGrades.find(
-                                            (u) =>
-                                                u.grader ===
-                                                    adminUser.username &&
-                                                u.grade !== undefined
-                                        )?.grade,
+                                        feedbacks: userTask.submissions
+                                            .map(
+                                                (submission) =>
+                                                    submission.feedback
+                                            )
+                                            .filter(
+                                                (feedback) =>
+                                                    feedback !== undefined &&
+                                                    feedback !== ""
+                                            ),
+                                        graded: adminGrade !== undefined,
+                                        gradedGrade: adminGrade?.grade,
+                                        receivedDirectHint:
+                                            adminGrade?.receivedDirectHint ===
+                                            true,
                                     };
                                 })
                             ),
@@ -210,7 +217,7 @@ adminRouter.get(
 
 adminRouter.post("/set-final-grade", verifyUser, (req, res, next) => {
     if ((req.user as IUser).role === "admin") {
-        const { userId, taskId, grade } = req.body;
+        const { userId, taskId, grade, receivedDirectHint } = req.body;
 
         if (userId !== undefined && taskId !== undefined) {
             const task = getTaskFromTaskId(taskId);
@@ -226,6 +233,7 @@ adminRouter.post("/set-final-grade", verifyUser, (req, res, next) => {
                             {
                                 grader: (req.user as IUser).username,
                                 grade,
+                                receivedDirectHint,
                             },
                         ];
 

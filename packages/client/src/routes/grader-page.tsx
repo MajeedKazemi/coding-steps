@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { apiAdminFinalSubmissions, logError } from "../api/api";
+import { apiAdminFinalSubmissions, apiGetAllTaskIds, logError } from "../api/api";
 import { Layout } from "../components/layout";
 import { TaskGrader } from "../components/task-grader";
 import { AuthContext } from "../context";
@@ -9,6 +9,7 @@ import { AuthContext } from "../context";
 export const GraderPage = () => {
     const { context, setContext } = useContext(AuthContext);
     const [solution, setSolution] = useState<string>("");
+    const [allTaskIds, setAllTaskIds] = useState<string[]>([]);
     const solutionEl = useRef(null);
     const [description, setDescription] = useState<string>("");
     const [submissions, setSubmissions] = useState<
@@ -21,9 +22,22 @@ export const GraderPage = () => {
             graded: boolean;
             gradedGrade: number | undefined;
             notModified: boolean;
+            receivedDirectHint: boolean;
         }>
     >([]);
     const [taskId, setTaskId] = useState("epa1");
+
+    useEffect(() => {
+        apiGetAllTaskIds(context?.token)
+            .then(async (response) => {
+                const data = await response.json();
+
+                setAllTaskIds(data.allTaskIds);
+            })
+            .catch((error: any) => {
+                logError(error.toString());
+            });
+    }, []);
 
     useEffect(() => {
         apiAdminFinalSubmissions(context?.token, taskId)
@@ -63,17 +77,13 @@ export const GraderPage = () => {
                     onChange={(e) => {
                         setTaskId(e.target.value);
                     }}
+                    size={3}
                 >
-                    <option value="epa1">epa1</option>
-                    <option value="epa2">epa2</option>
-                    <option value="epa3">epa3</option>
-                    <option value="epa4">epa4</option>
-                    <option value="epa5">epa5</option>
-                    <option value="epm1">epm1</option>
-                    <option value="epm2">epm2</option>
-                    <option value="epm3">epm3</option>
-                    <option value="epm4">epm4</option>
-                    <option value="epm5">epm5</option>
+                    {allTaskIds.map((id) => (
+                        <option key={id} value={id}>
+                            {id}
+                        </option>
+                    ))}
                 </select>
 
                 <br />
@@ -96,6 +106,7 @@ export const GraderPage = () => {
                             graded={s.graded}
                             gradedGrade={s.gradedGrade}
                             notModified={s.notModified}
+                            receivedDirectHint={s.receivedDirectHint}
                         />
                     ))}
                 </div>

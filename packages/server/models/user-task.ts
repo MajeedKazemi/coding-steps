@@ -25,6 +25,7 @@ export interface IUserTask extends mongoose.Document {
     finalGrades: Array<{
         grader: string;
         grade: number;
+        receivedDirectHint: boolean;
     }>;
 }
 

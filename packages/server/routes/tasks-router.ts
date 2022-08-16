@@ -4,6 +4,7 @@ import { IUser } from "../models/user";
 import { UserTaskModel } from "../models/user-task";
 import {
     AuthoringTask,
+    CodingTasks,
     getNextTask,
     getTaskFromTaskId,
     getTaskSequenceFromTaskId,
@@ -352,6 +353,18 @@ tasksRouter.post("/save-code", verifyUser, (req, res, next) => {
             });
         }
     }
+});
+
+tasksRouter.get("/all-task-ids", verifyUser, (req, res, next) => {
+    const allTaskIds = [];
+
+    for (const task of CodingTasks) {
+        if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
+            allTaskIds.push(task.id);
+        }
+    }
+
+    res.send({ allTaskIds });
 });
 
 tasksRouter.get("/get-saved-code/:taskId", verifyUser, (req, res, next) => {
