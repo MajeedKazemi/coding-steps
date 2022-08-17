@@ -176,13 +176,23 @@ adminRouter.get(
                                             ].code;
                                     }
 
-                                    const adminGrade =
-                                        userTask.finalGrades.find(
-                                            (u) =>
-                                                u.grader ===
-                                                    adminUser.username &&
-                                                u.grade !== undefined
-                                        );
+                                    let adminGrade = undefined;
+
+                                    for (const finalGrade of userTask.finalGrades) {
+                                        if (
+                                            finalGrade.grader ===
+                                                adminUser.username &&
+                                            finalGrade.grade !== undefined
+                                        ) {
+                                            adminGrade = finalGrade;
+                                        }
+                                    }
+
+                                    const feedbacks = userTask.submissions.map(
+                                        (submission) => submission.feedback
+                                    );
+
+                                    feedbacks.splice(-1);
 
                                     return {
                                         id: userTask.userTaskId,
@@ -190,16 +200,11 @@ adminRouter.get(
                                         taskId: userTask.taskId,
                                         notModified: starterCode === code,
                                         code: code,
-                                        feedbacks: userTask.submissions
-                                            .map(
-                                                (submission) =>
-                                                    submission.feedback
-                                            )
-                                            .filter(
-                                                (feedback) =>
-                                                    feedback !== undefined &&
-                                                    feedback !== ""
-                                            ),
+                                        feedbacks: feedbacks.filter(
+                                            (feedback) =>
+                                                feedback !== undefined &&
+                                                feedback !== ""
+                                        ),
                                         graded: adminGrade !== undefined,
                                         gradedGrade: adminGrade?.grade,
                                         receivedDirectHint:
@@ -288,3 +293,42 @@ function shuffle(array: any[]): any[] {
 
     return array;
 }
+
+// const runOnce = () => {
+//     const finalGrade = [
+//         { grader: "majeed", grade: 0, receivedDirectHint: false },
+//         { grader: "justinchow", grade: 0, receivedDirectHint: false },
+//         { grader: "carlma", grade: 0, receivedDirectHint: false },
+//     ];
+
+//     for (const task of CodingTasks) {
+//         if (task instanceof ModifyingTask) {
+//             UserTaskModel.find({
+//                 taskId: task.id,
+//                 userId: { $in: [...BaselineUserIds, ...CopilotUserIds] },
+//             }).then((userTasks) => {
+//                 for (const userTask of userTasks) {
+//                     let finalSubmission = "";
+
+//                     if (userTask.submissions.length > 0) {
+//                         finalSubmission =
+//                             userTask.submissions[
+//                                 userTask.submissions.length - 1
+//                             ].code;
+//                     }
+
+//                     if (
+//                         finalSubmission === "" ||
+//                         finalSubmission === task.starterCode
+//                     ) {
+//                         userTask.finalGrades = finalGrade;
+//                         userTask.save();
+//                         console.log("updated: ", userTask.userTaskId);
+//                     }
+//                 }
+//             });
+//         }
+//     }
+// };
+
+// runOnce();
