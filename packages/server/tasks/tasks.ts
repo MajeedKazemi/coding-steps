@@ -4799,7 +4799,7 @@ export const CodingTasksNew = [
                 "\n"
             )}</div>`,
 
-            `<div class="code-block">${[`season = "summer"`, `hour = 8`].join(
+            `<div class="code-block">${[`season = "summer"`, `hour = 9`].join(
                 "\n"
             )}</div>`,
 
@@ -4839,13 +4839,13 @@ export const CodingTasksNew = [
     new MultipleChoiceTask(
         "e2mc4",
         `What is the output of the following Python code? <br/> <div class="code-block">${[
-            `v1 = 15`,
+            `v1 = 23`,
             `v2 = "+"`,
-            `v3 = 23`,
-            `ans = int(v1) + int(v2) + int(v3)`,
+            `v3 = 7`,
+            `ans = (v1 + v2 + v3)`,
             `print(ans)`,
         ].join("\n")}</div>`,
-        [`15+23`, `38`, `"15"+"23"`, `The code has an error.`, `I don't know.`]
+        [`23+7`, `30`, `"23"+"7"`, `The code has an error.`, `I don't know.`]
         // solution: 3
     ),
 
