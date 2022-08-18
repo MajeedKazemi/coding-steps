@@ -4,10 +4,10 @@ import { IUser } from "../models/user";
 import { UserTaskModel } from "../models/user-task";
 import {
     AuthoringTask,
-    CodingTasks,
-    getNextTask,
-    getTaskFromTaskId,
-    getTaskSequenceFromTaskId,
+    CodingTasksOld,
+    getNewTaskFromTaskId,
+    getNewTaskSequenceFromTaskId,
+    getNextNewTask,
     ModifyingTask,
     MultipleChoiceTask,
     ShortAnswerTask,
@@ -29,7 +29,7 @@ tasksRouter.get("/next", verifyUser, (req, res, next) => {
         })
             .sort({ sequence: 1 })
             .then((userTasks) => {
-                res.send({ task: getNextTask(userTasks) });
+                res.send({ task: getNextNewTask(userTasks) });
             });
     }
 });
@@ -40,7 +40,7 @@ tasksRouter.post("/start", verifyUser, (req, res, next) => {
     const { taskId, startedAt } = req.body;
 
     if (userId !== undefined && taskId !== undefined) {
-        const task = getTaskFromTaskId(taskId);
+        const task = getNewTaskFromTaskId(taskId);
 
         if (task !== undefined) {
             UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
@@ -68,7 +68,7 @@ tasksRouter.post("/start", verifyUser, (req, res, next) => {
                     });
                 } else {
                     const userTask = new UserTaskModel({
-                        sequence: getTaskSequenceFromTaskId(taskId),
+                        sequence: getNewTaskSequenceFromTaskId(taskId),
                         userId,
                         taskId,
                         userTaskId: `${userId}_${taskId}`,
@@ -102,7 +102,7 @@ tasksRouter.post("/eval-code", verifyUser, (req, res, next) => {
     const { taskId, submittedAt, data } = req.body;
 
     if (userId !== undefined && taskId !== undefined) {
-        const task = getTaskFromTaskId(taskId);
+        const task = getNewTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
             if (data !== undefined && data.code === undefined) {
@@ -156,7 +156,7 @@ tasksRouter.get("/grading-status/:taskId", verifyUser, (req, res, next) => {
     const taskId = req.params.taskId;
 
     if (userId !== undefined && taskId !== undefined) {
-        const task = getTaskFromTaskId(taskId);
+        const task = getNewTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
             UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
@@ -193,7 +193,7 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
     const { taskId, finishedAt, data } = req.body;
 
     if (userId !== undefined && taskId !== undefined) {
-        const task = getTaskFromTaskId(taskId);
+        const task = getNewTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
             UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
@@ -249,7 +249,7 @@ tasksRouter.post("/submit", verifyUser, (req, res, next) => {
                     });
                 } else {
                     const userTask = new UserTaskModel({
-                        sequence: getTaskSequenceFromTaskId(taskId),
+                        sequence: getNewTaskSequenceFromTaskId(taskId),
                         userTaskId: `${userId}_${taskId}`,
                         userId,
                         taskId,
@@ -287,7 +287,7 @@ tasksRouter.post("/log", verifyUser, (req, res, next) => {
     const { taskId, log } = req.body;
 
     if (userId !== undefined && taskId !== undefined) {
-        const task = getTaskFromTaskId(taskId);
+        const task = getNewTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
             UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
@@ -323,7 +323,7 @@ tasksRouter.post("/save-code", verifyUser, (req, res, next) => {
     const { taskId, code } = req.body;
 
     if (userId !== undefined && taskId !== undefined) {
-        const task = getTaskFromTaskId(taskId);
+        const task = getNewTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
             UserTaskModel.findOne({ userId, taskId }).then((userTask) => {
@@ -358,7 +358,7 @@ tasksRouter.post("/save-code", verifyUser, (req, res, next) => {
 tasksRouter.get("/all-task-ids", verifyUser, (req, res, next) => {
     const allTaskIds = [];
 
-    for (const task of CodingTasks) {
+    for (const task of CodingTasksOld) {
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
             allTaskIds.push(task.id);
         }
@@ -372,7 +372,7 @@ tasksRouter.get("/get-saved-code/:taskId", verifyUser, (req, res, next) => {
     const taskId = req.params.taskId;
 
     if (userId !== undefined && taskId !== undefined) {
-        const task = getTaskFromTaskId(taskId);
+        const task = getNewTaskFromTaskId(taskId);
 
         if (task instanceof AuthoringTask || task instanceof ModifyingTask) {
             UserTaskModel.findOne({ userId, taskId }).then((userTask) => {

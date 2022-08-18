@@ -135,7 +135,7 @@ export class ShortAnswerTask extends Task {
     }
 }
 
-export const CodingTasks = [
+export const CodingTasksOld = [
     new WatchVideoTask(
         "wv0",
         "Watch the following tutorial to learn how to properly use Coding Steps to learn about Python and write code."
@@ -4443,10 +4443,1165 @@ export const CodingTasks = [
     ),
 ];
 
-export const getNextTask = (completedTasks: IUserTask[]): Task | null => {
-    for (let i = 0; i < CodingTasks.length; i++) {
-        if (!completedTasks.find((t) => t.taskId === CodingTasks[i].id)) {
-            return CodingTasks[i];
+export const CodingTasksNew = [
+    new AuthoringTask(
+        "e2pa1",
+        "Write a program that would generate two random numbers between 0 and 1000, and then only display the smaller of the two generated numbers. If they are equal, display the message “The numbers are equal”.",
+        [["output: <b>194</b>"], ["output: <b>370</b>"]],
+        [
+            `import random`,
+            `num1 = random.randint(0, 1000)`,
+            `num2 = random.randint(0, 1000)`,
+            ``,
+            `if num1 < num2:`,
+            `    print(num1)`,
+            `elif num1 > num2:`,
+            `    print(num2)`,
+            `else:`,
+            `    print("The numbers are equal")`,
+        ].join("\n"),
+        3 * 60
+    ),
+
+    new AuthoringTask(
+        "e2pa2",
+        "Write a program that uses a loop to repeatedly generate a random number between 0 to 10, display the generated number, and then stop when the random number becomes greater than 7. The loop should then display the count of numbers that were generated.",
+        [
+            [
+                "input: <b>3</b>",
+                "input: <b>5</b>",
+                "input: <b>7</b>",
+                "input: <b>1</b>",
+                "input: <b>9</b>",
+                "input: <b>Count: 4</b>",
+            ],
+        ],
+        [
+            `import random`,
+            `count = 0`,
+            ``,
+            `num = random.randint(0, 10)`,
+            `while num <= 7:`,
+            `    count += 1`,
+            `    num = random.randint(0, 10)`,
+            `    print(num)`,
+            `print("Count: " + str(count))`,
+        ].join("\n"),
+        5 * 60
+    ),
+
+    new AuthoringTask(
+        "e2pa3",
+        "Write a program that displays all the numbers between 75 and 125 (including 75 and 125) using a loop.",
+        [
+            [
+                "output: <b>75</b>",
+                "output: <b>76</b>",
+                "...",
+                "output: <b>124</b>",
+                "output: <b>125</b>",
+            ],
+        ],
+        [`for i in range(75, 126):`, `    print(i)`].join("\n"),
+        5 * 60
+    ),
+
+    new AuthoringTask(
+        "e2pa4",
+        "Write a program that asks the user to enter two numbers between 1 and 100 called <i>num1</i> and <i>num2</i>. Then display them in each line like this: <b>first: <i>num1</i>, and second: <i>rand2</i></b>. Finally, checks if they are <b>both</b> greater than 50. If yes, display the message <b>Great Job!</b> otherwise display the message <b>Try again!</b>.",
+        [
+            [
+                "output: <b>Enter a number between 1 and 100:</b>",
+                "input: <b>37</b>",
+                "output: <b>Enter another number between 1 and 100:</b>",
+                "input: <b>85</b>",
+                "output: <b>first: 37, and second: 85</b>",
+                "output: <b>Try again!</b>",
+            ],
+            [
+                "output: <b>Enter a number between 1 and 100:</b>",
+                "input: <b>79</b>",
+                "output: <b>Enter another number between 1 and 100:</b>",
+                "input: <b>64</b>",
+                "output: <b>first: 79, and second: 64</b>",
+                "output: <b>Great Job!</b>",
+            ],
+        ],
+        [
+            `num1 = int(input("Enter a number between 1 and 100: "))`,
+            `num2 = int(input("Enter another number between 1 and 100: "))`,
+            ``,
+            `print("first: " + str(rand1) + ", and second: " + str(rand2))`,
+            ``,
+            `if num1 > 50 and rand2 > 50:`,
+            `    print("Great Job!")`,
+            `else:`,
+            `    print("Try again!")`,
+        ].join("\n"),
+        4 * 60
+    ),
+
+    new AuthoringTask(
+        "e2pa5",
+        "Write a program that uses a loop to ask the user to enter a number between 10 and 20 for 10 times. Add the numbers that are greater than 15 to a list called <i>large_numbers</i> and the ones that are less than 5 to a list called <i>small_numbers</i>. Finally, display the length of <i>large_numbers</i> and <i>small_numbers</i> only once.",
+        [["output: <b>21</b>"]],
+        [
+            `large_numbers = []`,
+            `small_numbers = []`,
+            ``,
+            `for i in range(10):`,
+            `    num = int(input("Enter a number between 10 and 20: "))`,
+            `    if num > 15:`,
+            `        large_numbers.append(num)`,
+            `    elif num < 5:`,
+            `        small_numbers.append(num)`,
+            `print(len(large_numbers))`,
+            `print(len(small_numbers))`,
+        ].join("\n"),
+        6 * 60
+    ),
+
+    new ModifyingTask(
+        "e2pm1",
+        "Without modifying the `print(message)` line, change the program so that it would ask the user to enter two numbers: <i>num1</i> and <i>num2</i> and then calculate the result of <i>num1</i> divided by <i>num2</i>. And change the message to display: <b><i>num1</i> divided by <i>num2</i> is: <i>division result</i></b>. <br/> <b>Note</b>: the message should include the numeric values of <b><i>num1</i> and <i>num2</i>.",
+        [
+            `num1 = int(input("Enter a number"))`,
+            `message = "num1 minus ten is: " + str(num1 - 10)`,
+            ``,
+            `print(message)`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>Enter the first number:</b>",
+                "input: <b>2</b>",
+                "output: <b>Enter the second number:</b>",
+                "input: <b>3</b>",
+                "output: <b>Enter the third number:</b>",
+                "input: <b>7</b>",
+                "output: <b>2 times 3 times 7 is: 42</b>",
+            ],
+        ],
+        [
+            `num1 = int(input("Enter the first number"))`,
+            `num2 = int(input("Enter the second number"))`,
+            ``,
+            `message = str(num1) + " divided by " + str(num2) + " is: " + str(num1 / num2)`,
+            ``,
+            `print(message)`,
+        ].join("\n"),
+        5 * 60
+    ),
+
+    new ModifyingTask(
+        "e2pm2",
+        "Modify the given program so that when the rating is 10, <i>user_rating</i> becomes <b>loved</b>, when it is between 7 and 9 <i>user_rating</i> becomes <b>liked</b>, when it is between 4 and 6 <i>user_rating</i> becomes <b>was bored</b>, and when it is between 1 to 3 <i>user_rating</i> becomes <b>didn't like</b>, and finally if it is equal to 0 <i>user_rating</i> becomes <b>hated</b>.",
+        [
+            `rating = int(input("on a scale of 0 to 10, how much did you like Lord of the Rings?"))`,
+            `user_rating = ""`,
+            ``,
+            `if rating > 6:`,
+            `    user_rating = "enjoyed"`,
+            `elif rating < 4:`,
+            `    user_rating = "didn't enjoy"`,
+            ``,
+            `print("The user: " + user_rating + " watching Lord of the Rings!")`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>on a scale of 0 to 10, how much did you like Lord of the Rings?</b>",
+                "input: <b>8</b>",
+                "output: <b>The user liked watching Lord of the Rings!</b>",
+            ],
+            [
+                "output: <b>on a scale of 0 to 10, how much did you like Lord of the Rings?</b>",
+                "input: <b>3</b>",
+                "output: <b>The user hated watching Lord of the Rings!</b>",
+            ],
+        ],
+        [
+            `rating = int(input("on a scale of 0 to 10, how much did you like Lord of the Rings?"))`,
+            `user_rating = ""`,
+            ``,
+            `if rating == 10:`,
+            `    user_rating = "loved"`,
+            `elif rating == 0:`,
+            `    user_rating = "hated"`,
+            `elif rating >= 7:`,
+            `    user_rating = "liked"`,
+            `elif rating >= 4:`,
+            `    user_rating = "was bored"`,
+            `else:`,
+            `    user_rating = "didn't like"`,
+            ``,
+            `print("The user: " + user_rating + " watching Lord of the Rings!")`,
+        ].join("\n"),
+        5 * 60
+    ),
+
+    new ModifyingTask(
+        "e2pm3",
+        "Modify the given program so that it would count the number of attempts that were too high in a variable called <i>count_high</i>, and count the number of attempts that were too low in a variable called <i>count_low</i>. Then at the end, display them individually, only once.",
+        [
+            `import random`,
+            `pass = random.randint(1, 999)`,
+            ``,
+            `while True:`,
+            `    if num == pass:`,
+            `        print("You guessed the number!")`,
+            `        break`,
+            `    elif num > pass:`,
+            `        print("Too high!")`,
+            `    else:`,
+            `        print("Too low!")`,
+            `    num = int(input("Guess the number: "))`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>Guess the number: </b>",
+                "input: <b>500</b>",
+                "output: <b>Too high!</b>",
+                "output: <b>Guess the number: </b>",
+                "input: <b>250</b>",
+                "output: <b>Too low!</b>",
+                "output: <b>Guess the number: </b>",
+                "input: <b>375</b>",
+                "output: <b>Too low!</b>",
+                "output: <b>Guess the number: </b>",
+                "input: <b>400</b>",
+                "output: <b>You guessed the number!</b>",
+                "output: <b>Lower attempts: 2</b>",
+                "output: <b>Higher attempts: 1</b>",
+            ],
+        ],
+        [
+            `import random`,
+            `pass = random.randint(1, 999)`,
+            `count_low = 0`,
+            `count_high = 0`,
+            ``,
+            `while True:`,
+            `    if num == pass:`,
+            `        print("You guessed the number!")`,
+            `        break`,
+            `    elif num > pass:`,
+            `        print("Too high!")`,
+            `        count_high += 1`,
+            `    else:`,
+            `        print("Too low!")`,
+            `        count_low += 1`,
+            `    num = int(input("Guess the number: "))`,
+            ``,
+            `print("Lower attempts: " + str(count_low))`,
+            `print("Higher attempts: " + str(count_high))`,
+        ].join("\n"),
+        5 * 60
+    ),
+
+    new ModifyingTask(
+        "e2pm4",
+        "Modify the given program so that it would ask the user to enter another number (greater than the first one). Then, the loop should go over all the numbers from the first number to the second number (including the second number). Then, it should calculate the sum of all numbers AND the sum of all odd numbers in that range. Finally, display the sum of all numbers AND the sum of all odd numbers.",
+        [
+            `x = int(input("Enter a number: "))`,
+            `t = 0`,
+            `for v in range(x):`,
+            `    if v % 2 == 0:`,
+            `       t += v`,
+            `print("t is: " + str(t))`,
+        ].join("\n"),
+        [
+            [
+                "output: <b>enter a number:</b>",
+                "input: <b>20</b>",
+                "output: <b>enter a bigger numbber:</b>",
+                "input: <b>35</b>",
+                `output: <b>Total is: 440</b>`,
+                `output: <b>Total odd is: 224</b>`,
+            ],
+        ],
+        [
+            `x = int(input("Enter a number: "))`,
+            `y = int(input("Enter a bigger number: "))`,
+            `t = 0`,
+            `t2 = 0`,
+            `for v in range(x, y + 1):`,
+            `    t += v`,
+            `    if v % 2 == 1:`,
+            `       t2 += v`,
+            `print("Total is: " + str(t))`,
+            `print("Total odd is: " + str(t2))`,
+        ].join("\n"),
+        5 * 60
+    ),
+
+    new ModifyingTask(
+        "e2pm5",
+        "The <i>daily_toronto_weather</i> and <i>daily_ottawa_weather</i> lists include all the temperatures of these two cities in the last 100 days. Modify the given program by adding two other lists called <i>extreme_temperatures</i>, and <i>normal_temperatures</i>. When in a single day, <i>daily_toronto_weather</i> and <i>daily_ottawa_weather</i> both have temperatures above 90, then add that temperature to the <i>extreme_temperatures</i> list. Otherwise, add that day's temperature to the <i>normal_temperatures</i> list. Finally, just display the length of both lists.<br/> <b>Note:</b> Do not touch the first for loop.",
+        [
+            `import random`,
+            ``,
+            `daily_toronto_weather = []`,
+            `daily_ottawa_weather = []`,
+            ``,
+            `for i in range(100):`,
+            `    t = random.randint(0, 80)`,
+            `    daily_toronto_weather.append(t + random.randint(0, 20))`,
+            `    daily_ottawa_weather.append(t + random.randint(0, 20))`,
+            ``,
+            `for i in range(100):`,
+            `    print(daily_toronto_weather[i])`,
+            `    print(daily_ottawa_weather[i])`,
+        ].join("\n"),
+        [
+            ["output: <b>extreme days: 8, normal days: 92</b>"],
+            ["output: <b>extreme days: 14, normal days: 86</b>"],
+        ],
+        [
+            `import random`,
+            ``,
+            `daily_toronto_weather = []`,
+            `daily_ottawa_weather = []`,
+            ``,
+            `for i in range(100):`,
+            `    t = random.randint(0, 80)`,
+            `    daily_toronto_weather.append(t + random.randint(0, 20))`,
+            `    daily_ottawa_weather.append(t + random.randint(0, 20))`,
+            ``,
+            `extreme_temperatures = []`,
+            `normal_temperatures = []`,
+            ``,
+            `for i in range(100):`,
+            `    if daily_toronto_weather[i] > 90 and daily_ottawa_weather[i] > 90:`,
+            `        extreme_temperatures.append(temp)`,
+            `    else:`,
+            `        normal_temperatures.append(temp)`,
+            ``,
+            `print("extreme days: " + str(len(extreme_temperatures)))`,
+            `print("normal days: " + str(len(normal_temperatures)))`,
+        ].join("\n"),
+        6 * 60
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc1",
+        `What values for <i>season</i> and <i>hour</i> will make the following expression become <b>True</b>? <br/> <div class="code-block">${[
+            `hour > 9 and ((season == "summer" and hour < 21) or (summer == "winter" and hour < 23))`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${[`season = "winter"`, `hour = 7`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`season = "summer"`, `hour = 20`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`season = "winter"`, `hour = 23`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`season = "summer"`, `hour = 8`].join(
+                "\n"
+            )}</div>`,
+
+            `I don't know.`,
+        ]
+        // solution: 1
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc2",
+        `What is the output of the following Python code? <br/> <div class="code-block">${[
+            `number1 = "5"`,
+            `number2 = 5`,
+            `print(int(number1) + number2)`,
+        ].join("\n")}</div>`,
+        [`55`, `10`, `"5"5`, `The code has an error.`, `I don't know.`]
+        // solution: 1
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc3",
+        `Which of the following options will NEVER be displayed based on the random number? <br/> <div class="code-block">${[
+            `import random`,
+            `X = random.randint(1, 10)`,
+            ``,
+            `if X > 5:`,
+            `    print("A")`,
+            `elif X != 5:`,
+            `    print("B")`,
+            `else:`,
+            `    print("C")`,
+        ].join("\n")}</div>`,
+        [`A`, `B`, `C`, `None of the values A or B.`, `I don't know.`]
+        // solution: 2
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc4",
+        `What is the output of the following Python code? <br/> <div class="code-block">${[
+            `v1 = 15`,
+            `v2 = "+"`,
+            `v3 = 23`,
+            `ans = int(v1) + int(v2) + int(v3)`,
+            `print(ans)`,
+        ].join("\n")}</div>`,
+        [`15+23`, `38`, `"15"+"23"`, `The code has an error.`, `I don't know.`]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc5",
+        `Assuming we have the following code: <br/> <div class="code-block">${[
+            `n1 = int(input("enter a number: "))`,
+            `n2 = input("enter another number: ")`,
+            `n3 = "20"`,
+        ].join(
+            "\n"
+        )}</div> <br/>Which of the following options is INCORRECT and throws an error?`,
+        [
+            `<div class="code-block">${`print(int(n1) + n2 + n3)`})}</div>`,
+            `<div class="code-block">${`print(n1 + int(n2) + int(n3))`})}</div>`,
+            `<div class="code-block">${`print(str(n1) + n2 + str(n3))`})}</div>`,
+            `None of them! (They are all correct)`,
+
+            `I don't know.`,
+        ]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc6",
+        `What does this code display at the end?<br/> <div class="code-block">${[
+            `var = []`,
+            `var.append(2)`,
+            `var.append(var[0] + 4)`,
+            `var.append(var[1] + 6)`,
+            `var.append(var[2] + 8)`,
+            `var.append(var[3] + var[2])`,
+            `print(var[4])`,
+        ].join("\n")}</div>`,
+        [`32`, `28`, `40`, `The code has an error`, `I don't know.`]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc7",
+        `What is the output of the following Python code? <br/> <div class="code-block">${[
+            `likes = 20`,
+            `if likes > 25:`,
+            `   likes += 10`,
+            `elif likes >= 20:`,
+            `   likes = likes - 10`,
+            `elif likes == 20:`,
+            `   likes += 5`,
+            `if likes > 30:`,
+            `   likes = likes - 5`,
+            `print(likes)`,
+        ].join("\n")}</div>`,
+        [`25`, `10`, `15`, `30`, `I don't know.`]
+        // solution: 1
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc8",
+        `Assuming we have the following code, which of the following print statements is correct and does NOT throw an error? <br/> <div class="code-block">${[
+            `five = 5`,
+            `three = "three"`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${`print(str(five) + three)`}</div>`,
+            `<div class="code-block">${`print(three + int(five))`}</div>`,
+            `<div class="code-block">${`print(five + int(three))`}</div>`,
+            `None of them! (They all throw an error)`,
+
+            `I don't know.`,
+        ]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc9",
+        `What is the output of the following Python code? <br/> <div class="code-block">${[
+            `print("2" + str(5) - "5")`,
+        ].join("\n")}</div>`,
+        [`2`, `25-5`, `"2"`, `The code has an error.`, `I don't know.`]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc10",
+        `What is the output of the following Python code? <br/> <div class="code-block">${[
+            `number1 = "10"`,
+            `number2 = 20`,
+            `number3 = str(number2) + number1`,
+            `print(int(number1) + number2 + int(number3))`,
+        ].join("\n")}</div>`,
+        [`2040`, `3030`, `"10"40`, `The code has an error.`, `I don't know.`]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc11",
+        `From the following options, which one is correct and does not throw an error?`,
+        [
+            `<div class="code-block">${[
+                `lucky_number = input(int("what's your lucky number?"))`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `lucky_number = input("what's your lucky number?", 8)`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `lucky_number = int(print("what's your lucky number?"))`,
+            ].join("\n")}</div>`,
+
+            `None of them! (They all throw an error)`,
+
+            `I don't know.`,
+        ]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc12",
+        `Assuming we have the following code: <br/> <div class="code-block">${[
+            `import random`,
+            `gen = random.randint(1, 10)`,
+        ].join(
+            "\n"
+        )}</div> <br/> Which of the following codes displays the message when <i>gen</i> is greater than or equal to 5?`,
+        [
+            `<div class="code-block">${[
+                `if gen > 5 or gen = 5:`,
+                `    print("gen is greater than or equal to 5")`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `if gen is => 5:`,
+                `    print("gen is greater than or equal to 5")`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `if gen >= 5 or gen == 5:`,
+                `    print("gen is greater than or equal to 5")`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `if gen => 5:`,
+                `    print("gen is greater than or equal to 5")`,
+            ].join("\n")}</div>`,
+
+            `I don't know.`,
+        ]
+        // solution: 2
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc13",
+        `What will this program display in the output? <div class="code-block">${[
+            `A = 2`,
+            `Q = 4`,
+            ``,
+            `if A <= 2:`,
+            `    A = A + 2`,
+            ``,
+            `    if Q != A:`,
+            `        Q = A - 3`,
+            `    elif Q == A:`,
+            `        Q = A * 2`,
+            `    else:`,
+            `        Q = A + 3`,
+            `else:`,
+            `    Q = A * 2`,
+            `print(Q)`,
+        ].join("\n")}</div>`,
+        [`4`, `6`, `7`, `8`, `I don't know.`]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc14",
+        `What value for <i>x</i> will make the following code display the message <b>True</b>? <br/> <div class="code-block">${[
+            `if 5 < x or x <= 3:`,
+            `    print("False")`,
+            `else:`,
+            `    print("True")`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${[`x = 3`].join("\n")}</div>`,
+
+            `<div class="code-block">${[`x = 5`].join("\n")}</div>`,
+
+            `<div class="code-block">${[`x = 6`].join("\n")}</div>`,
+
+            `None of the values above will make the code display the message <b>True</b>.`,
+
+            `I don't know.`,
+        ]
+        // solution: 1
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc15",
+        `Assuming we have the following code and the user enters two numbers when it asks them: <br/> <div class="code-block">${[
+            `import random`,
+            `user1 = input("enter a number between 1 and 10: ")`,
+            `print("first entered: " + user1)`,
+            `user2 = int(input("enter a number between 1 and 10: "))`,
+            `print("second entered: " + user2)`,
+            `computer = random.randint(1, 10)`,
+            ``,
+            `if computer > int(user1) and computer < user2:`,
+            `    print("Between the two numbers")`,
+        ].join(
+            "\n"
+        )}</div> <br/> However, it will not run correctly. Which of the following will fix the code?`,
+        [
+            `<div class="code-block">${`print("first entered: " + str(user1))`}</div>`,
+            `<div class="code-block">${`computer > int(user1) and computer < int(user2)`}</div>`,
+            `<div class="code-block">${`print("second entered: " + str(user2))`}</div>`,
+            `<div class="code-block">${`computer = str(random.randint(1, 10))`}</div>`,
+
+            `I don't know.`,
+        ]
+        // solution: 2
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc16",
+        `What does the following code display at the end?<br/> <div class="code-block">${[
+            `even_nums = [0, 2, 4, 6]`,
+            `length = len(even_nums)`,
+            `i = 1`,
+            `while i < length - 1:`,
+            `    even_nums.append(even_nums[i] + even_nums[i + 1])`,
+            `    i = i + 1`,
+
+            `print(even_nums[len(even_nums) - 1])`,
+        ].join("\n")}</div>`,
+        [`6`, `8`, `10`, `4`, `I don't know.`]
+        // solution: 2
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc17",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `i = 0`,
+            `j = 0`,
+            ``,
+            `while i + j >= 0:`,
+            `    i = i + 5`,
+            `    if i == 30:`,
+            `        i = i - 5`,
+            `    elif i == 25:`,
+            `        i = i - 5`,
+            `    elif i == 20:`,
+            `        i = i - 5`,
+            `        break`,
+            `    j = j + 2`,
+            `print(j)`,
+        ].join("\n")}</div>`,
+        [`0`, `2`, `4`, `6`, `I don't know.`]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc18",
+        `What is the output of the following Python code? <br/> <div class="code-block">${[
+            `T = "T"`,
+            `W = "W" + T`,
+            `T = T + W`,
+            `W = "WT" + W + "W"`,
+            `print(W + T)`,
+        ].join("\n")}</div>`,
+        [`WTWTWTWT`, `TWTWTWTW`, `TTWTWT`, `TWTWW`, `I don't know.`]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc19",
+        `Assume that <i>r1</i>, <i>r2</i>, and <i>r3</i> are three random numbers <b>between 1 and 10</b>. Which of the following codes checks if none of them are equal to <b>5</b>?`,
+        [
+            `<div class="code-block">${[`r1 != r2 != r3`].join("\n")}</div>`,
+
+            `<div class="code-block">${[`r1 != 5 and r2 != 5 and r3 != 5`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`r1 != 5 or r2 != 5 or r3 != 5`].join(
+                "\n"
+            )}</div>`,
+
+            `<div class="code-block">${[`r1 and r2 and r3 != 5`].join(
+                "\n"
+            )}</div>`,
+
+            `I don't know.`,
+        ]
+        // solution: 1
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc20",
+        `Which of the following options will NEVER be displayed based on the random numbers x, y, and z? <br/> <div class="code-block">${[
+            `import random`,
+            `x = random.randint(50, 100)`, // 50 - 100
+            `y = random.randint(x + 100, x + 150)`, // 100 - 200
+            ``,
+            `if y < x:`,
+            `    print("A")`,
+            `elif x == y:`,
+            `    print("B")`,
+            `else:`,
+            `    print("C")`,
+        ].join("\n")}</div>`,
+        [`A`, `B`, `C`, `None of the values A or B.`, `I don't know.`]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc21",
+        `What is the output of the following Python code? <br/><div class="code-block">${[
+            `x = 25`,
+            `y = 75`,
+            `print("x" + "y")`,
+        ].join("\n")}</div>`,
+        [`x + y`, `100`, `xy`, `The code has an error.`, `I don't know.`]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc22",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `me = 100`,
+            `you = 0`,
+            `while me + 10 > you - 10 :`,
+            `    me = me - 10`,
+            `    you = you + 10`,
+            `print("me: " + str(me) + ", you: " + str(you))`,
+        ].join("\n")}</div>`,
+        [
+            `me: 40, you: 60`,
+            `me: 50, you: 50`,
+            `me: 60, you: 40`,
+            `me: 0, you: 100`,
+            `I don't know.`,
+        ]
+        // solution: 2
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc23",
+        `We want the following while loop to STOP when <i>x</i> is equal to one of the following values: <b>1</b> or <b>2</b> or <b>3</b>. Which of the following conditions will do this?<br/> <div class="code-block">${[
+            `x = int(input("Enter a number: "))`,
+            `s = 0`,
+            `while (CONDITION):`,
+            `    s = s + x`,
+            `    x = int(input("Enter a number: "))`,
+            `print(s)`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${`x == 1 and x == 2 and x == 3`}</div>`,
+            `<div class="code-block">${`x != 1 or x != 2 or x != 3`}</div>`,
+            `<div class="code-block">${`x != 1 and x != 2 and x != 3`}</div>`,
+            `<div class="code-block">${`x == 1 or x == 2 or x == 3)`}</div>`,
+            `I don't know.`,
+        ]
+        // solution: 2
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc24",
+        `What will the following program display in the output when it runs? <br/> <div class="code-block">${[
+            `number = 50`,
+            `if number < 50:`,
+            `    number = number + 10`,
+            `elif number > 50:`,
+            `    number = number - 10`,
+            `else:`,
+            `    number += 0`,
+            `if number > 50:`,
+            `    number = number - 25`,
+            `else:`,
+            `    number = number + 25`,
+            `print(number)`,
+        ].join("\n")}</div>`,
+        [`75`, `65`, `35`, `25`, `I don't know.`]
+        // solution: 1
+    ),
+    new MultipleChoiceTask(
+        "e2mc25",
+        `What will the following code display in the output? <br/> <div class="code-block">${[
+            `msg = ""`,
+            `number = 50`,
+            ``,
+            `if number != 50:`,
+            `    msg = "one"`,
+            `    number = 50`,
+            `elif number == 100:`,
+            `    msg = "two"`,
+            `    number = 100`,
+            `if number >= 100:`,
+            `    msg = "three"`,
+            `    number = 150`,
+            `else:`,
+            `    msg = "four"`,
+            `    number = 200`,
+            ``,
+            `print(msg)`,
+        ].join("\n")}</div>`,
+        [`four`, `three`, `two`, `one`, `I don't know.`]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc26",
+        `Which of the following codes correctly calculates the sum of every other element in a given list? (the first, the third, the fifth, etc.)`,
+        [
+            `<div class="code-block">${[
+                `total = 0`,
+                `for value in range(numbers):`,
+                `    if value % 2 == 1:`,
+                `        total += numbers[value]`,
+                `print(total)`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `total = 0`,
+                `for var in range(len(numbers)):`,
+                `    if var % 2 == 1:`,
+                `        total += var`,
+                `print(total)`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `total = 0`,
+                `counter = 0`,
+                `while counter < len(numbers):`,
+                `    if counter % 2 == 0:`,
+                `        total += counter`,
+                `print(total)`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `total = 0`,
+                `counter = 0`,
+                `while counter < len(numbers):`,
+                `    if counter % 2 == 0:`,
+                `        total += numbers[counter]`,
+                `print(total)`,
+            ].join("\n")}</div>`,
+
+            `I don't know.`,
+        ]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc27",
+        `What will the following code display in the output? <br/> <div class="code-block">${[
+            `C = 5`,
+            `Y = 0`,
+            ``,
+            `while C != 15:`,
+            `    C += 1`,
+            `    Y += 5`,
+            ``,
+            `while Y != 30:`,
+            `    Y -= 1`,
+            `    if Y == 25:`,
+            `        break`,
+            `    if Y == 40:`,
+            `        Y = Y - 10`,
+            ``,
+            `print(Y)`,
+        ].join("\n")}</div>`,
+        [`25`, `30`, `40`, `50`, `I don't know.`]
+        // solution: 1
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc28",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `count = 0`,
+            ``,
+            `for num1 in range(3):`,
+            `    for num2 in range(5):`,
+            `        count += 10`,
+            `    count += 5`,
+            ``,
+            `print(count)`,
+        ].join("\n")}</div>`,
+        [`155`, `55`, `65`, `165`, `I don't know.`]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc29",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `import random`,
+            `even_numbers = []`,
+            `while len(even_numbers) != 9:`,
+            `    num = random.randint(1, 10)`,
+            ``,
+            `    if num % 2 != 1:`,
+            `        even_numbers.append(num)`,
+            `    elif len(even_numbers) == 6:`,
+            `        break`,
+            `    if len(even_numbers) == 3:`,
+            `        break`,
+            `print(len(even_numbers))`,
+        ].join("\n")}</div>`,
+        [`3`, `6`, `9`, `10`, `I don't know.`]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc30",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `counter = 0`,
+            `for X in range(10):`,
+            `    if X != 4:`,
+            `        counter += 10`,
+            `    elif X > 5:`,
+            `        counter += 5`,
+            `    else:`,
+            `        counter = 10`,
+            `print(counter)`,
+        ].join("\n")}</div>`,
+        [`40`, `50`, `60`, `70`, `I don't know.`]
+        // solution: 2
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc31",
+        `What is the output of the following Python code? <br/> <div class="code-block">${[
+            `a = 10`,
+            `a += 3`,
+            `a -= 8`,
+            `a += (a + 2)`,
+            `a += a`,
+            `print(a)`,
+        ].join("\n")}</div>`,
+        [`10a`, `10`, `24a`, `24`, `I don't know.`]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc32",
+        `Which of the following python codes correctly asks the user what day is today?
+        `,
+        [
+            `<div class="code-block">${`day = print("What day is today?") + input("Friday")`}</div>`,
+            `<div class="code-block">${`day = print("Today is: " + input("Friday"))`}</div>`,
+            `<div class="code-block">${`day = input(print("What day is today?"))`}</div>`,
+            `<div class="code-block">${`day = ("Today is: ") + (input("What day is today?"))`}</div>`,
+
+            `I don't know.`,
+        ]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc33",
+        `Which of the following codes correctly multiplies each element in the given list by 10?<br/> <div class="code-block">${[
+            `values = ["182", "671", "944", "510", "851", "313"]`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${[
+                `for i in int(range(len(values))):`,
+                `    values[i] = str(values[i] * 10)`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `for i in range(len(values)):`,
+                `    values[i] = str(int(values[i]) * 10)`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `for i in len(range(values)):`,
+                `    values[i] = int(str(values[i])) * 10`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `for num in int(values):`,
+                `    num = num * 10`,
+            ].join("\n")}</div>`,
+
+            `I don't know.`,
+        ]
+        // solution: 1
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc34",
+        `Assume we have the following list of numbers called <i>grades</i>, which of the following loops correctly displays the sum of the elements inside the list?<br/> <div class="code-block">${[
+            `numbers_list = [58, 24, 80, 100, 79, 48, 62, 91]`,
+            `total = 0`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${[
+                `for loop_var in len(range(numbers_list)):`,
+                `    total += numbers_list[loop_var]`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `for i in numbers_list:`,
+                `    total += i`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `for i in numbers_list:`,
+                `    total += numbers_list[i]`,
+            ].join("\n")}</div>`,
+
+            `<div class="code-block">${[
+                `for loop_var in range(len(numbers_list)):`,
+                `    total += loop_var`,
+            ].join("\n")}</div>`,
+
+            `I don't know.`,
+        ]
+        // solution: 1
+    ),
+
+    // have to remove this task as it had the wrong answer
+    new MultipleChoiceTask(
+        "e2mc35",
+        `What does this code display at the end?<br/> <div class="code-block">${[
+            `first_list = [3, 1, 7, 5, 9]`,
+            `second_list = [8, 4, 3, 2, 4]`,
+            `third_list = [0, 0, 0, 0, 0]`,
+            ``,
+            `i = len(first_list) - 1`,
+            `j = 0`,
+            `while i < len(first_list):`,
+            `    third_list[i] = first_list[i] + second_list[j]`,
+            `    i = i - 1`,
+            `    j = j + 1`,
+            ``,
+            `print(third_list[1])`,
+        ].join("\n")}</div>`,
+        [`3`, `10`, `9`, `17`, `I don't know.`]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc36",
+        `Which set of values for <i>rand</i> will make the following code only display <b>False</b> in the output? <br/> <div class="code-block">${[
+            `import random`,
+            `rand = random.randint(50, 100)`,
+            ``,
+            `if rand % 2 == 0:`,
+            `    print("True")`,
+            `elif rand < 20 or rand > 80:`,
+            `    print("False")`,
+            `elif rand < 40 or rand > 60:`,
+            `    print("True")`,
+            `elif rand > 45 and rand < 55:`,
+            `    print("False")`,
+        ].join("\n")}</div>`,
+        [
+            `[7, 89, 53, 47]`,
+            `[10, 90]`,
+            `[15, 85, 50]`,
+            `[1, 99, 46, 52]`,
+            `I don't know.`,
+        ]
+        // solution: 0
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc37",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `first = 10`,
+            `second = 10`,
+            `for i in range(6):`,
+            `    first += 4`,
+            `    second += 6`,
+            `print(first + second)`,
+        ].join("\n")}</div>`,
+        [`60`, `70`, `80`, `90`, `I don't know.`]
+        // solution: 2
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc38",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `num = 5`,
+            `while num >= 10:`,
+            `    if num == 5:`,
+            `        num = num + 1`,
+            `        break`,
+            `    elif num == 10:`,
+            `        num = num - 2`,
+            `        break`,
+            `    num = num + 2`,
+            `num += 5`,
+            `print(num)`,
+        ].join("\n")}</div>`,
+        [`5`, `6`, `11`, `10`, `I don't know.`]
+        // solution: 3
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc39",
+        `Which one of the following options displays the message: <b>january-february-march</b>? <br/> <div class="code-block">${[
+            `m1 = "january"`,
+            `m2 = "february"`,
+            `m3 = "march"`,
+        ].join("\n")}</div>`,
+        [
+            `<div class="code-block">${`print(m1-m2-m3)`}</div>`,
+            `<div class="code-block">${`print("m1-m2-m3")`}</div>`,
+            `<div class="code-block">${`print((m1) + "-" + (m2) + "-" + (m3))`}</div>`,
+            `<div class="code-block">${`print(m1 "-" m2 "-" m3)`}</div>`,
+
+            `I don't know.`,
+        ]
+        // solution: 2
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc40",
+        `What will the following program display at the end? <br/> <div class="code-block">${[
+            `R = 45`,
+            `while R > 23:`,
+            `    R = R - 7`,
+            `    R = R + 2`,
+            `R = R + 4`,
+            `print(R)`,
+        ].join("\n")}</div>`,
+        [`23`, `24`, `28`, `27`, `I don't know.`]
+        // solution: 1
+    ),
+
+    new MultipleChoiceTask(
+        "e2mc41",
+        `What does this code display at the end?<br/> <div class="code-block">${[
+            `letters = ["M", "A", "H", "T", "G"]`,
+            `other_list = ["", "", "", "", ""]`,
+            ``,
+            `i = len(letters) - 1`,
+            `j = 0`,
+            ``,
+            `while i >= 0 and j < len(letters):`,
+            `    other_list[j] = letters[i] + letters[j]`,
+            `    i = i - 1`,
+            `    j = j + 1`,
+            ``,
+            `print(other_list[1])`,
+        ].join("\n")}</div>`,
+        [`MG`, `HH`, `TA`, `GM`, `I don't know.`]
+        // solution: 2
+    ),
+];
+
+export const getNextNewTask = (completedTasks: IUserTask[]): Task | null => {
+    for (let i = 0; i < CodingTasksNew.length; i++) {
+        if (!completedTasks.find((t) => t.taskId === CodingTasksNew[i].id)) {
+            return CodingTasksNew[i];
         }
     }
 
@@ -4454,15 +5609,15 @@ export const getNextTask = (completedTasks: IUserTask[]): Task | null => {
 
     // if the last task was an authoring task and they did it correctly, the starting code for it should be the final code that they submitted.
     // if (completedTasks === undefined || completedTasks.length === 0)
-    //     return CodingTasks[0];
+    //     return CodingTasksNew[0];
 
     // const lastCompletedTaskId =
     //     completedTasks[completedTasks.length - 1].taskId;
-    // const lastCompletedTaskIndex = CodingTasks.findIndex(
+    // const lastCompletedTaskIndex = CodingTasksNew.findIndex(
     //     (task) => task.id === lastCompletedTaskId
     // );
 
-    // const nextTask = CodingTasks[lastCompletedTaskIndex + 1];
+    // const nextTask = CodingTasksNew[lastCompletedTaskIndex + 1];
 
     // const prevTask = completedTasks[completedTasks.length - 1];
 
@@ -4479,13 +5634,19 @@ export const getNextTask = (completedTasks: IUserTask[]): Task | null => {
 };
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
-    CodingTasks.findIndex((task) => task.id === taskId) + 1000;
+    CodingTasksOld.findIndex((task) => task.id === taskId) + 1000;
+
+export const getNewTaskSequenceFromTaskId = (taskId: string): number =>
+    CodingTasksNew.findIndex((task) => task.id === taskId) + 1000;
 
 export const getTaskFromTaskId = (taskId: string): Task | undefined =>
-    CodingTasks.find((task) => task.id === taskId);
+    CodingTasksOld.find((task) => task.id === taskId);
+
+export const getNewTaskFromTaskId = (taskId: string): Task | undefined =>
+    CodingTasksNew.find((task) => task.id === taskId);
 
 (function checkUniqueIds() {
-    const taskIds = CodingTasks.map((task) => task.id);
+    const taskIds = CodingTasksNew.map((task) => task.id);
 
     if (new Set(taskIds).size !== taskIds.length) {
         throw new Error("Task ids must be unique");
