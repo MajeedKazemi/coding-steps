@@ -4825,7 +4825,7 @@ export const CodingTasksNew = [
             `import random`,
             `X = random.randint(1, 10)`,
             ``,
-            `if X > 5:`,
+            `if X >= 5:`,
             `    print("A")`,
             `elif X != 5:`,
             `    print("B")`,
