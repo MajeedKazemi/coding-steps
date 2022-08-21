@@ -135,7 +135,7 @@ export class ShortAnswerTask extends Task {
     }
 }
 
-export const CodingTasksOld = [
+export const CodingTasks = [
     new WatchVideoTask(
         "wv0",
         "Watch the following tutorial to learn how to properly use Coding Steps to learn about Python and write code."
@@ -4441,9 +4441,8 @@ export const CodingTasksOld = [
         [`8+7`, `15`, `"8"+"7"`, `The code has an error.`, `I don't know.`]
         // solution: 3
     ),
-];
 
-export const CodingTasksNew = [
+    // conditionals
     new AuthoringTask(
         "e2pa1",
         "Write a program that would generate two random numbers between 0 and 1000, and then only display the smaller of the two generated numbers. If they are equal, display the message “The numbers are equal”.",
@@ -4463,6 +4462,7 @@ export const CodingTasksNew = [
         3 * 60
     ),
 
+    // conditional loops
     new AuthoringTask(
         "e2pa2",
         "Write a program that uses a loop to repeatedly generate a random number between 0 to 10, display the generated number, and then stop when the random number becomes greater than 7. The loop should then display the count of numbers that were generated.",
@@ -4490,6 +4490,7 @@ export const CodingTasksNew = [
         5 * 60
     ),
 
+    // for loop
     new AuthoringTask(
         "e2pa3",
         "Write a program that displays all the numbers between 75 and 125 (including 75 and 125) using a loop.",
@@ -4506,6 +4507,7 @@ export const CodingTasksNew = [
         5 * 60
     ),
 
+    // conditionals
     new AuthoringTask(
         "e2pa4",
         "Write a program that asks the user to enter two numbers between 1 and 100 called <i>num1</i> and <i>num2</i>. Then display them in each line like this: <b>first: <i>num1</i>, and second: <i>rand2</i></b>. Finally, checks if they are <b>both</b> greater than 50. If yes, display the message <b>Great Job!</b> otherwise display the message <b>Try again!</b>.",
@@ -4541,6 +4543,7 @@ export const CodingTasksNew = [
         4 * 60
     ),
 
+    // lists + loops + conditionals
     new AuthoringTask(
         "e2pa5",
         "Write a program that uses a loop to ask the user to enter a number between 10 and 20 for 10 times. Add the numbers that are greater than 15 to a list called <i>large_numbers</i> and the ones that are less than 5 to a list called <i>small_numbers</i>. Finally, display the length of <i>large_numbers</i> and <i>small_numbers</i> only once.",
@@ -4561,6 +4564,7 @@ export const CodingTasksNew = [
         6 * 60
     ),
 
+    // basics + type conversion
     new ModifyingTask(
         "e2pm1",
         "Without modifying the `print(message)` line, change the program so that it would ask the user to enter two numbers: <i>num1</i> and <i>num2</i> and then calculate the result of <i>num1</i> divided by <i>num2</i>. And change the message to display: <b><i>num1</i> divided by <i>num2</i> is: <i>division result</i></b>. <br/> <b>Note</b>: the message should include the numeric values of <b><i>num1</i> and <i>num2</i>.",
@@ -4592,6 +4596,7 @@ export const CodingTasksNew = [
         5 * 60
     ),
 
+    // conditionals
     new ModifyingTask(
         "e2pm2",
         "Modify the given program so that when the rating is 10, <i>user_rating</i> becomes <b>loved</b>, when it is between 7 and 9 <i>user_rating</i> becomes <b>liked</b>, when it is between 4 and 6 <i>user_rating</i> becomes <b>was bored</b>, and when it is between 1 to 3 <i>user_rating</i> becomes <b>didn't like</b>, and finally if it is equal to 0 <i>user_rating</i> becomes <b>hated</b>.",
@@ -4638,6 +4643,7 @@ export const CodingTasksNew = [
         5 * 60
     ),
 
+    // while loop + conditionals
     new ModifyingTask(
         "e2pm3",
         "Modify the given program so that it would count the number of attempts that were too high in a variable called <i>count_high</i>, and count the number of attempts that were too low in a variable called <i>count_low</i>. Then at the end, display them individually, only once.",
@@ -4697,6 +4703,7 @@ export const CodingTasksNew = [
         5 * 60
     ),
 
+    // for loops + conditionals
     new ModifyingTask(
         "e2pm4",
         "Modify the given program so that it would ask the user to enter another number (greater than the first one). Then, the loop should go over all the numbers from the first number to the second number (including the second number). Then, it should calculate the sum of all numbers AND the sum of all odd numbers in that range. Finally, display the sum of all numbers AND the sum of all odd numbers.",
@@ -4733,6 +4740,7 @@ export const CodingTasksNew = [
         5 * 60
     ),
 
+    // for loop + lists + conditionals
     new ModifyingTask(
         "e2pm5",
         "The <i>daily_toronto_weather</i> and <i>daily_ottawa_weather</i> lists include all the temperatures of these two cities in the last 100 days. Modify the given program by adding two other lists called <i>extreme_temperatures</i>, and <i>normal_temperatures</i>. When in a single day, <i>daily_toronto_weather</i> and <i>daily_ottawa_weather</i> both have temperatures above 90, then add that temperature to the <i>extreme_temperatures</i> list. Otherwise, add that day's temperature to the <i>normal_temperatures</i> list. Finally, just display the length of both lists.<br/> <b>Note:</b> Do not touch the first for loop.",
@@ -4834,6 +4842,7 @@ export const CodingTasksNew = [
         ].join("\n")}</div>`,
         [`A`, `B`, `C`, `None of the values A or B.`, `I don't know.`]
         // solution: 2
+        // removed question
     ),
 
     new MultipleChoiceTask(
@@ -5466,7 +5475,6 @@ export const CodingTasksNew = [
         // solution: 1
     ),
 
-    // have to remove this task as it had the wrong answer
     new MultipleChoiceTask(
         "e2mc35",
         `What does this code display at the end?<br/> <div class="code-block">${[
@@ -5485,6 +5493,7 @@ export const CodingTasksNew = [
         ].join("\n")}</div>`,
         [`3`, `10`, `9`, `17`, `I don't know.`]
         // solution: 0
+        // removed task as it had a bug
     ),
 
     new MultipleChoiceTask(
@@ -5598,10 +5607,10 @@ export const CodingTasksNew = [
     ),
 ];
 
-export const getNextNewTask = (completedTasks: IUserTask[]): Task | null => {
-    for (let i = 0; i < CodingTasksNew.length; i++) {
-        if (!completedTasks.find((t) => t.taskId === CodingTasksNew[i].id)) {
-            return CodingTasksNew[i];
+export const getNextTask = (completedTasks: IUserTask[]): Task | null => {
+    for (let i = 0; i < CodingTasks.length; i++) {
+        if (!completedTasks.find((t) => t.taskId === CodingTasks[i].id)) {
+            return CodingTasks[i];
         }
     }
 
@@ -5634,19 +5643,13 @@ export const getNextNewTask = (completedTasks: IUserTask[]): Task | null => {
 };
 
 export const getTaskSequenceFromTaskId = (taskId: string): number =>
-    CodingTasksOld.findIndex((task) => task.id === taskId) + 1000;
-
-export const getNewTaskSequenceFromTaskId = (taskId: string): number =>
-    CodingTasksNew.findIndex((task) => task.id === taskId) + 1000;
+    CodingTasks.findIndex((task) => task.id === taskId) + 1000;
 
 export const getTaskFromTaskId = (taskId: string): Task | undefined =>
-    CodingTasksOld.find((task) => task.id === taskId);
-
-export const getNewTaskFromTaskId = (taskId: string): Task | undefined =>
-    CodingTasksNew.find((task) => task.id === taskId);
+    CodingTasks.find((task) => task.id === taskId);
 
 (function checkUniqueIds() {
-    const taskIds = CodingTasksNew.map((task) => task.id);
+    const taskIds = CodingTasks.map((task) => task.id);
 
     if (new Set(taskIds).size !== taskIds.length) {
         throw new Error("Task ids must be unique");
