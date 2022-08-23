@@ -15,6 +15,7 @@ import { adminRouter } from "./routes/admin-router";
 import { codexRouter } from "./routes/codex-router";
 import { diagRouter } from "./routes/diag-router";
 import { loginRouter } from "./routes/login-router";
+import { metaRouter } from "./routes/meta-router";
 import { tasksRouter } from "./routes/tasks-router";
 import { initLanguageService } from "./sockets/intellisense";
 import { initPythonShell } from "./sockets/python-shell";
@@ -68,6 +69,7 @@ mongoose
 
         app.use("/api/auth/", loginRouter);
         app.use("/api/tasks/", tasksRouter);
+        app.use("/api/meta/", metaRouter);
         app.use("/api/admin/", adminRouter);
         app.use("/api/codex/", codexRouter);
         app.use("/diagnostics/", diagRouter);

@@ -54,19 +54,25 @@ export class AuthoringTask extends Task {
     timeLimit: number;
     output: Array<Array<string>>;
     solution: string;
+    topic: TaskTopic;
+    stage: TaskStage;
 
     constructor(
         id: string,
         description: string,
         output: Array<Array<string>>,
         solution: string,
-        timeLimit: number
+        timeLimit: number,
+        topic: TaskTopic,
+        stage: TaskStage
     ) {
         super(id, description, TaskType.Authoring);
 
         this.solution = solution;
         this.output = output;
         this.timeLimit = timeLimit;
+        this.topic = topic;
+        this.stage = stage;
     }
 
     checkCode(code: string): CodeCheckResult {
@@ -88,6 +94,8 @@ export class ModifyingTask extends Task {
     timeLimit: number;
     output: Array<Array<string>>;
     solution: string;
+    topic: TaskTopic;
+    stage: TaskStage;
 
     constructor(
         id: string,
@@ -95,7 +103,9 @@ export class ModifyingTask extends Task {
         starterCode: string,
         output: Array<Array<string>>,
         solution: string,
-        timeLimit: number
+        timeLimit: number,
+        topic: TaskTopic,
+        stage: TaskStage
     ) {
         super(id, description, TaskType.Modifying);
 
@@ -103,6 +113,8 @@ export class ModifyingTask extends Task {
         this.output = output;
         this.timeLimit = timeLimit;
         this.starterCode = starterCode;
+        this.topic = topic;
+        this.stage = stage;
     }
 
     checkCode(code: string): CodeCheckResult {
@@ -121,11 +133,24 @@ export class ModifyingTask extends Task {
 
 export class MultipleChoiceTask extends Task {
     choices: string[];
+    answer: number;
+    topic: TaskTopic;
+    stage: TaskStage;
 
-    constructor(id: string, description: string, choices: string[]) {
+    constructor(
+        id: string,
+        description: string,
+        choices: string[],
+        answer: number,
+        topic: TaskTopic,
+        stage: TaskStage
+    ) {
         super(id, description, TaskType.MultipleChoice);
 
         this.choices = choices;
+        this.answer = answer;
+        this.topic = topic;
+        this.stage = stage;
     }
 }
 
@@ -133,6 +158,20 @@ export class ShortAnswerTask extends Task {
     constructor(id: string, description: string) {
         super(id, description, TaskType.ShortAnswer);
     }
+}
+
+export enum TaskTopic {
+    basics = "basics",
+    types = "types",
+    conditionals = "conditionals",
+    loops = "loops",
+    arrays = "arrays",
+}
+
+export enum TaskStage {
+    train = "train",
+    test = "test",
+    retention = "retention",
 }
 
 export const CodingTasks = [
@@ -146,7 +185,9 @@ export const CodingTasks = [
         "Write a program that will display the following message: <b>I'm Wall-E!</b>",
         [["output: <b>I'm Wall-E!</b>"]],
         [`print("I'm Wall-E!")`].join("\n"),
-        60 * 3
+        60 * 3,
+        TaskTopic.basics,
+        TaskStage.train
     ),
     // print another string
     new ModifyingTask(
@@ -155,7 +196,9 @@ export const CodingTasks = [
         `print("I'm Wall-E!")`,
         [["output: <b>I'm Wall-E!</b>"], ["output: <b>Beep Boop</b>"]],
         [`print("I'm Wall-E!")`, `print("Beep Boop")`].join("\n"),
-        60 * 2
+        60 * 2,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     // print the value of a variable
@@ -164,7 +207,9 @@ export const CodingTasks = [
         "Write a program that first, creates a variable called <i>name</i> and sets its value to <b>Wall-E</b>. Then, display the value of the variable.",
         [["output: <b>Wall-E</b>"]],
         [`name = "Wall-E"`, `print(name)`].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.basics,
+        TaskStage.train
     ),
     // rename the variable
     new ModifyingTask(
@@ -173,7 +218,9 @@ export const CodingTasks = [
         [`name = "Wall-E"`, `print(name)`].join("\n"),
         [["output: <b>Wall-E</b>"]],
         [`robot_name = "Wall-E"`, `print(robot_name)`].join("\n"),
-        60 * 2
+        60 * 2,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     // join a string variable with a literal
@@ -182,7 +229,9 @@ export const CodingTasks = [
         "Write a program that creates a variable called <i>name</i> and sets its value to <b>Wall-E</b>. Then, display the message <b>My name is <i>name</i></b>.",
         [[`output: <b>My name is Wall-E</b>`]],
         [`name = "Wall-E"`, `print("My name is " + name)`].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.basics,
+        TaskStage.train
     ),
     // join the variable with another literal
     new ModifyingTask(
@@ -193,7 +242,9 @@ export const CodingTasks = [
         [`name = "Wall-E"`, `print("Hi, " + name + "! Nice to meet you!)`].join(
             "\n"
         ),
-        60 * 2
+        60 * 2,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     // join a string variable with a literal
@@ -204,7 +255,9 @@ export const CodingTasks = [
         [`name = "ro"`, `name += "bot"`, `print("Created: " + name)`].join(
             "\n"
         ),
-        60 * 4
+        60 * 4,
+        TaskTopic.basics,
+        TaskStage.train
     ),
     // join the variable with another literal
     new ModifyingTask(
@@ -229,7 +282,9 @@ export const CodingTasks = [
             `print(name)`,
             `print("Created: " + name)`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     // get input from user -> store variable -> and add a string to it
@@ -252,7 +307,9 @@ export const CodingTasks = [
             `name = input("What is your name? ")`,
             `print("Hello, " + name + "!")`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.basics,
+        TaskStage.train
     ),
     // ask the user for another name -> store it -> and add it to the message
     new ModifyingTask(
@@ -283,7 +340,9 @@ export const CodingTasks = [
             `family_name = input("What is your family name? ")`,
             `print("Hello, " + name + " " + family_name + "!")`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     // join two string variables
@@ -297,7 +356,9 @@ export const CodingTasks = [
             `robot_food = food1 + " and " + food2`,
             `print("I like " + robot_food + ".")`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.basics,
+        TaskStage.train
     ),
     // add another variable to be displayed + change the literal
     new ModifyingTask(
@@ -317,7 +378,9 @@ export const CodingTasks = [
             `robot_food = food1 + ", " + food2 + " and " + food3`,
             `print("I like " + robot_food + ".")`,
         ].join("\n"),
-        60 * 2
+        60 * 2,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     // TODO: add string from input to avariable
@@ -345,7 +408,9 @@ export const CodingTasks = [
             `print(div)`,
         ].join("\n"),
 
-        60 * 3
+        60 * 3,
+        TaskTopic.basics,
+        TaskStage.train
     ),
     new ModifyingTask(
         "6b",
@@ -384,7 +449,9 @@ export const CodingTasks = [
             `some_num = some_num * 2`,
             `print(some_num)`,
         ].join("\n"),
-        60 * 2
+        60 * 2,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -392,7 +459,10 @@ export const CodingTasks = [
         `What is the output of the following Python code? <div class="code-block">${[
             `print("(1 + 7)")`,
         ].join("\n")}</div>`,
-        [`8`, `(1 + 7)`, `(8)`, `1 + 7`, `I don't know.`]
+        [`8`, `(1 + 7)`, `(8)`, `1 + 7`, `I don't know.`],
+        1,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -404,7 +474,10 @@ export const CodingTasks = [
             `ans = x + y + z`,
             `print(ans)`,
         ].join("\n")}</div>`,
-        [`5`, `10-5`, `"10"-"5"`, `"5"`, `I don't know.`]
+        [`5`, `10-5`, `"10"-"5"`, `"5"`, `I don't know.`],
+        1,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -416,7 +489,10 @@ export const CodingTasks = [
             `x = x + y`,
             `print(x + y)`,
         ].join("\n")}</div>`,
-        [`xyy`, `xy`, `xyyyy`, `xyyxyy`, `I don't know.`]
+        [`xyy`, `xy`, `xyyyy`, `xyyxyy`, `I don't know.`],
+        2,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -430,7 +506,10 @@ export const CodingTasks = [
             `<div class="code-block">${`name = input("what's your name?")`}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        0,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -443,7 +522,10 @@ export const CodingTasks = [
             `<div class="code-block">${`num = 10`}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        3,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -454,7 +536,10 @@ export const CodingTasks = [
             `var1 = "hfz" + var2`,
             `print(var2)`,
         ].join("\n")}</div>`,
-        [`hfz`, `kvq`, `hfzkvq`, `kvqhfz`, `I don't know.`]
+        [`hfz`, `kvq`, `hfzkvq`, `kvqhfz`, `I don't know.`],
+        1,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     // random number -> print
@@ -465,7 +550,9 @@ export const CodingTasks = [
         [`import random`, `num = random.randint(1, 10)`, `print(num)`].join(
             "\n"
         ),
-        60 * 5
+        60 * 5,
+        TaskTopic.basics,
+        TaskStage.train
     ),
     new ModifyingTask(
         "7b",
@@ -485,7 +572,9 @@ export const CodingTasks = [
             `print(num)`,
             `print(num2)`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.basics,
+        TaskStage.train
     ),
 
     // number + text -> cast
@@ -503,7 +592,9 @@ export const CodingTasks = [
             `message = "num is: " + str(num)`,
             `print(message)`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.types,
+        TaskStage.train
     ),
     new ModifyingTask(
         "8b",
@@ -526,7 +617,9 @@ export const CodingTasks = [
             `message = "num is: " + str(num) + " and num2 is: " + str(num2)`,
             `print(message)`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.types,
+        TaskStage.train
     ),
 
     // number + text -> cast
@@ -540,7 +633,9 @@ export const CodingTasks = [
             `message = "num1 times num2 = " + str(num1 * num2)`,
             `print(message)`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.types,
+        TaskStage.train
     ),
     new ModifyingTask(
         "8ib",
@@ -558,7 +653,9 @@ export const CodingTasks = [
             `message = str(num1) + " times " + str(num2) + " = " + str(num1 * num2)`,
             `print(message)`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.types,
+        TaskStage.train
     ),
 
     // convert input to int
@@ -586,7 +683,9 @@ export const CodingTasks = [
             `num2 = int(input("Enter another number: "))`,
             `print(num1 + num2)`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.types,
+        TaskStage.train
     ),
     new ModifyingTask(
         "9b",
@@ -615,7 +714,9 @@ export const CodingTasks = [
             `num3 = int(input("Enter the last number: "))`,
             `print(num1 + num2 + num3)`,
         ].join("\n"),
-        60 * 3
+        60 * 3,
+        TaskTopic.types,
+        TaskStage.train
     ),
 
     // convert input to int + accumulator
@@ -643,7 +744,9 @@ export const CodingTasks = [
             `total = total + int(input("Total: " + str(total) + " Enter another number: "))`,
             `print("Total: " + str(total))`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.types,
+        TaskStage.train
     ),
     new ModifyingTask(
         "9ib",
@@ -682,7 +785,9 @@ export const CodingTasks = [
             `count = count + 1`,
             `print("The sum is: " + str(total) + " from " + str(count) + " entries.")`,
         ].join("\n"),
-        60 * 3
+        60 * 3,
+        TaskTopic.types,
+        TaskStage.train
     ),
 
     // using if and ==
@@ -701,7 +806,9 @@ export const CodingTasks = [
             `if roll == 6:`,
             `    print("rolled six")`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
     new ModifyingTask(
         "10b",
@@ -730,7 +837,9 @@ export const CodingTasks = [
             `if roll == roll2:`,
             `    print("rolled the same")`,
         ].join("\n"),
-        60 * 3
+        60 * 3,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     // using `and` and > + multiple statements in the if statement
@@ -747,7 +856,9 @@ export const CodingTasks = [
             `    print("roll2: " + str(roll2))`,
             `    print("both rolled greater than 3")`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
     new ModifyingTask(
         "11b",
@@ -773,7 +884,9 @@ export const CodingTasks = [
             `    print("grade: " + str(grade))`,
             `    print("All three above half")`,
         ].join("\n"),
-        60 * 3
+        60 * 3,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     // ask -> convert using int -> check -> if + else
@@ -799,7 +912,9 @@ export const CodingTasks = [
             `else:`,
             `    print("Less than 75")`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
     new ModifyingTask(
         "12b",
@@ -835,7 +950,9 @@ export const CodingTasks = [
             `else:`,
             `    print("Second number is greater")`,
         ].join("\n"),
-        60 * 3
+        60 * 3,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -865,7 +982,10 @@ export const CodingTasks = [
             )}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        0,
+        TaskTopic.types,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -890,7 +1010,10 @@ export const CodingTasks = [
             )}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        1,
+        TaskTopic.types,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -923,7 +1046,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        3,
+        TaskTopic.types,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -947,40 +1073,46 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        3,
+        TaskTopic.types,
+        TaskStage.train
     ),
 
-    new MultipleChoiceTask(
-        "mc11",
-        `Assuming we have the following code: <br/> <div class="code-block">${[
-            `import random`,
-            `rand = random.randint(1, 10)`,
-        ].join(
-            "\n"
-        )}</div> <br/> Which of the following codes correctly checks if rand is equal to 5?`,
-        [
-            `<div class="code-block">${[
-                `if rand = 5:`,
-                `print("rand is equal to 5")`,
-            ].join("\n")}</div>`,
+    // wrong question
+    // new MultipleChoiceTask(
+    //     "mc11",
+    //     `Assuming we have the following code: <br/> <div class="code-block">${[
+    //         `import random`,
+    //         `rand = random.randint(1, 10)`,
+    //     ].join(
+    //         "\n"
+    //     )}</div> <br/> Which of the following codes correctly checks if rand is equal to 5?`,
+    //     [
+    //         `<div class="code-block">${[
+    //             `if rand = 5:`,
+    //             `print("rand is equal to 5")`,
+    //         ].join("\n")}</div>`,
 
-            `<div class="code-block">${[
-                `if rand = 5:`,
-                `   print("rand is equal to 5")`,
-            ].join("\n")}</div>`,
+    //         `<div class="code-block">${[
+    //             `if rand = 5:`,
+    //             `   print("rand is equal to 5")`,
+    //         ].join("\n")}</div>`,
 
-            `<div class="code-block">${[
-                `if rand == 5:`,
-                `   print("rand is equal to 5")`,
-            ].join("\n")}</div>`,
+    //         `<div class="code-block">${[
+    //             `if rand == 5:`,
+    //             `   print("rand is equal to 5")`,
+    //         ].join("\n")}</div>`,
 
-            `<div class="code-block">${[
-                `if rand == 5: print("rand is equal to 5")`,
-            ].join("\n")}</div>`,
+    //         `<div class="code-block">${[
+    //             `if rand == 5: print("rand is equal to 5")`,
+    //         ].join("\n")}</div>`,
 
-            `I don't know.`,
-        ]
-    ),
+    //         `I don't know.`,
+    //     ],
+    //     2,
+    //     TaskTopic.conditionals
+    // ),
 
     // if - elif - else usage
     new AuthoringTask(
@@ -1008,7 +1140,9 @@ export const CodingTasks = [
             `else:`,
             `    grade = "A`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
     new ModifyingTask(
         "13b",
@@ -1051,7 +1185,9 @@ export const CodingTasks = [
             `else:`,
             `    grade = "A`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1068,7 +1204,9 @@ export const CodingTasks = [
             `    coin = "tails"`,
             `print("Coin: " + coin)`,
         ].join("\n"),
-        6 * 60
+        6 * 60,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new ModifyingTask(
@@ -1108,7 +1246,9 @@ export const CodingTasks = [
             `else:`,
             `    print("Sunday")`,
         ].join("\n"),
-        6 * 60
+        6 * 60,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1138,7 +1278,9 @@ export const CodingTasks = [
             `elif operator == "/":`,
             `    print(num1 / num2)`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
     new ModifyingTask(
         "15b",
@@ -1189,7 +1331,9 @@ export const CodingTasks = [
             `elif operator == "/":`,
             `    print("Error: Invalid operator")`,
         ].join("\n"),
-        60 * 3
+        60 * 3,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     // using % and remaineder and checking divisibility
@@ -1215,7 +1359,9 @@ export const CodingTasks = [
             `else:`,
             `    print("The number " + str(num) + " is odd")`,
         ].join("\n"),
-        60 * 7
+        60 * 7,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new ModifyingTask(
@@ -1245,7 +1391,9 @@ export const CodingTasks = [
             `else:`,
             `    print("The number " + str(num) + " is not divisible by " + str(divisor))`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     // nested if
@@ -1287,7 +1435,9 @@ export const CodingTasks = [
             ``,
             `print("You entered " + option + " and the result is " + str(result))`,
         ].join("\n"),
-        10 * 60
+        10 * 60,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
     new ModifyingTask(
         "16ib",
@@ -1359,7 +1509,9 @@ export const CodingTasks = [
             ``,
             `print("You entered " + option + " and the result is " + str(result))`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1375,7 +1527,9 @@ export const CodingTasks = [
             ],
         ],
         [`for i in range(10):`, `    print("Hello")`].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "17b",
@@ -1399,7 +1553,9 @@ export const CodingTasks = [
             `    print("World!")`,
             `print("Bye Bye")`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1418,7 +1574,10 @@ export const CodingTasks = [
             `None of the values above will make the code display the message <b>yes</b>.`,
 
             `I don't know.`,
-        ]
+        ],
+        3,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1431,7 +1590,10 @@ export const CodingTasks = [
             `    number = number - 1`,
             `print(number)`,
         ].join("\n")}</div>`,
-        [`9`, `10`, `11`, `number`, `I don't know.`]
+        [`9`, `10`, `11`, `number`, `I don't know.`],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1457,7 +1619,10 @@ export const CodingTasks = [
             )}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        3,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1481,7 +1646,10 @@ export const CodingTasks = [
             )}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1500,7 +1668,10 @@ export const CodingTasks = [
             ``,
             `print(var2)`,
         ].join("\n")}</div>`,
-        [`5`, `10`, `15`, `20`, `I don't know.`]
+        [`5`, `10`, `15`, `20`, `I don't know.`],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1524,7 +1695,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        3,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1546,7 +1720,10 @@ export const CodingTasks = [
             ``,
             `print(msg)`,
         ].join("\n")}</div>`,
-        [`jack`, `john`, `jonathan`, `jon`, `I don't know.`]
+        [`jack`, `john`, `jonathan`, `jon`, `I don't know.`],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1571,7 +1748,10 @@ export const CodingTasks = [
             `Z > X and Z > Y`,
             `This program will not display any message.`,
             `I don't know.`,
-        ]
+        ],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1594,7 +1774,10 @@ export const CodingTasks = [
             `third`,
             `This program will not display any message.`,
             `I don't know.`,
-        ]
+        ],
+        0,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -1614,7 +1797,10 @@ export const CodingTasks = [
             `[0, 1, 2, 3, 48, 49, 50]`,
             `[5, 6, 45, 46]`,
             `I don't know.`,
-        ]
+        ],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1635,7 +1821,9 @@ export const CodingTasks = [
             `    num += 5`,
             `    print(num)`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "18b",
@@ -1666,7 +1854,9 @@ export const CodingTasks = [
             `    print(num1)`,
             `    print(num2)`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1690,7 +1880,9 @@ export const CodingTasks = [
             `text += "!"`,
             `print(text)`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "19b",
@@ -1728,7 +1920,9 @@ export const CodingTasks = [
             `text += "."`,
             `print(text)`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1751,7 +1945,9 @@ export const CodingTasks = [
             `    fruits += fruit + " "`,
             `print(fruits)`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "19ib",
@@ -1785,7 +1981,9 @@ export const CodingTasks = [
             `    movies += movie + " "`,
             `print(movies)`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1801,7 +1999,9 @@ export const CodingTasks = [
             ],
         ],
         [`for i in range(1, 101):`, `    print(i)`].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "20b",
@@ -1821,7 +2021,9 @@ export const CodingTasks = [
         [`for i in range(250, 301):`, `    print(i)`, `    print(i * 2)`].join(
             "\n"
         ),
-        60 * 3
+        60 * 3,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1843,7 +2045,9 @@ export const CodingTasks = [
             `for i in range(1, number + 1):`,
             `    print(i)`,
         ].join("\n"),
-        60 * 7
+        60 * 7,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "20ib",
@@ -1874,7 +2078,9 @@ export const CodingTasks = [
             `for i in range(number1, number2 + 1):`,
             `    print(i)`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1894,7 +2100,9 @@ export const CodingTasks = [
             `    total += i`,
             `print(total)`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "21b",
@@ -1929,7 +2137,9 @@ export const CodingTasks = [
             `    print(total)`,
             `print(total)`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -1950,7 +2160,9 @@ export const CodingTasks = [
             `        total += i`,
             `print(total)`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "21ib",
@@ -1982,7 +2194,9 @@ export const CodingTasks = [
             `print(total_even)`,
             `print(total_odd)`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2005,7 +2219,9 @@ export const CodingTasks = [
             `    num = int(input("Re-enter the password: "))`,
             `print("Password is correct")`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "22b",
@@ -2041,7 +2257,9 @@ export const CodingTasks = [
             `print("Password is correct")`,
             `print("Incorrect attempts: " + str(incorrect_attempts))`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2066,7 +2284,9 @@ export const CodingTasks = [
             `    num = input("enter another number: ")`,
             `print("total: " + str(total))`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "23b",
@@ -2100,7 +2320,9 @@ export const CodingTasks = [
             `    num = input("enter another number: ")`,
             `print("the average is: " + str(total / count))`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2122,7 +2344,9 @@ export const CodingTasks = [
             `num = int(input("enter a number between 1 and 100: "))`,
             `print("the difference with 50 is: " + str(abs(num - 50)))`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "23ib",
@@ -2152,7 +2376,9 @@ export const CodingTasks = [
             `num2 = int(input("enter another number: "))`,
             `print("The difference is: " + str(abs(num1 - num2)))`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2182,7 +2408,9 @@ export const CodingTasks = [
             `    num_guess = int(input("enter a number: "))`,
             `print("You guessed the number!")`,
         ].join("\n"),
-        60 * 12
+        60 * 12,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "24b",
@@ -2226,7 +2454,9 @@ export const CodingTasks = [
             `    num_guess = int(input("enter a number: "))`,
             `print("You guessed the number!")`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     // using break
@@ -2262,7 +2492,9 @@ export const CodingTasks = [
             ``,
             `print("Finished loop")`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "24ib",
@@ -2312,7 +2544,9 @@ export const CodingTasks = [
             ``,
             `print("Finished loop")`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2335,7 +2569,9 @@ export const CodingTasks = [
             `    print(num)`,
             `    num -= 1`,
         ].join("\n"),
-        60 * 7
+        60 * 7,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "25b",
@@ -2372,7 +2608,9 @@ export const CodingTasks = [
             `    print(num)`,
             `    num -= 3`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2397,7 +2635,9 @@ export const CodingTasks = [
             `    num_digits += 1`,
             `print("The number has " + str(num_digits) + " digits")`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "26b",
@@ -2437,7 +2677,9 @@ export const CodingTasks = [
             `    print(num % 10)`,
             `print("The number has " + str(num_digits) + " digits")`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     // nested loops
@@ -2457,7 +2699,9 @@ export const CodingTasks = [
             `    for j in range(0, 2):`,
             `        print("i: " + str(i) + " j: " + str(j))`,
         ].join("\n"),
-        60 * 6
+        60 * 6,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "26ib",
@@ -2490,7 +2734,9 @@ export const CodingTasks = [
             `    for j in range(0, 3):`,
             `        print("i: " + str(i) + " j: " + str(j))`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2508,7 +2754,9 @@ export const CodingTasks = [
             `    attempts += 1`,
             `print("It took " + str(attempts) + " attempts.")`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "27b",
@@ -2540,7 +2788,9 @@ export const CodingTasks = [
             `print("It took " + str(attempts) + " attempts.")`,
             `print("It stopped on " + str(num))`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2557,7 +2807,9 @@ export const CodingTasks = [
             `        times += 1`,
             `print("It rolled six for " + str(times) + " times.")`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.loops,
+        TaskStage.train
     ),
     new ModifyingTask(
         "28b",
@@ -2608,7 +2860,9 @@ export const CodingTasks = [
             `print("It rolled five for " + str(fives) + " times.")`,
             `print("It rolled six for " + str(sixes) + " times.")`,
         ].join("\n"),
-        60 * 7
+        60 * 7,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -2619,7 +2873,10 @@ export const CodingTasks = [
             `    x += 4`,
             `print(x)`,
         ].join("\n")}</div>`,
-        [`24`, `26`, `28`, `30`, `I don't know.`]
+        [`24`, `26`, `28`, `30`, `I don't know.`],
+        1,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -2633,7 +2890,10 @@ export const CodingTasks = [
             `        number += 5`,
             `print(number)`,
         ].join("\n")}</div>`,
-        [`10`, `15`, `20`, `25`, `I don't know.`]
+        [`10`, `15`, `20`, `25`, `I don't know.`],
+        0,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -2644,7 +2904,10 @@ export const CodingTasks = [
             `    num = num - 2`,
             `print(num)`,
         ].join("\n")}</div>`,
-        [`5`, `4`, `6`, `3`, `I don't know.`]
+        [`5`, `4`, `6`, `3`, `I don't know.`],
+        1,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -2657,7 +2920,10 @@ export const CodingTasks = [
             `            num += 1`,
             `print(num)`,
         ].join("\n")}</div>`,
-        [`12`, `60`, `24`, `20`, `I don't know.`]
+        [`12`, `60`, `24`, `20`, `I don't know.`],
+        1,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -2672,7 +2938,10 @@ export const CodingTasks = [
             `        num = num + 3`,
             `print(num)`,
         ].join("\n")}</div>`,
-        [`11`, `9`, `7`, `5`, `I don't know.`]
+        [`11`, `9`, `7`, `5`, `I don't know.`],
+        3,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -2687,7 +2956,10 @@ export const CodingTasks = [
             `        break`,
             `print(count_six)`,
         ].join("\n")}</div>`,
-        [`3`, `5`, `6`, `10`, `I don't know.`]
+        [`3`, `5`, `6`, `10`, `I don't know.`],
+        1,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -2706,7 +2978,10 @@ export const CodingTasks = [
             `<div class="code-block">${`item != "" and item != "stop"`}</div>`,
             `<div class="code-block">${`item == "" and item == "stop"`}</div>`,
             `I don't know.`,
-        ]
+        ],
+        2,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -2726,7 +3001,10 @@ export const CodingTasks = [
             `        break`,
             `print(x)`,
         ].join("\n")}</div>`,
-        [`6`, `8`, `10`, `5`, `I don't know.`]
+        [`6`, `8`, `10`, `5`, `I don't know.`],
+        2,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -2745,7 +3023,10 @@ export const CodingTasks = [
             `x = 6, y = 4`,
             `x = 10, y = 0`,
             `I don't know.`,
-        ]
+        ],
+        0,
+        TaskTopic.loops,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2757,7 +3038,9 @@ export const CodingTasks = [
             `print("First item: " + str(list[0]))`,
             `print("Length: " + str(len(list)))`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
     new ModifyingTask(
         "29b",
@@ -2780,7 +3063,9 @@ export const CodingTasks = [
             `print("Length: " + str(len(list)))`,
             `print("Last item: " + str(list[len(list) - 1]))`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2801,7 +3086,9 @@ export const CodingTasks = [
             `    print(list[i])`,
             `    i += 1`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
     new ModifyingTask(
         "30b",
@@ -2828,7 +3115,9 @@ export const CodingTasks = [
             `    print(list[i])`,
             `    i -= 1`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2853,7 +3142,9 @@ export const CodingTasks = [
             `    list.append(num)`,
             `print("Length: " + str(len(list)))`,
         ].join("\n"),
-        60 * 7
+        60 * 7,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
     new ModifyingTask(
         "31b",
@@ -2891,7 +3182,9 @@ export const CodingTasks = [
             `print("Students length: " + str(len(students)))`,
             `print("Grades length: " + str(len(grades)))`,
         ].join("\n"),
-        60 * 4
+        60 * 4,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2913,7 +3206,9 @@ export const CodingTasks = [
             `for item in grades:`,
             `    print(item)`,
         ].join("\n"),
-        60 * 7
+        60 * 7,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
     new ModifyingTask(
         "32b",
@@ -2955,7 +3250,9 @@ export const CodingTasks = [
             `for item in grades2:`,
             `    print(item)`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -2984,7 +3281,9 @@ export const CodingTasks = [
             `        largest = num`,
             `print("The largest number is: " + str(largest))`,
         ].join("\n"),
-        60 * 10
+        60 * 10,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
     new ModifyingTask(
         "33b",
@@ -3028,7 +3327,9 @@ export const CodingTasks = [
             `print("The largest number is: " + str(largest))`,
             `print("The smallest number is: " + str(smallest))`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -3053,7 +3354,9 @@ export const CodingTasks = [
             `    movie = input("Enter a movie name: ")`,
             `print("You entered " + str(len(movies)) + " movies.")`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new ModifyingTask(
@@ -3094,7 +3397,9 @@ export const CodingTasks = [
             `print("You entered " + str(len(movies)) + " movies.")`,
             `print("You entered " + str(len(ratings)) + " ratings.")`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new AuthoringTask(
@@ -3111,7 +3416,9 @@ export const CodingTasks = [
             `        largest = num`,
             `print("Largest number: " + str(largest))`,
         ].join("\n"),
-        60 * 8
+        60 * 8,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new ModifyingTask(
@@ -3147,7 +3454,9 @@ export const CodingTasks = [
             `print("Largest number: " + str(largest))`,
             `print("Smallest number: " + str(smallest))`,
         ].join("\n"),
-        60 * 5
+        60 * 5,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3162,7 +3471,10 @@ export const CodingTasks = [
             `<div class="code-block">${`items[0]`}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        3,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3192,7 +3504,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        0,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3204,7 +3519,10 @@ export const CodingTasks = [
             `l.append(l[1] + "q")`,
             `print(l[2])`,
         ].join("\n")}</div>`,
-        [`qt`, `qtz`, `tq`, `ztq`, `I don't know.`]
+        [`qt`, `qtz`, `tq`, `ztq`, `I don't know.`],
+        3,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3217,7 +3535,10 @@ export const CodingTasks = [
             ``,
             `print(my_list[2])`,
         ].join("\n")}</div>`,
-        [`1`, `2`, `7`, `14`, `I don't know.`]
+        [`1`, `2`, `7`, `14`, `I don't know.`],
+        3,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3236,7 +3557,10 @@ export const CodingTasks = [
             ``,
             `print(other_list[1])`,
         ].join("\n")}</div>`,
-        [`mf`, `qo`, `zz`, `oq`, `I don't know.`]
+        [`mf`, `qo`, `zz`, `oq`, `I don't know.`],
+        1,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3273,7 +3597,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
+        ],
+        3,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3288,7 +3615,10 @@ export const CodingTasks = [
             ``,
             `print(letters[1] + symbols[2])`,
         ].join("\n")}</div>`,
-        [`Q+`, `L+`, `M@`, `Q*`, `I don't know.`]
+        [`Q+`, `L+`, `M@`, `Q*`, `I don't know.`],
+        0,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3300,7 +3630,10 @@ export const CodingTasks = [
             `nums.append(nums[1] + nums[2] + nums[3])`,
             `print(nums[4])`,
         ].join("\n")}</div>`,
-        [`4`, `8`, `7`, `3`, `I don't know.`]
+        [`4`, `8`, `7`, `3`, `I don't know.`],
+        1,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3310,7 +3643,10 @@ export const CodingTasks = [
             `words = ["a", "c", "e", "f", "h"]`,
             `print(str(nums[1]) + words[len(nums)])`,
         ].join("\n")}</div>`,
-        [`3f`, `3e`, `1f`, `1e`, `I don't know.`]
+        [`3f`, `3e`, `1f`, `1e`, `I don't know.`],
+        0,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     new MultipleChoiceTask(
@@ -3324,7 +3660,10 @@ export const CodingTasks = [
             `        break`,
             `    i = i - 1`,
         ].join("\n")}</div>`,
-        [`34`, `2`, `89`, `55`, `I don't know.`]
+        [`34`, `2`, `89`, `55`, `I don't know.`],
+        0,
+        TaskTopic.arrays,
+        TaskStage.train
     ),
 
     // they will first work on a few multiple choice questions
@@ -3351,7 +3690,9 @@ export const CodingTasks = [
             `else:`,
             `    print(num2)`,
         ].join("\n"),
-        3 * 60
+        3 * 60,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new AuthoringTask(
@@ -3377,7 +3718,9 @@ export const CodingTasks = [
             `    num = int(input("Enter a number between 0 and 10: "))`,
             `print("Total is: " + str(total))`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new AuthoringTask(
@@ -3393,7 +3736,9 @@ export const CodingTasks = [
             ],
         ],
         [`for i in range(50, 101):`, `    print(i)`].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new AuthoringTask(
@@ -3417,7 +3762,9 @@ export const CodingTasks = [
             `else:`,
             `    print("Try again!")`,
         ].join("\n"),
-        4 * 60
+        4 * 60,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new AuthoringTask(
@@ -3433,7 +3780,9 @@ export const CodingTasks = [
             `        special_numbers.append(rand)`,
             `print(len(special_numbers))`,
         ].join("\n"),
-        6 * 60
+        6 * 60,
+        TaskTopic.arrays,
+        TaskStage.test
     ),
 
     new ModifyingTask(
@@ -3462,7 +3811,9 @@ export const CodingTasks = [
             ``,
             `print(message)`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.types,
+        TaskStage.test
     ),
 
     new ModifyingTask(
@@ -3515,7 +3866,9 @@ export const CodingTasks = [
             ``,
             `print("It feels " + feels_like)`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new ModifyingTask(
@@ -3554,7 +3907,9 @@ export const CodingTasks = [
             `print("Correct!! :)")`,
             `print("Incorrect guesses: " + str(incorrect_guesses))`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new ModifyingTask(
@@ -3591,7 +3946,9 @@ export const CodingTasks = [
             `    num1 -= 3`,
             `    num2 += 3`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new ModifyingTask(
@@ -3638,7 +3995,9 @@ export const CodingTasks = [
             `print("list2: " + str(len(list_2)))`,
             `print("list3: " + str(len(list_3)))`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.arrays,
+        TaskStage.test
     ),
 
     // then multiple choice randomly
@@ -3650,8 +4009,10 @@ export const CodingTasks = [
             `y = 1`,
             `print("x" + "y")`,
         ].join("\n")}</div>`,
-        [`10`, `x + y`, `xy`, `The code has an error.`, `I don't know.`]
-        // solution: 2
+        [`10`, `x + y`, `xy`, `The code has an error.`, `I don't know.`],
+        2,
+        TaskTopic.basics,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3693,8 +4054,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 1
+        ],
+        1,
+        TaskTopic.arrays, // TaskTopic.loops
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3707,8 +4070,10 @@ export const CodingTasks = [
             `l.append(l[2] + l[1])`,
             `print(l[3])`,
         ].join("\n")}</div>`,
-        [`30`, `40`, `50`, `60`, `I don't know.`]
-        // solution: 2
+        [`30`, `40`, `50`, `60`, `I don't know.`],
+        2,
+        TaskTopic.arrays,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3718,8 +4083,10 @@ export const CodingTasks = [
             `var2 = 20`,
             `print(var1 + str(var2))`,
         ].join("\n")}</div>`,
-        [`30`, `1020`, `"10"20`, `The code has an error.`, `I don't know.`]
-        // solution: 1
+        [`30`, `1020`, `"10"20`, `The code has an error.`, `I don't know.`],
+        1,
+        TaskTopic.types,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3737,8 +4104,10 @@ export const CodingTasks = [
             `<div class="code-block">${`print(x + y + z)`}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.basics,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3751,8 +4120,10 @@ export const CodingTasks = [
             `x = y + x`,
             `print(x)`,
         ].join("\n")}</div>`,
-        [`xyxyxx`, `xxyx`, `xxyxyx`, `xyxyy`, `I don't know.`]
-        // solution: 0
+        [`xyxyxx`, `xxyx`, `xxyxyx`, `xyxyy`, `I don't know.`],
+        0,
+        TaskTopic.basics,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3766,8 +4137,10 @@ export const CodingTasks = [
             `<div class="code-block">${`answer = ask("what's your name?")`}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.basics,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3782,8 +4155,10 @@ export const CodingTasks = [
 
             `print(nums[len(nums) - 1])`,
         ].join("\n")}</div>`,
-        [`4`, `5`, `3`, `2`, `I don't know.`]
-        // solution: 1
+        [`4`, `5`, `3`, `2`, `I don't know.`],
+        1,
+        TaskTopic.arrays,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3798,8 +4173,10 @@ export const CodingTasks = [
             `   hats += 10`,
             `print(hats)`,
         ].join("\n")}</div>`,
-        [`18`, `8`, `20`, `18`, `I don't know.`]
-        // solution: 1
+        [`18`, `8`, `20`, `18`, `I don't know.`],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3815,8 +4192,10 @@ export const CodingTasks = [
             `None of them! (They all throw an error)`,
 
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.types,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3846,8 +4225,10 @@ export const CodingTasks = [
             )}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3867,8 +4248,10 @@ export const CodingTasks = [
             `    var2 = var1 * 3`,
             `print(var2)`,
         ].join("\n")}</div>`,
-        [`4`, `6`, `7`, `8`, `I don't know.`]
-        // solution: 2
+        [`4`, `6`, `7`, `8`, `I don't know.`],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3878,8 +4261,10 @@ export const CodingTasks = [
             `var2 = 20`,
             `print(var1 + int(var2))`,
         ].join("\n")}</div>`,
-        [`30`, `1020`, `"10"20`, `The code has an error.`, `I don't know.`]
-        // solution: 3
+        [`30`, `1020`, `"10"20`, `The code has an error.`, `I don't know.`],
+        3,
+        TaskTopic.types,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3901,8 +4286,10 @@ export const CodingTasks = [
             `None of them! (They all throw an error)`,
 
             `I don't know.`,
-        ]
-        // solution: 3
+        ],
+        3,
+        TaskTopic.basics,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3921,8 +4308,10 @@ export const CodingTasks = [
             `<div class="code-block">${`print(int(v1) + v2 + int(v3))`})}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 3
+        ],
+        3,
+        TaskTopic.types,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3934,8 +4323,10 @@ export const CodingTasks = [
             `x += x`,
             `print(x)`,
         ].join("\n")}</div>`,
-        [`4`, `8`, `4x`, `8x`, `I don't know.`]
-        // solution: 1
+        [`4`, `8`, `4x`, `8x`, `I don't know.`],
+        1,
+        TaskTopic.basics,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3954,8 +4345,10 @@ export const CodingTasks = [
             `None of the values above will make the code display the message <b>True</b>.`,
 
             `I don't know.`,
-        ]
-        // solution: 1
+        ],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3972,8 +4365,10 @@ export const CodingTasks = [
             `    number += 1`,
             `print(number)`,
         ].join("\n")}</div>`,
-        [`9`, `10`, `11`, `12`, `I don't know.`]
-        // solution: 1
+        [`9`, `10`, `11`, `12`, `I don't know.`],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -3995,8 +4390,10 @@ export const CodingTasks = [
             `    y = y + 1`,
             `print(y)`,
         ].join("\n")}</div>`,
-        [`4`, `3`, `2`, `1`, `I don't know.`]
-        // solution: 3
+        [`4`, `3`, `2`, `1`, `I don't know.`],
+        3,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4026,8 +4423,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 0
+        ],
+        0,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4060,8 +4459,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 3
+        ],
+        3,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4080,8 +4481,10 @@ export const CodingTasks = [
             `<div class="code-block">${`num != 0 and num != 10 and num != 100`}</div>`,
             `<div class="code-block">${`not(num == 0 and num == 10 and num == 100)`}</div>`,
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4103,8 +4506,10 @@ export const CodingTasks = [
             )}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4127,8 +4532,10 @@ export const CodingTasks = [
             ``,
             `print(msg)`,
         ].join("\n")}</div>`,
-        [`num1`, `num2`, `num3`, `num4`, `I don't know.`]
-        // solution: 1
+        [`num1`, `num2`, `num3`, `num4`, `I don't know.`],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4146,8 +4553,10 @@ export const CodingTasks = [
             `else:`,
             `    print("C")`,
         ].join("\n")}</div>`,
-        [`A`, `B`, `C`, `None of the values B or C.`, `I don't know.`]
-        // solution: 0
+        [`A`, `B`, `C`, `None of the values B or C.`, `I don't know.`],
+        0,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4163,8 +4572,10 @@ export const CodingTasks = [
             `elif x < 5:`,
             `    print("C")`,
         ].join("\n")}</div>`,
-        [`A`, `B`, `C`, `The code has an error!`, `I don't know.`]
-        // solution: 3
+        [`A`, `B`, `C`, `The code has an error!`, `I don't know.`],
+        3,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4182,8 +4593,10 @@ export const CodingTasks = [
             `        break`,
             `print(n2)`,
         ].join("\n")}</div>`,
-        [`10`, `15`, `20`, `25`, `I don't know.`]
-        // solution: 3
+        [`10`, `15`, `20`, `25`, `I don't know.`],
+        3,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4197,8 +4610,10 @@ export const CodingTasks = [
             `else:`,
             `    print("DOWN")`,
         ].join("\n")}</div>`,
-        [`[1, 5]`, `[1, 2, 4, 5]`, `[3]`, `[2, 3, 4]`, `I don't know.`]
-        // solution: 2
+        [`[1, 5]`, `[1, 2, 4, 5]`, `[3]`, `[2, 3, 4]`, `I don't know.`],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4211,8 +4626,10 @@ export const CodingTasks = [
             `q = q + 2`,
             `print(q)`,
         ].join("\n")}</div>`,
-        [`12`, `15`, `13`, `16`, `I don't know.`]
-        // solution: 2
+        [`12`, `15`, `13`, `16`, `I don't know.`],
+        2,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4227,8 +4644,10 @@ export const CodingTasks = [
             ``,
             `print(num)`,
         ].join("\n")}</div>`,
-        [`31`, `33`, `30`, `25`, `I don't know.`]
-        // solution: 1
+        [`31`, `33`, `30`, `25`, `I don't know.`],
+        1,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4244,8 +4663,10 @@ export const CodingTasks = [
             `        break`,
             `print(len(not_six))`,
         ].join("\n")}</div>`,
-        [`4`, `3`, `9`, `10`, `I don't know.`]
-        // solution: 1
+        [`4`, `3`, `9`, `10`, `I don't know.`],
+        1,
+        TaskTopic.arrays,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4261,8 +4682,10 @@ export const CodingTasks = [
             `        number += 3`,
             `print(number)`,
         ].join("\n")}</div>`,
-        [`21`, `22`, `24`, `26`, `I don't know.`]
-        // solution: 0
+        [`21`, `22`, `24`, `26`, `I don't know.`],
+        0,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4279,8 +4702,10 @@ export const CodingTasks = [
             `    num = num + 1`,
             `print(num)`,
         ].join("\n")}</div>`,
-        [`6`, `17`, `0`, `1`, `I don't know.`]
-        // solution: 2
+        [`6`, `17`, `0`, `1`, `I don't know.`],
+        2,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4299,8 +4724,10 @@ export const CodingTasks = [
             `first: 45, second: 55`,
             `first: 55, second: 45`,
             `I don't know.`,
-        ]
-        // solution: 3
+        ],
+        3,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4308,8 +4735,10 @@ export const CodingTasks = [
         `What is the output of the following Python code? <br/> <div class="code-block">${[
             `print("2" + 5)`,
         ].join("\n")}</div>`,
-        [`25`, `7`, `"2 + 5"`, `The code has an error.`, `I don't know.`]
-        // solution: 3
+        [`25`, `7`, `"2 + 5"`, `The code has an error.`, `I don't know.`],
+        3,
+        TaskTopic.basics,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4340,8 +4769,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 3
+        ],
+        3,
+        TaskTopic.arrays,
+        TaskStage.test
     ),
 
     // have to remove this task as it had the wrong answer
@@ -4360,8 +4791,10 @@ export const CodingTasks = [
             ``,
             `print(list_a[2])`,
         ].join("\n")}</div>`,
-        [`10`, `7`, `9`, `14`, `I don't know.`]
-        // solution: 3
+        [`10`, `7`, `9`, `14`, `I don't know.`],
+        3,
+        TaskTopic.arrays,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4380,8 +4813,10 @@ export const CodingTasks = [
             ``,
             `print(other_list[1])`,
         ].join("\n")}</div>`,
-        [`mf`, `qo`, `zz`, `oq`, `I don't know.`]
-        // solution: 1
+        [`mf`, `qo`, `zz`, `oq`, `I don't know.`],
+        1,
+        TaskTopic.arrays,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4411,8 +4846,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 1
+        ],
+        1,
+        TaskTopic.arrays,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4425,8 +4862,10 @@ export const CodingTasks = [
             `    y += 3`,
             `print(x + y)`,
         ].join("\n")}</div>`,
-        [`20`, `24`, `25`, `26`, `I don't know.`]
-        // solution: 0
+        [`20`, `24`, `25`, `26`, `I don't know.`],
+        0,
+        TaskTopic.loops,
+        TaskStage.test
     ),
 
     new MultipleChoiceTask(
@@ -4438,8 +4877,10 @@ export const CodingTasks = [
             `ans = int(v1) + v2 + int(v3)`,
             `print(ans)`,
         ].join("\n")}</div>`,
-        [`8+7`, `15`, `"8"+"7"`, `The code has an error.`, `I don't know.`]
-        // solution: 3
+        [`8+7`, `15`, `"8"+"7"`, `The code has an error.`, `I don't know.`],
+        3,
+        TaskTopic.types,
+        TaskStage.test
     ),
 
     // conditionals
@@ -4459,7 +4900,9 @@ export const CodingTasks = [
             `else:`,
             `    print("The numbers are equal")`,
         ].join("\n"),
-        3 * 60
+        3 * 60,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     // conditional loops
@@ -4487,7 +4930,9 @@ export const CodingTasks = [
             `    print(num)`,
             `print("Count: " + str(count))`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     // for loop
@@ -4504,7 +4949,9 @@ export const CodingTasks = [
             ],
         ],
         [`for i in range(75, 126):`, `    print(i)`].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     // conditionals
@@ -4540,7 +4987,9 @@ export const CodingTasks = [
             `else:`,
             `    print("Try again!")`,
         ].join("\n"),
-        4 * 60
+        4 * 60,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     // lists + loops + conditionals
@@ -4561,7 +5010,9 @@ export const CodingTasks = [
             `print(len(large_numbers))`,
             `print(len(small_numbers))`,
         ].join("\n"),
-        6 * 60
+        6 * 60,
+        TaskTopic.arrays,
+        TaskStage.retention
     ),
 
     // basics + type conversion
@@ -4593,7 +5044,9 @@ export const CodingTasks = [
             ``,
             `print(message)`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.types,
+        TaskStage.retention
     ),
 
     // conditionals
@@ -4640,7 +5093,9 @@ export const CodingTasks = [
             ``,
             `print("The user: " + user_rating + " watching Lord of the Rings!")`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     // while loop + conditionals
@@ -4700,7 +5155,9 @@ export const CodingTasks = [
             `print("Lower attempts: " + str(count_low))`,
             `print("Higher attempts: " + str(count_high))`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     // for loops + conditionals
@@ -4737,7 +5194,9 @@ export const CodingTasks = [
             `print("Total is: " + str(t))`,
             `print("Total odd is: " + str(t2))`,
         ].join("\n"),
-        5 * 60
+        5 * 60,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     // for loop + lists + conditionals
@@ -4786,7 +5245,9 @@ export const CodingTasks = [
             `print("extreme days: " + str(len(extreme_temperatures)))`,
             `print("normal days: " + str(len(normal_temperatures)))`,
         ].join("\n"),
-        6 * 60
+        6 * 60,
+        TaskTopic.arrays,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -4812,8 +5273,10 @@ export const CodingTasks = [
             )}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 1
+        ],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -4823,27 +5286,29 @@ export const CodingTasks = [
             `number2 = 5`,
             `print(int(number1) + number2)`,
         ].join("\n")}</div>`,
-        [`55`, `10`, `"5"5`, `The code has an error.`, `I don't know.`]
-        // solution: 1
+        [`55`, `10`, `"5"5`, `The code has an error.`, `I don't know.`],
+        1,
+        TaskTopic.types,
+        TaskStage.retention
     ),
 
-    new MultipleChoiceTask(
-        "e2mc3",
-        `Which of the following options will NEVER be displayed based on the random number? <br/> <div class="code-block">${[
-            `import random`,
-            `X = random.randint(1, 10)`,
-            ``,
-            `if X >= 5:`,
-            `    print("A")`,
-            `elif X != 5:`,
-            `    print("B")`,
-            `else:`,
-            `    print("C")`,
-        ].join("\n")}</div>`,
-        [`A`, `B`, `C`, `None of the values A or B.`, `I don't know.`]
-        // solution: 2
-        // removed question
-    ),
+    // new MultipleChoiceTask(
+    //     "e2mc3",
+    //     `Which of the following options will NEVER be displayed based on the random number? <br/> <div class="code-block">${[
+    //         `import random`,
+    //         `X = random.randint(1, 10)`,
+    //         ``,
+    //         `if X >= 5:`,
+    //         `    print("A")`,
+    //         `elif X != 5:`,
+    //         `    print("B")`,
+    //         `else:`,
+    //         `    print("C")`,
+    //     ].join("\n")}</div>`,
+    //     [`A`, `B`, `C`, `None of the values A or B.`, `I don't know.`]
+    //     // solution: 2
+    //     // removed question
+    // ),
 
     new MultipleChoiceTask(
         "e2mc4",
@@ -4854,7 +5319,10 @@ export const CodingTasks = [
             `ans = (v1 + v2 + v3)`,
             `print(ans)`,
         ].join("\n")}</div>`,
-        [`23+7`, `30`, `"23"+"7"`, `The code has an error.`, `I don't know.`]
+        [`23+7`, `30`, `"23"+"7"`, `The code has an error.`, `I don't know.`],
+        3,
+        TaskTopic.types,
+        TaskStage.retention
         // solution: 3
     ),
 
@@ -4874,8 +5342,10 @@ export const CodingTasks = [
             `None of them! (They are all correct)`,
 
             `I don't know.`,
-        ]
-        // solution: 0
+        ],
+        0,
+        TaskTopic.types,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -4889,8 +5359,10 @@ export const CodingTasks = [
             `var.append(var[3] + var[2])`,
             `print(var[4])`,
         ].join("\n")}</div>`,
-        [`32`, `28`, `40`, `The code has an error`, `I don't know.`]
-        // solution: 0
+        [`32`, `28`, `40`, `The code has an error`, `I don't know.`],
+        0,
+        TaskTopic.arrays,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -4907,8 +5379,10 @@ export const CodingTasks = [
             `   likes = likes - 5`,
             `print(likes)`,
         ].join("\n")}</div>`,
-        [`25`, `10`, `15`, `30`, `I don't know.`]
-        // solution: 1
+        [`25`, `10`, `15`, `30`, `I don't know.`],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -4924,8 +5398,10 @@ export const CodingTasks = [
             `None of them! (They all throw an error)`,
 
             `I don't know.`,
-        ]
-        // solution: 0
+        ],
+        0,
+        TaskTopic.types,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -4933,8 +5409,10 @@ export const CodingTasks = [
         `What is the output of the following Python code? <br/> <div class="code-block">${[
             `print("2" + str(5) - "5")`,
         ].join("\n")}</div>`,
-        [`2`, `25-5`, `"2"`, `The code has an error.`, `I don't know.`]
-        // solution: 3
+        [`2`, `25-5`, `"2"`, `The code has an error.`, `I don't know.`],
+        3,
+        TaskTopic.types,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -4945,7 +5423,10 @@ export const CodingTasks = [
             `number3 = str(number2) + number1`,
             `print(int(number1) + number2 + int(number3))`,
         ].join("\n")}</div>`,
-        [`2040`, `3030`, `"10"40`, `The code has an error.`, `I don't know.`]
+        [`2040`, `3030`, `"10"40`, `The code has an error.`, `I don't know.`],
+        0,
+        TaskTopic.types,
+        TaskStage.retention
         // solution: 0
     ),
 
@@ -4968,8 +5449,10 @@ export const CodingTasks = [
             `None of them! (They all throw an error)`,
 
             `I don't know.`,
-        ]
-        // solution: 3
+        ],
+        3,
+        TaskTopic.basics,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5002,8 +5485,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5025,8 +5510,10 @@ export const CodingTasks = [
             `    Q = A * 2`,
             `print(Q)`,
         ].join("\n")}</div>`,
-        [`4`, `6`, `7`, `8`, `I don't know.`]
-        // solution: 3
+        [`4`, `6`, `7`, `8`, `I don't know.`],
+        3,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5047,8 +5534,10 @@ export const CodingTasks = [
             `None of the values above will make the code display the message <b>True</b>.`,
 
             `I don't know.`,
-        ]
-        // solution: 1
+        ],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5073,8 +5562,10 @@ export const CodingTasks = [
             `<div class="code-block">${`computer = str(random.randint(1, 10))`}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5089,8 +5580,10 @@ export const CodingTasks = [
 
             `print(even_nums[len(even_nums) - 1])`,
         ].join("\n")}</div>`,
-        [`6`, `8`, `10`, `4`, `I don't know.`]
-        // solution: 2
+        [`6`, `8`, `10`, `4`, `I don't know.`],
+        2,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5111,8 +5604,10 @@ export const CodingTasks = [
             `    j = j + 2`,
             `print(j)`,
         ].join("\n")}</div>`,
-        [`0`, `2`, `4`, `6`, `I don't know.`]
-        // solution: 3
+        [`0`, `2`, `4`, `6`, `I don't know.`],
+        3,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5124,8 +5619,10 @@ export const CodingTasks = [
             `W = "WT" + W + "W"`,
             `print(W + T)`,
         ].join("\n")}</div>`,
-        [`WTWTWTWT`, `TWTWTWTW`, `TTWTWT`, `TWTWW`, `I don't know.`]
-        // solution: 0
+        [`WTWTWTWT`, `TWTWTWTW`, `TTWTWT`, `TWTWW`, `I don't know.`],
+        0,
+        TaskTopic.basics,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5147,8 +5644,10 @@ export const CodingTasks = [
             )}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 1
+        ],
+        1,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5156,7 +5655,7 @@ export const CodingTasks = [
         `Which of the following options will NEVER be displayed based on the random numbers x, y, and z? <br/> <div class="code-block">${[
             `import random`,
             `x = random.randint(50, 100)`, // 50 - 100
-            `y = random.randint(x + 100, x + 150)`, // 100 - 200
+            `y = random.randint(x + 100, x + 150)`, // 150 - 250
             ``,
             `if y < x:`,
             `    print("A")`,
@@ -5165,8 +5664,10 @@ export const CodingTasks = [
             `else:`,
             `    print("C")`,
         ].join("\n")}</div>`,
-        [`A`, `B`, `C`, `None of the values A or B.`, `I don't know.`]
-        // solution: 3
+        [`A`, `B`, `C`, `None of the values A or B.`, `I don't know.`],
+        3,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5176,8 +5677,10 @@ export const CodingTasks = [
             `y = 75`,
             `print("x" + "y")`,
         ].join("\n")}</div>`,
-        [`x + y`, `100`, `xy`, `The code has an error.`, `I don't know.`]
-        // solution: 0
+        [`x + y`, `100`, `xy`, `The code has an error.`, `I don't know.`],
+        3,
+        TaskTopic.basics,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5196,8 +5699,10 @@ export const CodingTasks = [
             `me: 60, you: 40`,
             `me: 0, you: 100`,
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        0,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5216,8 +5721,10 @@ export const CodingTasks = [
             `<div class="code-block">${`x != 1 and x != 2 and x != 3`}</div>`,
             `<div class="code-block">${`x == 1 or x == 2 or x == 3)`}</div>`,
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5236,8 +5743,10 @@ export const CodingTasks = [
             `    number = number + 25`,
             `print(number)`,
         ].join("\n")}</div>`,
-        [`75`, `65`, `35`, `25`, `I don't know.`]
-        // solution: 1
+        [`75`, `65`, `35`, `25`, `I don't know.`],
+        0,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
     new MultipleChoiceTask(
         "e2mc25",
@@ -5260,52 +5769,57 @@ export const CodingTasks = [
             ``,
             `print(msg)`,
         ].join("\n")}</div>`,
-        [`four`, `three`, `two`, `one`, `I don't know.`]
-        // solution: 0
+        [`four`, `three`, `two`, `one`, `I don't know.`],
+        0,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
-    new MultipleChoiceTask(
-        "e2mc26",
-        `Which of the following codes correctly calculates the sum of every other element in a given list? (the first, the third, the fifth, etc.)`,
-        [
-            `<div class="code-block">${[
-                `total = 0`,
-                `for value in range(numbers):`,
-                `    if value % 2 == 1:`,
-                `        total += numbers[value]`,
-                `print(total)`,
-            ].join("\n")}</div>`,
+    // removed: wrong answer
+    // new MultipleChoiceTask(
+    //     "e2mc26",
+    //     `Which of the following codes correctly calculates the sum of every other element in a given list? (the first, the third, the fifth, etc.)`,
+    //     [
+    //         `<div class="code-block">${[
+    //             `total = 0`,
+    //             `for value in range(numbers):`,
+    //             `    if value % 2 == 1:`,
+    //             `        total += numbers[value]`,
+    //             `print(total)`,
+    //         ].join("\n")}</div>`,
 
-            `<div class="code-block">${[
-                `total = 0`,
-                `for var in range(len(numbers)):`,
-                `    if var % 2 == 1:`,
-                `        total += var`,
-                `print(total)`,
-            ].join("\n")}</div>`,
+    //         `<div class="code-block">${[
+    //             `total = 0`,
+    //             `for var in range(len(numbers)):`,
+    //             `    if var % 2 == 1:`,
+    //             `        total += var`,
+    //             `print(total)`,
+    //         ].join("\n")}</div>`,
 
-            `<div class="code-block">${[
-                `total = 0`,
-                `counter = 0`,
-                `while counter < len(numbers):`,
-                `    if counter % 2 == 0:`,
-                `        total += counter`,
-                `print(total)`,
-            ].join("\n")}</div>`,
+    //         `<div class="code-block">${[
+    //             `total = 0`,
+    //             `counter = 0`,
+    //             `while counter < len(numbers):`,
+    //             `    if counter % 2 == 0:`,
+    //             `        total += counter`,
+    //             `print(total)`,
+    //         ].join("\n")}</div>`,
 
-            `<div class="code-block">${[
-                `total = 0`,
-                `counter = 0`,
-                `while counter < len(numbers):`,
-                `    if counter % 2 == 0:`,
-                `        total += numbers[counter]`,
-                `print(total)`,
-            ].join("\n")}</div>`,
+    //         `<div class="code-block">${[
+    //             `total = 0`,
+    //             `counter = 0`,
+    //             `while counter < len(numbers):`,
+    //             `    if counter % 2 == 0:`,
+    //             `        total += numbers[counter]`,
+    //             `print(total)`,
+    //         ].join("\n")}</div>`,
 
-            `I don't know.`,
-        ]
-        // solution: 3
-    ),
+    //         `I don't know.`,
+    //     ],
+    //     3,
+    //     TaskTopic.arrays,
+    //     TaskStage.retention
+    // ),
 
     new MultipleChoiceTask(
         "e2mc27",
@@ -5326,8 +5840,10 @@ export const CodingTasks = [
             ``,
             `print(Y)`,
         ].join("\n")}</div>`,
-        [`25`, `30`, `40`, `50`, `I don't know.`]
-        // solution: 1
+        [`25`, `30`, `40`, `50`, `I don't know.`],
+        1,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5342,8 +5858,10 @@ export const CodingTasks = [
             ``,
             `print(count)`,
         ].join("\n")}</div>`,
-        [`155`, `55`, `65`, `165`, `I don't know.`]
-        // solution: 3
+        [`155`, `55`, `65`, `165`, `I don't know.`],
+        3,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5362,8 +5880,10 @@ export const CodingTasks = [
             `        break`,
             `print(len(even_numbers))`,
         ].join("\n")}</div>`,
-        [`3`, `6`, `9`, `10`, `I don't know.`]
-        // solution: 0
+        [`3`, `6`, `9`, `10`, `I don't know.`],
+        0,
+        TaskTopic.arrays,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5379,8 +5899,10 @@ export const CodingTasks = [
             `        counter = 10`,
             `print(counter)`,
         ].join("\n")}</div>`,
-        [`40`, `50`, `60`, `70`, `I don't know.`]
-        // solution: 2
+        [`40`, `50`, `60`, `70`, `I don't know.`],
+        2,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5393,8 +5915,10 @@ export const CodingTasks = [
             `a += a`,
             `print(a)`,
         ].join("\n")}</div>`,
-        [`10a`, `10`, `24a`, `24`, `I don't know.`]
-        // solution: 3
+        [`10a`, `10`, `24a`, `24`, `I don't know.`],
+        3,
+        TaskTopic.basics,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5408,8 +5932,10 @@ export const CodingTasks = [
             `<div class="code-block">${`day = ("Today is: ") + (input("What day is today?"))`}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 3
+        ],
+        3,
+        TaskTopic.basics,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5439,8 +5965,10 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 1
+        ],
+        1,
+        TaskTopic.arrays,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5471,30 +5999,34 @@ export const CodingTasks = [
             ].join("\n")}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 1
+        ],
+        1,
+        TaskTopic.arrays,
+        TaskStage.retention
     ),
 
-    new MultipleChoiceTask(
-        "e2mc35",
-        `What does this code display at the end?<br/> <div class="code-block">${[
-            `first_list = [3, 1, 7, 5, 9]`,
-            `second_list = [8, 4, 3, 2, 4]`,
-            `third_list = [0, 0, 0, 0, 0]`,
-            ``,
-            `i = len(first_list) - 1`,
-            `j = 0`,
-            `while i < len(first_list):`,
-            `    third_list[i] = first_list[i] + second_list[j]`,
-            `    i = i - 1`,
-            `    j = j + 1`,
-            ``,
-            `print(third_list[1])`,
-        ].join("\n")}</div>`,
-        [`3`, `10`, `9`, `17`, `I don't know.`]
-        // solution: 0
-        // removed task as it had a bug
-    ),
+    // new MultipleChoiceTask(
+    //     "e2mc35",
+    //     `What does this code display at the end?<br/> <div class="code-block">${[
+    //         `first_list = [3, 1, 7, 5, 9]`,
+    //         `second_list = [8, 4, 3, 2, 4]`,
+    //         `third_list = [0, 0, 0, 0, 0]`,
+    //         ``,
+    //         `i = len(first_list) - 1`,
+    //         `j = 0`,
+    //         `while i < len(first_list):`,
+    //         `    third_list[i] = first_list[i] + second_list[j]`,
+    //         `    i = i - 1`,
+    //         `    j = j + 1`,
+    //         ``,
+    //         `print(third_list[1])`,
+    //     ].join("\n")}</div>`,
+    //     [`3`, `10`, `9`, `17`, `I don't know.`],
+    //     0,
+    //     TaskTopic.arrays,
+    //     TaskStage.retention
+    //     // removed task as it had a bug
+    // ),
 
     new MultipleChoiceTask(
         "e2mc36",
@@ -5517,8 +6049,10 @@ export const CodingTasks = [
             `[15, 85, 50]`,
             `[1, 99, 46, 52]`,
             `I don't know.`,
-        ]
-        // solution: 0
+        ],
+        0,
+        TaskTopic.conditionals,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5531,8 +6065,10 @@ export const CodingTasks = [
             `    second += 6`,
             `print(first + second)`,
         ].join("\n")}</div>`,
-        [`60`, `70`, `80`, `90`, `I don't know.`]
-        // solution: 2
+        [`60`, `70`, `80`, `90`, `I don't know.`],
+        2,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5550,8 +6086,10 @@ export const CodingTasks = [
             `num += 5`,
             `print(num)`,
         ].join("\n")}</div>`,
-        [`5`, `6`, `11`, `10`, `I don't know.`]
-        // solution: 3
+        [`5`, `6`, `11`, `10`, `I don't know.`],
+        3,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5568,8 +6106,10 @@ export const CodingTasks = [
             `<div class="code-block">${`print(m1 "-" m2 "-" m3)`}</div>`,
 
             `I don't know.`,
-        ]
-        // solution: 2
+        ],
+        2,
+        TaskTopic.basics,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5582,8 +6122,10 @@ export const CodingTasks = [
             `R = R + 4`,
             `print(R)`,
         ].join("\n")}</div>`,
-        [`23`, `24`, `28`, `27`, `I don't know.`]
-        // solution: 1
+        [`23`, `24`, `28`, `27`, `I don't know.`],
+        1,
+        TaskTopic.loops,
+        TaskStage.retention
     ),
 
     new MultipleChoiceTask(
@@ -5602,8 +6144,10 @@ export const CodingTasks = [
             ``,
             `print(other_list[1])`,
         ].join("\n")}</div>`,
-        [`MG`, `HH`, `TA`, `GM`, `I don't know.`]
-        // solution: 2
+        [`MG`, `HH`, `TA`, `GM`, `I don't know.`],
+        2,
+        TaskTopic.arrays,
+        TaskStage.retention
     ),
 ];
 
