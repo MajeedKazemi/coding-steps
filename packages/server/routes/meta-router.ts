@@ -12,7 +12,7 @@ metaRouter.get("/all-tasks", (req, res, next) => {
             tasks.push({
                 id: task.id,
                 type: "authoring",
-                description: task.description,
+                description: task.description.replace(/<[^>]*>/g, ""),
                 topic: task.topic,
                 stage: task.stage,
             });
@@ -20,7 +20,7 @@ metaRouter.get("/all-tasks", (req, res, next) => {
             tasks.push({
                 id: task.id,
                 type: "modifying",
-                description: task.description,
+                description: task.description.replace(/<[^>]*>/g, ""),
                 topic: task.topic,
                 stage: task.stage,
             });
