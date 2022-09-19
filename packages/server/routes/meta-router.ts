@@ -23,6 +23,7 @@ metaRouter.get("/all-tasks", (req, res, next) => {
                 description: task.description.replace(/<[^>]*>/g, ""),
                 topic: task.topic,
                 stage: task.stage,
+                starterCode: task.starterCode,
             });
         } else if (task instanceof MultipleChoiceTask) {
             tasks.push({
