@@ -15,6 +15,7 @@
 @import "styles/codex.css";
 @import "styles/documentation.css";
 @import "styles/accordion.css";
+@import "styles/analysis.css";
 
 body {
     font-family: "Poppins", sans-serif;

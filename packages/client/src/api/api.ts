@@ -114,6 +114,15 @@ export const apiAdminSetFinalGrade = (
         }),
     });
 
+export const apiGetAggregatedData = (taskId: string) =>
+    fetch(env.API_URL + "/api/analysis/get-aggregated-data/" + taskId, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
 export const apiUserNextTask = (token: string | null | undefined) =>
     fetch(env.API_URL + "/api/tasks/next", {
         credentials: "include",
