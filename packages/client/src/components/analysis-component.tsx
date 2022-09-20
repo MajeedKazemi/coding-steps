@@ -9,12 +9,13 @@ interface IProps {
     authoring: [];
     modifying: [];
     userId: string;
+    description: string;
 }
 
 export const AnalysisComponent = (props: IProps) => {
     const { context } = useContext(AuthContext);
 
-    const renderPart = (item: any, i: number) => {
+    const renderPart = (item: any, i: number, key: string) => {
         if (item["type"] == "codex") {
             const partialCopy = item["partial-copy"];
             const copiedEverything = item["copied-everything"];
@@ -25,7 +26,10 @@ export const AnalysisComponent = (props: IProps) => {
                 : null;
 
             return (
-                <div className="analysis-part">
+                <div
+                    className="analysis-part"
+                    key={"analysis-part-" + i.toString() + "-" + key}
+                >
                     <div className="analysis-header codex-color">
                         {"( " + i + " ) " + ">>> CODEX <<<"}
                     </div>
@@ -46,7 +50,10 @@ export const AnalysisComponent = (props: IProps) => {
             );
         } else if (item["type"] == "run") {
             return (
-                <div className="analysis-part">
+                <div
+                    className="analysis-part"
+                    key={"analysis-part-" + i.toString() + "-" + key}
+                >
                     <div className="analysis-header run-color">
                         {"( " + i + " ) " + ">>> RUN <<<"}
                     </div>
@@ -67,16 +74,27 @@ export const AnalysisComponent = (props: IProps) => {
             );
         } else if (item["type"] == "submit") {
             return (
-                <div className="analysis-part">
+                <div
+                    className="analysis-part"
+                    key={"analysis-part-" + i.toString() + "-" + key}
+                >
                     <div className="analysis-header submit-color">
                         {"( " + i + " ) " + ">>> SUBMIT <<<"}
                     </div>
+                    {item["feedback"] !== "" && (
+                        <span className="analysis-point submit-color">
+                            feedback: {item["feedback"]}
+                        </span>
+                    )}
                     <CodeViewer code={item["submitted_code"]}></CodeViewer>
                 </div>
             );
         } else if (item["type"] == "edit" && item["editor"] == "user") {
             return (
-                <div className="analysis-part">
+                <div
+                    className="analysis-part"
+                    key={"analysis-part-" + i.toString() + "-" + key}
+                >
                     <div className="analysis-header edit-color">
                         {"( " + i + " ) " + ">>> EDIT <<<"}
                     </div>
@@ -99,7 +117,10 @@ export const AnalysisComponent = (props: IProps) => {
             );
         } else if (item["type"] == "doc") {
             return (
-                <div className="analysis-part">
+                <div
+                    className="analysis-part"
+                    key={"analysis-part-" + i.toString() + "-" + key}
+                >
                     <div className="analysis-header doc-color">
                         {"( " + i + " ) " + ">>> DOCUMENTATION <<<"}
                     </div>
@@ -117,10 +138,13 @@ export const AnalysisComponent = (props: IProps) => {
         <div className="analysis-component">
             <div className="analysis-data">
                 <h2>Authoring Task:</h2>
-                {props.authoring.map((it, i) => renderPart(it, i))}
+                <p>
+                    <b>Task Description:</b> {props.description}
+                </p>
+                {props.authoring.map((it, i) => renderPart(it, i, "authoring"))}
 
                 <h2>Modifying Task:</h2>
-                {props.modifying.map((it, i) => renderPart(it, i))}
+                {props.modifying.map((it, i) => renderPart(it, i, "modifying"))}
             </div>
             <div className="analysis-input">
                 <span>Notes:</span>

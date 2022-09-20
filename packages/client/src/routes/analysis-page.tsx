@@ -102,7 +102,8 @@ export const AnalysisPage = () => {
             {taskData.map((d: any) => {
                 return (
                     <AnalysisComponent
-                        key={d["user_id"]}
+                        description={d["task_description"]}
+                        key={d["task_id"] + d["user_id"]}
                         authoring={d["authoring"]}
                         modifying={d["modifying"]}
                         userId={d["user_id"]}
