@@ -114,8 +114,25 @@ export const apiAdminSetFinalGrade = (
         }),
     });
 
-export const apiGetAggregatedData = (taskId: string) =>
-    fetch(env.API_URL + "/api/analysis/get-aggregated-data/" + taskId, {
+export const apiGetAggregatedDataPerTask = (taskId: string) =>
+    fetch(env.API_URL + "/api/analysis/agg-data-per-task/" + taskId, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+export const apiGetAggregatedDataPerUser = (userId: string) =>
+    fetch(env.API_URL + "/api/analysis/agg-data-per-user/" + userId, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+export const apiGetAggregatedDataKeys = () =>
+    fetch(env.API_URL + "/api/analysis/agg-data-keys/", {
         method: "GET",
         credentials: "include",
         headers: {

@@ -1,45 +1,103 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { apiGetAggregatedData } from "../api/api";
+import { apiGetAggregatedDataKeys, apiGetAggregatedDataPerTask, apiGetAggregatedDataPerUser } from "../api/api";
 import { AnalysisComponent } from "../components/analysis-component";
-
-const allTaskIds: Array<string> = [];
-
-for (let i = 1; i <= 45; i++) {
-    allTaskIds.push(i.toString());
-}
 
 export const AnalysisPage = () => {
     const [taskData, setTaskData] = useState([]);
-    const [selectedTaskId, setSelectedTaskId] = useState("1");
+    const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+    const [allTaskIds, setAllTaskIds] = useState([]);
+    const [allUserIds, setAllUserIds] = useState([]);
+    const [perTask, setPerTask] = useState(true);
 
     useEffect(() => {
-        apiGetAggregatedData(selectedTaskId)
+        apiGetAggregatedDataKeys()
             .then(async (response) => {
                 const data = await response.json();
 
-                setTaskData(data.data);
+                setAllTaskIds(data.tasks);
+                setAllUserIds(data.users);
+
+                setSelectedTaskId(data.tasks[0]);
+                setSelectedUserId(data.users[0]);
             })
-            .catch((error: any) => {
+            .catch((error) => {
                 console.error(error);
             });
-    }, [selectedTaskId]);
+    }, []);
+
+    useEffect(() => {
+        if (selectedTaskId !== null && selectedUserId !== null) {
+            if (perTask) {
+                apiGetAggregatedDataPerTask(selectedTaskId)
+                    .then(async (response) => {
+                        const data = await response.json();
+
+                        setTaskData(data.data);
+                    })
+                    .catch((error: any) => {
+                        console.error(error);
+                    });
+            } else {
+                apiGetAggregatedDataPerUser(selectedUserId)
+                    .then(async (response) => {
+                        const data = await response.json();
+
+                        setTaskData(data.data);
+                    })
+                    .catch((error: any) => {
+                        console.error(error);
+                    });
+            }
+        }
+    }, [selectedTaskId, selectedUserId, perTask]);
 
     return (
         <div className="analysis-page">
             <div>
-                <select
-                    onChange={(e) => {
-                        setSelectedTaskId(e.target.value);
-                    }}
-                    size={3}
-                >
-                    {allTaskIds.map((id) => (
-                        <option key={id} value={id}>
-                            {id}
+                <div>
+                    <select
+                        onChange={(e) => {
+                            if (e.target.value === "per-task") {
+                                setPerTask(true);
+                            } else {
+                                setPerTask(false);
+                            }
+                        }}
+                    >
+                        <option key={"per-task"} value={"per-task"}>
+                            per task
+                        </option>{" "}
+                        <option key={"per-user"} value={"per-user"}>
+                            per user
                         </option>
-                    ))}
-                </select>
+                    </select>
+                </div>
+                <div>
+                    <select
+                        onChange={(e) => {
+                            if (perTask) {
+                                setSelectedTaskId(e.target.value);
+                            } else {
+                                setSelectedUserId(e.target.value);
+                            }
+                        }}
+                        size={5}
+                    >
+                        {perTask
+                            ? allTaskIds.map((id) => (
+                                  <option key={id} value={id}>
+                                      {id}
+                                  </option>
+                              ))
+                            : allUserIds.map((id) => (
+                                  <option key={id} value={id}>
+                                      {id}
+                                  </option>
+                              ))}
+                    </select>
+                </div>
             </div>
             {taskData.map((d: any) => {
                 return (
