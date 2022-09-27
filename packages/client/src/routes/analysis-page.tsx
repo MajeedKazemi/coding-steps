@@ -107,6 +107,7 @@ export const AnalysisPage = () => {
                         authoring={d["authoring"]}
                         modifying={d["modifying"]}
                         userId={d["user_id"]}
+                        taskId={d["task_id"]}
                     ></AnalysisComponent>
                 );
             })}

@@ -8,6 +8,7 @@ import { Diff } from "./diff-component";
 interface IProps {
     authoring: [];
     modifying: [];
+    taskId: string;
     userId: string;
     description: string;
 }
@@ -137,6 +138,7 @@ export const AnalysisComponent = (props: IProps) => {
     return (
         <div className="analysis-component">
             <div className="analysis-data">
+                <h1>{props.taskId}</h1>
                 <h2>Authoring Task:</h2>
                 <p>
                     <b>Task Description:</b> {props.description}
