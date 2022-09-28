@@ -2,7 +2,6 @@ import { useContext } from "react";
 
 import { AuthContext } from "../context";
 import { CodeViewer } from "./analysis-code-viewer";
-import { Button } from "./button";
 import { Diff } from "./diff-component";
 
 interface IProps {
@@ -137,23 +136,17 @@ export const AnalysisComponent = (props: IProps) => {
 
     return (
         <div className="analysis-component">
-            <div className="analysis-data">
-                <h1>{props.taskId}</h1>
-                <h2>Authoring Task:</h2>
-                <p>
-                    <b>Task Description:</b> {props.description}
-                </p>
-                {props.authoring.map((it, i) => renderPart(it, i, "authoring"))}
+            <h1>
+                task-id: {props.taskId} -- user-id: {props.userId}
+            </h1>
+            <h2>Authoring Task:</h2>
+            <p>
+                <b>Task Description:</b> {props.description}
+            </p>
+            {props.authoring.map((it, i) => renderPart(it, i, "authoring"))}
 
-                <h2>Modifying Task:</h2>
-                {props.modifying.map((it, i) => renderPart(it, i, "modifying"))}
-            </div>
-            <div className="analysis-input">
-                <span>Notes:</span>
-                <br />
-                <textarea rows={10}></textarea>
-                <Button>Submit</Button>
-            </div>
+            <h2>Modifying Task:</h2>
+            {props.modifying.map((it, i) => renderPart(it, i, "modifying"))}
         </div>
     );
 };

@@ -19,13 +19,7 @@
     padding: 12px;
     box-shadow: 0px 4px 32px rgb(0 60 52 / 16%);
     margin-bottom: 150px;
-    display: flex;
-    flex-direction: row;
     width: 100%;
-}
-
-.analysis-data {
-    width: 75%;
 }
 
 .analysis-input {
