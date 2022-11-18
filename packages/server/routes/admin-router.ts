@@ -47,6 +47,7 @@ adminRouter.get("/not-graded", verifyUser, (req, res, next) => {
                         }
                     })
                     .filter((submission) => submission !== undefined)
+                    .splice(0, 25)
                     .sort((b, a) => {
                         return (
                             (b?.submittedAt?.getTime()

@@ -91,35 +91,13 @@ export const AdminSubmission = (props: IProps) => {
                         }}
                     ></p>
                     <span>
-                        Submission Count: {props.submission.submissionCount}
+                        <b>submission:</b>
                     </span>
-                    <br />
-                    <span>
-                        Worked on task for:{" "}
-                        {Math.round(
-                            (new Date(props.submission.submittedAt).getTime() -
-                                new Date(
-                                    props.submission.startedAt
-                                ).getTime()) /
-                                (1000 * 60)
-                        )}{" "}
-                        Minutes
-                    </span>
-                    <br />
-                    <span>
-                        Waiting to be graded for:{" "}
-                        {Math.round(
-                            (new Date().getTime() -
-                                new Date(
-                                    props.submission.submittedAt
-                                ).getTime()) /
-                                (1000 * 60)
-                        )}{" "}
-                        Minutes
-                    </span>
-                    <br />
                     <div ref={monacoEl} className="editor-user-code"></div>
 
+                    <span>
+                        <b>solution:</b>
+                    </span>
                     <div ref={solutionEl} className="admin-solution-code">
                         {props.submission.solution}
                     </div>
@@ -132,33 +110,72 @@ export const AdminSubmission = (props: IProps) => {
                         e.preventDefault();
                     }}
                 >
-                    <div>
-                        <label>Grade </label>
-                        <input
-                            onChange={(e) => {
-                                setGrade(e.target.value.toLowerCase());
-                            }}
-                        ></input>
-                        <br />
-                        <br />
+                    <div className="submission-assessment">
+                        <div>
+                            <span>
+                                <b>grade:</b>
+                            </span>
+
+                            <input
+                                onChange={(e) => {
+                                    setGrade(e.target.value.toLowerCase());
+                                }}
+                            ></input>
+                            <br />
+                            <br />
+                        </div>
+
+                        <div>
+                            <label>
+                                <b>feedback:</b>
+                            </label>
+                            <br />
+                            <textarea
+                                className="feedback-textarea"
+                                onChange={(e) => {
+                                    setFeedback(e.target.value.toLowerCase());
+                                }}
+                            ></textarea>
+                        </div>
+
+                        <Button color="primary" type="block">
+                            submit grade
+                        </Button>
                     </div>
 
-                    <div>
-                        <label>Feedback</label>
+                    <div className="submission-meta-data">
+                        <span>
+                            <b>submission count:</b>{" "}
+                            {props.submission.submissionCount}
+                        </span>
                         <br />
-                        <textarea
-                            className="feedback-textarea"
-                            onChange={(e) => {
-                                setFeedback(e.target.value.toLowerCase());
-                            }}
-                        ></textarea>
+                        <span>
+                            <b>active time on task: </b>
+                            {Math.round(
+                                (new Date(
+                                    props.submission.submittedAt
+                                ).getTime() -
+                                    new Date(
+                                        props.submission.startedAt
+                                    ).getTime()) /
+                                    (1000 * 60)
+                            )}{" "}
+                            Minutes
+                        </span>
                         <br />
+                        <span>
+                            <b>waiting time: </b>
+                            {Math.round(
+                                (new Date().getTime() -
+                                    new Date(
+                                        props.submission.submittedAt
+                                    ).getTime()) /
+                                    (1000 * 60)
+                            )}{" "}
+                            Minutes{" "}
+                        </span>
                         <br />
                     </div>
-
-                    <Button color="primary" type="block">
-                        submit grade
-                    </Button>
                 </form>
             </div>
             <br />
