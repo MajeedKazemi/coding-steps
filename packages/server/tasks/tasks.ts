@@ -1139,6 +1139,7 @@ export const CodingTasks = [
             `    grade = "B"`,
             `else:`,
             `    grade = "A`,
+            `print("Grade: " + grade)`,
         ].join("\n"),
         60 * 8,
         TaskTopic.conditionals,
@@ -1156,6 +1157,7 @@ export const CodingTasks = [
             `    grade = "B"`,
             `else:`,
             `    grade = "A`,
+            `print("Grade: " + grade)`,
         ].join("\n"),
         [
             [
@@ -1184,6 +1186,7 @@ export const CodingTasks = [
             `    grade = "B"`,
             `else:`,
             `    grade = "A`,
+            `print("Grade: " + grade)`,
         ].join("\n"),
         60 * 4,
         TaskTopic.conditionals,
@@ -2281,7 +2284,7 @@ export const CodingTasks = [
             `num = int(input("enter a number: "))`,
             `while num != 0:`,
             `    total += num`,
-            `    num = input("enter another number: ")`,
+            `    num = int(input("enter another number: "))`,
             `print("total: " + str(total))`,
         ].join("\n"),
         60 * 4,
@@ -2627,6 +2630,7 @@ export const CodingTasks = [
             ],
         ],
         [
+            `import random`,
             `num = random.randint(1, 999999)`,
             `num_digits = 0`,
             ``,
@@ -2747,6 +2751,7 @@ export const CodingTasks = [
             ["output: <b>It took 14 attempts.</b>"],
         ],
         [
+            `import random`,
             `num = random.randint(0, 100)`,
             `attempts = 0`,
             `while num != 50:`,
@@ -2762,6 +2767,7 @@ export const CodingTasks = [
         "27b",
         "Modify the program so that it stops when when the random number becomes equal to any of hte numbers 25, 50, or 75. It should also display which number it stopped on after displaying the number of attempts after the loop.",
         [
+            `import random`,
             `num = random.randint(0, 100)`,
             `attempts = 0`,
             `while num != 50:`,
@@ -2780,6 +2786,7 @@ export const CodingTasks = [
             ],
         ],
         [
+            `import random`,
             `num = random.randint(0, 100)`,
             `attempts = 0`,
             `while num != 25 and num != 50 and num != 75:`,
@@ -2801,6 +2808,7 @@ export const CodingTasks = [
             ["output: <b>It rolled six for 166 times.</b>"],
         ],
         [
+            `import random`,
             `times = 0`,
             `for i in range(1000):`,
             `    if random.randint(1, 6) == 6:`,
@@ -6150,6 +6158,36 @@ export const CodingTasks = [
         TaskStage.retention
     ),
 ];
+
+const authTimes: number[] = [];
+const modTimes: number[] = [];
+const allTimes: number[] = [];
+
+for (let i = 0; i < CodingTasks.length; i++) {
+    const t = CodingTasks[i];
+
+    if (t instanceof AuthoringTask) {
+        authTimes.push(t.timeLimit);
+        allTimes.push(t.timeLimit);
+    } else if (t instanceof ModifyingTask) {
+        modTimes.push(t.timeLimit);
+        allTimes.push(t.timeLimit);
+    }
+}
+
+// calculate the average of authTimes:
+const modTimesSum = modTimes.reduce((a, b) => a + b, 0);
+const modTimesAvg = modTimesSum / modTimes.length;
+
+// calculate the max of authTimes:
+const modTimesMax = Math.max(...modTimes);
+
+// calculate the min of modTimes:
+const modTimesMin = Math.min(...modTimes);
+
+console.log("modTimes avg", modTimesAvg);
+console.log("modTimes max", modTimesMax);
+console.log("modTimes min", modTimesMin);
 
 export const getNextTask = (completedTasks: IUserTask[]): Task | null => {
     for (let i = 0; i < CodingTasks.length; i++) {

@@ -65,6 +65,28 @@
     background-color: #01269f !important;
 }
 
+.run-console {
+    background-color: #aaa;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: monospace;
+    margin: 12px;
+    overflow-wrap: anywhere;
+}
+
+.run-color-in {
+    background-color: #eeeeff;
+}
+
+.run-color-out {
+    background-color: #efffee;
+}
+
+.run-color-err {
+    background-color: #ffeef0;
+}
+
 .submit-color {
     background-color: #1baf8f !important;
 }

@@ -15,7 +15,9 @@ interface IProps {
 export const AnalysisComponent = (props: IProps) => {
     const { context } = useContext(AuthContext);
 
-    const renderPart = (item: any, i: number, key: string) => {
+    const renderPart = (item: any, i: number, type: string) => {
+        const taskType = type === "authoring" ? "A" : "M";
+
         if (item["type"] == "codex") {
             const partialCopy = item["partial-copy"];
             const copiedEverything = item["copied-everything"];
@@ -28,10 +30,16 @@ export const AnalysisComponent = (props: IProps) => {
             return (
                 <div
                     className="analysis-part"
-                    key={"analysis-part-" + i.toString() + "-" + key}
+                    key={"analysis-part-" + i.toString() + "-" + type}
                 >
                     <div className="analysis-header codex-color">
-                        {"( " + i + " ) " + ">>> CODEX <<<"}
+                        {"( " +
+                            i +
+                            " ) " +
+                            ">>> CODEX <<<" +
+                            " (" +
+                            taskType +
+                            ")"}
                     </div>
                     <p className="prompt-header">
                         prompt:{" "}
@@ -52,34 +60,64 @@ export const AnalysisComponent = (props: IProps) => {
             return (
                 <div
                     className="analysis-part"
-                    key={"analysis-part-" + i.toString() + "-" + key}
+                    key={"analysis-part-" + i.toString() + "-" + type}
                 >
                     <div className="analysis-header run-color">
-                        {"( " + i + " ) " + ">>> RUN <<<"}
+                        {"( " +
+                            i +
+                            " ) " +
+                            ">>> RUN <<<" +
+                            " (" +
+                            taskType +
+                            ")"}
                     </div>
-                    {item["error"] && (
-                        <span className="analysis-point run-color">error</span>
-                    )}
-                    {item["produced_output"] && (
-                        <span className="analysis-point run-color">
-                            produced output
-                        </span>
-                    )}
-                    {item["provided_input"] && (
-                        <span className="analysis-point run-color">
-                            provided input
-                        </span>
-                    )}
+
+                    <CodeViewer code={item["code"]}></CodeViewer>
+
+                    <div className="run-console">
+                        <h2>console output:</h2>
+
+                        {item["io"].map((item: any) => {
+                            switch (item["type"]) {
+                                case "in":
+                                    return (
+                                        <div className="run-color-in">
+                                            {"<<--"} {item["text"]}
+                                        </div>
+                                    );
+
+                                case "out":
+                                    return (
+                                        <div className="run-color-out">
+                                            {"-->>"} {item["text"]}
+                                        </div>
+                                    );
+
+                                case "err":
+                                    return (
+                                        <div className="run-color-err">
+                                            {"<!!>"} {item["text"]}
+                                        </div>
+                                    );
+                            }
+                        })}
+                    </div>
                 </div>
             );
         } else if (item["type"] == "submit") {
             return (
                 <div
                     className="analysis-part"
-                    key={"analysis-part-" + i.toString() + "-" + key}
+                    key={"analysis-part-" + i.toString() + "-" + type}
                 >
                     <div className="analysis-header submit-color">
-                        {"( " + i + " ) " + ">>> SUBMIT <<<"}
+                        {"( " +
+                            i +
+                            " ) " +
+                            ">>> SUBMIT <<<" +
+                            " (" +
+                            taskType +
+                            ")"}
                     </div>
                     {item["feedback"] !== "" && (
                         <span className="analysis-point submit-color">
@@ -93,10 +131,16 @@ export const AnalysisComponent = (props: IProps) => {
             return (
                 <div
                     className="analysis-part"
-                    key={"analysis-part-" + i.toString() + "-" + key}
+                    key={"analysis-part-" + i.toString() + "-" + type}
                 >
                     <div className="analysis-header edit-color">
-                        {"( " + i + " ) " + ">>> EDIT <<<"}
+                        {"( " +
+                            i +
+                            " ) " +
+                            ">>> EDIT <<<" +
+                            " (" +
+                            taskType +
+                            ")"}
                     </div>
                     <span className="analysis-point edit-color">
                         key-strokes: {item["key_strokes"]}
@@ -119,10 +163,16 @@ export const AnalysisComponent = (props: IProps) => {
             return (
                 <div
                     className="analysis-part"
-                    key={"analysis-part-" + i.toString() + "-" + key}
+                    key={"analysis-part-" + i.toString() + "-" + type}
                 >
                     <div className="analysis-header doc-color">
-                        {"( " + i + " ) " + ">>> DOCUMENTATION <<<"}
+                        {"( " +
+                            i +
+                            " ) " +
+                            ">>> DOCUMENTATION <<<" +
+                            " (" +
+                            taskType +
+                            ")"}
                     </div>
                     <ul>
                         {item["sections"].map((it: any) => {
@@ -135,7 +185,7 @@ export const AnalysisComponent = (props: IProps) => {
     };
 
     return (
-        <div className="analysis-component">
+        <div className="analysis-component" key={props.taskId + props.userId}>
             <h1>
                 task-id: {props.taskId} -- user-id: {props.userId}
             </h1>
