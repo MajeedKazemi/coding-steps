@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import * as fs from "fs";
 import * as http from "http";
 import * as net from "net";
@@ -6,12 +7,21 @@ import { Transform } from "stream";
 import * as url from "url";
 import * as ws from "ws";
 
+// the life-cycle:
+// 1. client runs on local -> connects to the server
+// 2. create id for the client
+// 3. client
+
 export function initPythonShell(server: http.Server) {
     var pyshell: PythonShell;
 
     const wss = new ws.Server({ noServer: true });
 
+    const clients = new Map();
+
     wss.on("connection", (ws: ws) => {
+        const id = randomUUID();
+
         ws.on("message", (message: string) => {
             const data = JSON.parse(message);
             const code = `${CPU_LIMITER_CODE}\n${data.code}`;

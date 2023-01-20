@@ -1,38 +1,85 @@
 import express from "express";
 
-import { TaskUserData, UserTaskData } from "../data/data";
+import { TaskUserDataBaseline, TaskUserDataCodex, UserTaskDataBaseline, UserTaskDataCodex } from "../data/data";
 
 export const analysisRouter = express.Router();
 
-analysisRouter.get("/agg-data-per-task/:taskId", async (req, res, next) => {
-    const { taskId } = req.params;
+analysisRouter.get(
+    "/agg-data-per-task-codex/:taskId",
+    async (req, res, next) => {
+        const { taskId } = req.params;
 
-    try {
-        if (taskId !== undefined) {
-            res.send({ data: TaskUserData[taskId] });
+        try {
+            if (taskId !== undefined) {
+                res.send({ data: TaskUserDataCodex[taskId] });
+            }
+        } catch (e) {
+            console.log(e);
         }
-    } catch (e) {
-        console.log(e);
     }
-});
+);
 
-analysisRouter.get("/agg-data-per-user/:userId", async (req, res, next) => {
-    const { userId } = req.params;
+analysisRouter.get(
+    "/agg-data-per-user-codex/:userId",
+    async (req, res, next) => {
+        const { userId } = req.params;
 
-    try {
-        if (userId !== undefined) {
-            res.send({ data: UserTaskData[userId] });
+        try {
+            if (userId !== undefined) {
+                res.send({ data: UserTaskDataCodex[userId] });
+            }
+        } catch (e) {
+            console.log(e);
         }
-    } catch (e) {
-        console.log(e);
     }
-});
+);
 
-analysisRouter.get("/agg-data-keys", async (req, res, next) => {
+analysisRouter.get("/agg-data-keys-codex", async (req, res, next) => {
     try {
         res.send({
-            tasks: Object.keys(TaskUserData),
-            users: Object.keys(UserTaskData),
+            tasks: Object.keys(TaskUserDataCodex),
+            users: Object.keys(UserTaskDataCodex),
+        });
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+analysisRouter.get(
+    "/agg-data-per-task-baseline/:taskId",
+    async (req, res, next) => {
+        const { taskId } = req.params;
+
+        try {
+            if (taskId !== undefined) {
+                res.send({ data: TaskUserDataBaseline[taskId] });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+);
+
+analysisRouter.get(
+    "/agg-data-per-user-baseline/:userId",
+    async (req, res, next) => {
+        const { userId } = req.params;
+
+        try {
+            if (userId !== undefined) {
+                res.send({ data: UserTaskDataBaseline[userId] });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+);
+
+analysisRouter.get("/agg-data-keys-baseline", async (req, res, next) => {
+    try {
+        res.send({
+            tasks: Object.keys(TaskUserDataBaseline),
+            users: Object.keys(UserTaskDataBaseline),
         });
     } catch (e) {
         console.log(e);

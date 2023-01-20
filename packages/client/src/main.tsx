@@ -8,7 +8,8 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-route
 import { authRefresh, logError } from "./api/api";
 import { AuthContext } from "./context";
 import { AdminPage } from "./routes/admin-page";
-import { AnalysisPage } from "./routes/analysis-page";
+import { AnalysisBaselinePage } from "./routes/analysis-baseline";
+import { AnalysisCodexPage } from "./routes/analysis-codex";
 import { GraderPage } from "./routes/grader-page";
 import { HomePage } from "./routes/home-page";
 import { TasksPage } from "./routes/tasks-page";
@@ -97,7 +98,11 @@ function App() {
                             </RequireAuth>
                         }
                     />
-                    <Route path="/analysis" element={<AnalysisPage />} />
+                    <Route path="/analysis" element={<AnalysisCodexPage />} />
+                    <Route
+                        path="/analysis-base"
+                        element={<AnalysisBaselinePage />}
+                    />
                 </Routes>
             </BrowserRouter>
         </AuthContext.Provider>
