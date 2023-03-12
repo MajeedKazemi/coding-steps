@@ -44,6 +44,60 @@ const getParticipantId = (userId: string) => {
     return participantIds[userId];
 };
 
+// const taskIds
+
+const taskIds: any = {
+    "1a": 1,
+    "2a": 2,
+    "3a": 3,
+    "3ia": 4,
+    "4a": 5,
+    "5a": 6,
+    "6a": 7,
+    "7a": 8,
+    "8a": 9,
+    "8ia": 10,
+    "9a": 11,
+    "9ia": 12,
+    "10a": 13,
+    "11a": 14,
+    "12a": 15,
+    "13a": 16,
+    "14a": 17,
+    "15a": 18,
+    "16a": 19,
+    "16ia": 20,
+    "17a": 21,
+    "18a": 22,
+    "19a": 23,
+    "19ia": 24,
+    "20a": 25,
+    "20ia": 26,
+    "21a": 27,
+    "21ia": 28,
+    "22a": 29,
+    "23a": 30,
+    "23ia": 31,
+    "24a": 32,
+    "24ia": 33,
+    "25a": 34,
+    "26a": 35,
+    "26ia": 36,
+    "27a": 37,
+    "28a": 38,
+    "29a": 39,
+    "30a": 40,
+    "31a": 41,
+    "32a": 42,
+    "33a": 43,
+    "34a": 44,
+    "35a": 45,
+};
+
+const getTaskId = (taskId: string) => {
+    return taskIds[taskId];
+};
+
 interface IProps {
     authoring: [];
     modifying: [];
@@ -227,8 +281,8 @@ export const AnalysisComponent = (props: IProps) => {
     return (
         <div className="analysis-component" key={props.taskId + props.userId}>
             <h1>
-                task-id: {props.taskId} -- user-id: {props.userId} -- pid:{" "}
-                {getParticipantId(props.userId)}
+                task-id: {getTaskId(props.taskId)} -- user-id: {props.userId} --
+                pid: {getParticipantId(props.userId)}
             </h1>
             <h2>Authoring Task:</h2>
             <p>
