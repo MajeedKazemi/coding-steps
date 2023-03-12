@@ -1,5 +1,22 @@
 import env from "../utils/env";
 
+export const apiGetAggregatedDataFromTaskList = (
+    taskList: Array<{
+        userId: string;
+        taskId: string;
+    }>
+) =>
+    fetch(env.API_URL + "/api/analysis/agg-data-user-task-list/", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({
+            taskList,
+        }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
 export const apiGetAggregatedDataPerTaskCodex = (taskId: string) =>
     fetch(env.API_URL + "/api/analysis/agg-data-per-task-codex/" + taskId, {
         method: "GET",

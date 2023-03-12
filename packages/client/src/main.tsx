@@ -1,15 +1,28 @@
 import "./index.css";
 import "./userWorker";
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+    BrowserRouter,
+    Navigate,
+    Route,
+    Routes,
+    useLocation,
+} from "react-router-dom";
 
 import { authRefresh, logError } from "./api/api";
 import { AuthContext } from "./context";
 import { AdminPage } from "./routes/admin-page";
 import { AnalysisBaselinePage } from "./routes/analysis-baseline";
 import { AnalysisCodexPage } from "./routes/analysis-codex";
+import { AnalysisCodexListPage } from "./routes/analysis-codex-list-page";
 import { GraderPage } from "./routes/grader-page";
 import { HomePage } from "./routes/home-page";
 import { TasksPage } from "./routes/tasks-page";
@@ -97,6 +110,10 @@ function App() {
                                 <GraderPage />
                             </RequireAuth>
                         }
+                    />
+                    <Route
+                        path="/analysis-list"
+                        element={<AnalysisCodexListPage />}
                     />
                     <Route path="/analysis" element={<AnalysisCodexPage />} />
                     <Route

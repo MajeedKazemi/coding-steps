@@ -1,8 +1,37 @@
 import express from "express";
 
-import { TaskUserDataBaseline, TaskUserDataCodex, UserTaskDataBaseline, UserTaskDataCodex } from "../data/data";
+import {
+    TaskUserDataBaseline,
+    TaskUserDataCodex,
+    UserTaskDataBaseline,
+    UserTaskDataCodex,
+} from "../data/data";
 
 export const analysisRouter = express.Router();
+
+analysisRouter.post("/agg-data-user-task-list/", async (req, res, next) => {
+    const { taskList } = req.body;
+
+    try {
+        if (taskList !== undefined) {
+            let data = [];
+
+            for (const [taskId, userId] of taskList) {
+                data.push({
+                    taskId,
+                    userId,
+                    agg: TaskUserDataCodex[taskId].find(
+                        (d: any) => d.userId === userId
+                    ),
+                });
+            }
+
+            res.send({ data });
+        }
+    } catch (e) {
+        console.log(e);
+    }
+});
 
 analysisRouter.get(
     "/agg-data-per-task-codex/:taskId",
