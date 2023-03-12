@@ -6,26 +6,6 @@ import { AnalysisComponent } from "../components/analysis-component";
 export const AnalysisCodexListPage = () => {
     const [taskData, setTaskData] = useState([]);
     const [taskListText, setTaskListText] = useState("");
-    const [taskList, setTaskList] = useState<
-        Array<{
-            userId: string;
-            taskId: string;
-        }>
-    >([]);
-
-    useEffect(() => {
-        if (taskList?.length > 0) {
-            apiGetAggregatedDataFromTaskList(taskList)
-                .then(async (response) => {
-                    const data = await response.json();
-
-                    setTaskData(data);
-                })
-                .catch((error: any) => {
-                    console.error(error);
-                });
-        }
-    }, [taskList]);
 
     return (
         <div className="analysis-page">
@@ -42,20 +22,30 @@ export const AnalysisCodexListPage = () => {
                 <br />
                 <button
                     onClick={() => {
-                        const newTaskList = [];
+                        const taskList = [];
                         const lines = taskListText.split("\n");
 
                         for (const line of lines) {
                             const [taskId, userId] = line.split(",");
                             if (taskId && userId) {
-                                newTaskList.push({
+                                taskList.push({
                                     taskId: taskId.trim(),
                                     userId: userId.trim(),
                                 });
                             }
                         }
 
-                        setTaskList(newTaskList);
+                        if (taskList?.length > 0) {
+                            apiGetAggregatedDataFromTaskList(taskList)
+                                .then(async (response) => {
+                                    const data = await response.json();
+
+                                    setTaskData(data.data);
+                                })
+                                .catch((error: any) => {
+                                    console.error(error);
+                                });
+                        }
                     }}
                 >
                     load

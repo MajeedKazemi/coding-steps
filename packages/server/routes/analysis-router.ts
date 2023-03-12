@@ -1,29 +1,24 @@
 import express from "express";
 
-import {
-    TaskUserDataBaseline,
-    TaskUserDataCodex,
-    UserTaskDataBaseline,
-    UserTaskDataCodex,
-} from "../data/data";
+import { TaskUserDataBaseline, TaskUserDataCodex, UserTaskDataBaseline, UserTaskDataCodex } from "../data/data";
 
 export const analysisRouter = express.Router();
 
-analysisRouter.post("/agg-data-user-task-list/", async (req, res, next) => {
+analysisRouter.post("/agg-data-user-task-list", (req, res, next) => {
     const { taskList } = req.body;
 
     try {
         if (taskList !== undefined) {
             let data = [];
 
-            for (const [taskId, userId] of taskList) {
-                data.push({
-                    taskId,
-                    userId,
-                    agg: TaskUserDataCodex[taskId].find(
-                        (d: any) => d.userId === userId
-                    ),
-                });
+            for (const { taskId, userId } of taskList) {
+                if (TaskUserDataCodex[taskId]) {
+                    data.push(
+                        TaskUserDataCodex[taskId].find(
+                            (d: any) => d.user_id === userId
+                        )
+                    );
+                }
             }
 
             res.send({ data });

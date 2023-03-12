@@ -4,6 +4,46 @@ import { AuthContext } from "../context";
 import { CodeViewer } from "./analysis-code-viewer";
 import { Diff } from "./diff-component";
 
+const participantIds: any = {
+    "62e9ddd1922f3d51905f2069": "P1",
+    "62e9de0d922f3d51905f2073": "P2",
+    "62e9de55922f3d51905f2087": "P3",
+    "62e9de30922f3d51905f207d": "P4",
+    "62e9deb0922f3d51905f209b": "P5",
+    "62e9de88922f3d51905f2091": "P6",
+    "62eaba023555aae6d03b0b03": "P7",
+    "62e9df0a922f3d51905f20af": "P8",
+    "62e9deef922f3d51905f20a5": "P9",
+    "62e9df2e922f3d51905f20b9": "P10",
+    "62e9df68922f3d51905f20c3": "P11",
+    "62e9df88922f3d51905f20cd": "P12",
+    "62e9df9e922f3d51905f20d7": "P13",
+    "62e9e02c922f3d51905f20eb": "P14",
+    "62e9dfbb922f3d51905f20e1": "P15",
+    "62eab714f284a969174a7816": "P16",
+    "62e9e0a9922f3d51905f20ff": "P17",
+    "62e9e08d922f3d51905f20f5": "P18",
+    "62e9e0d1922f3d51905f2113": "P19",
+    "62e9e107922f3d51905f2127": "P20",
+    "62e9e125922f3d51905f2131": "P21",
+    "62e9e15f922f3d51905f2145": "P22",
+    "62e9e13e922f3d51905f213b": "P23",
+    "62e9e19a922f3d51905f2159": "P24",
+    "62e9e1c0922f3d51905f2163": "P25",
+    "62e9e1f4922f3d51905f216d": "P26",
+    "62e9e233922f3d51905f2181": "P27",
+    "62e9ebb8922f3d51905f21a9": "P28",
+    "62e9e280922f3d51905f219f": "P29",
+    "62e9ebfb922f3d51905f21bd": "P30",
+    "62e9ec48922f3d51905f21d1": "P31",
+    "62e9ecb6922f3d51905f21ea": "P32",
+    "62e9eccf922f3d51905f21f4": "P33",
+};
+
+const getParticipantId = (userId: string) => {
+    return participantIds[userId];
+};
+
 interface IProps {
     authoring: [];
     modifying: [];
@@ -187,7 +227,8 @@ export const AnalysisComponent = (props: IProps) => {
     return (
         <div className="analysis-component" key={props.taskId + props.userId}>
             <h1>
-                task-id: {props.taskId} -- user-id: {props.userId}
+                task-id: {props.taskId} -- user-id: {props.userId} -- pid:{" "}
+                {getParticipantId(props.userId)}
             </h1>
             <h2>Authoring Task:</h2>
             <p>

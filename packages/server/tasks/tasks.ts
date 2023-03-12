@@ -6159,36 +6159,6 @@ export const CodingTasks = [
     ),
 ];
 
-const authTimes: number[] = [];
-const modTimes: number[] = [];
-const allTimes: number[] = [];
-
-for (let i = 0; i < CodingTasks.length; i++) {
-    const t = CodingTasks[i];
-
-    if (t instanceof AuthoringTask) {
-        authTimes.push(t.timeLimit);
-        allTimes.push(t.timeLimit);
-    } else if (t instanceof ModifyingTask) {
-        modTimes.push(t.timeLimit);
-        allTimes.push(t.timeLimit);
-    }
-}
-
-// calculate the average of authTimes:
-const modTimesSum = modTimes.reduce((a, b) => a + b, 0);
-const modTimesAvg = modTimesSum / modTimes.length;
-
-// calculate the max of authTimes:
-const modTimesMax = Math.max(...modTimes);
-
-// calculate the min of modTimes:
-const modTimesMin = Math.min(...modTimes);
-
-console.log("modTimes avg", modTimesAvg);
-console.log("modTimes max", modTimesMax);
-console.log("modTimes min", modTimesMin);
-
 export const getNextTask = (completedTasks: IUserTask[]): Task | null => {
     for (let i = 0; i < CodingTasks.length; i++) {
         if (!completedTasks.find((t) => t.taskId === CodingTasks[i].id)) {
