@@ -87,8 +87,8 @@ mongoose
             }
         );
 
-        initLanguageService(server);
         initPythonShell(server);
+        initLanguageService(server);
     })
     .catch((err) => {
         console.error("[Terminating] Error connecting to MongoDB: ", err);

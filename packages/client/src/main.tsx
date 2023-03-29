@@ -18,7 +18,8 @@ import {
 } from "react-router-dom";
 
 import { authRefresh, logError } from "./api/api";
-import { AuthContext } from "./context";
+import { connectSocket } from "./api/python-shell";
+import { AuthContext, SocketContext } from "./context";
 import { AdminPage } from "./routes/admin-page";
 import { AnalysisBaselinePage } from "./routes/analysis-baseline";
 import { AnalysisCodexPage } from "./routes/analysis-codex";
@@ -40,6 +41,7 @@ function RequireAuth({
 }) {
     const [loading, setLoading] = useState(true);
     let { context, setContext } = useContext(AuthContext);
+    let { socket, setSocket } = useContext(SocketContext);
     let location = useLocation();
 
     const verifyUser = useCallback(() => {
@@ -51,6 +53,7 @@ function RequireAuth({
                     const data = await response.json();
 
                     setContext({ token: data.token, user: data.user });
+                    setSocket(connectSocket(data.token));
                 } else {
                     logError(response.toString());
                 }
@@ -63,7 +66,7 @@ function RequireAuth({
             });
 
         setTimeout(verifyUser, 60 * 5 * 1000);
-    }, [setContext]);
+    }, [setContext, setSocket]);
 
     useEffect(() => {
         verifyUser();
@@ -77,52 +80,64 @@ function RequireAuth({
 
 function App() {
     const [context, setContext] = useState(null);
-    const value = useMemo(
+    const [socket, setSocket] = useState(null);
+
+    const contextVal = useMemo(
         () => ({ context: context, setContext: setContext }),
         [context]
     ) as any;
 
+    const socketVal = useMemo(
+        () => ({ socket: socket, setSocket: setSocket }),
+        [socket]
+    ) as any;
+
     return (
-        <AuthContext.Provider value={value}>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route
-                        path="/tasks"
-                        element={
-                            <RequireAuth role="any">
-                                <TasksPage />
-                            </RequireAuth>
-                        }
-                    />
-                    <Route
-                        path="/admin"
-                        element={
-                            <RequireAuth role="admin">
-                                <AdminPage />
-                            </RequireAuth>
-                        }
-                    />
-                    <Route
-                        path="/grader"
-                        element={
-                            <RequireAuth role="admin">
-                                <GraderPage />
-                            </RequireAuth>
-                        }
-                    />
-                    <Route
-                        path="/analysis-list"
-                        element={<AnalysisCodexListPage />}
-                    />
-                    <Route path="/analysis" element={<AnalysisCodexPage />} />
-                    <Route
-                        path="/analysis-base"
-                        element={<AnalysisBaselinePage />}
-                    />
-                </Routes>
-            </BrowserRouter>
-        </AuthContext.Provider>
+        <SocketContext.Provider value={socketVal}>
+            <AuthContext.Provider value={contextVal}>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route
+                            path="/tasks"
+                            element={
+                                <RequireAuth role="any">
+                                    <TasksPage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path="/admin"
+                            element={
+                                <RequireAuth role="admin">
+                                    <AdminPage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path="/grader"
+                            element={
+                                <RequireAuth role="admin">
+                                    <GraderPage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path="/analysis-list"
+                            element={<AnalysisCodexListPage />}
+                        />
+                        <Route
+                            path="/analysis"
+                            element={<AnalysisCodexPage />}
+                        />
+                        <Route
+                            path="/analysis-base"
+                            element={<AnalysisBaselinePage />}
+                        />
+                    </Routes>
+                </BrowserRouter>
+            </AuthContext.Provider>
+        </SocketContext.Provider>
     );
 }
 

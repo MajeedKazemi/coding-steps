@@ -1,17 +1,21 @@
 import * as monaco from "monaco-editor";
-import { forwardRef, Fragment, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
+import {
+    forwardRef,
+    Fragment,
+    useContext,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState,
+} from "react";
 
 import { apiGetSavedUserCode, apiSaveUserCode, logError } from "../api/api";
-import { initLanguageClient, retryOpeningLanguageClient, stopLanguageClient } from "../api/intellisense";
 import {
-    executeCode,
-    initPythonShellSocket,
-    onShellMessage,
-    sendShell,
-    stopPythonShell,
-    stopShell,
-} from "../api/python-shell";
-import { AuthContext } from "../context";
+    initLanguageClient,
+    retryOpeningLanguageClient,
+    stopLanguageClient,
+} from "../api/intellisense";
+import { AuthContext, SocketContext } from "../context";
 import { log, LogType, RunEventType } from "../utils/logger";
 
 interface EditorProps {
@@ -23,6 +27,8 @@ interface EditorProps {
 
 export const Editor = forwardRef((props: EditorProps, ref) => {
     const { context } = useContext(AuthContext);
+    const { socket } = useContext(SocketContext);
+
     const [runId, setRunId] = useState(0);
 
     const [editor, setEditor] =
@@ -57,7 +63,7 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                                 : "";
 
                             initLanguageClient();
-                            initPythonShellSocket();
+                            // stopLanguageClient(); // could be used to call .connect() for each coding task
 
                             if (props.starterCode.length > 0) {
                                 log(
@@ -129,7 +135,7 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
     }, [monacoEl.current]);
 
     useEffect(() => {
-        onShellMessage((data) => {
+        socket?.on("python", (data: any) => {
             if (data.type === "stdout") {
                 if (data.out.split("\n").length > 0) {
                     setOutput([
@@ -150,14 +156,12 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                         },
                     ]);
                 }
-
                 log(props.taskId, context?.user?.id, LogType.RunEvent, {
                     type: RunEventType.Output,
                     output: data.out,
                     runId: runId,
                 });
             }
-
             if (data.type === "stderr") {
                 setOutput([
                     ...output,
@@ -166,18 +170,15 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                         line: data.err,
                     },
                 ]);
-
                 log(props.taskId, context?.user?.id, LogType.RunEvent, {
                     type: RunEventType.Error,
                     error: data.err,
                     runId: runId,
                 });
             }
-
             if (data.type === "close") {
                 setRunning(false);
                 setRunId(runId + 1);
-
                 log(props.taskId, context?.user?.id, LogType.RunEvent, {
                     type: RunEventType.Stop,
                     runId: runId,
@@ -189,13 +190,19 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
     useEffect(() => {
         return () => {
             stopLanguageClient();
-            stopPythonShell();
+            // stopPythonShell();
         };
     }, []);
 
     const handleClickRun = () => {
         if (!running) {
-            executeCode(editor?.getValue());
+            socket?.emit("python", {
+                type: "run",
+                code: editor?.getValue(),
+                from: socket.id,
+                userId: context?.user?.id,
+            });
+
             setOutput([]);
             setRunning(true);
 
@@ -205,7 +212,12 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                 runId: runId,
             });
         } else {
-            stopShell();
+            socket?.emit("python", {
+                type: "stop",
+                from: socket.id,
+                userId: context?.user?.id,
+            });
+
             setRunning(false);
             editor?.focus();
         }
@@ -322,7 +334,13 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                             ref={inputRef}
                             onKeyUp={(e) => {
                                 if (e.key === "Enter") {
-                                    sendShell(terminalInput);
+                                    socket?.emit("python", {
+                                        type: "stdin",
+                                        value: terminalInput,
+                                        from: socket.id,
+                                        userId: context?.user?.id,
+                                    });
+
                                     setOutput([
                                         ...output,
                                         {

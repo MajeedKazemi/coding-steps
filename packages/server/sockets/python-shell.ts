@@ -1,119 +1,147 @@
-import { randomUUID } from "crypto";
 import * as fs from "fs";
 import * as http from "http";
-import * as net from "net";
+import jwt from "jsonwebtoken";
 import { PythonShell } from "python-shell";
+import { Server, Socket } from "socket.io";
 import { Transform } from "stream";
-import * as url from "url";
-import * as ws from "ws";
 
-// the life-cycle:
-// 1. client runs on local -> connects to the server
-// 2. create id for the client
-// 3. client
+import { UserModel } from "../models/user";
+import env from "../utils/env";
 
 export function initPythonShell(server: http.Server) {
-    var pyshell: PythonShell;
+    let io = new Server(server, {
+        cors: {
+            origin: env.WHITELISTED_DOMAINS.split(",").map((d) => d.trim()),
+            credentials: true,
+        },
+    });
 
-    const wss = new ws.Server({ noServer: true });
+    io.use((socket: Socket, next) => {
+        // Upgrade the request to get the bearer token from the header
+        const req = socket.request as any;
+        const token = req._query.token;
+        var pyshell: PythonShell;
 
-    const clients = new Map();
+        if (!token) {
+            return next(new Error("Authorization header not found"));
+        }
 
-    wss.on("connection", (ws: ws) => {
-        const id = randomUUID();
+        jwt.verify(token, env.JWT_SECRET, (err: any, decoded: any) => {
+            if (err) {
+                return next(err);
+            } else {
+                UserModel.findById(decoded._id, (err: any, user: any) => {
+                    if (err) {
+                        return next(err);
+                    } else if (user) {
+                        req.user = user;
 
-        ws.on("message", (message: string) => {
-            const data = JSON.parse(message);
-            const code = `${CPU_LIMITER_CODE}\n${data.code}`;
-
-            if (data.type === "run") {
-                try {
-                    fs.writeFileSync("main.py", code);
-                } catch (err) {
-                    console.error("fs: ", err);
-                }
-
-                let startTime = Date.now();
-                let msgCount = 0;
-
-                pyshell = new PythonShell(
-                    "main.py",
-                    {},
-                    new Transform({
-                        transform(chunk, encoding, callback) {
-                            callback(null, chunk.toString());
-                        },
-                    })
-                );
-
-                pyshell.on("error", (err: any) => {
-                    console.error("error: ", err);
-                });
-
-                pyshell.on("close", () => {
-                    ws.send(JSON.stringify({ type: "close" }));
-                });
-
-                pyshell.on("pythonError", (err: any) => {
-                    let error = "";
-
-                    if (err.traceback && err.traceback !== "") {
-                        error = err.traceback;
+                        return next();
                     } else {
-                        error = err.message;
+                        return next(new Error("User doesn't exist"));
                     }
-
-                    const lineNumber = error.match(/line (\d+)/);
-
-                    if (lineNumber) {
-                        error = error.replace(
-                            lineNumber[1],
-                            (parseInt(lineNumber[1]) - 10).toString()
-                        );
-                    }
-
-                    error = error.replace(/File ".*", /, "");
-
-                    ws.send(JSON.stringify({ type: "stderr", err: error }));
                 });
 
-                pyshell.on("message", async (message) => {
-                    msgCount += message.length;
+                socket.on("python", async (data: any) => {
+                    const code = `${CPU_LIMITER_CODE}\n${data.code}`;
 
-                    ws.send(JSON.stringify({ type: "stdout", out: message }));
-
-                    // limit the number of messages per second
-                    if (msgCount > 10000) {
-                        if (Date.now() - startTime < 1000) {
-                            pyshell.kill();
+                    if (data.type === "run") {
+                        try {
+                            fs.writeFileSync("main.py", code);
+                        } catch (err) {
+                            console.error("fs: ", err);
                         }
 
-                        msgCount = 0;
-                        startTime = Date.now();
+                        let startTime = Date.now();
+                        let msgCount = 0;
+
+                        pyshell = new PythonShell(
+                            "main.py",
+                            {},
+                            new Transform({
+                                transform(chunk, encoding, callback) {
+                                    callback(null, chunk.toString());
+                                },
+                            })
+                        );
+
+                        pyshell.on("error", (err: any) => {
+                            console.error("error: ", err);
+                        });
+
+                        pyshell.on("close", () => {
+                            io.to(data.from).emit("python", {
+                                type: "close",
+                            });
+                        });
+
+                        pyshell.on("pythonError", (err: any) => {
+                            let error = "";
+
+                            if (err.traceback && err.traceback !== "") {
+                                error = err.traceback;
+                            } else {
+                                error = err.message;
+                            }
+
+                            const lineNumber = error.match(/line (\d+)/);
+
+                            if (lineNumber) {
+                                error = error.replace(
+                                    lineNumber[1],
+                                    (parseInt(lineNumber[1]) - 10).toString()
+                                );
+                            }
+
+                            error = error.replace(/File ".*", /, "");
+
+                            io.to(data.from).emit("python", {
+                                type: "stderr",
+                                err: error,
+                            });
+                        });
+
+                        pyshell.on("message", async (message) => {
+                            msgCount += message.length;
+
+                            io.to(data.from).emit("python", {
+                                type: "stdout",
+                                out: message,
+                            });
+
+                            // limit the number of messages per second
+                            if (msgCount > 10000) {
+                                if (Date.now() - startTime < 1000) {
+                                    pyshell.kill();
+                                }
+
+                                msgCount = 0;
+                                startTime = Date.now();
+                            }
+                        });
+                    } else if (data.type === "stdin" && pyshell) {
+                        pyshell.send(data.value);
+                    } else if (data.type === "stop" && pyshell) {
+                        pyshell.kill();
                     }
                 });
-            } else if (data.type === "stdin" && pyshell) {
-                pyshell.send(data.value);
-            } else if (data.type === "stop" && pyshell) {
-                pyshell.kill();
             }
         });
     });
 
-    server.on(
-        "upgrade",
-        (request: http.IncomingMessage, socket: net.Socket, head: Buffer) => {
-            const pathname = request.url
-                ? url.parse(request.url).pathname
-                : undefined;
+    io.on("connection", (socket: any) => {
+        console.log(
+            `Socket connected with user ${socket.request.user?.username}`
+        );
+    });
 
-            if (pathname === "/ws/shell") {
-                wss.handleUpgrade(request, socket, head, (webSocket) => {
-                    wss.emit("connection", webSocket);
-                });
-            }
-        }
-    );
+    io.on("disconnect", (reason: string) => {
+        console.log(`Disconnected from Socket.IO server: ${reason}`);
+    });
+
+    io.on("error", (err: Error) => {
+        console.error(`Socket.IO error: ${err.message}`);
+    });
 }
 
 const CPU_LIMITER_CODE = [

@@ -1,80 +1,25 @@
+import { io } from "socket.io-client";
+
 import env from "../utils/env";
 import { createUrl } from "../utils/shared";
 
-export let isConnected = false;
-let webSocket: WebSocket;
+export const connectSocket = (token: string) => {
+    const socket = io(createUrl(env.API_URL, 3001, ""), {
+        autoConnect: true,
+        query: { token },
+    });
 
-export const initPythonShellSocket = () => {
-    const url = createUrl(env.API_URL, 3001, "/ws/shell");
+    socket.on("connect", () => {
+        console.log(`Connected to Socket.IO server with ID ${socket.id}`);
+    });
 
-    webSocket = new WebSocket(url);
+    socket.on("disconnect", (reason: string) => {
+        console.log(`Disconnected from Socket.IO server: ${reason}`);
+    });
 
-    webSocket.onopen = () => {
-        isConnected = true;
-    };
+    socket.on("error", (err: Error) => {
+        console.error(`Socket.IO error: ${err.message}`);
+    });
 
-    webSocket.onclose = () => {
-        isConnected = false;
-    };
-
-    webSocket.onerror = () => {
-        isConnected = false;
-        webSocket.close();
-    };
+    return socket;
 };
-
-export function executeCode(code?: string) {
-    retryOpeningPythonShell();
-
-    webSocket.send(JSON.stringify({ type: "run", code }));
-}
-
-export function stopShell() {
-    retryOpeningPythonShell();
-
-    webSocket.send(JSON.stringify({ type: "stop" }));
-}
-
-export function sendShell(value: string) {
-    retryOpeningPythonShell();
-
-    webSocket.send(
-        JSON.stringify({
-            type: "stdin",
-            value,
-        })
-    );
-}
-
-export function onShellMessage(callback: (response: any) => void) {
-    if (isConnected) {
-        webSocket.onmessage = (event) => {
-            callback(JSON.parse(event.data));
-        };
-    }
-}
-
-export function onShellOpen(callback: () => void) {
-    webSocket.onopen = () => {
-        isConnected = true;
-        callback();
-    };
-}
-
-export function onShellClose(callback: () => void) {
-    webSocket.onclose = () => {
-        isConnected = false;
-        callback();
-    };
-}
-
-export function stopPythonShell() {
-    isConnected = false;
-    webSocket.close();
-}
-
-function retryOpeningPythonShell() {
-    if (!isConnected) {
-        initPythonShellSocket();
-    }
-}
