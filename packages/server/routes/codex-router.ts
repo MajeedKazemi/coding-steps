@@ -1,4 +1,5 @@
 import express from "express";
+import { ChatCompletionRequestMessage } from "openai";
 
 import { IUser } from "../models/user";
 import { openai } from "../utils/codex";
@@ -11,31 +12,82 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
     const userId = (req.user as IUser)._id;
 
     if (description !== undefined && type !== undefined) {
-        const prompt = [
-            `<|endoftext|># blank Python3 file. Each Command corresponds to a short Python code snippet.`,
-            `# Command: say hello world\nprint("hello world")`,
-            ``,
-            `# Command: ask the user for their name\nname = input("What is your name? ")`,
-            ``,
-            `# Command: ask the user to enter a number\nnumber = int(input("Enter a number: "))`,
-            ``,
-            `# Command: generate a random number\nimport random\nnumber = random.randint(0, 100)`,
-            ``,
-            `# Command: check if the number is greater than 50\nif number > 50:\n    print("The number is greater than 50")`,
-            ``,
-            `# Command: check if roll is even\nif roll % 2 == 0:\n    print("The roll is even")`,
-            ``,
-            `${context && context.length > 0 ? "# Context:" + context : ""}`,
-            `# Command: ${
-                context && context.length > 0
-                    ? "use the above code as context and  "
-                    : ""
-            }${description.trim()}\n`,
-        ].join("\n");
+        const messages: Array<ChatCompletionRequestMessage> = [
+            {
+                role: "system",
+                content:
+                    "for each provided [intended-behavior] generate short python [code] snippets for the novice children that are learning programming for the first time.",
+            },
+            {
+                role: "user",
+                content: `[intended-behavior]: say hello world\n[code]:`,
+            },
+            {
+                role: "assistant",
+                content: `print("hello world")\n[end-code]`,
+            },
 
-        const result = await openai.createCompletion({
-            model: "code-davinci-002",
-            prompt: prompt,
+            {
+                role: "user",
+                content: `[intended-behavior]: ask the user for their name\n[code]:`,
+            },
+            {
+                role: "assistant",
+                content: `name = input("What is your name? ")\n[end-code]`,
+            },
+
+            {
+                role: "user",
+                content: `[intended-behavior]: ask the user to enter a number\n[code]:`,
+            },
+            {
+                role: "assistant",
+                content: `number = int(input("Enter a number: "))\n[end-code]`,
+            },
+
+            {
+                role: "user",
+                content: `[intended-behavior]: generate a random number\n[code]:`,
+            },
+            {
+                role: "assistant",
+                content: `import random\nnumber = random.randint(0, 100)\n[end-code]`,
+            },
+
+            {
+                role: "user",
+                content: `[intended-behavior]: check if the number is greater than 50\n[code]:`,
+            },
+            {
+                role: "assistant",
+                content: `if number > 50:\n    print("The number is greater than 50")\n[end-code]`,
+            },
+
+            {
+                role: "user",
+                content: `[intended-behavior]: check if roll is even\n[code]:`,
+            },
+            {
+                role: "assistant",
+                content: `if roll % 2 == 0:\n    print("The roll is even")\n[end-code]`,
+            },
+        ];
+
+        if (context && context.length > 0) {
+            messages.push({
+                role: "user",
+                content: `[context-code]:\n${context}\n[intended-behavior]: use the above [context-code] as context and ${description}\n[code]:`,
+            });
+        } else {
+            messages.push({
+                role: "user",
+                content: `[intended-behavior]: ${description}\n[code]:`,
+            });
+        }
+
+        const result = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages,
             temperature: 0.1,
             max_tokens: 500,
             stop: ["# Command:"],
@@ -43,10 +95,10 @@ codexRouter.post("/generate", verifyUser, async (req, res, next) => {
         });
 
         if (result.data.choices && result.data.choices?.length > 0) {
-            const code = result.data.choices[0].text?.trim();
+            const code = result.data.choices[0].message?.content;
 
             res.json({
-                code: code ? `# Instructions: ${description}\n` + code : "",
+                code,
                 success: true,
             });
         } else {
