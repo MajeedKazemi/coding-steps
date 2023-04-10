@@ -1,3 +1,4 @@
+import { baselineData } from "./aggregated-data-baseline";
 import { codexData } from "./aggregated-data-codex";
 
 export const TaskUserDataCodex: any = {};
@@ -22,18 +23,18 @@ for (const key of Object.keys(codexData)) {
 export const TaskUserDataBaseline: any = {};
 export const UserTaskDataBaseline: any = {};
 
-// for (const key of Object.keys(baselineData)) {
-//     const [taskId, userId] = key.split("_");
+for (const key of Object.keys(baselineData)) {
+    const [taskId, userId] = key.split("_");
 
-//     if (TaskUserDataBaseline[taskId] === undefined) {
-//         TaskUserDataBaseline[taskId] = [];
-//     }
+    if (TaskUserDataBaseline[taskId] === undefined) {
+        TaskUserDataBaseline[taskId] = [];
+    }
 
-//     TaskUserDataBaseline[taskId].push(baselineData[key]);
+    TaskUserDataBaseline[taskId].push(baselineData[key]);
 
-//     if (UserTaskDataBaseline[userId] === undefined) {
-//         UserTaskDataBaseline[userId] = [];
-//     }
+    if (UserTaskDataBaseline[userId] === undefined) {
+        UserTaskDataBaseline[userId] = [];
+    }
 
-//     UserTaskDataBaseline[userId].push(baselineData[key]);
-// }
+    UserTaskDataBaseline[userId].push(baselineData[key]);
+}
