@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use Coding Steps for your research, please cite it as below."
+authors:
+- family-names: "Kazemitabaar"
+  given-names: "Majeed"
+  orcid: "https://orcid.org/0000-0001-6118-7938"
+title: "Coding Steps"
+version: 1.0.0
+date-released: 2023-05-22
+url: "https://github.com/MajeedKazemi/coding-steps"
+preferred-citation:
+  type: conference-paper
+  authors:
+  - family-names: "Kazemitabaar"
+    given-names: "Majeed"
+  - family-names: "Chow"
+    given-names: "Justin"
+  - family-names: "Ka To Ma"
+    given-names: "Carl"
+  - family-names: "Ericson"
+    given-names: "Barbara"
+  - family-names: "Weintrop"
+    given-names: "David"
+  - family-names: "Grossman"
+    given-names: "Tovi"
+  title: "Studying the effect of AI Code Generators on Supporting Novice Learners in Introductory Programming"
+  doi: "10.1145/3544548.3580919"
+  conference-title: "CHI '23: Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems"
+  year: 2023
+  month: 5
